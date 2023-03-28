@@ -5,7 +5,6 @@ import { useCredentialsContext } from "../../context/credentials";
 import { Link as Scroll } from "react-scroll";
 
 import HeuristicGroup from "../HeuristicGroup";
-import { useScoresContext } from "../../context/scores";
 import { useScoresObjContext } from "../../context/scoresObj";
 import { useProjectContext } from "../../context/project";
 import { useScroll, processChange } from "../../lib/utils";
@@ -14,7 +13,6 @@ import Findings from "../Findings";
 import client from "../../lib/apollo";
 import clientFast from "../../lib/apollo-fast";
 import SearchBox from "../SearchBox";
-import Debugg from "../../lib/Debugg";
 import Donnut from "../Donnut";
 
 const QUERY_FINDINGS = gql`
