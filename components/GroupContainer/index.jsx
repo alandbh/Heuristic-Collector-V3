@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { gql, useQuery } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import { gql } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useCredentialsContext } from "../../context/credentials";
 import { Link as Scroll } from "react-scroll";
@@ -8,34 +8,14 @@ import HeuristicGroup from "../HeuristicGroup";
 import { useScoresContext } from "../../context/scores";
 import { useScoresObjContext } from "../../context/scoresObj";
 import { useProjectContext } from "../../context/project";
-import {
-    getUnicItem,
-    debounce,
-    useScroll,
-    processChange,
-} from "../../lib/utils";
+import { useScroll, processChange } from "../../lib/utils";
 import { MUTATION_SCORE_OBJ } from "../../lib/mutations";
 import Findings from "../Findings";
 import client from "../../lib/apollo";
+import clientFast from "../../lib/apollo-fast";
 import SearchBox from "../SearchBox";
 import Debugg from "../../lib/Debugg";
 import Donnut from "../Donnut";
-
-const QUERY_JOURNEYS = gql`
-    query GetGroups($playerSlug: String, $projectSlug: String) {
-        journeys(
-            where: {
-                players_some: {
-                    slug: $playerSlug
-                    project: { slug: $projectSlug }
-                }
-            }
-        ) {
-            name
-            slug
-        }
-    }
-`;
 
 const QUERY_FINDINGS = gql`
     query GetAllFindings(
@@ -74,123 +54,6 @@ function isPresentInThisJourney(heuristic, journeySlug) {
     }
 }
 
-// const uniqueHeuristics = [];
-let groupsMapped = null;
-
-const getUniqueGroups = debounce((arr, key, func) => {
-    groupsMapped = getUnicItem(arr, key);
-
-    // console.log("unique", groupsMapped);
-
-    func(groupsMapped);
-
-    // func();
-}, 300);
-
-const debCreateNewScores = debounce(
-    (data, project, currentPlayer, currentJourney, func) => {
-        // return;
-        console.log("groupssss", data.groups);
-
-        if (data.groups.length === 0) {
-            return null;
-        }
-        if (!currentJourney) {
-            console.log("dataa null");
-            return null;
-        }
-
-        data.groups.forEach((group) => {
-            group.heuristic.forEach((heuristic) => {
-                if (isANotApplicableHeuristic(heuristic, currentPlayer.slug)) {
-                    return;
-                }
-
-                if (!isPresentInThisJourney(heuristic, currentJourney.slug)) {
-                    return;
-                }
-                return (multiString =
-                    multiString +
-                    stringCreateFunc(
-                        heuristic.id,
-                        project.id,
-                        currentPlayer.id,
-                        currentJourney.id
-                    ));
-            });
-        });
-
-        stringCreate = `
-    mutation createMultipleScores {
-       ${multiString}
-    }
-    `;
-
-        MUTATION_CREATE_MANY_SCORE = gql(stringCreate);
-
-        client
-            .mutate({
-                mutation: MUTATION_CREATE_MANY_SCORE,
-            })
-            .then((data) => {
-                console.log("dataaa", data);
-                publishNewScores(func);
-            });
-    },
-    500
-);
-
-function publishNewScores(func) {
-    const PUBLISH_STRING = gql`
-        mutation publishManyScores {
-            publishManyScoresConnection(last: 10000, where: { scoreValue: 0 }) {
-                edges {
-                    node {
-                        id
-                    }
-                }
-            }
-        }
-    `;
-
-    client
-        .mutate({
-            mutation: PUBLISH_STRING,
-        })
-        .then((data) => {
-            console.log("PUBLICOU", data);
-            func();
-        });
-}
-
-let multiString = "";
-
-let stringCreate = "";
-
-let MUTATION_CREATE_MANY_SCORE;
-
-const stringCreateFunc = (
-    heuristicId,
-    projectId,
-    playerId,
-    journeyId
-) => `createScore(
-    data: {
-        scoreValue: 0
-        project: { connect: { id: "${projectId}" } }
-        player: { connect: { id: "${playerId}" } }
-        journey: { connect: { id: "${journeyId}" } }
-        evidenceUrl: ""
-        note: ""
-        heuristic: { connect: { id: "${heuristicId}" } }
-    }
-) {
-    scoreValue
-    id
-},
-
-`;
-
 /**
  *
  *
@@ -205,34 +68,13 @@ const stringCreateFunc = (
 function GroupContainer({ data }) {
     const router = useRouter();
     const [findingsList, setFindingsList] = useState(null);
-    const [findingsLoading, setFindingsLoading] = useState(true);
-    const [empty, setEmpty] = useState(true);
     const [validJourney, setValidJourney] = useState(true);
-    const [groups, setGroups] = useState(null);
-    const [newScores, setNewScores] = useState([]);
-    const { getNewScores, allScores: allScoresContext } = useScoresContext();
-    const {
-        getNewScoresObj,
-        allScoresJson,
-        allScoresObj: allScoresObjContext,
-    } = useScoresObjContext();
+    const { allScoresJson, allScoresObj: allScoresObjContext } =
+        useScoresObjContext();
     const { userType } = useCredentialsContext();
-    const [allScores, setAllScores] = useState(null);
-    const {
-        data: dataJourneys,
-        loading,
-        error,
-    } = useQuery(QUERY_JOURNEYS, {
-        variables: {
-            playerSlug: router.query.player,
-            projectSlug: router.query.slug,
-        },
-    });
-
-    // console.log("contextObj", useScoresObjContext());
 
     function getFindings() {
-        client
+        clientFast
             .query({
                 query: QUERY_FINDINGS,
                 variables: {
@@ -250,14 +92,6 @@ function GroupContainer({ data }) {
         getFindings();
     });
 
-    // useEffect(() => {
-    //     if (router.query.journey && dataJourneys) {
-    //         selectedJourney = dataJourneys.journeys?.find(
-    //             (journey) => journey.slug === router.query.journey
-    //         );
-    //     }
-    // }, [dataJourneys, router]);
-
     /**
      *
      * Setting empty scores
@@ -266,40 +100,12 @@ function GroupContainer({ data }) {
 
     const { currentProject, currentPlayer, currentJourney } =
         useProjectContext();
-    // console.log("useProjectContext", useProjectContext());
 
     useEffect(() => {
-        // setEmpty(true);
-        /*
-        getNewScores().then((dataScores) => {
-            // console.log("newscores");
-
-            if (dataScores.length > 0) {
-                // console.log("newscoreswwww", dataScores);
-                setEmpty(false);
-                setAllScores(dataScores);
-            } else {
-                createNewScores();
-                // debCreateNewScores(data, router);
-            }
-        });
-        */
-
         console.log("singleScore allScoresObjContext", allScoresObjContext);
         console.log("singleScore allScoresJson", allScoresJson);
 
-        // if (allScoresContext !== null && allScoresObjContext !== null) {
-        //     if (allScoresContext.length > 0) {
-        //         setEmpty(false);
-        //         setAllScores(allScoresObjContext);
-        //     } else {
-        //         // Descomentar quando for adicionar novos scores (Fashion OK)
-        //         // createNewScores();
-        //         //Este abaixo já estava comentado antes
-        //         // debCreateNewScores(data, router);
-        //     }
-        // }
-        // se não tiver scores registrados
+        // se não tiver scores registrados, cria novos scores zerados.
         if (allScoresObjContext?.length === 0 && allScoresJson !== null) {
             createNewScores();
             console.log("singleScore contect", allScoresObjContext);
@@ -386,7 +192,7 @@ function GroupContainer({ data }) {
 
     const [scrollY] = useScroll(0);
 
-    if (!dataJourneys) {
+    if (!currentJourney) {
         return null;
     }
 
