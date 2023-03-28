@@ -1,6 +1,7 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import client from "../../lib/apollo";
+import clientFast from "../../lib/apollo-fast";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useProjectContext } from "../../context/project";
 import { useRouter } from "next/router";
@@ -27,7 +28,7 @@ const QUERY_JOURNEYS = gql`
 async function getJourneys(projectSlug, playerSlug, setJourneysData) {
     console.log("journey select - querying journeys");
 
-    const result = await client.query({
+    const result = await clientFast.query({
         query: QUERY_JOURNEYS,
         variables: {
             projectSlug,

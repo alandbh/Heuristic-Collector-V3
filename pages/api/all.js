@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { gql, useMutation } from "@apollo/client";
 import client from "../../lib/apollo";
+import clientFast from "../../lib/apollo-fast";
 
 async function getData(query, variables) {
     let queryString = variables
@@ -14,7 +15,7 @@ async function getData(query, variables) {
               fetchPolicy: "network-only",
           };
 
-    let result = await client.query(queryString);
+    let result = await clientFast.query(queryString);
 
     return result;
 }
@@ -84,7 +85,7 @@ export default async function handler(req, res) {
 
             allJourneys.data.journeys.map((jou) => {
                 playerOb.scores[jou.slug] = {};
-                scoresObject[jou.slug].map((score) => {
+                scoresObject[jou.slug]?.map((score) => {
                     playerOb.scores[jou.slug][
                         "h_" + score.heuristic.heuristicNumber
                     ] = {

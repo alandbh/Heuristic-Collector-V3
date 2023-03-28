@@ -4,6 +4,23 @@ import { useRouter } from "next/router";
 import client from "../lib/apollo";
 import clientFast from "../lib/apollo-fast";
 
+const QUERY_ALL_PLAYERS = gql`
+    query Projects($projectSlug: String) {
+        project(where: { slug: $projectSlug }) {
+            slug
+            players(first: 10000) {
+                id
+                name
+                slug
+                department
+                logo {
+                    url
+                }
+            }
+        }
+    }
+`;
+
 const QUERY_CURRENT_PLAYER = gql`
     query getCurrentPlayer($projectSlug: String, $playerSlug: String) {
         players(where: { project: { slug: $projectSlug }, slug: $playerSlug }) {
@@ -52,6 +69,7 @@ async function doTheQuery(queryString, variables, setStateFunction) {
 const ProjectContext = createContext();
 
 export function ProjectWrapper({ children, data }) {
+    const [AllPlayersData, setAllPlayersData] = useState(null);
     const [currentPlayerData, setCurrentPlayerData] = useState(null);
     const [currentJourneyData, setCurrentJourneyData] = useState(null);
     const router = useRouter();
@@ -82,6 +100,18 @@ export function ProjectWrapper({ children, data }) {
         }
     }, [player, slug]);
 
+    useEffect(() => {
+        if (slug) {
+            doTheQuery(
+                QUERY_ALL_PLAYERS,
+                {
+                    projectSlug: slug,
+                },
+                setAllPlayersData
+            );
+        }
+    }, [slug]);
+
     // Querying Current Journey
     useEffect(() => {
         if ((journey, slug)) {
@@ -96,10 +126,16 @@ export function ProjectWrapper({ children, data }) {
         }
     }, [journey, slug]);
 
-    if (currentPlayerData === null || currentJourneyData === null) {
+    if (
+        AllPlayersData === null ||
+        currentPlayerData === null ||
+        currentJourneyData === null
+    ) {
         return null;
     }
 
+    const { data: allPlayersData, loading: loadingAllPlayersData } =
+        AllPlayersData;
     const { data: currentPlayer, loading: loadingCurrentPlayer } =
         currentPlayerData;
 
@@ -117,6 +153,7 @@ export function ProjectWrapper({ children, data }) {
     // );
 
     if (
+        loadingAllPlayersData ||
         loadingCurrentPlayer ||
         loadingCurrentJourney ||
         currentPlayer === undefined ||
@@ -133,6 +170,7 @@ export function ProjectWrapper({ children, data }) {
         <ProjectContext.Provider
             value={{
                 currentProject: data.project,
+                allPlayersData,
                 currentPlayer: currentPlayer.players[0],
                 currentJourney: currentJourney.journeys[0],
             }}

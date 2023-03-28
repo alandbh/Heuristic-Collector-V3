@@ -8,22 +8,22 @@ import Spinner from "../Spinner";
 
 // import { useDetectOutsideClick } from "../../lib/useDetectOutsideClick";
 
-const QUERY_PLAYERS = gql`
-    query Projects($projectSlug: String) {
-        project(where: { slug: $projectSlug }) {
-            slug
-            players(first: 10000) {
-                id
-                name
-                slug
-                department
-                logo {
-                    url
-                }
-            }
-        }
-    }
-`;
+// const QUERY_PLAYERS = gql`
+//     query Projects($projectSlug: String) {
+//         project(where: { slug: $projectSlug }) {
+//             slug
+//             players(first: 10000) {
+//                 id
+//                 name
+//                 slug
+//                 department
+//                 logo {
+//                     url
+//                 }
+//             }
+//         }
+//     }
+// `;
 
 const modal_style = {
     enter: { transition: "0.5s", opacity: 1, transform: "translateY(0px)" },
@@ -41,19 +41,19 @@ const modal_style = {
     },
 };
 
-function getPlayers(currentProject, setPlayersData) {
-    client
-        .query({
-            query: QUERY_PLAYERS,
-            variables: {
-                projectSlug: currentProject.slug,
-            },
-            fetchPolicy: "network-only",
-        })
-        .then(({ data }) => {
-            setPlayersData(data);
-        });
-}
+// function getPlayers(currentProject, setPlayersData) {
+//     client
+//         .query({
+//             query: QUERY_PLAYERS,
+//             variables: {
+//                 projectSlug: currentProject.slug,
+//             },
+//             fetchPolicy: "network-only",
+//         })
+//         .then(({ data }) => {
+//             setPlayersData(data);
+//         });
+// }
 
 /**
  *
@@ -62,9 +62,9 @@ function getPlayers(currentProject, setPlayersData) {
 
 function PlayerSelect({ compact }) {
     const [selected, setSelected] = useState(null);
-    const [playersData, setPlayersData] = useState(null);
+    // const [playersData, setPlayersData] = useState(null);
     const router = useRouter();
-    const { currentProject } = useProjectContext();
+    const { currentProject, allPlayersData: playersData } = useProjectContext();
     // const { data, loading, error } = useQuery(QUERY_PLAYERS, {
     //     variables: {
     //         projectSlug: currentProject.slug,
@@ -73,10 +73,11 @@ function PlayerSelect({ compact }) {
 
     const modalRef = useRef(null);
     // const [modalOpen, setModalOpen] = useDetectOutsideClick(modalRef, true);
-    useEffect(() => {
-        console.log("PlayerSelect loading");
-        getPlayers(currentProject, setPlayersData);
-    }, [currentProject]);
+
+    // useEffect(() => {
+    //     console.log("PlayerSelect loading");
+    //     getPlayers(currentProject, setPlayersData);
+    // }, [currentProject]);
 
     useEffect(() => {
         if (router.query.player) {
