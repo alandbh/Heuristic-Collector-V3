@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import client from "../lib/apollo";
+import clientFast from "../lib/apollo-fast";
 import { gql, useQuery } from "@apollo/client";
 import { useUser } from "@auth0/nextjs-auth0";
 import { debounce } from "../lib/utils";
@@ -48,7 +49,7 @@ const CredentialsContext = createContext();
 
 async function getRgaUser(email, projectSlug, func) {
     // return;
-    const { data: rgaUsersRetrieved } = await client.query({
+    const { data: rgaUsersRetrieved } = await clientFast.query({
         query: QUERY_USER,
         variables: {
             projectSlug,

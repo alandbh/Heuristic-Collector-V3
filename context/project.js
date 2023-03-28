@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { gql } from "@apollo/client";
 import { useRouter } from "next/router";
 import client from "../lib/apollo";
+import clientFast from "../lib/apollo-fast";
 
 const QUERY_CURRENT_PLAYER = gql`
     query getCurrentPlayer($projectSlug: String, $playerSlug: String) {
@@ -35,7 +36,7 @@ const QUERY_CURRENT_JOURNEY = gql`
 async function doTheQuery(queryString, variables, setStateFunction) {
     console.log("project - querying");
 
-    const result = await client.query({
+    const result = await clientFast.query({
         query: queryString,
         variables,
         fetchPolicy: "network-only",
