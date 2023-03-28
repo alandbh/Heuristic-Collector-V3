@@ -1,0 +1,119 @@
+.container {
+    max-width: 600px;
+    position: relative;
+    height: 50px;
+    display: flex;
+    position: relative;
+    margin-bottom: 0.6rem;
+  }
+  .container input {
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 10px;
+    background: blue;
+    outline: none;
+    opacity: 0.7;
+    align-self: flex-end;
+    transition: 0.4s;
+    /*
+        Prevent accdentally change values when tapping or clicking
+    */
+    pointer-events: none;
+  }
+  .container input:focus {
+    outline: none;
+    opacity: 1;
+  }
+  .container input:focus + .dropContainer {
+    transform: scale(1.5) translateY(-5px);
+  }
+  .container input:hover {
+    opacity: 1;
+  }
+  .container input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    background: black;
+    cursor: pointer;
+    border-radius: 100%;
+  }
+  .container input::-moz-range-thumb {
+    width: 1.2rem;
+    height: 1.2rem;
+    background: blue;
+    border-radius: 100%;
+    cursor: pointer;
+  }
+  .container input::-webkit-slider-thumb {
+    pointer-events: auto;
+  }
+  .container.inputDisable input::-webkit-slider-thumb {
+    background: lightgray;
+  }
+  .container.inputDisable input::-moz-range-thumb {
+    background: lightgray;
+  }
+  .container.sc1 input::-webkit-slider-thumb {
+    background: #bd0000;
+  }
+  .container.sc1 input::-moz-range-thumb {
+    background: #bd0000;
+  }
+  .container.sc2 input::-webkit-slider-thumb {
+    background: red;
+  }
+  .container.sc2 input::-moz-range-thumb {
+    background: red;
+  }
+  .container.sc3 input::-webkit-slider-thumb {
+    background: darkorange;
+  }
+  .container.sc3 input::-moz-range-thumb {
+    background: darkorange;
+  }
+  .container.sc4 input::-webkit-slider-thumb {
+    background: limegreen;
+  }
+  .container.sc4 input::-moz-range-thumb {
+    background: limegreen;
+  }
+  .container.sc5 input::-webkit-slider-thumb {
+    background: #08a908;
+  }
+  .container.sc5 input::-moz-range-thumb {
+    background: #08a908;
+  }
+  .container .dropContainer {
+    color: #fff;
+    text-shadow: 0.03rem 0.03rem 0.06rem rgba(0, 0, 0, 0.8);
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    bottom: 18px;
+    text-align: center;
+    transition: transform 0.2s;
+    z-index: 1;
+    font-size: 0.75rem;
+    line-height: 18px;
+  }
+  .container .dropContainer .dropContent {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background: blue;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 0 50% 50% 50%;
+    z-index: -1;
+    transform: rotate(-130deg);
+  }
+  .container .dropContainer .dropContent span {
+    transform: rotate(130deg);
+    display: inline-block;
+  }

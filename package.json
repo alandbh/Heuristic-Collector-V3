@@ -1,0 +1,32 @@
+{
+    "name": "hc",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@apollo/client": "^3.3.21",
+        "@auth0/nextjs-auth0": "^1.9.1",
+        "auth0": "^2.42.0",
+        "firebase": "^9.12.1",
+        "fuse.js": "^6.6.2",
+        "graphql": "^16.6.0",
+        "next": "12.2.5",
+        "next-pwa": "^5.6.0",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "react-firebase-hooks": "^5.0.3",
+        "react-scroll": "^1.8.7"
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.4.8",
+        "eslint": "8.22.0",
+        "eslint-config-next": "12.2.5",
+        "postcss": "^8.4.16",
+        "tailwindcss": "^3.1.8"
+    }
+}

@@ -1,0 +1,34 @@
+.percent {
+    position: relative;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.percent h2 {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-align: center;
+    transform: translateY(-50%);
+    transition: all 0.3s;
+}
+
+
+.percent svg {
+   
+    z-index: 2;
+    transform: rotate(-90deg);
+
+}
+.percent svg circle {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    /* stroke: lightgray; */
+    
+    stroke-linecap: round;
+    transition: all 0.5s ease;
+
+}

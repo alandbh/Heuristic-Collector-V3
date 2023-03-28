@@ -1,0 +1,87 @@
+.container {
+    display: flex;
+    max-width: 600px;
+    min-width: 300px;
+    width: 100%;
+    flex-direction: column;
+    position: relative;
+    /* padding-top: 2.8rem; */
+    /* border: 1px solid white; */
+}
+.containerSmall {
+    display: flex;
+    max-width: 180px;
+    min-width: 60px;
+    width: 100%;
+    flex-direction: column;
+    position: relative;
+    /* padding-top: 2.8rem; */
+    /* border: 1px solid white; */
+}
+
+
+
+.description {
+    display: flex;
+    justify-content: space-between;
+}
+.container span {
+    /* color: #555; */
+    line-height: 2rem;
+}
+.bar-wrapper {
+    /* border: 1px solid red; */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.bar-wrapper b {
+    width: 5rem;
+    display: block;
+    /* margin-left: -25px; */
+    /* left: 76%; */
+    font-weight: bold;
+    font-size: x-large;
+    /* position: absolute; */
+    /* top: 0; */
+    text-align: right;
+    /* transition: .8s; */
+}
+.base {
+    border-radius: 3000px;
+    overflow: hidden;
+    height: .8rem;
+    /* width: 100%; */
+    flex: 1;
+    background: #eee;
+    
+}
+.baseSmall {
+    border-radius: 3000px;
+    overflow: hidden;
+    height: .45rem;
+    /* width: 100%; */
+    flex: 1;
+    background: #eee;
+    
+}
+
+.bar {
+    width: 76%;
+    height: 100%;
+    flex: 1;
+    transition: .8s;
+}
+
+.legend {
+    font-weight: bold;
+    font-size: x-large;
+    margin-bottom: 1rem;
+}
+.legendSmall {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 0;
+}

@@ -1,0 +1,4051 @@
+[
+    {
+        "id": "clag0r1g50s3e0bluigrtbqgq",
+        "name": "Arezzo",
+        "slug": "arezzo",
+        "department": "FashionAndSports",
+        "scores": {
+            "desktop": {
+                "h_1.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1 de 00:49 até 01:12",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 3,
+                    "note": "Apesar de possuir o breadcrumb quando chega na PDP ele fica visível abaixo da galeria de imagens.\n\nEvidência: Vídeo-1 de 00:49 até 01:12",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 01:20 até 01:40",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 4,
+                    "note": "Funciona mas não diz pra quê.",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_2.1": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 01:20 até 01:40",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_2.2": {
+                    "scoreValue": 3,
+                    "note": "Mostrou ofertas personalizadas para Cindy, depois de pesquisar poe rasteirinha dentro do site.\n\nVideo h32 / 01:15 até o final",
+                    "evidenceUrl": "Video h32"
+                },
+                "h_3.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1 de 01:20 até 01:40",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.2": {
+                    "scoreValue": 1,
+                    "note": "Mesmos resultados para Cindy e Mike.",
+                    "evidenceUrl": "Video h32"
+                },
+                "h_3.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 01:40 até 01:56",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.4": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 03:25 até 03:44",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.5": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 03:44 até 04:14",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.6": {
+                    "scoreValue": 5,
+                    "note": "Acertou todos os itens.",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 04:14 até 04:23",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_4.2": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1 de 04:23 até 05:09",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Tem que digitar o CEP",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_4.6": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 05:09 até 05:25",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_5.1": {
+                    "scoreValue": 5,
+                    "note": "Ao utilizar o login social não tem a opção de concordar com o Termos de uso. Mas o link de política de privacidade fica visível no rodapé.\n\nEvidência: Vídeo-1 de 05:25 até 05:49",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 05:49 até 07:32",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_5.4": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 05:49 até 07:32",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_5.5": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1 de 05:09 até 05:25",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_5.6": {
+                    "scoreValue": 4,
+                    "note": "Evidência: Vídeo-1 de 05:09 até 05:25",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_6.1": {
+                    "scoreValue": 3,
+                    "note": "Não informa que o produto não foi encontrado.",
+                    "evidenceUrl": "Imagem H61"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "É acessível.",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_71": {
+                    "scoreValue": 5,
+                    "note": "Fica disponível no rodapé.\n\nEvidência: Vídeo-1.1 até 00:36",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_72": {
+                    "scoreValue": 4,
+                    "note": "Bom",
+                    "evidenceUrl": "Imagem h72"
+                },
+                "h_73": {
+                    "scoreValue": 1,
+                    "note": "Somente o chatbot disponível em qualquer página e na parte de atendimento somente se o usuário já tiver feito uma compra ou em loja física ou virtual.\n\nEvidência: Vídeo-1.1 de 00:36 até 01:22",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_74": {
+                    "scoreValue": 5,
+                    "note": "Possui",
+                    "evidenceUrl": "Imagem h74"
+                },
+                "h_75": {
+                    "scoreValue": 2,
+                    "note": "Evidência: Vídeo-1 de 05:49 até 07:32",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_76": {
+                    "scoreValue": 5,
+                    "note": "Tem campo de busca e é possível digitar livremente que a busca vai retornar um resultado aproximado.\n\naté 02:00",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 4,
+                    "note": "Não mostra nas telas a partir do carrinho de compra.\nEvidência: Vídeo-1 até 00:29",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 01:22 até 03:03",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 03:03 até 03:23",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_8.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.1 de 03:23 até 05:25\n",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_8.2": {
+                    "scoreValue": 5,
+                    "note": "Apesar de a primeira mensagem ser uma pré seleção de assuntos é possível fazer uma pergunta que o bot responde.\n\nEvidência: Vídeo-1.1 de 03:23 até 05:25",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_8.3": {
+                    "scoreValue": 2,
+                    "note": "Apesar de aparecer a opção de entrega o chatbot não reconhece o cadastro então não foi possível avaliar. Mas o chatbot responde algumas coisas relacionadas a produtos.\n\nEvidência: Vídeo-1.1 de 03:23 até 05:25\nPrint: https://drive.google.com/file/d/117D83Bd7kcVHfmvv9jsjWVJ60CZOTBdp/view?usp=share_link\n",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 03:23 até 05:25",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_8.5": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 de 03:23 até 05:25",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_8.6": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.1 de 05:25 até 06:22",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "Tentamos pela central de ajuda/atendimento e não encontramos. Pela resposta, o contato é apenas via chat ou email (04:40)",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "Não encontramos.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 5,
+                    "note": "Utiliza um plugin terceirizado da EqualWeb Brasil.\nPossui Contraste, Navegação por teclado, Ajuste de cor, Comandos de voz entre outros.\nObs.: Não encontramos recursos para linguagem de sinais.\n02:00 em diante.",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.4": {
+                    "scoreValue": 5,
+                    "note": "Legível na Home e no PDP",
+                    "evidenceUrl": "Pasta LH"
+                },
+                "h_9.5": {
+                    "scoreValue": 4,
+                    "note": "Home: 85\nPDP: 87",
+                    "evidenceUrl": "Pasta LH"
+                }
+            },
+            "mobile-app": {
+                "h_1.1": {
+                    "scoreValue": 4,
+                    "note": "Evidência: Vídeo-1 até 02:11",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 02:11 até 03:04",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 03:04 até 04:04",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 5,
+                    "note": "Serve para localizar as lojas na região.\naté 00:50",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_1.5": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 até 00:47",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_2.1": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1 de 03:04 até 04:04",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_2.3": {
+                    "scoreValue": 1,
+                    "note": "Nada enviado em 2 dias.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_3.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.1 até 00:43",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.101": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 até 00:43",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.3": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 00:43 até 01:02",
+                    "evidenceUrl": ""
+                },
+                "h_3.4": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 de 01:02 até 02:40",
+                    "evidenceUrl": "Vídeo-1.1 "
+                },
+                "h_3.6": {
+                    "scoreValue": 3,
+                    "note": "Errou:\nErro de digitação\nAutocomplete",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 de 00:47 até 01:10",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_3.9": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 01:10 até 01:32",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_4.2": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.2 de 01:32 até 02:42",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Tem que digitar o CEP.\nde 00:50 a 01:20",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_5.1": {
+                    "scoreValue": 1,
+                    "note": "O login social com o Google só funciona no site. Ou seja, se vc usou o login social (Google) no site, vai ter que criar uma nova conta, com outro email, pra poder usar o app. \nNo app, só tem a opção de login social com o Facebook.\n\nEvidência: Vídeo-1.2 de 02:42 até 02:50",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 de 02:50 até 04:41",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.4": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.3",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_5.5": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.2 de 02:50 até 04:41",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.7": {
+                    "scoreValue": 4,
+                    "note": "Abre o teclado apropriado (não tem scan)",
+                    "evidenceUrl": "Video h57"
+                },
+                "h_5.8": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 02:50 até 04:41",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.9": {
+                    "scoreValue": 1,
+                    "note": "Não recebi em 2 dias.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_6.1": {
+                    "scoreValue": 3,
+                    "note": "Mostra resultados sem informar que o produto não existe.",
+                    "evidenceUrl": "VIdeo h61"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "E acessível.\n\n00:50 a 01:20",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_6.3": {
+                    "scoreValue": 5,
+                    "note": "Mantém\n01:55 até o final.",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_71": {
+                    "scoreValue": 1,
+                    "note": "Apesar de aparece um check box para o aceite das politicas de privacidade, não é possível clicar para ler. Fica disponível apenas no menu Minha conta.\n\nEvidência: Vídeo-1.3",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_710": {
+                    "scoreValue": 1,
+                    "note": "Nada que já não possa ser feito no app.",
+                    "evidenceUrl": "Pasta APP STORE"
+                },
+                "h_711": {
+                    "scoreValue": 5,
+                    "note": "Apple: 4.7\nGoogle: 4.9",
+                    "evidenceUrl": "Pasta APP STORE"
+                },
+                "h_73": {
+                    "scoreValue": 2,
+                    "note": "Precisa estar logado para acessar a area de atendimento.\n\nEvidência: Vídeo-1.2 de 04:36 até 05:22",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_75": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 02:20 até 04:20",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_76": {
+                    "scoreValue": 2,
+                    "note": "Exige login para acessar o FAQ e a central de atendimento (no site não exige).",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.2 de 05:22 até 06:42",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 06:42 até 07:11",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 07:11 até 07:26",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_8.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.1 chat de 03:23 até 05:25\n",
+                    "evidenceUrl": "Vídeo-1.1 chat"
+                },
+                "h_8.2": {
+                    "scoreValue": 5,
+                    "note": "Apesar de a primeira mensagem ser uma pré seleção de assuntos é possível fazer uma pergunta que o bot responde.\n\nEvidência: Vídeo-1.1 chat de 03:23 até 05:25",
+                    "evidenceUrl": "Vídeo-1.1 chat"
+                },
+                "h_8.3": {
+                    "scoreValue": 2,
+                    "note": "Evidência: Vídeo-1.1 chat de 03:23 até 05:25",
+                    "evidenceUrl": "Vídeo-1.1 chat"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 chat de 03:23 até 05:25",
+                    "evidenceUrl": "Vídeo-1.1 chat"
+                },
+                "h_8.5": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 chat de 03:23 até 05:25",
+                    "evidenceUrl": "Vídeo-1.1 chat"
+                },
+                "h_8.6": {
+                    "scoreValue": 1,
+                    "note": "Não possui FAQ e só é possível acessar a área de atendimento se estiver logado.\n\nEvidência: Vídeo-1.4",
+                    "evidenceUrl": "Vídeo-1.4"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado no app.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado no app",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.6": {
+                    "scoreValue": 1,
+                    "note": "Problemas encontrados:\nHome: 4\nPDP: 3",
+                    "evidenceUrl": "https://drive.google.com/open?id=1EyK0FrkGBXiNVkawU1cAdy1QYYcnTj0a&authuser=alan.vasconcelos%40rga.com&usp=drive_fs"
+                }
+            }
+        },
+        "findings": {
+            "desktop": {},
+            "mobile-app": {
+                "f_1": {
+                    "text": "Não é possível realizar o login no app. Não reconhece a senha, o processo de esqueci minha senha é realizado, a senha é alterada e mesmo assim o aplicativo não reconhece a senha.\n\nEvidência: Vídeo-1 a partir de 04:09 \nLink: https://drive.google.com/file/d/1iZbsrX4U2SxXIOIjnhtGCH_uMRwWsyQg/view?usp=share_link",
+                    "theType": "bad"
+                },
+                "f_2": {
+                    "text": "Relacionado ao finding #1, o login social com o Google só funciona no site. Ou seja, se vc usou o login social (Google) no site, vai ter que criar uma nova conta, com outro email, pra poder usar o app. \nNo app, só tem a opção de login social com o Facebook.",
+                    "theType": "bad"
+                }
+            }
+        }
+    },
+    {
+        "id": "clag0tm2i0s8d0alr3bks7xid",
+        "name": "C&A",
+        "slug": "cea",
+        "department": "FashionAndSports",
+        "scores": {
+            "desktop": {
+                "h_1.1": {
+                    "scoreValue": 5,
+                    "note": "Menu Global e acesso rápido\nVideo-1: 00:00 a 01:08 ",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 01:08 a 01:16",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 00:16 a 01:22",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 2,
+                    "note": "Tem que digitar o CEP",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_2.1": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 01:22 a 01:28",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_2.2": {
+                    "scoreValue": 1,
+                    "note": "1- O site oferece as mesmas ofertas para Cindy e Mike",
+                    "evidenceUrl": "Video h22"
+                },
+                "h_3.1": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 01:28 a 01:38",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.2": {
+                    "scoreValue": 1,
+                    "note": "Mesmos resultados para Cindy e Mike",
+                    "evidenceUrl": "Video h32"
+                },
+                "h_3.3": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 01:38 a 01:49",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.4": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 01:49 a 02:37",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.5": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 02:37 a 02:45",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.6": {
+                    "scoreValue": 5,
+                    "note": "Errou o \"legin\", mas acertou o \"leguin\".",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 03:02 a 03:19",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_4.2": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 03:19 a 03:36",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Tem que digitar o CEP",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_4.6": {
+                    "scoreValue": 4,
+                    "note": "Video-1: 03:30 a 03:55",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.1": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 03:55 a 04:08",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 04:08 a 05:59",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.4": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 05:00 a 05:20",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.5": {
+                    "scoreValue": 5,
+                    "note": "Nome, email, telefone, CPF. Apesar de ter a funcionalidade de acessar a loja informando email e código recebido no email, para finalizar a copra exige estes campos, além do endereço.\nVideo-1: 05:59 a 06:13",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.6": {
+                    "scoreValue": 4,
+                    "note": "Video-1: 03:30 a 03:55",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_6.1": {
+                    "scoreValue": 3,
+                    "note": "Não informa que o produto não foi encontrado. (02:20)",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "É acessível.\nA partir de 02:30",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_71": {
+                    "scoreValue": 5,
+                    "note": "No rodapé e na tela de inserção do email no processo de compra \nVideo-2: 00:00 a 00:13 ; 03:41 a 03:44",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_72": {
+                    "scoreValue": 5,
+                    "note": "Ótimo",
+                    "evidenceUrl": "Imagem h72"
+                },
+                "h_73": {
+                    "scoreValue": 5,
+                    "note": "Email, telefone, chat, whatsapp\nVideo-2: 00:13 a 01:05",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_74": {
+                    "scoreValue": 5,
+                    "note": "Aparece banner",
+                    "evidenceUrl": "Imagem h74"
+                },
+                "h_75": {
+                    "scoreValue": 5,
+                    "note": "No topo da tela \nVideo-2: 01:05 a 01:55",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_76": {
+                    "scoreValue": 3,
+                    "note": "até 00:30",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 4,
+                    "note": "Disponível no menu acima do rodapé mas não durante o processo de compra. \nVideo-2: 01:55 a 02:41",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Não tem a feature.\nVideo-2: 02:41 a 02:56",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Não salva histórico de busca\nVideo-4",
+                    "evidenceUrl": "Video-4"
+                },
+                "h_8.1": {
+                    "scoreValue": 3,
+                    "note": "Video-3: 01:00 a 01:10",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.2": {
+                    "scoreValue": 2,
+                    "note": "Video-3: 01:00 a 01:53",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.3": {
+                    "scoreValue": 1,
+                    "note": "Não respondeu perguntas porque não encontrou cadastro apesar de estar logado, pedia CPF ou número do pedido. \nVideo-3: 01:00 a 01:53",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "Video-3: 01:00 a 01:53",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.5": {
+                    "scoreValue": 5,
+                    "note": "Video-3: 02:11 a 02:52",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.6": {
+                    "scoreValue": 1,
+                    "note": "Video-3: 02:52 a 03:10",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_9.1": { "scoreValue": 1, "note": "", "evidenceUrl": "" },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "O que existe são links no rodapé para os sites de cada país onde a C&A atua.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 1,
+                    "note": "Pesquisamos por \"acessibilidade\", \"libras\", \"surdos\" na central de atendimento/ajuda, mas nada foi encontrado.\nde 00:40 até o final.",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.4": {
+                    "scoreValue": 5,
+                    "note": "Legível na Home e no PDP",
+                    "evidenceUrl": "Pasta LH"
+                },
+                "h_9.5": {
+                    "scoreValue": 4,
+                    "note": "Home: 72\nPDP: 90",
+                    "evidenceUrl": "Pasta LH"
+                }
+            },
+            "mobile-app": {
+                "h_1.1": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 00:00 a 00:38",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 5,
+                    "note": "Quando acessado o menu global/comprar/roupas/calças/produto, no topo do app aparece o botão voltar indicando a categoria a qual pertence e permitindo navegar nas subcategorias dentro de uma categoria.\nVideo-1: 00:38 a 00:56",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 2,
+                    "note": "Video-1: 00:56 a 01:04",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 5,
+                    "note": "Funciona para procurar as lojas mais próximas, mas bem que poderia preencher o cep automaticamente, na hora calcular o frete (como na Arezzo).\n\naté 02:00",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_1.5": {
+                    "scoreValue": 3,
+                    "note": "Ao abrir o app após instalar, um pop up sobrepõe-se ao app perguntando se o usuário gostaria de ativar notificações de promoções de lançamentos baseados na localização, clicando em \"Permitir todos os acessos\", as notificações são ativadas.\nAlém disso, na tela de cadastro, há duas opções de ativar notificações gerais (e-mails, SMS e WhatsApp) ou as mesmas apresentadas no pop-up (novidades e promoções).\npopup_notificacao_c_a1; popup_notificacoes_c_a; cadastro_notificacoes.jpg",
+                    "evidenceUrl": "popup_notificacao_c_a1; popup_notificacoes_c_a; cadastro_notificacoes.jpg"
+                },
+                "h_2.1": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 01:04 a 01:12; Compre_look.jpg",
+                    "evidenceUrl": "Video-1; Compre_look.jpg"
+                },
+                "h_2.3": {
+                    "scoreValue": 1,
+                    "note": "Não enviou em 3 dias.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_3.1": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 01:13 a 01:17",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.101": {
+                    "scoreValue": 1,
+                    "note": "Apenas para consultar código de barra.\nVideo-1: 01:17 a 01:24",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.3": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 01:25 a 01:30",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.4": {
+                    "scoreValue": 3,
+                    "note": "Na tentativa de filtragem por cor preta + legging, retornou com \"Nenhum resultado\" (mensagem sobreposta e não legível à galeria de calças). Filtrando somente por Legging, a busca retorna resultados e é possível chegar ao produto identificando visualmente qual é da cor preta.\nVideo-1: 01:36 a 01:59\nVideo-2: 00:00 a 00:21",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.6": {
+                    "scoreValue": 4,
+                    "note": "Só errou o autocomplete.\n\naté 02:28",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 1,
+                    "note": "Video-2: 00:21 a 00:36",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_3.9": {
+                    "scoreValue": 5,
+                    "note": "Video-2: 00:39 a 00:47",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_4.2": {
+                    "scoreValue": 5,
+                    "note": "Video-2: 00:47 a 00:52",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Tem que digitar o CEP.\naté 02:00",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_5.1": {
+                    "scoreValue": 1,
+                    "note": "Video-2: 00:52 a 01:00",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "Video-2: 01:00 a 02:18",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_5.4": {
+                    "scoreValue": 4,
+                    "note": "Nome, CPF, Telefone, Data de nascimento, Gênero, Email\nSolicita dupla verificação de segurança, enviando código por email.\ncadastro_notificacoes.jpg\nVideo-2: 02:45 a 03:20; 04:24 a 04:40",
+                    "evidenceUrl": "cadastro_notificacoes.jpg"
+                },
+                "h_5.5": {
+                    "scoreValue": 5,
+                    "note": "Pick up, delivery (expressa, normal, rápida), agendamento\nVideo-3: 00:00 a 00:07; 00:37 a 00:45",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_5.7": {
+                    "scoreValue": 4,
+                    "note": "Não permite escanear, mas abre o teclado apropriado.\n\n01:00 até o final.",
+                    "evidenceUrl": "Video h57"
+                },
+                "h_5.8": {
+                    "scoreValue": 1,
+                    "note": "C&A Pay\nVideo-3: 00:45 a 02:08",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_5.9": {
+                    "scoreValue": 1,
+                    "note": "Nada em 3 dias de uso.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_6.1": {
+                    "scoreValue": 3,
+                    "note": "Não informa que o produto não foi encontrado.\n02:30 até o final.",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "É acessível.\n\nde 01:00 a 02:00",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_6.3": {
+                    "scoreValue": 5,
+                    "note": "a partir de 02:00",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_71": {
+                    "scoreValue": 1,
+                    "note": "cadastro_notificacoes.jpg",
+                    "evidenceUrl": "cadastro_notificacoes.jpg"
+                },
+                "h_710": {
+                    "scoreValue": 5,
+                    "note": "Ofertas exclusivas",
+                    "evidenceUrl": "Pasta APP STORE"
+                },
+                "h_711": {
+                    "scoreValue": 4,
+                    "note": "Apple 4.7\t\nAndroid: 4",
+                    "evidenceUrl": "Pasta APP STORE"
+                },
+                "h_73": {
+                    "scoreValue": 5,
+                    "note": "Telefone, chat en rede social\nVideo-3: 02:43 a 02:53\nVideo-4: 00:00 a 00:10",
+                    "evidenceUrl": "Video-3; Video-4"
+                },
+                "h_75": {
+                    "scoreValue": 1,
+                    "note": "Video-2: 01:11 a 01:17; 01:32 a 01:58",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_76": {
+                    "scoreValue": 3,
+                    "note": "03:00 até o final.\n\nObs.:\nNa verdade o app abre a página Web do FAQ em uma janela. Isso acaba duplicando os elementos e causando alguma confusão.",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_77": {
+                    "scoreValue": 3,
+                    "note": "Na home da seção de Atendimento existem seções detalhando política de trocas e devoluções, marketplace, dentre outros.\nNo entanto, não há maior detalhamento sobre algumas políticas de entrega. Utilizando a ferramenta de busca na seção Atendimento ou o link de rodapé serviços, é possível acessar as formas de entrega, porém somente a retirada de produto oferece mais detalhe. (Reduziria para 2 pois não mostra a política de entrega).\nVideo-4: 00:11 a 01:31",
+                    "evidenceUrl": "Video-4"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Não tem a feature.\nVideo-4: 01:31 a 01:40",
+                    "evidenceUrl": "Video-4"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Não memoriza histórico\nVideo-4: 01:41 a 01:52",
+                    "evidenceUrl": "Video-4"
+                },
+                "h_8.1": {
+                    "scoreValue": 1,
+                    "note": "Video-4: 01:52 a 01:56",
+                    "evidenceUrl": "Video-4"
+                },
+                "h_8.2": {
+                    "scoreValue": 1,
+                    "note": "chatbot_ceamobile.jpg",
+                    "evidenceUrl": "chatbot_ceamobile.jpg"
+                },
+                "h_8.3": {
+                    "scoreValue": 1,
+                    "note": "Não responde perguntas sobre produto ou entrega. Solicita CPF para continuar atendimento mas não reconhece o CPF cadastrado. Aparentemente é necessário ter feito um pedido para receber atendimento pelo chatbot.\nO chatbot não recomendou chamar um humano, apenas respondia que não compreendia, pedia para refazer a pergunta e mostrava as opções pré-definidas.\nVideo-4: 02:00 a 02:20",
+                    "evidenceUrl": ""
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "chatbot_ceamobile.jpg",
+                    "evidenceUrl": "chatbot_ceamobile.jpg"
+                },
+                "h_8.5": {
+                    "scoreValue": 5,
+                    "note": "Video-4: 02:22 a 02:57",
+                    "evidenceUrl": "Video-4"
+                },
+                "h_8.6": {
+                    "scoreValue": 1,
+                    "note": "Utilizando a ferramenta de busca da seção atendimento perguntando \"Posso usar o Google Pay?\", o app retornou com uma lista de 550 produtos encontrados. Experiência similar aconteceu questionando sobre pagamento de dois cartões, retornando 32110 produtos como resultado da busca.\nVideo-4: 02:57 a 03:58",
+                    "evidenceUrl": "Video-4"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "Não encontramos.\nNem na página de atendimento (03:00 até o final.)\n",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "Não encontramos.\nO que existe é um menu para escolher o país onde a C&A atua.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.6": {
+                    "scoreValue": 2,
+                    "note": "Home: 2\nPDP: 3",
+                    "evidenceUrl": "https://drive.google.com/open?id=1F6oJpC2pw6NbR_eRZj1CpqOkvlyG2Kib&authuser=alan.vasconcelos%40rga.com&usp=drive_fs"
+                }
+            }
+        },
+        "findings": {
+            "desktop": {},
+            "mobile-app": {
+                "f_1": {
+                    "text": "A filtragem não funciona corretamente.\nCombinando mais de um filtro algumas vezes retorna como \"Nenhum resultado encontrado\", embora haja produtos com as características (exemplo: legging + cor preta não retorna resultados).\nVideo-1: 01:36 a 01:59\nVideo-2: 00:00 a 00:21",
+                    "theType": "bad"
+                },
+                "f_2": {
+                    "text": "O link para o Atendimento abre uma página web dentro do app duplicando elementos do topo do app (menu, busca - não fica claro se é busca dentro de atendimento, sacola de compras).\nNo topo da tela, é identificada a seção Atendimento e abaixo, há um link para baixar o app C&A, o que é confuso visto que o usuário está navegando no app.\nO menu global lista as categorias de produtos acima do itens de menu já constantes no app.\nVideo-3: 00:07 a 00:37",
+                    "theType": "bad"
+                },
+                "f_3": {
+                    "text": "O CEP inserido na página de produto para verificar o valor de frete ou mesmo no carrinho, não é salvo para as etapa seguinte de adição de endereço no processo de compra. O usuário precisa inserir novamente.\nVideo-3: 02:08 a 02:43",
+                    "theType": "bad"
+                },
+                "f_4": {
+                    "text": "No menu de rodapé na área de Atendimento (Menu / Atendimento), existem menus accordion com as subdivisões de atendimento, no entanto os links para \"ajuda\" e \"fale conosco\" direcionam para o topo da página, mantendo o usuário na home page da seção Atendimento.\nVideo-3: 03:00 a 03:11.",
+                    "theType": "bad"
+                },
+                "f_5": {
+                    "text": "Ao solicitar ajuda de um humano na tela de chat, a tela de chat com o atendente é sobreposta à tela de chat, por sua vez sobreposta à página web de Atendimento que está inserida no app.\nVideo-4: 02:22 a 02:57",
+                    "theType": "bad"
+                }
+            }
+        }
+    },
+    {
+        "id": "clag0wx9f0sgi0alr0vhv8sd5",
+        "name": "Centauro",
+        "slug": "centauro",
+        "department": "FashionAndSports",
+        "scores": {
+            "desktop": {
+                "h_1.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1 até 00:33",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 3,
+                    "note": "Apesar de ser possível navegar pelo breadcrubm em algumas páginas ele muda a nomenclatura das páginas.\n\nex: Acessei o menu Mulheres, no breadcrumb aparece Centauro.com.br /\nFeminino\nAo utilizar o filtro dessa página e selecionar o produto calça legging e selecionar uma calça o breadcrumb da PDP passa a ser Vestuario/calça legging/feminino, além de abrir uma nova aba de navegação.\n\nEvidência: Vídeo-1 de 00:33 até 01:35\n\n",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 01:35 até 01:57",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 4,
+                    "note": "Tem, mas ainda assim, pede para digitar o CEP para calcular o frete.\n\nO geolocation só foi útil, quando cliquei no botão \"Veja as lojas\" (Video h14 / 01:30), que abre uma janela em que vc pode procurar por lojas na sua região.\n\nMesmo assim, o primeiro campo é para digitar o CEP. Pra usar o geo location, é preciso clicar em um link bem discreto chamado \"usar minha localização\".",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_2.1": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 01:57 até 02:38",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_2.2": {
+                    "scoreValue": 3,
+                    "note": "De início, mostrou as mesmas coisas para Cindy e Mike, sem considerar o histórico do Google (até 03:10)\n\nNa seção \"Você vai gostar\" na home, mostrou ofertas especiais para a Cindy, só depois que ela usou a caixa de busca para pesquisar \"calça legging\". de 03:10 até o final.",
+                    "evidenceUrl": "Video h22"
+                },
+                "h_3.1": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 até 00:36",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.2": {
+                    "scoreValue": 1,
+                    "note": "Mesmos resultados para Cindy e Mike.",
+                    "evidenceUrl": "Video h32"
+                },
+                "h_3.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 de 00:36 até 01:05",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.4": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 de 01:05 até 01:43",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.5": {
+                    "scoreValue": 5,
+                    "note": "Aparece no carrossel, mas não aparece no filtro Seller.\n\nEvidência: Vídeo-1.1 de 01:43 até 02:28\n",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.6": {
+                    "scoreValue": 5,
+                    "note": "Acertou tudo",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 02:28 até 02:53",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_4.2": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.2 até 00:29",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Tem que digitar o CEP",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_4.6": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 de 00:29 até 00:49",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.1": {
+                    "scoreValue": 5,
+                    "note": "Apesar de ter o login social é necessário informar o CPF.\n\nEvidência: Vídeo-1.2 de 00:49 até 01:24",
+                    "evidenceUrl": "Vídeio-1.2"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 de 01:24 até 03:18",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.4": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 de 01:24 até 03:18",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.5": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.2 de 03:18 até 03:32",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.6": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.2 de 00:29 até 00:49",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_6.1": {
+                    "scoreValue": 3,
+                    "note": "Não informa que o produto não foi encontrado.\n\naté 00:25",
+                    "evidenceUrl": "VIdeo h61"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "É acessível.\nde 00:25 até o final.",
+                    "evidenceUrl": "Video h61"
+                },
+                "h_71": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 de 03:32 até 04:42",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_72": {
+                    "scoreValue": 4,
+                    "note": "Bom",
+                    "evidenceUrl": "Imagem h72"
+                },
+                "h_73": {
+                    "scoreValue": 3,
+                    "note": "E-mail e sac, só que ao clicar em Atendimento abre outra aba.\n\nEvidência: Vídeo-1.2 de 04:42 até 05:08",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_74": {
+                    "scoreValue": 5,
+                    "note": "Possui o banner",
+                    "evidenceUrl": "Imagem h74"
+                },
+                "h_75": {
+                    "scoreValue": 4,
+                    "note": "Aparece após o step de identificação.\n\nEvidência: Vídeo-1.2 de 05:08 até 07:08",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_76": {
+                    "scoreValue": 5,
+                    "note": "Foi o único FAQ com fuzzy search que encontrou a pergunta \"pagar com dois cartões\", mesmo eu digitando errado. 👏🏽",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 até 00:36",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_78": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 01:57 até 02:38",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 07:08 até 07:28",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_8.1": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 07:28 até 08:30",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_8.2": {
+                    "scoreValue": 1,
+                    "note": "Não possui chatbot.\n\nEvidência: Vídeo-1.2 de 07:28 até 08:30",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_8.3": {
+                    "scoreValue": 1,
+                    "note": "Não possui chatbot.\n\nEvidência: Vídeo-1.2 de 07:28 até 08:30",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 07:28 até 08:30",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_8.5": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 07:28 até 08:30",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_8.6": {
+                    "scoreValue": 3,
+                    "note": "A navegação pela página do FAQ é bem difícil, uma vez que se faz a pergunta não tem como limpar ou refazer e o contraste da página é muito ruim.\n\nEvidência: Vídeo-1.2 de 08:30 até 09:52",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "Não encontramos",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "Não encontramos.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado quando buscamos por \"acessibilidade\".\n\n00:45 até o fim.",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.4": {
+                    "scoreValue": 5,
+                    "note": "Legível na Home e no PDP",
+                    "evidenceUrl": "Pasta LH"
+                },
+                "h_9.5": {
+                    "scoreValue": 4,
+                    "note": "Home: 92\nPDP: 78",
+                    "evidenceUrl": "Pasta LH"
+                }
+            },
+            "mobile-app": {
+                "h_1.1": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1 até 00:56",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 1,
+                    "note": "Breadcrumb só existe acessando o menu categorias. Por esse acesso é possível ver o que foi selecionado, indo pela busca não tem esse indicador, sendo visível somente o voltar no topa da tela.\n\nEvidência: Vídeo-1 de 00:56 até 01:58\n",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 01:58 até 02:24",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 4,
+                    "note": "Aparece o ícone do GPS no campo de calcular o frete, mas é bem discreto e não informa nada a respeito. Nem todos sabem o que aquele ícone significa.",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_1.5": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1 de 02:24 até 03:51",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_2.1": {
+                    "scoreValue": 4,
+                    "note": "O que aparece é um carrossel de Mais Populares e outro de Produtos que baixaram de preço. Apesar de os produtos apresentados serem tênis a maioria é masculino mesmo a PDP ser uma legging feminina.\n\nEvidência: Vídeo-1 de 03:51 até 05:16",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_2.3": {
+                    "scoreValue": 1,
+                    "note": "Não recebi notificação em 2 dias.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_3.1": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 05:16 até 06:57",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.101": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1 de 05:16 até 06:57",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.3": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1 de 06:57 até 07:15",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.4": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 07:15 até 07:43",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.6": {
+                    "scoreValue": 5,
+                    "note": "Acertou tudo",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1 de 07:43 até 08:17",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.9": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 08:17 até 09:00",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_4.2": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 até 00:50",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Tem que digitar o CEP.",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_5.1": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 de 00:50 até 01:25",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 de 02:57 até 05:03",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.4": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 até 02:57",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.5": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 05:03 até 05:50",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.7": {
+                    "scoreValue": 1,
+                    "note": "Abre o teclado alfabético, em vez do numérico.",
+                    "evidenceUrl": "Video h57"
+                },
+                "h_5.8": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 02:57 até 05:03",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.9": {
+                    "scoreValue": 1,
+                    "note": "Não recebi notificação em 2 dias.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_6.1": {
+                    "scoreValue": 3,
+                    "note": "Não mostra que o produto não foi encontrado.\n// últimos 15 segundos do video",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "até 00:24",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_6.3": {
+                    "scoreValue": 5,
+                    "note": "Mantém\n01:24 ate o fim",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_71": {
+                    "scoreValue": 1,
+                    "note": "Mostra somente Termo de condições.\n\nEvidência: Vídeo-1.2 até 02:57",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_710": {
+                    "scoreValue": 3,
+                    "note": "O perk só foi revelado na App Store (Apple). \nImagem h710\n\nNa Play Store (Android) não encontramos nenhum perk.\nTemos que decidir qual nota dar neste caso.",
+                    "evidenceUrl": "Pasta APP STORE e Imagem h710"
+                },
+                "h_711": {
+                    "scoreValue": 5,
+                    "note": "Apple: 4.8\t\nGoogle: 4.3",
+                    "evidenceUrl": "Pasta APP STORE"
+                },
+                "h_73": {
+                    "scoreValue": 1,
+                    "note": "Precisa estar logado para acessar a área de atendimento. E tem somente E-mail.\n\nEvidência: Vídeo-1.2 de 05:50 até 06:33",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_75": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 06:33 até 06:51",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_76": {
+                    "scoreValue": 1,
+                    "note": "exige login para acessar o faq.",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 3,
+                    "note": "Fica dentro de conta no item Termos e políticas.\n\nEvidência: vídeo-1.3 até 01:16",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Não tem a feature.\n\nEvidência: vídeo-1.3 de 01:16 até 02:17",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Não guarda as buscas feitas.\n\nEvidência: vídeo-1.3 de 02:17 até 03:22",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_8.1": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 chat de 07:28 até 08:30",
+                    "evidenceUrl": "Vídeo-1.2 chat"
+                },
+                "h_8.2": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 chat de 07:28 até 08:30",
+                    "evidenceUrl": "Vídeo-1.2 chat"
+                },
+                "h_8.3": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 chat de 07:28 até 08:30",
+                    "evidenceUrl": "Vídeo-1.2 chat"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 chat de 07:28 até 08:30",
+                    "evidenceUrl": "Vídeo-1.2 chat"
+                },
+                "h_8.5": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 chat de 07:28 até 08:30",
+                    "evidenceUrl": "Vídeo-1.2 chat "
+                },
+                "h_8.6": {
+                    "scoreValue": 1,
+                    "note": "Não possui FAQ e só é possível acessar a área de atendimento se estiver logado.\n\nEvidência: Vídeo-1.2 a partir de 06:30 ",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado. Além disso, a central de ajuda só é acessada por quem já tem conta no app.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.6": {
+                    "scoreValue": 3,
+                    "note": "Home: 2\nPDP: 2",
+                    "evidenceUrl": "https://drive.google.com/open?id=1FUz_Rv8SmH2UR5OMI0QGWMeZggxAe9Qh&authuser=alan.vasconcelos%40rga.com&usp=drive_fs"
+                }
+            }
+        },
+        "findings": {
+            "desktop": {
+                "f_1": {
+                    "text": "A navegação pela página do FAQ é bem difícil, uma vez que se faz a pergunta não tem como limpar ou refazer e o contraste da página é muito ruim.\n\nEvidência: Vídeo-1.2 de 08:30 até 09:52\nLink: https://drive.google.com/file/d/11OGgsw0JtrjF9Bl1u4p1AycEPGzWvCZ3/view?usp=share_link",
+                    "theType": "bad"
+                },
+                "f_2": {
+                    "text": "Ao acessar a PDP ela não abre na mesma aba, é aberta outra aba o que confunde a navegação do usuário. Abrindo outra aba não é possível retornar a página anterior.\n\nO mesmo acontece para a página de Atendimento.\n\nEvidência: Vídeo-1.3\nLink: https://drive.google.com/file/d/11PANRhpCNuTcte2sjyDg77FGmL1d_-G0/view?usp=share_link",
+                    "theType": "bad"
+                }
+            },
+            "mobile-app": {
+                "f_1": {
+                    "text": "Iniciei o processo de compra sem estar logado e depois que informa o CEP o app pede para se registrar. Feito o cadastro ele não retorna para o step de compra que eu estava, nem para o carrinho. Após o cadastro ele vai para a home do aplicativo.\n\nEvidência: Vídeo-1.2 até 02:57",
+                    "theType": "bad"
+                }
+            }
+        }
+    },
+    {
+        "id": "clag0yecw0sit0alr1u50zf0m",
+        "name": "Farm",
+        "slug": "farm",
+        "department": "FashionAndSports",
+        "scores": {
+            "desktop": {
+                "h_1.1": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 00:00 a 00:08",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 00:24 a 00:50",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 00:45 a 00:48",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 1,
+                    "note": "Não usa geolocation para o frete e ainda não encontrei onde digita o CEP. (Video h14)\nMas funciona bem para a página \"Nossas lojas\" (Video 14a)",
+                    "evidenceUrl": "Video h14 e Video h14a"
+                },
+                "h_2.1": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 01:01 a 01:10",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_2.2": {
+                    "scoreValue": 1,
+                    "note": "Exibe as mesmas ofertas para Cindy e Mike, mesmo após procurar por calças legging no perfil da Cindy (01:35 em diante). Ou seja, não usa sequer os cookies coletados no site.",
+                    "evidenceUrl": "Video h22"
+                },
+                "h_3.1": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 01:35 a 01:50",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.2": {
+                    "scoreValue": 1,
+                    "note": "Mesmos resultados",
+                    "evidenceUrl": "Video h32"
+                },
+                "h_3.3": {
+                    "scoreValue": 4,
+                    "note": "Informa que nada foi encontrado e sugere categorias de produtos.\nVideo-1: 01:50 a 02:01",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.4": {
+                    "scoreValue": 3,
+                    "note": "Video-5: 00:00 a 00:24",
+                    "evidenceUrl": "Video-5"
+                },
+                "h_3.5": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 02:46 a 02:51",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.6": {
+                    "scoreValue": 2,
+                    "note": "Acertou:\nBusca semântica\nAutocomplete",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 02:51 a 03:08",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_4.2": {
+                    "scoreValue": 3,
+                    "note": "Na sacola de compras, porém sem logar.\nVideo-1: 03:08 a 03:35",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Não encontrei onde insere o CEP nem o Plus Code.",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_4.6": {
+                    "scoreValue": 5,
+                    "note": "Video-3: 00:00 a 00:24",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_5.1": {
+                    "scoreValue": 5,
+                    "note": "Não é requerido login para efetuar a transação, embora exista a possibilidade de login por rede social nas opções de login.\nVideo-1: 03:50 a 04:26",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "Video-5: 00:25 a 01:23",
+                    "evidenceUrl": "Video-5"
+                },
+                "h_5.4": {
+                    "scoreValue": 5,
+                    "note": "Nome, email, CPF, telefone, endereço\nVideo-1: 03:35 a 04:03",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.5": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 04:30 a 04:52",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.6": {
+                    "scoreValue": 5,
+                    "note": "Video-4",
+                    "evidenceUrl": "Video-4"
+                },
+                "h_6.1": {
+                    "scoreValue": 1,
+                    "note": "Não oferece alternativas.\n02:00 até o fim",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "É acessível.",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_71": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 03:45 a 04:03",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_72": {
+                    "scoreValue": 5,
+                    "note": "Ótimo (nota 8.7)",
+                    "evidenceUrl": "Imagem h72"
+                },
+                "h_73": {
+                    "scoreValue": 5,
+                    "note": "Telefone, whatsapp, rede social (Facebook, Instagram...)\nVideo-1: 04:52 a 05:23",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_74": {
+                    "scoreValue": 5,
+                    "note": "Aparece o banner",
+                    "evidenceUrl": "Imagem h74"
+                },
+                "h_75": {
+                    "scoreValue": 1,
+                    "note": "Não aparece\nVideo-5: 00:25 a 01:23",
+                    "evidenceUrl": "Video-5"
+                },
+                "h_76": {
+                    "scoreValue": 5,
+                    "note": "Tem campo de busca para pesquisarmos livremente (fuzzy).\naté 01:40",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 4,
+                    "note": "No rodapé e através do botão de ajuda, mas não no processo de compra (carrinho).\nVideo-1: 05:23 a 06:14",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Não tem a feature\nVideo-1: 06:14 a 06:26",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Não memoriza histórico de busca\nVideo-1: 06:26 a 06:49",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_8.1": {
+                    "scoreValue": 3,
+                    "note": "chatbot_farm.jpeg",
+                    "evidenceUrl": "chatbot_farm.jpeg"
+                },
+                "h_8.2": {
+                    "scoreValue": 1,
+                    "note": "chatbot_farm.jpeg",
+                    "evidenceUrl": "chatbot_farm.jpeg"
+                },
+                "h_8.3": {
+                    "scoreValue": 2,
+                    "note": "Necessário selecionar a opção relacionada a entrega.\nchatbot_farm.jpeg",
+                    "evidenceUrl": "chatbot_farm.jpeg"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "chatbot_farm.jpeg",
+                    "evidenceUrl": "chatbot_farm.jpeg"
+                },
+                "h_8.5": {
+                    "scoreValue": 1,
+                    "note": "Permite somente escolher uma das 11 opções de menu que não inclui falar com atendente. Só aceita valores númericos na interação.\nchatbot_farm.jpeg",
+                    "evidenceUrl": "chatbot_farm.jpeg"
+                },
+                "h_8.6": {
+                    "scoreValue": 3,
+                    "note": "Video-2: 00:00 a 00:26",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.\n01:40 em diante",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.2": {
+                    "scoreValue": 5,
+                    "note": "Inglês e português",
+                    "evidenceUrl": "Imagem h92"
+                },
+                "h_9.3": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.4": {
+                    "scoreValue": 5,
+                    "note": "Legível na Home e no PDP",
+                    "evidenceUrl": "Pasta LH"
+                },
+                "h_9.5": {
+                    "scoreValue": 4,
+                    "note": "Home: 68\nPDP: 70",
+                    "evidenceUrl": "Pasta LH"
+                }
+            },
+            "mobile-app": {
+                "h_1.1": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 00:00 a 00:35",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 1,
+                    "note": "Quando o produto é acessado pelo menu global/calças, a categoria calças é indicada no topo da tela, na tela de PDP, apenas há o botão voltar no topo. Quando acessado o produto \"calça legging preta\" pela busca, apenas é disponibilizado o botão voltar no topo, sem indicação de categoria a que pertence e não havendo navegação entre categorias.\nVideo-1: 00:35 a 00:58",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 00:58 a 01:04",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 5,
+                    "note": "Explica direitinho por que o app precisa do geolocation do meu celular. <3",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_1.5": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 01:04 a 01:11",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_2.1": {
+                    "scoreValue": 5,
+                    "note": "Carrossel de produtos \"Tá na vitrine\".\nVideo-1: 01:11 a 01:21",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_2.3": {
+                    "scoreValue": 1,
+                    "note": "nada em 3 dias",
+                    "evidenceUrl": "n/a"
+                },
+                "h_3.1": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 01:21 a 01:29",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.101": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 01:29 a 01:39",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.3": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 01:39 a 01:45",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.4": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 01:45 a 02:37",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.6": {
+                    "scoreValue": 3,
+                    "note": "Errou:\nBusca ampla\nBusca semântica\n\nAt;e 02:40",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 02:37 a 02:40",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.9": {
+                    "scoreValue": 5,
+                    "note": "Perguntou se queria abrir no app ou no browser.\nVideo-1: 02:40 a 02:52",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_4.2": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 02:52 a 02:57",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "tem que digitar o cep",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_5.1": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 02:57 a 03:00",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "PDP, Carrinho, Endereço, Pagamento, Fim.\nVideo-1: 03:30 a 05:32",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.4": {
+                    "scoreValue": 5,
+                    "note": "CPF, Nome, Telefone, Endereço, Email (já inserido anteriormente)\nDupla verificação de segurança por email.\nVideo-2: 00:00 a 00:40",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_5.5": {
+                    "scoreValue": 1,
+                    "note": "Delivery normal e expresso\nVideo-2: 00:40 a 01:16",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_5.7": {
+                    "scoreValue": 4,
+                    "note": "Teclado apropriado, mas não permite escanear.",
+                    "evidenceUrl": "Imagem h57"
+                },
+                "h_5.8": {
+                    "scoreValue": 1,
+                    "note": "Video-2: 01:16 a 01:19",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_5.9": {
+                    "scoreValue": 1,
+                    "note": "nada em 3 dias.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_6.1": {
+                    "scoreValue": 3,
+                    "note": "Não avisa que o produto não existe.\n02:40 em diante",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "ate 00:57",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_6.3": {
+                    "scoreValue": 5,
+                    "note": "Mantém.\n00:57 até o final.",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_71": {
+                    "scoreValue": 5,
+                    "note": "Na primeira etapa de cadastro (CPF).\nVideo-2: 00:00 a 00:40",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_710": {
+                    "scoreValue": 5,
+                    "note": "Promoções exclusivas",
+                    "evidenceUrl": "Imagem h710"
+                },
+                "h_711": {
+                    "scoreValue": 5,
+                    "note": "Home: 4.9\nPDP: 4.8",
+                    "evidenceUrl": "Pasta APP STORE"
+                },
+                "h_73": {
+                    "scoreValue": 5,
+                    "note": "WhatsApp, telefone, rede social\nVideo-2: 02:28 a 03:00",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_75": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 03:30 a 05:30",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_76": {
+                    "scoreValue": 5,
+                    "note": "Permite pesquisar livremente por qualquer termo.\n\nObs.:\nNa verdade o app abre a página Web do FAQ em uma janela. Isso acaba duplicando os elementos e causando alguma confusão.",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 3,
+                    "note": "Na seção de ajuda acessível pelo menu do topo (\"precisa de ajuda?\") ou no menu de base perfil/acessar o nosso faq.\nVideo-2: 03:30 a 03:40",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Não tem a feature\nVideo-2: 03:42 a 03:52",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Não salva histórico de busca\nVideo-2: 03:52 a 03:58",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_8.1": {
+                    "scoreValue": 3,
+                    "note": "chatbot_farm.jpeg",
+                    "evidenceUrl": "chatbot_farm.jpeg"
+                },
+                "h_8.2": {
+                    "scoreValue": 1,
+                    "note": "chatbot_farm.jpeg",
+                    "evidenceUrl": "chatbot_farm.jpeg"
+                },
+                "h_8.3": {
+                    "scoreValue": 2,
+                    "note": "Necessário selecionar a opção relacionada a entrega.\nchatbot_farm.jpeg",
+                    "evidenceUrl": "chatbot_farm.jpeg"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "chatbot_farm.jpeg",
+                    "evidenceUrl": "chatbot_farm.jpeg"
+                },
+                "h_8.5": {
+                    "scoreValue": 1,
+                    "note": "Permite somente escolher uma das 11 opções de menu que não inclui falar com atendente. Só aceita valores númericos na interação.\nchatbot_farm.jpeg",
+                    "evidenceUrl": "chatbot_farm.jpeg"
+                },
+                "h_8.6": {
+                    "scoreValue": 3,
+                    "note": "Área de ajuda acessível no menu de navegação \"precisa de ajuda?\" e no submenu do menu \"perfil\".\nVideo-2: 01:19 a 02:28",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado\n",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 1,
+                    "note": "Nada enconrado.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.6": {
+                    "scoreValue": 1,
+                    "note": "Home: 3\nPDP: 4",
+                    "evidenceUrl": "https://drive.google.com/open?id=1FcS68pozCpRNiunGT0-l5b8gNbvFLrJ_&authuser=alan.vasconcelos%40rga.com&usp=drive_fs"
+                }
+            }
+        },
+        "findings": {
+            "desktop": {
+                "f_1": {
+                    "text": "Embora o site esteja em português, a aba de aceite de cookies está em inglês. O link para a Política de Privacidade está em português.\nEvidência: cookie_acceptance_em_ingles.png",
+                    "theType": "bad"
+                }
+            },
+            "mobile-app": {
+                "f_1": {
+                    "text": "O CEP inserido na página de produto para verificar o valor de frete ou mesmo no carrinho, não é salvo para as etapa seguinte de adição de endereço no processo de compra. O usuário precisa inserir novamente.\nVideo-1: 03:40 a 04:45",
+                    "theType": "bad"
+                },
+                "f_2": {
+                    "text": "CTAs no processo de compra são visualmente impactantes e consistentes em termos de localização (base da tela), facilitando a interação.\nVideo-1: 03:36 a 05:00",
+                    "theType": "good"
+                },
+                "f_3": {
+                    "text": "O cadastro é curto e simples no processo de compra, porém é dividido em etapas sem indicar a etapa atual e quantas faltam. Uma outra alternativa seria simplificar mais a experiência e ter todos os campos do formulário na mesma tela visto serem poucos (email, CPF, nome/sobrenome, telefone).\nVideo-2: 00:00 a 00:40",
+                    "theType": "bad"
+                },
+                "f_4": {
+                    "text": "Na seção perfil (bottom menu), é possível encontrar facilmente o link de excluir conta e é explicado ao usuário, após clicar na CTA, tudo o que será excluído no processo.\nVideo-2: 03:58 a 04:05",
+                    "theType": "good"
+                },
+                "f_5": {
+                    "text": "Se voce concluir uma compra e, logo em seguida, comprar outro produto, vc terá que preencher todo o cadastro novamente (nome, sobrenome, cpf, celular endereço completo, etc...",
+                    "theType": "bad"
+                },
+                "f_6": {
+                    "text": "O meio de pagamento previamente selecionado é o Pix. Mas vc só descobre isso na hora H. Se quiser alterar a forma de pagamento tem que iniciar todo o processo novamente.",
+                    "theType": "bad"
+                }
+            }
+        }
+    },
+    {
+        "id": "clag0zvol0sg70blutftz3uro",
+        "name": "Hering",
+        "slug": "hering",
+        "department": "FashionAndSports",
+        "scores": {
+            "desktop": {
+                "h_1.1": {
+                    "scoreValue": 1,
+                    "note": "Legging aparece somente após o uso do filtro categoria.\n\nEvidência: Vídeo-1.3 até 00:45",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_1.2": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 01:35 até 02:50",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 02:50 até 03:13\n",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 2,
+                    "note": "Tem que digitar o CEP",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_2.1": {
+                    "scoreValue": 5,
+                    "note": "Tem relação com o produto, mas são similares e não complementares ao produto.\n\nEvidência: Vídeo-1 de 03:13 até 03:22",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_2.2": {
+                    "scoreValue": 1,
+                    "note": "Mostras as mesmas coisas, mesmo após pesquisar por leggings. Ou seja, não utiliza nem os cookies internos para personalizar a home.",
+                    "evidenceUrl": "Video h22"
+                },
+                "h_3.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1 de 03:22 até 03:32",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.2": {
+                    "scoreValue": 1,
+                    "note": "Os resultados são os mesmos.",
+                    "evidenceUrl": "Video h32"
+                },
+                "h_3.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 03:32 até 03:51",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.4": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 03:51 até 04:28",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.5": {
+                    "scoreValue": 5,
+                    "note": "Aparece no carrossel de produtos mas não aparece no filtro Seller.\n\nEvidência: Vídeo-1.1 até 00:36",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.6": { "scoreValue": 3, "note": "", "evidenceUrl": "" },
+                "h_3.8": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.3 de 01:49 até 02:47",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_4.2": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 até 00:25",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Tem que digitar o CEP",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_4.6": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 de 01:07 até 02:34",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.1": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 de 00:25 até 01:07",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 de 01:07 até 02:59",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.4": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 de 02:59 até 04:40",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.5": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.2 de 01:07 até 02:59",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.6": {
+                    "scoreValue": 4,
+                    "note": "Evidência: Vídeo-1.2 de 01:07 até 02:34",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_6.1": {
+                    "scoreValue": 3,
+                    "note": "Exibe alternativas, sem informar que o produto não foi encontrado.\n01:50",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "É acessível",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_71": {
+                    "scoreValue": 1,
+                    "note": "Mostra somente no rodapé.\n\nEvidência: Vídeo-1.2 de 02:59 até 04:40",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_72": {
+                    "scoreValue": 5,
+                    "note": "Ótimo (Nota 9.1)",
+                    "evidenceUrl": "Imagem h72"
+                },
+                "h_73": {
+                    "scoreValue": 3,
+                    "note": "Apesar de existir um numero de telefone + o whatsapp ao clicar em central de atendimento o usuário é direcionado para uma nova aba.\n\nEvidência: Vídeo-1.3 de 10:26 até 10:58",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_74": {
+                    "scoreValue": 5,
+                    "note": "Aparece o banner",
+                    "evidenceUrl": "Imagem h74"
+                },
+                "h_75": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 02:59 até 03:11",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_76": {
+                    "scoreValue": 5,
+                    "note": "Perfeito!\n00:40",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 de 05:36 até 06:15",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 a partir de 06:15",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.3 de 00:45 até 01:49",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_8.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.3 a partir de 02:56",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_8.2": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.3 a partir de 02:56",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_8.3": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.3 a partir de 02:56",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.3 de 07:09 até 09:12",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_8.5": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.3 a partir de 02:56",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_8.6": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.3 de 09:12 até 10:26",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "nada encontrado",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.\n00:40 em diante",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.4": {
+                    "scoreValue": 5,
+                    "note": "Legível na Home e no PDP",
+                    "evidenceUrl": "Pasta LH"
+                },
+                "h_9.5": {
+                    "scoreValue": 4,
+                    "note": "Home: 74\t\nPDP: 72",
+                    "evidenceUrl": "Pasta LH"
+                }
+            },
+            "mobile-app": {
+                "h_1.1": {
+                    "scoreValue": 1,
+                    "note": "Não é possível acessar calça legging indo pelo menu e utilizando o filtro dentro da categoria calças ou ver todos.\n\nEvidência: Vídeo-1 até 02:09",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 1,
+                    "note": "Ao clicar em departamento e selecionar feminino o resultado aparece com uma busca no topo com uma seta para retornar. Funciona como um back e não como breadcrumb.\n\nEvidência: Vídeo-1 de 02:09 até 03:04",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 03:04 até 03:32",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 2,
+                    "note": "Tem que digitar o CEP\n01:20",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_1.5": {
+                    "scoreValue": 1,
+                    "note": "Não existe nem logado nem deslogado.\n\nEvidência: Vídeo-1 de 03:32 até 06:05",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_2.1": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 de 00:41 até 00:53",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_2.3": {
+                    "scoreValue": 1,
+                    "note": "Nada em 3 dias.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_3.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.1 de 00:53 até 01:49",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.101": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 01:49 até 02:15",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.3": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 02:15 até 02:34",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.4": {
+                    "scoreValue": 3,
+                    "note": "Apesar de possuir filtro não é possível chegar no produto desejado. O filtro se limita a sub categoria: adulto, infantil, bebe, primeiros passos, tamanho, gênero e cor. Não tem tipo de produto.\n\nEvidência: Vídeo-1.1 até 00:41",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.6": {
+                    "scoreValue": 1,
+                    "note": "Errou todas.",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 01:49 até 02:15",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.9": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 02:34 até 03:03",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_4.2": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.1 de 03:03 até 04:24",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Tem que digitar o cep.\n01:20",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_5.1": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1 de 03:32 até 06:05",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_5.3": {
+                    "scoreValue": 4,
+                    "note": "Os dados solicitados são simples e seguem uma lógica fácil de entender entre carrinho, endereço e pagamento. Porém ao adicionar um endereço deu um erro de recurso não encontrado. Foi necessário retornar a página anterior e clicar novamente em adicionar endereço para conseguir concluir essa etapa.\n\nEvidência: Vídeo-1.1 de 04:24 até 07:16\n",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_5.4": {
+                    "scoreValue": 4,
+                    "note": "Ao informar o e-mail é enviado um código de segurança e só depois que informa o código que é possível seguir com o cadastro.\n\nEvidência: Vídeo-1 de 03:32 até 06:05",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_5.5": {
+                    "scoreValue": 3,
+                    "note": "Retirada e entrega.\n\nEvidência: Vídeo-1.1 de 07:16 até 07:27",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_5.7": {
+                    "scoreValue": 4,
+                    "note": "Não permite escanear..",
+                    "evidenceUrl": "Video h57"
+                },
+                "h_5.8": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 04:24 até 07:16",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_5.9": {
+                    "scoreValue": 1,
+                    "note": "Não recebi notificação em 3 dias.",
+                    "evidenceUrl": "N/a"
+                },
+                "h_6.1": {
+                    "scoreValue": 1,
+                    "note": "Não exibe nenhum resultado.",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "É acessível.\n\naté 01:00",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_6.3": {
+                    "scoreValue": 5,
+                    "note": "Mantém.\n01:00 em diante.",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_71": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1 de 03:39 até 05:33",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_710": {
+                    "scoreValue": 5,
+                    "note": "Ofertas exclusivas",
+                    "evidenceUrl": "Pasta APP STORE"
+                },
+                "h_711": {
+                    "scoreValue": 3,
+                    "note": "Apple: 2.5\t\nAndroid: 3.5",
+                    "evidenceUrl": "Pasta APP STORE"
+                },
+                "h_73": {
+                    "scoreValue": 1,
+                    "note": "Possui somente o whatsapp.\n\nEvidência: Vídeo-1.1 de 07:27 até 08:19",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_75": {
+                    "scoreValue": 1,
+                    "note": "Apesar do whtaspp ficar visível em quase todas as páginas do app quando chega no processo de compra ele não aparece.\n\nEvidência: Vídeo-1.1 de 04:24 até 07:16",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_76": {
+                    "scoreValue": 1,
+                    "note": "Não tem FAQ disponível, mesmo depois de logar.\nO botão \"Trocas e devoluções\" abre o site da Hering.",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 1,
+                    "note": "Não possui informações sobre troca e devolução e quando clica no item que aparece no menu é direcionado para um webview e precisa fazer o login novamente.\n\nEvidência: Vídeo-1.1 de 08:19 até 10:11",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Não tem a feature.\n\nEvidência: Vídeo-1.1 de 11:13 até 11:41",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Não salva as buscas realizadas.\n\nEvidência: Vídeo-1.1 de 01:49 até 02:15",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_8.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.3 a partir de 02:56",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_8.2": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.3 a partir de 02:56",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_8.3": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.3 a partir de 02:56",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.3 de 07:09 até 09:12",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_8.5": {
+                    "scoreValue": 5,
+                    "note": "é possível pedir para falar com um atendente a qualquer momento.\nEvidência: Vídeo-1.3 a partir de 02:56",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_8.6": {
+                    "scoreValue": 1,
+                    "note": "Não possui FAQ. Ao solicitar informações do FAQ pelo whatsapp ele direciona para o link de atendimento web, mas fala que é no aplicativo. Ao acessar o link é solicitado que faça o login e não reconhece a minha senha, uma vez que realizei o cadastro via login social no desktop.\n\nEvidência: Vídeo-1.1 de 11:41 até 12:43",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "Não encontrado.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "Não encontrado",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado..",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.6": {
+                    "scoreValue": 2,
+                    "note": "Home: 3\nPDP: 3",
+                    "evidenceUrl": "https://drive.google.com/open?id=1FjRZ1B5lBpcUpndI3TARyNvkOkkLMHIe&authuser=alan.vasconcelos%40rga.com&usp=drive_fs"
+                }
+            }
+        },
+        "findings": {
+            "desktop": {
+                "f_1": {
+                    "text": "A busca de Hering só encontra leggings se vc buscar em caixa alta. Se digitar em minúsculo, a busca não encontra nada.\n\nVideo h32 / 02:00 até o fim.",
+                    "theType": "bad"
+                },
+                "f_2": {
+                    "text": "A busca da página de ajuda é a melhor de todas até aqui. Vc pode pesquisar por: \"dois cartões\", \"pagar com dois cartões\" ou \"posso pagar usando dois cartões\" que o site exibe corretamente o resultado.\nVideo h76",
+                    "theType": "good"
+                }
+            },
+            "mobile-app": {
+                "f_1": {
+                    "text": "No dektop é possível acessar com login social só que no aplicativo não possui a opção de login social então ao informar o e-mail é preciso realizar o cadastro. Como se o site e o aplicativo não fossem integrados.\n\nEvidência: Vídeo-1 de 06:05 até 07:44\n\nLink vídeo: https://drive.google.com/file/d/1bUMtZCB7AE6IiwDENy7zZXKTwhkOH_zp/view?usp=share_link\n\nPrint desktop login social: https://drive.google.com/file/d/1f3lqWzWTaotPs1XTkGxHdNLOUd8Q_ZyY/view?usp=share_link\n\n ",
+                    "theType": "bad"
+                }
+            }
+        }
+    },
+    {
+        "id": "clag1174b0sn80alrx7lx7gnd",
+        "name": "Nike",
+        "slug": "nike",
+        "department": "FashionAndSports",
+        "scores": {
+            "desktop": {
+                "h_1.1": {
+                    "scoreValue": 3,
+                    "note": "Subcategoria em Feminino ou Masculino / Roupas / Calças & Leggings\nVideo-1: 00:00 a 00:11.",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 5,
+                    "note": "VIdeo-1: 00:15 a 00:56",
+                    "evidenceUrl": "VIdeo-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 00:56 a 01:00",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 1,
+                    "note": "Tem geolocation, mas ainda assim, pede para digitar o CEP. (Video h14)\n\nNa página \"Encontre uma loja\", pede o geolocation, mas não lista as lojas mais próximas. A lista sempre começa da loja de Fortaleza CE. (Video h14a)",
+                    "evidenceUrl": "Video h14 e Video h14a"
+                },
+                "h_2.1": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 01:00 a 01:08",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_2.2": {
+                    "scoreValue": 3,
+                    "note": "Ofertas são personalizadas apenas após a busca interna.",
+                    "evidenceUrl": "Video h22"
+                },
+                "h_3.1": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 01:08 a 01:18",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.2": {
+                    "scoreValue": 1,
+                    "note": "Mesmos resultados.",
+                    "evidenceUrl": "Video h32"
+                },
+                "h_3.3": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 01:18 a 01:27",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.4": {
+                    "scoreValue": 2,
+                    "note": "- Após buscar por \"calça\", selecionando a categoria Calças & Leggings nos filtros, não foi possível chegar ao produto \"calça legging\". No entanto, ao clicar na mesma categoria \"Calças & Leggings\" pelo menu global, o produto é encontrado.\nVideo-1: 03:19 a 04:05\n- No entanto, ao acessar os filtros pela categoria \"Feminino\", é possível encontrar o produto na categoria \"Calças & Leggings\"\nVideo-1: 04:05 a 04:35",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.5": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 04:05 a 04:17",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.6": {
+                    "scoreValue": 2,
+                    "note": "Só acertou o Erro de digitação.\nNão existe autocomplete na busca da Nike.",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 04:17 a 04:35",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_4.2": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 04:35 a 04:55",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Pede pra digitar o CEP",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_4.6": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 04:55 a 05:10",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.1": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 05:10 a 05:17",
+                    "evidenceUrl": "VIdeo-1"
+                },
+                "h_5.3": {
+                    "scoreValue": 4,
+                    "note": "PDP/Carrinho/Identificação (form no carrinho, aceite de compartilhamento de dados com terceiro, pop up de cadastro de dados + endereço/Pagamento).\nVideo-1: 05:26 a 06:11\nVideo-3: 00:43 a 00:46",
+                    "evidenceUrl": "Video-1, Video-3"
+                },
+                "h_5.4": {
+                    "scoreValue": 4,
+                    "note": "Duas etapas de cadastro: carrinho de compras (Nome, email, data de nascimento, nacionalidade, gênero) e pop up de cadastro (CPF, telefone, data de nascimento novamente)\nVideo-1: 05:26 a 06:11",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.5": {
+                    "scoreValue": 1,
+                    "note": "Entrega normal e expressa\nVideo-3: 04:14 a 04:20",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_5.6": {
+                    "scoreValue": 4,
+                    "note": "Video-1: 04:55 a 05:10",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_6.1": {
+                    "scoreValue": 3,
+                    "note": "Oferece alternativas, sem informar que o produto não está disponível.\n01:40 até 01:50",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "É acessível.\n01:50 até o fim.",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_71": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 05:17 a 05:54\nNa segunda etapa de cadastro (CPF e telefone são as novas informações) + endereço não mostra a política de privacidade.\nVideo-2: 00:00 a 00:02",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_72": {
+                    "scoreValue": 2,
+                    "note": "Ruim (5.8)",
+                    "evidenceUrl": "Imagem h72"
+                },
+                "h_73": {
+                    "scoreValue": 5,
+                    "note": "Email, telefone, chatbot\nVideo-3: 01:44 a 02:03",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_74": {
+                    "scoreValue": 5,
+                    "note": "Aparece o banner",
+                    "evidenceUrl": "Imagem h74"
+                },
+                "h_75": {
+                    "scoreValue": 1,
+                    "note": "Não é visível após clicar no CTA.\nVideo-3: 02:30 a 02:09",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_76": {
+                    "scoreValue": 5,
+                    "note": "até 00:50",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 4,
+                    "note": "No carrinho de compras somente disponibilizada política de trocas e devoluções.\nLink Ajuda no topo e no rodapé (links disponíveis dentro de AJUDA). \nVideo-3: 00:56 a 01:33\n",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Não possui a feature\nVideo-3: 02:09 a 02:14",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Não salva histórico de busca.\nVideo-3: 02:14 a 02:22",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.1": {
+                    "scoreValue": 1,
+                    "note": "Video-3: 02:22 a 02:40",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.2": {
+                    "scoreValue": 1,
+                    "note": "Video-3: 02:22 a 02:48",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.3": {
+                    "scoreValue": 1,
+                    "note": "Não há opções disponibilizadas no chat, não é possível obter informações de entrega ou produto sem identificar o pedido. Opções iniciais apresentadas são: \"Preciso de ajuda com meus pedidos\" e \"Acompanhar meus atendimentos\".\nVideo-3: 02:48 a 03:10",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "Video-3: 02:48 a 03:00",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.5": {
+                    "scoreValue": 1,
+                    "note": "Não há opção ou campo para digitar.\nVideo-3: 02:48 a 03:10",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.6": {
+                    "scoreValue": 3,
+                    "note": "Video-3: 03:31 a 04:14",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "Não encontrado.\nO que encontrei foi um link para o site de cada país onde a Nike opera.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.4": {
+                    "scoreValue": 5,
+                    "note": "Legível na Home e no PDP",
+                    "evidenceUrl": "Pasta LH"
+                },
+                "h_9.5": {
+                    "scoreValue": 5,
+                    "note": "Home: 90\nPDP: 88",
+                    "evidenceUrl": "Pasta LH"
+                }
+            },
+            "mobile-app": {}
+        },
+        "findings": {
+            "desktop": {
+                "f_1": {
+                    "text": "Ao clicar em um produto, a PDP abre em outra aba do navegador.\nVideo-1: 00:11 a 00:15",
+                    "theType": "bad"
+                },
+                "f_2": {
+                    "text": "Algumas informações não são memorizadas para etapas seguintes.\nMesmo informando o CEP na PDP, é necessário informar novamente no de compras e no cadastro.\nA data de nascimento foi informada na primeira etapa do cadastro, solicitado no processo de compra, mas teve que ser informado novamente na pop-up adicional de cadastro que solicitava o endereço.\nVideo-1:\n04:51 a 04:55\n05:27 a 05:30\n05:43 a 06:04\n",
+                    "theType": "bad"
+                },
+                "f_3": {
+                    "text": "Não foi aceito o CPF gerado.\nNike_nao_aceite_CPF.png",
+                    "theType": "good"
+                },
+                "f_4": {
+                    "text": "No processo de compra, na fase de identificação, o usuário passa port rês etapas que poderiam ser feita em uma só:\n- Formulário (Nome, email, data de nascimento, nacionalidade, gênero), \n- Confirmação de compartilhamento de dados para personalização da experiência (CTA \"Junte-se a nós\")\n- Pop up, solicitando novamente data de nascimento, além de CPF, telefone e endereço.\nAlém disso, caso o usuário clique em \"Sair\" na última etapa de cadastro, o carrinho é automaticamente esvaziado e ele é direcionado para a home page.\nVideo-1: 05:38 a 06:11\nVideo-2",
+                    "theType": "bad"
+                },
+                "f_5": {
+                    "text": "No carrinho de compras o link \"Dúvidas? Confira a nossa Política de Frete e Entregas.\" abre uma pop up com outras informações \"Trocas e Devoluções\".\nVideo-3: 01:33 a 01:44",
+                    "theType": "bad"
+                },
+                "f_6": {
+                    "text": "Link do rodapé Fale Conosco abre em outra aba do navegador, dificultando o acesso de usuários que dependem de ferramentas de screenreader.\nVideo-3: 01:44 a 01:50",
+                    "theType": "bad"
+                },
+                "f_7": {
+                    "text": "Não há campo para digitar na caixa de diálogo do chatbot, apenas na hora de avaliar o atendimento, após a opção \"Finalizar\" ser disponibilizada.\nAlém disso, são apresentadas opções que não permitem voltar ao estágio anterior a fim de selecionar outro caminho ou encerrar o diálogo para escolher outra opção.\nVideo-3: 02:48 a 03:31",
+                    "theType": "bad"
+                },
+                "f_8": {
+                    "text": "Na ajuda, após a busca por \"Posso usar o GooglePay\" o campo de busca some da tela e é nececessário scroll parea visualizar a lista de resultados, abaixo da área de categorias de assuntos de Ajuda.\nVideo-3: 03:31 a 04:14",
+                    "theType": "bad"
+                },
+                "f_9": {
+                    "text": "Quando aberta a aba de submenus do menu principal, dependendo da página acessada, pode ser confuso diferenciar a página do submenu (mesmo background branco sem delimitação da aba de submenu) sobretudo para posicionar o mouse fora da área de menu, a fim de que a aba feche e a página possa ser visualizada.\nVideo-4",
+                    "theType": "bad"
+                }
+            },
+            "mobile-app": {}
+        }
+    },
+    {
+        "id": "clag12v9r0smh0bluhsmxd54z",
+        "name": "Pernambucanas",
+        "slug": "pernambucanas",
+        "department": "FashionAndSports",
+        "scores": {
+            "desktop": {
+                "h_1.1": {
+                    "scoreValue": 1,
+                    "note": "O menu apresente 3 categorias de \"calças\" e somente em uma delas é possível encontrar um resultado com leggings porém não existe a opção de filtro ou categoria ou subcategoria para legging.\n\nEvidência: Vídeo-1 até 02:25",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 02:25 até 03:13",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 03:13 até 03:23",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 5,
+                    "note": "Pede para ativar o geolocation, somente no momento de calcular o frete. ❤️\n",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_2.1": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1 de 03:23 até 03:52",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_2.2": {
+                    "scoreValue": 1,
+                    "note": "Mostra as mesmas ofertas para Cindy e Mike, mesmo após usar a busca do site. Ou seja, não utiliza nem os cookies para personalizar a Home.",
+                    "evidenceUrl": "Video h22"
+                },
+                "h_3.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1 de 03:23 até 03:52",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.2": {
+                    "scoreValue": 1,
+                    "note": "A busca retorna as mesmas coisas.",
+                    "evidenceUrl": "Video h32"
+                },
+                "h_3.3": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1 de 03:52 até 04:04",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.4": {
+                    "scoreValue": 1,
+                    "note": "O filtro só aparece apenas na navegação interna e não para refinar a busca. \n\nEvidência: Vídeo-1 de 04:04 até 4:41",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.5": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1 de 04:41 até 06:37",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.6": {
+                    "scoreValue": 4,
+                    "note": "Errou: Busca semântica",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1 de 06:37 até 07:09",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_4.2": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 07:09 até 07:56",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Tem que digitar o CEP",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_4.6": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 07:09 até 07:56",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_5.1": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1 de 08:01 até 09:51",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 até 01:14",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_5.4": {
+                    "scoreValue": 4,
+                    "note": "Apesar de pedir somente informações básicas como cpf, nome, telefone, e-mail o processo é dividido em etapas e não da um feedback visual de quantas etapas serão para finalizar o cadastro. \n\nEtapa 1: CPF > Etapa 2: Nome, data de nascimento e genero > Etapa 3: Telefone e email > Etapa 4: Criar senha\n\nEvidência: Vídeo-1 de 07:59 até 09:51",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_5.5": {
+                    "scoreValue": 3,
+                    "note": "pick-up e delivery\nEvidência: Vídeo-1.1 até 01:14",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_5.6": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 07:09 até 07:56",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_6.1": {
+                    "scoreValue": 3,
+                    "note": "Não informa que o produto não foi encontrado.\n02:15 a 02:30",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "Acessível.\n02:30 até o fim.\n",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_71": {
+                    "scoreValue": 1,
+                    "note": "Mostra somente no rodapé, mas na página do cadastro não mostra.\n\nEvidência: Vídeo-1.1 de 01:14 até 01:48",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_72": {
+                    "scoreValue": 2,
+                    "note": "Ruim (5.6)",
+                    "evidenceUrl": "Imagem h72"
+                },
+                "h_73": {
+                    "scoreValue": 5,
+                    "note": "Email, whatsapp e telefone.\n\nEvidência: Vídeo-1.1 de 02:13 até 03:02",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_74": {
+                    "scoreValue": 5,
+                    "note": "Aparece o banner",
+                    "evidenceUrl": "Imagem h74"
+                },
+                "h_75": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 03:41 até 03:53",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_76": {
+                    "scoreValue": 1,
+                    "note": "Sem FAQ\nO link \"Trocas de devoluções\" abre um... PDF!!! 🤦‍♀️",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 5,
+                    "note": "No rodapé.\n\nEvidência: Vídeo-1.1 de 01:14 até 02:13",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Não tem a feature.\n\nEvidência: Vídeo-1.1 de 03:53 até 05:50",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 05:50 até 06:46",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_8.1": {
+                    "scoreValue": 3,
+                    "note": "Vídeo-1.2 chatbot\n\nPrint: https://drive.google.com/file/d/11q9zxMu4WUx6ouWQ0qODXYsksitDcKsO/view?usp=share_link",
+                    "evidenceUrl": "Vídeo-1.2 chatbot"
+                },
+                "h_8.2": {
+                    "scoreValue": 1,
+                    "note": "Vídeo-1.2 chatbot\n\nPrint: https://drive.google.com/file/d/11q9zxMu4WUx6ouWQ0qODXYsksitDcKsO/view?usp=share_link",
+                    "evidenceUrl": "Vídeo-1.2 chatbot"
+                },
+                "h_8.3": {
+                    "scoreValue": 2,
+                    "note": "Vídeo-1.2 chatbot\n\nPrint: https://drive.google.com/file/d/11q9zxMu4WUx6ouWQ0qODXYsksitDcKsO/view?usp=share_link",
+                    "evidenceUrl": "Vídeo-1.2 chatbot"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "Vídeo-1.2 chatbot\n\nPrint: https://drive.google.com/file/d/11q9zxMu4WUx6ouWQ0qODXYsksitDcKsO/view?usp=share_link",
+                    "evidenceUrl": "Vídeo-1.2 chatbot"
+                },
+                "h_8.5": {
+                    "scoreValue": 5,
+                    "note": "Vídeo-1.2 chatbot\n\nPrint: https://drive.google.com/file/d/11q9zxMu4WUx6ouWQ0qODXYsksitDcKsO/view?usp=share_link",
+                    "evidenceUrl": "Vídeo-1.2 chatbot"
+                },
+                "h_8.6": {
+                    "scoreValue": 1,
+                    "note": "Não existe um FAQ com perguntas e respostas.\n\nVídeo-1.3",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.4": {
+                    "scoreValue": 5,
+                    "note": "Legível na Home e no PDP",
+                    "evidenceUrl": "Pasta LH"
+                },
+                "h_9.5": {
+                    "scoreValue": 4,
+                    "note": "Home: 73 \nPDP: 64",
+                    "evidenceUrl": "Pasta LH"
+                }
+            },
+            "mobile-app": {
+                "h_1.1": {
+                    "scoreValue": 1,
+                    "note": "É possível acessar por um atalho na home e pelo menu de departamentos, mas não é possível selecionar a categoria legging. Ao clicar em calça no menu de moda feminina aparece no resultado calças de todos os tipos, inclusive leggings. Mas não tem a opção de filtrar por calça legging e qualquer outro tipo de calça.\n\nEvidência: Vídeo-1 até 01:17",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 1,
+                    "note": "Não possui breadcrumb. Ao clicar no item de menu Comprar (onde ficam os departamentos) não tem a opção de fechar, nem de retornar para a tela anterior. É necessário usar o voltar nativo do celular ou clicar em algum outro item na barra do menu inferior.\n\nEvidência: Vídeo-1 de 01:17 até 01:53",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 4,
+                    "note": "É possível ver o CTA sem obstrução, porém como no menu inferior existe o ícone de uma sacola com o + e a nomenclatura é Comprar isso gera dúvidas ao usuário. Podendo levar a clicar no botão do menu ao invés do botão de comprar. \n\nEvidência: Vídeo-1 de 01:53 até 02:49",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 5,
+                    "note": "Informa o motivo (localizar lojas)\nMas bem que poderia se utilizado para calcular o frete. :/",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_1.5": {
+                    "scoreValue": 1,
+                    "note": "Existe a área de notificações mas não é possível editar.\n\nEvidência: Vídeo-1 de 02:49 até 03:33",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_2.1": {
+                    "scoreValue": 1,
+                    "note": "Não exibe nenhuma oferta no PDP.\n\nEvidência: Vídeo-1 de 01:53 até 02:49",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_2.3": {
+                    "scoreValue": 1,
+                    "note": "nada em 3 dias",
+                    "evidenceUrl": "n/a"
+                },
+                "h_3.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1 de 03:33 até 04:47",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.101": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 até 00:32",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.3": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de  00:32 até 00:48",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.4": {
+                    "scoreValue": 1,
+                    "note": "O filtro só aparece apenas na navegação interna e não para refinar a busca. \n\nEvidência: Vídeo-1.1 de 00:48 até 01:09",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.6": {
+                    "scoreValue": 3,
+                    "note": "Errou:\nBusca semântica\nAutocomplete",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 01:09 até 01:30",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.9": {
+                    "scoreValue": 1,
+                    "note": "Não foi possível acessar pelo shopping do google por não aparece pernambucanas como uma opção. E ao clicar no link que apareceu no resultado de pesquisa abriu versão moblie do site.\n\nEvidência: Vídeo-1.1 de 01:30 até 02:40\n",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_4.2": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 de 02:40 até 03:12",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Tem que digitar o CEP.\n// últimos 10 segundos",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_5.1": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 04:38 até 07:03",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 de 07:03 até 08:22",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.4": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.2 de 04:38 até 07:03",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.5": {
+                    "scoreValue": 3,
+                    "note": "Retirada e entrega\n\nEvidência: Vídeo-1.1 de 02:40 até 03:12",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_5.7": {
+                    "scoreValue": 4,
+                    "note": "Abre corretamente o teclado numérico (sem scan)",
+                    "evidenceUrl": "Video h57"
+                },
+                "h_5.8": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.2 de 07:03 até 08:22",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_5.9": {
+                    "scoreValue": 1,
+                    "note": "nada em 3 dias",
+                    "evidenceUrl": "n/a"
+                },
+                "h_6.1": {
+                    "scoreValue": 3,
+                    "note": "Oferece alternativas, sem informar que o produto não está disponível.\n\n// ultimos 10 segundos",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_6.2": {
+                    "scoreValue": 1,
+                    "note": "Exige cadastro..",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_6.3": {
+                    "scoreValue": 5,
+                    "note": "Mantém",
+                    "evidenceUrl": "Video h63"
+                },
+                "h_71": {
+                    "scoreValue": 1,
+                    "note": "Não aparece a política na hora do cadastro. \n\nEvidência: Vídeo-1.3 até 03:25",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_710": {
+                    "scoreValue": 5,
+                    "note": "Descontos exclusivos.",
+                    "evidenceUrl": "Pasta APP STORE"
+                },
+                "h_711": {
+                    "scoreValue": 5,
+                    "note": "Apple: 4.8\t\nAndroid: 4.2",
+                    "evidenceUrl": "Pasta APP STORE"
+                },
+                "h_73": {
+                    "scoreValue": 5,
+                    "note": "E-mail, telefone e whatsapp\n\nEvidência: Vídeo-1.3 de 03:25 até 03:39",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_75": {
+                    "scoreValue": 1,
+                    "note": "Não tem forma de contato no processo de compra, somente no menu na opção Central de atendimento.\n\nEvidência: Vídeo-1.2 de 07:03 até 08:22",
+                    "evidenceUrl": "Vídeo-1.2"
+                },
+                "h_76": {
+                    "scoreValue": 1,
+                    "note": "Não tem faq.",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 3,
+                    "note": "Menu > Informações\n\nEvidência: Vídeo-1.3 de 03:39 até 04:04",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Não possui a feature\n\n\nEvidência: Vídeo-1.3 de 04:04 até 04:50",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "No menu existe um item chamado Histórico, mas não guarda os últimos produtos visitados nem buscados. E a busca também não registra. Não sendo possível apagar.\n\nEvidência: Vídeo-1.3 a partir de 04:50",
+                    "evidenceUrl": "Vídeo-1.3"
+                },
+                "h_8.1": {
+                    "scoreValue": 3,
+                    "note": "Vídeo-1.2 chatbot\n\nPrint: https://drive.google.com/file/d/11q9zxMu4WUx6ouWQ0qODXYsksitDcKsO/view?usp=share_link",
+                    "evidenceUrl": "Vídeo-1.2 chatbot"
+                },
+                "h_8.2": { "scoreValue": 1, "note": "", "evidenceUrl": "" },
+                "h_8.3": {
+                    "scoreValue": 2,
+                    "note": "Vídeo-1.2 chatbot\n\nPrint: https://drive.google.com/file/d/11q9zxMu4WUx6ouWQ0qODXYsksitDcKsO/view?usp=share_link",
+                    "evidenceUrl": "Vídeo-1.2 chatbot"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "Vídeo-1.2 chatbot\n\nPrint: https://drive.google.com/file/d/11q9zxMu4WUx6ouWQ0qODXYsksitDcKsO/view?usp=share_link",
+                    "evidenceUrl": "Vídeo-1.2 chatbot"
+                },
+                "h_8.5": {
+                    "scoreValue": 5,
+                    "note": "Vídeo-1.2 chatbot\n\nPrint: https://drive.google.com/file/d/11q9zxMu4WUx6ouWQ0qODXYsksitDcKsO/view?usp=share_link",
+                    "evidenceUrl": "Vídeo-1.2 chatbot"
+                },
+                "h_8.6": {
+                    "scoreValue": 1,
+                    "note": "Não há FAQ",
+                    "evidenceUrl": "Video H76"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "nada encontrado.\nNo video h76 eu abri a tela de atendimento, mas não sei se isso configura uma evidência mesmo.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "nada encontrado",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": { "scoreValue": 1, "note": "", "evidenceUrl": "" },
+                "h_9.6": {
+                    "scoreValue": 2,
+                    "note": "Home: 3\nPDP: 3",
+                    "evidenceUrl": "https://drive.google.com/open?id=1FvcnjuQMuW5Jb14IuWERFQ7g5vETG4P2&authuser=alan.vasconcelos%40rga.com&usp=drive_fs"
+                }
+            }
+        },
+        "findings": {
+            "desktop": {
+                "f_1": {
+                    "text": "Apesar de dizer que o frete é grátis, na finalização do pedido aparece um valor para a taxa de entrega.\n\nEvidência: Vídeo-1.1 até 01:14",
+                    "theType": "bad"
+                }
+            },
+            "mobile-app": {
+                "f_1": {
+                    "text": "No menu existe um item chamado histórico, mas ele não guarda os produtos pesquisados ou acessados. O que aparece são produtos que não possuem nenhuma relação entre si ou com o que estava sendo pesquisado (calça legging preta). Não sendo claro para que serve essa funcionalidade. \n\nPrint: https://drive.google.com/file/d/1UrL9K7HEVtdjOMnXM-llsPrLADwtVf2B/view?usp=share_link",
+                    "theType": "bad"
+                }
+            }
+        }
+    },
+    {
+        "id": "clag1469c0sqq0alriqqmt3ui",
+        "name": "Renner",
+        "slug": "renner",
+        "department": "FashionAndSports",
+        "scores": {
+            "desktop": {
+                "h_1.1": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 00:00 a 00:35",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 00:47 a 01:06",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 01:45 a 01:53",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 2,
+                    "note": "Não pede geolocation em nenhum momento. (Video h14)\nTem que digitar o CEP até mesmo na página \"NOSSAS LOJAS\" (Video h14a)",
+                    "evidenceUrl": "Video h14 e Video h14a"
+                },
+                "h_2.1": {
+                    "scoreValue": 5,
+                    "note": "Complete seu visual, mais vendidos com base no seu interesse, você pode se interessar, complete o look\nVideo-1: 01:53 a 02:06",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_2.2": {
+                    "scoreValue": 3,
+                    "note": "Não considera o histórico do Google (até 01:50), mas considera as buscas internas no site (cookies) (de 01:50 até o final)).",
+                    "evidenceUrl": "Video h22"
+                },
+                "h_3.1": {
+                    "scoreValue": 5,
+                    "note": "Produto blazer\nVideo-1: 02:06 a 02:19",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.2": {
+                    "scoreValue": 1,
+                    "note": "mesmos resultados.",
+                    "evidenceUrl": "Video h32"
+                },
+                "h_3.3": {
+                    "scoreValue": 1,
+                    "note": "Inicialmente mostrou lista de produtos visitados e outras sugestões, porém nas buscas seguintes por diferentes combinações de letras do teclado, apenas informou que nada tinha sido encontrado.\nVideo-1: 02:57 a 03:13",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.4": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 03:13 a 03:39",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.5": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 03:58 a 04:08",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.6": {
+                    "scoreValue": 5,
+                    "note": "Acertou todos.",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 04:08 a 04:20",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_4.2": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 04:20 a 04:29",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Tem que digitar o CEP",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_4.6": {
+                    "scoreValue": 5,
+                    "note": "Video-2: 00:00 a 00:15",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_5.1": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 04:29 a 04:37",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "PDP, Carrinho, Endereço, Pagamento, FIM\nVideo-1: 04:37 a 05:56",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.4": {
+                    "scoreValue": 4,
+                    "note": "Nome, email, CPF, telefone, data de nascimento, endereço.\nVideo-1: 04:57 a 05:05",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.5": {
+                    "scoreValue": 5,
+                    "note": "Retirada, agendada, normal\nVideo-1: 05:34 a 05:36",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.6": {
+                    "scoreValue": 5,
+                    "note": "Video-2: 00:00 a 00:15",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_6.1": {
+                    "scoreValue": 1,
+                    "note": "01:40 até 01:50",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "01:50 até o final.",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_71": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 04:50 a 05:09",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_72": {
+                    "scoreValue": 5,
+                    "note": "Ótimo (nota 8)",
+                    "evidenceUrl": "Imagem h72"
+                },
+                "h_73": {
+                    "scoreValue": 5,
+                    "note": "Chatbot, telefone, formulário, redes sociais\nVideo-2: 00:15 a 00:51",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_74": {
+                    "scoreValue": 5,
+                    "note": "Aparece o banner",
+                    "evidenceUrl": "Imagem h74"
+                },
+                "h_75": {
+                    "scoreValue": 5,
+                    "note": "Video-2: 00:59 a 01:53",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_76": {
+                    "scoreValue": 5,
+                    "note": "Tem campo de busca que permite digitar livremente.\naté 00:12",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 5,
+                    "note": "No rodapé acessível pelos links Trocas e devoluções e \"Tire sua dúvida e fale conosco\" acessando a central de ajuda.\nVideo-2: 02:00 a 02:31",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Video-2: 01:53 a 02:02",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Não é possível excluir.\nVideo-2: 02:58 a 03:39",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_8.1": {
+                    "scoreValue": 5,
+                    "note": "Video-3: 00:25 a 00:42",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.2": {
+                    "scoreValue": 1,
+                    "note": "Video-3: 00:25 a 00:42",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.3": {
+                    "scoreValue": 2,
+                    "note": "Quando perguntado \"posso falar com um atendente?\" o chat não reconheceu a pergunta e indicou um link para falar com um atendente.\nPerguntado sobre prazo de entrega, apresentou informações gerais. Quando feitas perguntas sobre o produto, indicou conteúdo baseado um uma das palavras da pergunta.\nVideo-3: 00:42 a 01:46",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "Video-3: 00:35 a 00:42",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.5": {
+                    "scoreValue": 5,
+                    "note": "Sempre que não reconhece uma pergunta indica o link para um chat com atendente.\nVideo-3: 00:42 a 01:04",
+                    "evidenceUrl": "Video-3"
+                },
+                "h_8.6": {
+                    "scoreValue": 3,
+                    "note": "Respondeu outras coisas.\naté 00:15",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.\n00:30 a 00:50",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 1,
+                    "note": "00:30 até o final",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.4": {
+                    "scoreValue": 5,
+                    "note": "Legível na Home e no PDP",
+                    "evidenceUrl": "Pasta LH"
+                },
+                "h_9.5": {
+                    "scoreValue": 4,
+                    "note": "Home: 81\t\nPDP: 81",
+                    "evidenceUrl": "Pasta LH"
+                }
+            },
+            "mobile-app": {
+                "h_1.1": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 00:00 a 01:10",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 1,
+                    "note": "Não possui breadcrumb. Ao acessar a categoria feminino / calças há botão de voltar e indicação da categoria mãe (Feminino), permitindo navegar entre as subcategorias de feminino, porém através do bottom de menu \"Categorias\"somente. Acessando a página de produto, somente há botão voltar no topo, sem indicação de categoria de produto ou sem voltar para este.\nVideo-1: 01:30 a 01:48",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 01:48 a 01:55",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 5,
+                    "note": "Para calcular o frete. Muito bem comunicado, por sinal.\n// 02:00",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_1.5": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 07:10 a 07:50",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_2.1": {
+                    "scoreValue": 5,
+                    "note": "Oferece várias formas de produtos relacionados.\nVideo-1: 01:55 a 02:10",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_2.3": {
+                    "scoreValue": 1,
+                    "note": "Nada em 3 dias",
+                    "evidenceUrl": "n/a"
+                },
+                "h_3.1": {
+                    "scoreValue": 5,
+                    "note": "Não foi encontrado vídeo em outro tipo de produto.\nVideo-1: 02:11 a 02:22",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.101": {
+                    "scoreValue": 5,
+                    "note": "Busca por imagem\nVideo-1: 02:22 a 02:36",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.3": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 02:36 a 02:47",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.4": {
+                    "scoreValue": 4,
+                    "note": "O produto foi encontrado porém outros modelos de calça estavam na lista de produtos, mesmo após a filtragem por cor preta, calça, legging.\nVideo-1: 03:48 a 04:23",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.6": {
+                    "scoreValue": 5,
+                    "note": "acertou tudo",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 04:23 a 04:27",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.9": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 04:27 a 04:36",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_4.2": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 04:36 a 05:00",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Apenas o CEP (ou o geolocation)\n// 02:00",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_5.1": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 05:00 a 05:24",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "PDP, Carrinho, Endereço, Pagamento, FIM\nVideo-1: 06:16 a 07:00",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.4": {
+                    "scoreValue": 4,
+                    "note": "Nome, email, CPF, telefone, data de nascimento, endereço.\nVideo-1: 05:24 a 06:16",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.5": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 07:00 a 07:03",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.7": {
+                    "scoreValue": 4,
+                    "note": "Abre corretamente o teclado numérico (sem scan)\n\n// nos últimos 15 segundos",
+                    "evidenceUrl": "Video h57"
+                },
+                "h_5.8": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 07:03 a 07:10",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.9": {
+                    "scoreValue": 1,
+                    "note": "nada em 3 dias",
+                    "evidenceUrl": "n/a"
+                },
+                "h_6.1": {
+                    "scoreValue": 1,
+                    "note": "Só retorna um empty state.\n// Últimos 10 segundos do video",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_6.2": { "scoreValue": 5, "note": "", "evidenceUrl": "" },
+                "h_6.3": {
+                    "scoreValue": 5,
+                    "note": "Mantém.\n\n// últimos 10 segundos do video",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_71": {
+                    "scoreValue": 4,
+                    "note": "Na tela passo 2 do cadastro\nVideo-1: 05:50 a 06:16",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_710": {
+                    "scoreValue": 5,
+                    "note": "Ofertas exclusivas",
+                    "evidenceUrl": "Pasta APP STORE"
+                },
+                "h_711": {
+                    "scoreValue": 5,
+                    "note": "Apple: 4.8\t\nAndroid: 4.7",
+                    "evidenceUrl": "Pasta APP STORE"
+                },
+                "h_73": {
+                    "scoreValue": 1,
+                    "note": "Chatbot acessível no Menu / \"Quero conversar\" ou \"Dúvidas?\"\nVideo-1: 07:50 as 08:08",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_75": {
+                    "scoreValue": 1,
+                    "note": "Não aparece\nVideo-1: 06:16 a 07:00",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_76": {
+                    "scoreValue": 1,
+                    "note": "Na verdade a central de dúvidas é um chatbot.",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 2,
+                    "note": "Não há acesso a nenhuma regra, apenas regras gerais de vale troca são acessíveis somente pelo Menu / Dúvidas ou Quero explorar / Opção Vale-Troca.\nVideo-2: 00:00 a 00:03",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Video-2: 00:04 a 00:15",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Não é possível limar o histórico visualizado na ferramenta de busca.\nVideo-2: 00:15 a 00:23",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_8.1": {
+                    "scoreValue": 3,
+                    "note": "Acessível através dew Menu / Quero Conversas ou Dúvidas?\nVideo-2: 00:23 a 00:32",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_8.2": {
+                    "scoreValue": 1,
+                    "note": "Video-2: 00:32 a 00:36",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_8.3": {
+                    "scoreValue": 1,
+                    "note": "Não responde a perguntas relacionadas a entrega e produto, tendo limitação de opções e não reconhecendo perguntas ou mesmo palavras-chave no diálogo. Não chamou humano em nenhum momento.\nVideo-2: 00:44 a 01:10",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "Video-2: 00:32 a 00:36",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_8.5": {
+                    "scoreValue": 1,
+                    "note": "Indica telefones de contato e horário de atendimento\nVideo-2: 01:10 a 01:17",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_8.6": {
+                    "scoreValue": 1,
+                    "note": "A única forma de pesquisar é através do chatbot.\nNa busca por Google Pay não reconheceu a pergunta e sugeriu opções.\nNa busca por cartões reconheceu a palavra cartão e perguntou sobre qual cartão o usuário gostaria de falar: Meu Cartão ou Cartão Renner.\nVideo-2: 00:17 a 00:26",
+                    "evidenceUrl": "Video-2"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado.",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.6": {
+                    "scoreValue": 2,
+                    "note": "Home: 3\nPDP: 3",
+                    "evidenceUrl": "https://drive.google.com/open?id=1GWz_n8byIP_jimIiwGHGOgXDD19BcB5h&authuser=alan.vasconcelos%40rga.com&usp=drive_fs"
+                }
+            }
+        },
+        "findings": {
+            "desktop": {
+                "f_1": {
+                    "text": "Buscando por \"calça\"na barra de busca, filtros est ão disponíveis para o usuário encontrar o que procura, porém os filtors de \"categoria\" e \"marca\" possuem uma quantidade de itens bastante volumosa que talvez pudessem ser ordenadas alfabeticamente para facilitar a filtragem do produto.\nVideo-1: 03:28 a 03:39",
+                    "theType": "bad"
+                },
+                "f_2": {
+                    "text": "Não reconheceu CPF gerado.\nVideo-1: 05:10 a 05:18",
+                    "theType": "good"
+                },
+                "f_3": {
+                    "text": "Quando o usuário acessa a Central de Ajuda (link \"Atendimento\" no topo; \"Tire suas dúvidas\"no rodapé, a url muda para https://atendimento.lojasrenner.com.br/ e não é possível voltar para a home do site Renner (com os produtos) clicando no logo, somente pelo botão \"Voltar\" do browser. Ou seja, o mesmo link/símbolo gráfico leva a dois destinos diferentes.\nVideo-2: 02:31 a 02:48",
+                    "theType": "bad"
+                },
+                "f_4": {
+                    "text": "Existe a modalidade de \"Compra com um Click\" que pode ser habilitada no processo de compra ativada no cartão de crédito para compras futuras.\nInformações a respeito encontram-se no perfil do usuário.\nVideo-3: 00:00 a 00:25",
+                    "theType": "good"
+                },
+                "f_5": {
+                    "text": "Na página da sacola de compras há um certo excesso de informações disponibilizadas e vários elementos com mesmo peso visual (box preto) com diferentes CTAs, por isso concorrentes. Falta maior hierarquização e priorização de ações considerando o contexto e etapa do processo de compra.",
+                    "theType": "bad"
+                }
+            },
+            "mobile-app": {
+                "f_1": {
+                    "text": "Permite buscar por produtos similares, quando estamos no PDP.",
+                    "theType": "good"
+                }
+            }
+        }
+    },
+    {
+        "id": "clag1639e0ssm0blufrwtk5ic",
+        "name": "Riachuelo",
+        "slug": "riachuelo",
+        "department": "FashionAndSports",
+        "scores": {
+            "desktop": {
+                "h_1.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1 até 00:30",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 00:30 até 01:08",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1 de 00:30 até 01:31",
+                    "evidenceUrl": "Vídeo-01"
+                },
+                "h_1.4": {
+                    "scoreValue": 5,
+                    "note": "Não usa geolocation para calcular o cep (Video h14).\nO geolocation só é utilizado na página \"Nossas Lojas\" e aparece um tooltip informando o motivo (Video h14a).",
+                    "evidenceUrl": "Video h14 e Video h14a"
+                },
+                "h_2.1": {
+                    "scoreValue": 4,
+                    "note": "Evidência: Vídeo-1 de 01:08 até 01:31",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_2.2": {
+                    "scoreValue": 1,
+                    "note": "Mesmíssimas ofertas na home para Cindy e Mike (até 02:00), mesmo depois de realizar buscas internas. Ou seja, não utiliza nem mesmo os cookies. (02:00 em diante)",
+                    "evidenceUrl": "Video h22"
+                },
+                "h_3.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1 de 01:31 até 02:20",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.2": {
+                    "scoreValue": 1,
+                    "note": "Mesmos resultados na busca, ou seja, não considera o histórico do Google.",
+                    "evidenceUrl": "Video h32"
+                },
+                "h_3.3": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1 de 02:20 até 03:01",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.4": {
+                    "scoreValue": 3,
+                    "note": "Apesar de existir o filtro e ter a opção de legging, quando altera o filtro aparece que não encontrou resultado. Mas indo pela busca é possível achar a calça legging. \n\nEvidência: Vídeo-1 de 03:13 até 05:17",
+                    "evidenceUrl": "Vídeo-1"
+                },
+                "h_3.5": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 até 01:48",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_3.6": {
+                    "scoreValue": 5,
+                    "note": "Acertou todas.",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 01:48 até 02:32",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_4.2": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 de 02:32 até 03:24",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Tem que digitar o CEP",
+                    "evidenceUrl": "Video h14"
+                },
+                "h_4.6": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 de 02:32 até 03:24",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_5.1": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 03:24 até 05:07",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 de 05:07 até 06:50",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_5.4": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 de 03:24 até 05:07",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_5.5": {
+                    "scoreValue": 5,
+                    "note": "Entrega, retirada e agendamento.\n\nEvidência: Vídeo-1.1 de 02:32 até 03:06\n\n",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_5.6": {
+                    "scoreValue": 4,
+                    "note": "Evidência: Vídeo-1.1 de 02:32 até 03:24",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_6.1": {
+                    "scoreValue": 1,
+                    "note": "Não oferece alternativa, informando que não encontrou o termo buscado.",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "É acessível.",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_71": {
+                    "scoreValue": 5,
+                    "note": "Evidência: Vídeo-1.1 de 03:24 até 05:07",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_72": {
+                    "scoreValue": 4,
+                    "note": "Bom (7.9)",
+                    "evidenceUrl": "Imagem h72"
+                },
+                "h_73": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 07:23 até 08:25",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_74": {
+                    "scoreValue": 5,
+                    "note": "Aparece o banner",
+                    "evidenceUrl": "Imagem h74"
+                },
+                "h_75": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 05:07 até 06:50",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_76": {
+                    "scoreValue": 3,
+                    "note": "Tem faq, mas sem campo de busca.\n\naté 00:12",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_77": {
+                    "scoreValue": 5,
+                    "note": "Link disponível próximo ao detalhamento do produto e no rodapé da PDP e na home além de aparece no rodapé aparece  em um destaque no meio do conteúdo da página.\n\nEvidência: Vídeo-1.1 de 06:50 até 07:23",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Não possui a feature.\n\nEvidência: Vídeo-1.1 de 08:25 até 10:19",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_79": {
+                    "scoreValue": 1,
+                    "note": "Não guarda as buscas realizadas.\n\nEvidência: Vídeo-1.1 de 10:19 até 11:00",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_8.1": {
+                    "scoreValue": 3,
+                    "note": "Evidência: Vídeo-1.1 de 11:00 até 12:08",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_8.2": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 11:00 até 12:08",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_8.3": {
+                    "scoreValue": 2,
+                    "note": "Responde sobre entrega de um pedido já existente.\n\nEvidência: Vídeo-1.1 de 11:00 até 12:08",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "Evidência: Vídeo-1.1 de 11:00 até 12:08",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_8.5": {
+                    "scoreValue": 1,
+                    "note": "Ao solicitar o atendimento o bot responde com possíveis números e horários para contato.\n\nEvidência: Vídeo-1.1 de 11:00 até 12:08",
+                    "evidenceUrl": "Vídeo-1.1"
+                },
+                "h_8.6": {
+                    "scoreValue": 1,
+                    "note": "Não há caixa de busca.\naté 00:12",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.1": {
+                    "scoreValue": 5,
+                    "note": "Telefone exclusivo para deficientes auditivos.",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 2,
+                    "note": "Tem um link no rodapé para a página de acessibilidade, mas quando clicamos, dá \"página não encontrada\". (00:30)\n\nPelo menos tem o plugin do HandTalk (Libras) (00:46)",
+                    "evidenceUrl": "Video h76"
+                },
+                "h_9.4": {
+                    "scoreValue": 5,
+                    "note": "Legível na Home e no PDP",
+                    "evidenceUrl": "Pasta LH"
+                },
+                "h_9.5": {
+                    "scoreValue": 4,
+                    "note": "Home: 75\nPDP: 81",
+                    "evidenceUrl": "Pasta LH"
+                }
+            },
+            "mobile-app": {
+                "h_1.1": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 00:08 a 00:53",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.2": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 00:53 a 01:17",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.3": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 01:18 a 01:24",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_1.4": {
+                    "scoreValue": 2,
+                    "note": "Apenas digitando o cep.\n\n// últimos 15 segundos do video",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_1.5": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 08:38 a 08:53",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_2.1": {
+                    "scoreValue": 5,
+                    "note": "Quem viu conmprou, produtos mais comprados na categoria.\nVideo-1: 01:24 a 01:35",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_2.3": {
+                    "scoreValue": 1,
+                    "note": "Nada em 3 dias",
+                    "evidenceUrl": "n/a"
+                },
+                "h_3.1": {
+                    "scoreValue": 3,
+                    "note": "Video-1: 01:35 a 01:40",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.101": {
+                    "scoreValue": 1,
+                    "note": "Tem ferramenta de QRCode  de produto para verificar disponibilidade na loja.\nVideo-1: 01:40 a 02:00",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.3": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 02:00 a 02:09",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.4": {
+                    "scoreValue": 3,
+                    "note": "Existem os filtros tipo de produto \"legging\" e cor \"preto\" porém a busca retorna sem resultados, embora existam calças legging pretas dentre os produtos.\nVideo-1: 02:09 a 03:43",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.6": {
+                    "scoreValue": 5,
+                    "note": "A busca por \"Legin\" listou apenas 2 produtos.\nSerá que damos uma nota 4 aqui?",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_3.8": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 03:43 a 03:50",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_3.9": {
+                    "scoreValue": 5,
+                    "note": "Video-1:m 03:54 a 04:07",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_4.2": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 04:07 a 04:11",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_4.3": {
+                    "scoreValue": 1,
+                    "note": "Apenas o CEP. Nem geolocation usa.\n\n// ultimos 15 segundos",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_5.1": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 04:24 a 04:33",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.3": {
+                    "scoreValue": 5,
+                    "note": "PDP, Carrinho, Endereço, Pagamento, FIM\nVideo-1: 04:33 a 07:17",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.4": {
+                    "scoreValue": 5,
+                    "note": "Email, CPF, nome, telefone, endereço\nVideo-1: 05:19 a 05:35",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.5": {
+                    "scoreValue": 3,
+                    "note": "Entrega, retirada, agendamento\nVideo-1: 04:11 a 04:16",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.7": {
+                    "scoreValue": 4,
+                    "note": "Abre corretamente o teclado numérico (sem scan)\n",
+                    "evidenceUrl": "Video h57"
+                },
+                "h_5.8": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 07:07 a 07:17",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_5.9": {
+                    "scoreValue": 1,
+                    "note": "Nada em 3 dias",
+                    "evidenceUrl": "n/a"
+                },
+                "h_6.1": {
+                    "scoreValue": 1,
+                    "note": "Sem alternativas. Apenas um empty state.\n// últimos 10 segundos",
+                    "evidenceUrl": "Video h36"
+                },
+                "h_6.2": {
+                    "scoreValue": 5,
+                    "note": "É acessível.",
+                    "evidenceUrl": "Video h62"
+                },
+                "h_6.3": {
+                    "scoreValue": 5,
+                    "note": "Mantém",
+                    "evidenceUrl": "Video h63"
+                },
+                "h_71": {
+                    "scoreValue": 4,
+                    "note": "Mostra ao final das etapas de cadastro.\nVideo-1: 05:19 a 05:35",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_710": {
+                    "scoreValue": 1,
+                    "note": "Nenhuma vantagem que já não possa ser encontrada no site.",
+                    "evidenceUrl": "Pasta APP STORE"
+                },
+                "h_711": {
+                    "scoreValue": 4,
+                    "note": "Apple: 4.8\nAndroid: 3.9",
+                    "evidenceUrl": "Pasta APP STORE"
+                },
+                "h_73": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 07:27 a 07:52",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_75": {
+                    "scoreValue": 1,
+                    "note": "Não aparece durante o processo de compra.\nVideo-1: 04:33 a 07:17",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_76": {
+                    "scoreValue": 1,
+                    "note": "Não possui FAQ ou ferramenta de busca por ajuda.\nVideo-1: 07:27 a 07:52",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_77": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 07:57 a 08:24",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_78": {
+                    "scoreValue": 1,
+                    "note": "Não tem a feature.\nVideo-1: 04:16 a 04:24",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_79": {
+                    "scoreValue": 5,
+                    "note": "Video-1: 03:50 a 03:54",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_8.1": {
+                    "scoreValue": 1,
+                    "note": "Video-1: 07:27 a 07:52",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_8.2": {
+                    "scoreValue": 1,
+                    "note": "Não possui chatbot\nVideo-1: 07:27 a 07:52",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_8.3": {
+                    "scoreValue": 1,
+                    "note": "Não possui chatbot\nVideo-1: 07:27 a 07:52",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_8.4": {
+                    "scoreValue": 1,
+                    "note": "Não possui chatbot\nVideo-1: 07:27 a 07:52",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_8.5": {
+                    "scoreValue": 1,
+                    "note": "Não possui chatbot\nVideo-1: 07:27 a 07:52",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_8.6": {
+                    "scoreValue": 1,
+                    "note": "Não possui FAQ ou ferramenta de busca por ajuda.\nVideo-1: 07:27 a 07:52",
+                    "evidenceUrl": "Video-1"
+                },
+                "h_9.1": {
+                    "scoreValue": 1,
+                    "note": "nada encontrado",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.2": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.3": {
+                    "scoreValue": 1,
+                    "note": "Nada encontrado",
+                    "evidenceUrl": "n/a"
+                },
+                "h_9.6": {
+                    "scoreValue": 3,
+                    "note": "Home: 2\nPDP: 2",
+                    "evidenceUrl": "https://drive.google.com/open?id=1H0MTaBn4oxstN3WEHQ0B76j9t8KWec_C&authuser=alan.vasconcelos%40rga.com&usp=drive_fs"
+                }
+            }
+        },
+        "findings": {
+            "desktop": {
+                "f_1": {
+                    "text": "Ao clicar no link de Atendimento do rodapé abre uma nova página (aba) com informações de FAQ e contato e não é possível retornar ao site da Riachuelo.\n\nEvidência: Vídeo-1.1 de 07:23 até 08:25\nLink:",
+                    "theType": "bad"
+                },
+                "f_2": {
+                    "text": "A área do menu é muito sensível, basta passar o mouse, mesmo que rapidamente, que o submenu abre e atrapalha um pouco a navegação por ser bem extenso e ocupar uma boa parte da tela. \n\nLink: https://drive.google.com/file/d/120WdYJeWJuT1pWzaHoNPVVkihrgcoKMF/view?usp=share_link",
+                    "theType": "bad"
+                }
+            },
+            "mobile-app": {
+                "f_1": {
+                    "text": "O cadastro é curto e simples no processo de compra, porém é dividido em etapas sem indicar a etapa atual e quantas faltam. Uma alternativa seria simplificar mais a experiência e ter todos os campos do formulário na mesma tela visto serem poucos (email, CPF, nome completo, telefone).\nVideo-1: 05:19 a 05:35",
+                    "theType": "bad"
+                },
+                "f_2": {
+                    "text": "Após inserir o endereço de entrega no processo de compra não há CTA para voltar ao referido processo, apenas um botão para adicionar novo endereço. Aleatoriamente clicando na tela foi possível retornar à compra.\nVideo-1: 06:38 a 06:42",
+                    "theType": "bad"
+                },
+                "f_3": {
+                    "text": "No menu Meus dados, é possível encontrar facilmente o link de cancelar conta e é explicado ao usuário, após clicar na CTA, tudo o que será excluído no processo (continuar ou voltar).\nVideo-1: 07:17 a 07:27",
+                    "theType": "good"
+                },
+                "f_4": {
+                    "text": "Não há informação a respeito de políticas de troca e venda, entrega, dentre outras que possam ser úteis ao usuário; FAQ ou seção similar também não estão presentes no app; e não é possível outra forma de atendimento no app além de dois números de telefone para atendimentos gerais referente a compras online.\nVideo-1: 07:27 a 07:52; 07:57 a 08:24",
+                    "theType": "bad"
+                },
+                "f_5": {
+                    "text": "No primeiro acesso ao app, existe um onboarding que é bastante objetivo e com informações relevantes ao usuário que comprar na loja online.\nVideo-1: 00:00 a 00:05",
+                    "theType": "good"
+                }
+            }
+        }
+    }
+]
