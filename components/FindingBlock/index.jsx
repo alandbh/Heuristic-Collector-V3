@@ -72,19 +72,20 @@ function FindingBlock({
                     },
                     mutationDelete,
                     "delete",
-                    reloadFindingList,
+                    callBack,
                     setLoading
                 );
+                groupRef.current.style.display = "none";
             }, 500);
         } else {
             setConfirmOpen(false);
         }
     }
 
-    function reloadFindingList(finding) {
-        // setFindings([...findings, finding]);
-        callBack();
-    }
+    // function reloadFindingList() {
+    //     // setFindings([...findings, finding]);
+    //     callBack();
+    // }
 
     return (
         <div className="flex flex-col gap-3 overflow-x-hidden">

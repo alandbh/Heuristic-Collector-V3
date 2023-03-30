@@ -96,7 +96,7 @@ function Findings({
         );
     }
     function addFinding(finding) {
-        // setFindings([...findings, finding]);
+        setFindings([...findings, finding]);
         getFindings();
     }
 
@@ -106,7 +106,7 @@ function Findings({
     if (findingsLoading) {
         addButtonStatus = "loading";
         addButtonText = "Wait...";
-    } else if (findings.length === 0) {
+    } else if (!findings || findings?.length === 0) {
         addButtonText = "Add a new finding";
     } else {
         addButtonText = "Add one more finding";
@@ -129,13 +129,13 @@ function Findings({
                 </div>
             </header>
             <ul className="bg-white dark:bg-slate-800 pt-8 pb-1 px-0 rounded-lg shadow-lg flex flex-col gap-10">
-                {findings.length === 0 && (
+                {findings?.length === 0 && (
                     <div className="text-center">
                         <span className="text-3xl">🤷‍♀️</span> <br />
                         No findings registered yet
                     </div>
                 )}
-                {findings.map((finding, index) => {
+                {findings?.map((finding, index) => {
                     return (
                         <li key={finding.id}>
                             <FindingBlock
@@ -221,6 +221,10 @@ function doPublic(client, newId, verb, setFindings, setLoading) {
             } else if (verb === "edit") {
                 console.log("publicou EDIT", data.publishFinding);
                 setLoading("saved");
+            } else {
+                console.log("publicou delete", data.publishFinding);
+                setFindings();
+                setLoading(false);
             }
         });
 
