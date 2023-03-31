@@ -4,6 +4,7 @@ import Spinner from "../Spinner";
 import { ScoresWrapper } from "../../context/scores";
 import { ScoresObjWrapper } from "../../context/scoresObj";
 import client from "../../lib/apollo";
+import clientFast from "../../lib/apollo-fast";
 
 import { useProjectContext } from "../../context/project";
 // import { useCredentialsContext } from "../../context/credentials";
@@ -47,7 +48,7 @@ const QUERY_GROUPS = gql`
 async function getGroups(projectSlug, journeySlug, setGroupsData) {
     console.log("Evaluation - querying groups");
 
-    const result = await client.query({
+    const result = await clientFast.query({
         query: QUERY_GROUPS,
         variables: {
             projectSlug,
@@ -65,7 +66,7 @@ async function getGroups(projectSlug, journeySlug, setGroupsData) {
 
 function Evaluation() {
     console.log("Evaluation - loading");
-    const { currentProject } = useProjectContext();
+    const { currentProject, currentJourney } = useProjectContext();
     const router = useRouter();
     const [groupsData, setGroupsData] = useState(null);
 
@@ -80,25 +81,25 @@ function Evaluation() {
         () => currentProject.slug,
         [currentProject.slug]
     );
-    const journeySlugMemo = useMemo(
-        () => router.query.journey,
-        [router.query.journey]
-    );
+
+    console.log("currentJourney ctx", currentJourney);
+    // const journeySlugMemo = useMemo(
+    //     () => router.query.journey,
+    //     [router.query.journey]
+    // );
 
     useEffect(() => {
-        console.log("testeEffect", {
-            project: projectSlugMemo,
-            router: journeySlugMemo,
-        });
-        if (projectSlugMemo && journeySlugMemo !== undefined) {
+        if (projectSlugMemo && currentJourney !== undefined) {
             //DELAY
-            getGroups(projectSlugMemo, journeySlugMemo, setGroupsData);
+            getGroups(projectSlugMemo, currentJourney.slug, setGroupsData);
         }
-    }, [projectSlugMemo, journeySlugMemo]);
+    }, [projectSlugMemo, currentJourney]);
 
     // const dataToPass = useMemo(() => data, [data]);
 
     // console.log("Evaluation", useCredentialsContext());
+
+    console.log("groupsData invalid", groupsData);
 
     if (groupsData === null) {
         return null;
@@ -113,7 +114,6 @@ function Evaluation() {
                 <Spinner radius={50} thick={7} colorClass="primary" />
             </div>
         );
-        return <div className="text-red-500">LOADING EVALUATION</div>;
     }
 
     if (groupsData.error) {
@@ -124,7 +124,9 @@ function Evaluation() {
         );
     }
 
-    console.log("Evaluation loads groups successfully");
+    if (groupsData.data.groups.length === 0) {
+        return <div>The journey or player is not valid.</div>;
+    }
 
     return (
         <ScoresWrapper>
