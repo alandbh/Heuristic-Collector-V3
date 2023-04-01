@@ -203,11 +203,19 @@ function GroupContainer({ data }) {
         );
     }
 
+    let groupsToMap = [...data.groups];
+
+    groupsToMap.sort(function (a, b) {
+        return a.groupNumber - b.groupNumber;
+    });
+
+    console.log("groupsToMap", groupsToMap);
+
     return (
         <>
             <div className="gap-5 max-w-5xl mx-auto flex flex-col-reverse md:grid md:grid-cols-3 ">
                 <div className="md:col-span-2 flex flex-col gap-20">
-                    {data.groups.map((group) => (
+                    {groupsToMap.map((group) => (
                         <HeuristicGroup
                             allScoresJson={allScoresJson}
                             group={group}
@@ -241,7 +249,7 @@ function GroupContainer({ data }) {
                                 Heuristic Groups
                             </h1>
                             <ul>
-                                {data.groups.map((group) => (
+                                {groupsToMap.map((group) => (
                                     <li
                                         key={group.id}
                                         className="cursor-pointer"
@@ -254,7 +262,7 @@ function GroupContainer({ data }) {
                                             smooth={true}
                                             offset={-200}
                                         >
-                                            {group.name}
+                                            {group.groupNumber}. {group.name}
                                         </Scroll>
                                     </li>
                                 ))}

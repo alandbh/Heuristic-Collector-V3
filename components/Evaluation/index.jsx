@@ -22,6 +22,7 @@ const QUERY_GROUPS = gql`
         ) {
             id
             name
+            groupNumber
             description
             journeys(where: { slug: $journeySlug }) {
                 name
@@ -32,6 +33,7 @@ const QUERY_GROUPS = gql`
                 heuristicNumber
                 group {
                     name
+                    groupNumber
                 }
                 description
                 journeys {

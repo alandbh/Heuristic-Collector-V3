@@ -56,7 +56,7 @@ function HeuristicGroup({ group, allScoresJson }) {
             <header className="flex justify-between mb-6 items-center px-4 gap-3">
                 <h1 className="text-xl font-bold">
                     <div className="h-[5px] bg-primary w-10 mb-1"></div>
-                    {group.name}
+                    {`${group.groupNumber}. ${group.name}`}
                 </h1>
                 <div className="text-lg flex items-center gap-5">
                     <b className="whitespace-nowrap text-sm md:text-xl">
