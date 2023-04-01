@@ -212,7 +212,7 @@ function JourneySelect({ compact = false }) {
                                 key={journey.slug}
                             >
                                 <button
-                                    className="border box-border border-l-0 border-gray-300 shadow-[inset_0px_0px_0px_1px_rgba(200,200,255,0.3)] font-bold text-slate-500 dark:text-slate-300 hover:text-primary dark:hover:text-slate-200 hover:shadow-primary p-8 w-full flex justify-center grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transition-all"
+                                    className="border items-center h-full box-border border-l-0 border-gray-300 shadow-[inset_0px_0px_0px_1px_rgba(200,200,255,0.3)] font-bold text-slate-500 dark:text-slate-300 hover:text-primary dark:hover:text-slate-200 hover:shadow-primary p-8 w-full flex justify-center grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transition-all"
                                     onClick={() => handleSelectPlayer(journey)}
                                 >
                                     {journey.name}
