@@ -1,66 +1,70 @@
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
-import clientFast from "../../lib/apollo-fast";
+// import { gql, useQuery } from "@apollo/client";
+// import clientFast from "../../lib/apollo-fast";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useProjectContext } from "../../context/project";
 import { useRouter } from "next/router";
-import Spinner from "../Spinner";
+// import Spinner from "../Spinner";
 
 // import { useDetectOutsideClick } from "../../lib/useDetectOutsideClick";
 
-const QUERY_JOURNEYS = gql`
-    query GetGroups($playerSlug: String, $projectSlug: String) {
-        journeys(
-            where: {
-                players_some: {
-                    slug: $playerSlug
-                    project: { slug: $projectSlug }
-                }
-            }
-        ) {
-            name
-            slug
-        }
-    }
-`;
+// const QUERY_JOURNEYS = gql`
+//     query GetGroups($playerSlug: String, $projectSlug: String) {
+//         journeys(
+//             where: {
+//                 players_some: {
+//                     slug: $playerSlug
+//                     project: { slug: $projectSlug }
+//                 }
+//             }
+//         ) {
+//             name
+//             slug
+//         }
+//     }
+// `;
 
-async function getJourneys(projectSlug, playerSlug, setJourneysData) {
-    console.log("journey select - querying journeys");
+// async function getJourneys(projectSlug, playerSlug, setJourneysData) {
+//     console.log("journey select - querying journeys");
 
-    const result = await clientFast.query({
-        query: QUERY_JOURNEYS,
-        variables: {
-            projectSlug,
-            playerSlug,
-        },
-        fetchPolicy: "network-only",
-    });
+//     const result = await clientFast.query({
+//         query: QUERY_JOURNEYS,
+//         variables: {
+//             projectSlug,
+//             playerSlug,
+//         },
+//         fetchPolicy: "network-only",
+//     });
 
-    const data = result.data,
-        loading = result.loading,
-        error = result.error;
+//     const data = result.data,
+//         loading = result.loading,
+//         error = result.error;
 
-    setJourneysData({ data, loading, error });
-}
+//     setJourneysData({ data, loading, error });
+// }
 
 function getButtonClass(isActive = false) {
     let color = isActive ? "grayscale-0 text-primary" : "grayscale";
     let opacity = isActive ? "opacity-100" : "opacity-70";
     let border = isActive
-        ? "shadow-[inset_1px_1px_24px_8px_rgba(59,130,246,0.3)] "
+        ? "shadow-[inset_0px_0px_0px_4px_rgba(0,171,255,0.8)] "
         : "shadow-[inset_0px_0px_0px_1px_rgba(255,0,0,0.3)]";
     let hover = isActive
         ? ""
         : "hover:text-primary hover:shadow-primary hover:grayscale-0 hover:opacity-100";
-    return `${color} border items-center h-full box-border border-l-0  ${border} font-bold text-slate-500 ${hover} p-8 w-full flex justify-center  ${opacity}  transition-all`;
+    return `${color} border items-center h-full box-border border-l-0  ${border} font-bold  ${hover} p-8 w-full flex justify-center  ${opacity}  transition-all`;
 }
 
 function JourneySelect({ compact = false }) {
-    const [journeysData, setJourneysData] = useState(null);
+    // const [journeysData, setJourneysData] = useState(null);
     const [selected, setSelected] = useState(null);
     const router = useRouter();
-    const { currentProject, currentPlayer, currentJourney } =
-        useProjectContext();
+    const {
+        currentProject,
+        currentPlayer,
+        currentJourney,
+        allJourneysData: journeysData,
+    } = useProjectContext();
     // const { data, loading, error } = useQuery(QUERY_JOURNEYS, {
     //     variables: {
     //         playerSlug: currentPlayer?.slug,
@@ -70,36 +74,36 @@ function JourneySelect({ compact = false }) {
 
     console.log("setJourneysData", journeysData);
 
-    useEffect(() => {
-        console.log("currentAAA", { currentProject, currentPlayer });
-        if (currentProject?.id && currentPlayer?.id) {
-            getJourneys(
-                currentProject.slug,
-                currentPlayer.slug,
-                setJourneysData
-            );
-        }
-    }, [currentProject, currentPlayer]);
+    // useEffect(() => {
+    //     console.log("currentAAA", { currentProject, currentPlayer });
+    //     if (currentProject?.id && currentPlayer?.id) {
+    //         getJourneys(
+    //             currentProject.slug,
+    //             currentPlayer.slug,
+    //             setJourneysData
+    //         );
+    //     }
+    // }, [currentProject, currentPlayer]);
 
     const modalRef = useRef(null);
     // const [modalOpen, setModalOpen] = useDetectOutsideClick(modalRef, true);
     useEffect(() => {
         if (journeysData !== null) {
-            const { data } = journeysData;
+            const { journeys } = journeysData;
             if (router.query.journey) {
-                const { data } = journeysData;
-                const selected = data?.journeys?.find(
+                const { journeys } = journeysData;
+                const selected = journeys?.find(
                     (journey) => journey.slug === router.query.journey
                 );
                 setSelected(selected);
             } else {
-                setSelected(data?.journeys[0]);
+                setSelected(journeys[0]);
 
-                if (data?.journeys[0]) {
+                if (journeys[0]) {
                     router.replace({
                         query: {
                             ...router.query,
-                            journey: data?.journeys[0].slug,
+                            journey: journeys[0].slug,
                         },
                     });
                 }
@@ -153,21 +157,21 @@ function JourneySelect({ compact = false }) {
     if (journeysData === null) {
         return null;
     }
-    if (journeysData.data === undefined) {
+    if ((journeysData.journeys, currentJourney) === undefined) {
         return null;
     }
 
-    if (journeysData.loading) {
-        return (
-            <div className="pt-3">
-                <Spinner radius={10} thick={3} />
-            </div>
-        );
-    }
+    // if (journeysData.loading) {
+    //     return (
+    //         <div className="pt-3">
+    //             <Spinner radius={10} thick={3} />
+    //         </div>
+    //     );
+    // }
 
-    if (journeysData.error) {
-        return <div>SOMETHING WENT WRONG: Please, reload the page.</div>;
-    }
+    // if (journeysData.error) {
+    //     return <div>SOMETHING WENT WRONG: Please, reload the page.</div>;
+    // }
 
     return (
         <div>
@@ -217,7 +221,7 @@ function JourneySelect({ compact = false }) {
                         className="bg-white dark:bg-slate-700 flex flex-wrap max-w-4xl overflow-y-auto justify-around my-5 border-l-1 border border-y-0 border-r-0"
                         style={{ maxHeight: "calc(100vh - 40px)" }}
                     >
-                        {journeysData.data?.journeys?.map((journey) => (
+                        {journeysData.journeys?.map((journey) => (
                             <li
                                 className="flex-1 min-w-[200px]"
                                 key={journey.slug}

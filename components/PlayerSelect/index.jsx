@@ -4,22 +4,6 @@ import { useProjectContext } from "../../context/project";
 import { useRouter } from "next/router";
 import Spinner from "../Spinner";
 
-const modal_style = {
-    enter: { transition: "0.5s", opacity: 1, transform: "translateY(0px)" },
-    exit: {
-        transition: "0.5s",
-        opacity: 0,
-        transform: "translateY(-100px)",
-    },
-    hidden: {
-        transition: "0.5s",
-        display: "none",
-        opacity: 0,
-        transform: "translateX(100px)",
-        zIndex: 9,
-    },
-};
-
 /**
  *
  * Component
@@ -29,7 +13,7 @@ function getButtonClass(isActive = false) {
     let color = isActive ? "grayscale-0 text-primary" : "grayscale";
     let opacity = isActive ? "opacity-100" : "opacity-70";
     let border = isActive
-        ? "shadow-[inset_1px_1px_24px_8px_rgba(59,130,246,0.3)] "
+        ? "shadow-[inset_0px_0px_0px_4px_rgba(0,171,255,0.8)] "
         : "shadow-[inset_0px_0px_0px_1px_rgba(255,0,0,0.3)]";
     let hover = isActive
         ? ""
@@ -107,7 +91,11 @@ function PlayerSelect({ compact }) {
         }, 300);
     }
 
-    if (playersData === null) {
+    if (
+        playersData === null ||
+        currentPlayer === null ||
+        currentPlayer === undefined
+    ) {
         return (
             <div className="pt-3">
                 <Spinner radius={10} thick={3} colorClass="primary" />
