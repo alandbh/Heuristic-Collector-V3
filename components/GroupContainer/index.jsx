@@ -63,6 +63,18 @@ function isPresentInThisJourney(heuristic, journeySlug) {
  *
  */
 
+function getFindings(variables, setFindingsList) {
+    clientFast
+        .query({
+            query: QUERY_FINDINGS,
+            variables,
+            fetchPolicy: "network-only",
+        })
+        .then(({ data }) => {
+            setFindingsList(data);
+        });
+}
+
 function GroupContainer({ data }) {
     const router = useRouter();
     const [findingsList, setFindingsList] = useState(null);
@@ -71,24 +83,16 @@ function GroupContainer({ data }) {
         useScoresObjContext();
     const { userType } = useCredentialsContext();
 
-    function getFindings() {
-        clientFast
-            .query({
-                query: QUERY_FINDINGS,
-                variables: {
-                    playerSlug: router.query.player,
-                    projectSlug: router.query.slug,
-                    journeySlug: router.query.journey,
-                },
-                fetchPolicy: "network-only",
-            })
-            .then(({ data }) => {
-                setFindingsList(data);
-            });
-    }
     useEffect(() => {
-        getFindings();
-    });
+        getFindings(
+            {
+                playerSlug: router.query.player,
+                projectSlug: router.query.slug,
+                journeySlug: router.query.journey,
+            },
+            setFindingsList
+        );
+    }, [router]);
 
     /**
      *
@@ -189,6 +193,7 @@ function GroupContainer({ data }) {
     }, [data.groups]);
 
     const [scrollY] = useScroll(0);
+    // const scrollY = 0;
 
     if (!currentJourney) {
         return null;
