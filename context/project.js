@@ -85,8 +85,8 @@ async function doTheQuery(queryString, variables, setStateFunction) {
 const ProjectContext = createContext();
 
 export function ProjectWrapper({ children, data }) {
-    const [AllPlayersData, setAllPlayersData] = useState(null);
-    const [AllJourneysData, setAllJourneysData] = useState(null);
+    const [_allPlayersData, setAllPlayersData] = useState(null);
+    const [_allJourneysData, setAllJourneysData] = useState(null);
     const [currentPlayerData, setCurrentPlayerData] = useState(null);
     const [currentJourneyData, setCurrentJourneyData] = useState(null);
     const router = useRouter();
@@ -157,7 +157,8 @@ export function ProjectWrapper({ children, data }) {
     }, [journey, slug]);
 
     if (
-        AllPlayersData === null ||
+        _allPlayersData === null ||
+        _allJourneysData === null ||
         currentPlayerData === null ||
         currentJourneyData === null
     ) {
@@ -165,9 +166,9 @@ export function ProjectWrapper({ children, data }) {
     }
 
     const { data: allPlayersData, loading: loadingAllPlayersData } =
-        AllPlayersData;
+        _allPlayersData;
     const { data: allJourneysData, loading: loadingAllJourneysData } =
-        AllJourneysData;
+        _allJourneysData;
     const { data: currentPlayer, loading: loadingCurrentPlayer } =
         currentPlayerData;
 
@@ -186,6 +187,7 @@ export function ProjectWrapper({ children, data }) {
 
     if (
         loadingAllPlayersData ||
+        loadingAllJourneysData ||
         loadingCurrentPlayer ||
         loadingCurrentJourney ||
         currentPlayer === undefined ||
