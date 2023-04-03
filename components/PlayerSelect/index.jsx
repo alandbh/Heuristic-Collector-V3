@@ -1,29 +1,8 @@
 import React from "react";
-import { gql } from "@apollo/client";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useProjectContext } from "../../context/project";
 import { useRouter } from "next/router";
-import client from "../../lib/apollo";
 import Spinner from "../Spinner";
-
-// import { useDetectOutsideClick } from "../../lib/useDetectOutsideClick";
-
-// const QUERY_PLAYERS = gql`
-//     query Projects($projectSlug: String) {
-//         project(where: { slug: $projectSlug }) {
-//             slug
-//             players(first: 10000) {
-//                 id
-//                 name
-//                 slug
-//                 department
-//                 logo {
-//                     url
-//                 }
-//             }
-//         }
-//     }
-// `;
 
 const modal_style = {
     enter: { transition: "0.5s", opacity: 1, transform: "translateY(0px)" },
@@ -41,43 +20,29 @@ const modal_style = {
     },
 };
 
-// function getPlayers(currentProject, setPlayersData) {
-//     client
-//         .query({
-//             query: QUERY_PLAYERS,
-//             variables: {
-//                 projectSlug: currentProject.slug,
-//             },
-//             fetchPolicy: "network-only",
-//         })
-//         .then(({ data }) => {
-//             setPlayersData(data);
-//         });
-// }
-
 /**
  *
  * Component
  */
 
+function getButtonClass(isActive = false) {
+    let color = isActive ? "grayscale-0 text-primary" : "grayscale";
+    let opacity = isActive ? "opacity-100" : "opacity-70";
+    let border = isActive
+        ? "shadow-[inset_1px_1px_24px_8px_rgba(59,130,246,0.3)] "
+        : "shadow-[inset_0px_0px_0px_1px_rgba(255,0,0,0.3)]";
+    let hover = isActive
+        ? ""
+        : "hover:text-primary hover:shadow-primary hover:grayscale-0 hover:opacity-100";
+    return `${color} items-center h-full border box-border border-l-0  ${border} font-bold text-slate-500 ${hover} p-8 w-full flex justify-center  ${opacity}  transition-all`;
+}
+
 function PlayerSelect({ compact }) {
     const [selected, setSelected] = useState(null);
-    // const [playersData, setPlayersData] = useState(null);
     const router = useRouter();
-    const { currentProject, allPlayersData: playersData } = useProjectContext();
-    // const { data, loading, error } = useQuery(QUERY_PLAYERS, {
-    //     variables: {
-    //         projectSlug: currentProject.slug,
-    //     },
-    // });
+    const { allPlayersData: playersData, currentPlayer } = useProjectContext();
 
     const modalRef = useRef(null);
-    // const [modalOpen, setModalOpen] = useDetectOutsideClick(modalRef, true);
-
-    // useEffect(() => {
-    //     console.log("PlayerSelect loading");
-    //     getPlayers(currentProject, setPlayersData);
-    // }, [currentProject]);
 
     useEffect(() => {
         if (router.query.player) {
@@ -116,6 +81,7 @@ function PlayerSelect({ compact }) {
     }
 
     function openModal(_modal) {
+        console.log("currentPlayer", currentPlayer.slug);
         const modal = _modal.current;
         modal.style.transition = "0.4s";
         modal.children[0].style.transition = "0.4s";
@@ -148,10 +114,6 @@ function PlayerSelect({ compact }) {
             </div>
         );
     }
-
-    // if (error) {
-    //     return <div>SOMETHING WENT WRONG: {error.message}</div>;
-    // }
 
     return (
         <div>
@@ -212,8 +174,11 @@ function PlayerSelect({ compact }) {
                                 key={player.slug}
                             >
                                 <button
-                                    className="border box-border border-l-0 border-gray-300 shadow-[inset_0px_0px_0px_1px_rgba(200,200,255,0.3)] font-bold text-slate-500 hover:text-primary hover:shadow-primary p-8 w-full flex justify-center grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transition-all"
+                                    className={getButtonClass(
+                                        player.slug === currentPlayer.slug
+                                    )}
                                     onClick={() => handleSelectPlayer(player)}
+                                    id={player.slug}
                                 >
                                     <picture className="h-6 block dark:grayscale dark:brightness-[0] dark:invert">
                                         <source

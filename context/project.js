@@ -4,6 +4,22 @@ import { useRouter } from "next/router";
 import client from "../lib/apollo";
 import clientFast from "../lib/apollo-fast";
 
+const QUERY_ALL_JOURNEYS = gql`
+    query GetGroups($playerSlug: String, $projectSlug: String) {
+        journeys(
+            where: {
+                players_some: {
+                    slug: $playerSlug
+                    project: { slug: $projectSlug }
+                }
+            }
+        ) {
+            name
+            slug
+        }
+    }
+`;
+
 const QUERY_ALL_PLAYERS = gql`
     query Projects($projectSlug: String) {
         project(where: { slug: $projectSlug }) {
@@ -70,6 +86,7 @@ const ProjectContext = createContext();
 
 export function ProjectWrapper({ children, data }) {
     const [AllPlayersData, setAllPlayersData] = useState(null);
+    const [AllJourneysData, setAllJourneysData] = useState(null);
     const [currentPlayerData, setCurrentPlayerData] = useState(null);
     const [currentJourneyData, setCurrentJourneyData] = useState(null);
     const router = useRouter();
@@ -112,6 +129,19 @@ export function ProjectWrapper({ children, data }) {
         }
     }, [slug]);
 
+    useEffect(() => {
+        if ((player, slug)) {
+            doTheQuery(
+                QUERY_ALL_JOURNEYS,
+                {
+                    projectSlug: slug,
+                    playerSlug: player,
+                },
+                setAllJourneysData
+            );
+        }
+    }, [slug, player]);
+
     // Querying Current Journey
     useEffect(() => {
         if ((journey, slug)) {
@@ -136,6 +166,8 @@ export function ProjectWrapper({ children, data }) {
 
     const { data: allPlayersData, loading: loadingAllPlayersData } =
         AllPlayersData;
+    const { data: allJourneysData, loading: loadingAllJourneysData } =
+        AllJourneysData;
     const { data: currentPlayer, loading: loadingCurrentPlayer } =
         currentPlayerData;
 
@@ -171,6 +203,7 @@ export function ProjectWrapper({ children, data }) {
             value={{
                 currentProject: data.project,
                 allPlayersData,
+                allJourneysData,
                 currentPlayer: currentPlayer.players[0],
                 currentJourney: currentJourney.journeys[0],
             }}

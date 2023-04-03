@@ -1,6 +1,5 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
-import client from "../../lib/apollo";
 import clientFast from "../../lib/apollo-fast";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useProjectContext } from "../../context/project";
@@ -44,6 +43,18 @@ async function getJourneys(projectSlug, playerSlug, setJourneysData) {
     setJourneysData({ data, loading, error });
 }
 
+function getButtonClass(isActive = false) {
+    let color = isActive ? "grayscale-0 text-primary" : "grayscale";
+    let opacity = isActive ? "opacity-100" : "opacity-70";
+    let border = isActive
+        ? "shadow-[inset_1px_1px_24px_8px_rgba(59,130,246,0.3)] "
+        : "shadow-[inset_0px_0px_0px_1px_rgba(255,0,0,0.3)]";
+    let hover = isActive
+        ? ""
+        : "hover:text-primary hover:shadow-primary hover:grayscale-0 hover:opacity-100";
+    return `${color} border items-center h-full box-border border-l-0  ${border} font-bold text-slate-500 ${hover} p-8 w-full flex justify-center  ${opacity}  transition-all`;
+}
+
 function JourneySelect({ compact = false }) {
     const [journeysData, setJourneysData] = useState(null);
     const [selected, setSelected] = useState(null);
@@ -57,7 +68,7 @@ function JourneySelect({ compact = false }) {
     //     },
     // });
 
-    console.log("journey select - load components");
+    console.log("setJourneysData", journeysData);
 
     useEffect(() => {
         console.log("currentAAA", { currentProject, currentPlayer });
@@ -212,7 +223,9 @@ function JourneySelect({ compact = false }) {
                                 key={journey.slug}
                             >
                                 <button
-                                    className="border items-center h-full box-border border-l-0 border-gray-300 shadow-[inset_0px_0px_0px_1px_rgba(200,200,255,0.3)] font-bold text-slate-500 dark:text-slate-300 hover:text-primary dark:hover:text-slate-200 hover:shadow-primary p-8 w-full flex justify-center grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transition-all"
+                                    className={getButtonClass(
+                                        journey.slug === currentJourney.slug
+                                    )}
                                     onClick={() => handleSelectPlayer(journey)}
                                 >
                                     {journey.name}
