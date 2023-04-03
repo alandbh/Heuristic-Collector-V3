@@ -9,13 +9,25 @@ function Login() {
     const googleProvider = new GoogleAuthProvider();
     const [user, loading] = useAuthState(auth);
     const router = useRouter();
+    const { project, tab, player, journey } = router.query;
+
+    console.log("parametro login", { project, tab, player, journey });
 
     const googleLogin = async () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
 
             // console.log(result.user);
-            router.push("/projects");
+            if (
+                (project || player || journey || tab) !== "undefined" &&
+                (project || player || journey || tab) !== undefined
+            ) {
+                router.push(
+                    `/project/${project}?player=${player}&journey=${journey}&tab=${tab}`
+                );
+            } else {
+                router.push(`/projects/`);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -26,7 +38,16 @@ function Login() {
 
     if (user) {
         console.log("user", user);
-        router.push("/projects");
+        if (
+            (project || player || journey || tab) !== "undefined" &&
+            (project || player || journey || tab) !== undefined
+        ) {
+            router.push(
+                `/project/${project}?player=${player}&journey=${journey}&tab=${tab}`
+            );
+        } else {
+            router.push(`/projects/`);
+        }
     }
 
     return (

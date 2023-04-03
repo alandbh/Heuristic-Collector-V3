@@ -45,7 +45,7 @@ function Project() {
     const router = useRouter();
     const [user, loadingUser] = useAuthState(auth);
     const [projectData, setProjectData] = useState(null);
-    const { slug, tab, player } = router.query;
+    const { slug, tab, player, journey } = router.query;
 
     console.log("slugloading");
 
@@ -114,7 +114,10 @@ function Project() {
 
     if (typeof window !== "undefined") {
         if (!user && !loadingUser) {
-            router.push("/login");
+            console.log("parametro", { player, journey, slug, tab });
+            router.push(
+                `/login?project=${slug}&player=${player}&journey=${journey}&tab=${tab}`
+            );
             // return;
         }
     }
