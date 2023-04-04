@@ -1,13 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link as Scroll } from "react-scroll";
+import useKeyPress from "../../lib/useKeyPress";
 import { useProjectContext } from "../../context/project";
 import Fuse from "fuse.js";
+
+function isMac() {
+    return navigator.userAgent.indexOf("Mac") != -1;
+}
 
 function SearchBox(data) {
     const [result, setResult] = useState([]);
     const [vw, setVw] = useState(1024);
     const { currentProject, currentPlayer, currentJourney } =
         useProjectContext();
+    const inputRef = useRef(null);
 
     if (window !== undefined) {
         window.addEventListener("resize", function () {
@@ -15,6 +21,17 @@ function SearchBox(data) {
             setVw(window.innerWidth);
         });
     }
+
+    const onKeyPress = (event) => {
+        console.log(`key pressedaaa: ${event.key}`, event);
+        inputRef.current.focus();
+        // console.log(inputRef);
+    };
+
+    const changeKey = isMac() ? "metaKey" : "ctrlKey";
+    const shortCut = isMac() ? "Cmd + K" : "Ctrl + K";
+
+    useKeyPress([changeKey, "k"], onKeyPress);
 
     useEffect(() => {
         if (window !== undefined) {
@@ -48,8 +65,6 @@ function SearchBox(data) {
             setResult(fuse.search(term));
         }
     }
-
-    const inputRef = useRef(null);
 
     function getOffsetScroll() {
         if (scrollY > 200) {
@@ -119,6 +134,7 @@ function SearchBox(data) {
                     autoComplete="off"
                     ref={inputRef}
                     accessKey="s"
+                    placeholder={shortCut}
                 />
             </div>
             <div className="px-1 relative">
