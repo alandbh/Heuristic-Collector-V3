@@ -157,6 +157,10 @@ function HeuristicItem({ heuristic, id, allScoresJson }) {
             return item;
         });
 
+        setScoreHasChanged(false);
+
+        console.log("criando?");
+
         doTheChangeInScoreObj(allScoresObjJsonClone);
     }, [scoreValue, scoreHasChanged]);
 
