@@ -75,10 +75,6 @@ function Findings({
     }, [data]);
     // console.log("findingsAAAA", findings);
 
-    if (!data) {
-        return null;
-    }
-
     function handleAddOneMoreFinding() {
         // console.log("playerr", currentPlayer.id);
         setFindingsLoading(true);
@@ -97,7 +93,14 @@ function Findings({
     }
     function addFinding(finding) {
         setFindings([...findings, finding]);
-        getFindings();
+    }
+
+    // useEffect(() => {
+    //     getFindings();
+    // }, [findings, getFindings]);
+
+    if (!data) {
+        return null;
     }
 
     let addButtonText;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { gql } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useCredentialsContext } from "../../context/credentials";
@@ -11,7 +11,6 @@ import { useScroll, processChange } from "../../lib/utils";
 import { MUTATION_SCORE_OBJ } from "../../lib/mutations";
 import Findings from "../Findings";
 import client from "../../lib/apollo";
-import clientFast from "../../lib/apollo-fast";
 import SearchBox from "../SearchBox";
 import Donnut from "../Donnut";
 
@@ -63,18 +62,6 @@ function isPresentInThisJourney(heuristic, journeySlug) {
  *
  */
 
-function getFindings(variables, setFindingsList) {
-    clientFast
-        .query({
-            query: QUERY_FINDINGS,
-            variables,
-            fetchPolicy: "network-only",
-        })
-        .then(({ data }) => {
-            setFindingsList(data);
-        });
-}
-
 function GroupContainer({ data }) {
     const router = useRouter();
     const [findingsList, setFindingsList] = useState(null);
@@ -83,16 +70,28 @@ function GroupContainer({ data }) {
         useScoresObjContext();
     const { userType } = useCredentialsContext();
 
-    useEffect(() => {
-        getFindings(
-            {
-                playerSlug: router.query.player,
-                projectSlug: router.query.slug,
-                journeySlug: router.query.journey,
-            },
-            setFindingsList
-        );
+    const getFindings = useCallback(() => {
+        const variables = {
+            playerSlug: router.query.player,
+            projectSlug: router.query.slug,
+            journeySlug: router.query.journey,
+        };
+
+        // Not using clientFast in order to not cache results
+        client
+            .query({
+                query: QUERY_FINDINGS,
+                variables,
+                fetchPolicy: "network-only",
+            })
+            .then(({ data }) => {
+                setFindingsList(data);
+            });
     }, [router]);
+
+    useEffect(() => {
+        getFindings();
+    }, [getFindings]);
 
     /**
      *
