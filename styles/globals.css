@@ -35,6 +35,10 @@ a {
     margin-left: -20px;
   }
 
+  .switch-scroll {
+    box-shadow: -18px 0px 22px -10px inset #00000033;
+  }
+
 }
 @media (max-width: 425px) {
   .fullPage {

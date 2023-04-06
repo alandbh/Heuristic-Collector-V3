@@ -322,7 +322,7 @@ function Dashboard({ auth }) {
                     loadingDash
                         ? "opacity-0 translate-y-6"
                         : "opacity-100 translate-y-0"
-                } gap-5 max-w-6xl min-w-full mx-auto md:grid grid-cols-4`}
+                } gap-5 max-w-6xl w-full md:min-w-full mx-auto md:grid md:grid-cols-4`}
             >
                 <div className="md:col-span-4 flex flex-col gap-20">
                     <section className="mx-3 h-screen mb-96">
@@ -351,7 +351,7 @@ function Dashboard({ auth }) {
                                 ></Donnut>
                             </div>
                         </header>
-                        <ul className="bg-white dark:bg-slate-800 pt-8 pb-1 px-4 pr-8 rounded-lg shadow-lg">
+                        <ul className="bg-white dark:bg-slate-800 pt-8 pb-1 lg:px-4 lg:pr-8 rounded-lg shadow-lg">
                             <li className=" mx-auto">
                                 <div>
                                     <SwitchMono

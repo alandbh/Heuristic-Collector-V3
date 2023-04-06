@@ -154,48 +154,56 @@ function SwitchMono({ onChange, options, selected, disable = false }) {
             return "translate-x-[152px] w-[150px] border border-blue-500 bg-blue-100";
         } else if (option === options[2]) {
             return "translate-x-[302px] w-[150px] border border-blue-500 bg-blue-100";
-        } else {
+        } else if (option === options[3]) {
             return "translate-x-[452px] w-[150px] border border-blue-500 bg-blue-100";
+        } else if (option === options[4]) {
+            return "translate-x-[602px] w-[150px] border border-blue-500 bg-blue-100";
+        } else if (option === options[5]) {
+            return "translate-x-[752px] w-[150px] border border-blue-500 bg-blue-100";
+        } else {
+            return "translate-x-[902px] w-[150px] border border-blue-500 bg-blue-100";
         }
     }
 
     return (
         <>
-            <div className="wrapper flex  w-fit border dark:border-white/60 h-8 rounded-full relative">
-                <div
-                    className={`bubble z-0 transition duration-200 rounded-full top-[2px] h-[26px] absolute ${getBubblePosition()}`}
-                ></div>
-                <div
-                    className={`container flex w-[${
-                        options.length * 100
-                    }px] justify-between items-center font-bold z-10  text-xs leading-8 uppercase dark:text-white/60`}
-                >
-                    {options.map((_option, index) => (
-                        <label
-                            style={{ flex: "0 0 150px" }}
-                            key={index}
-                            className="flex w-[150px] items-center justify-center cursor-pointer"
-                        >
-                            <input
-                                type="radio"
-                                className="sr-only"
-                                name="worktype"
-                                value={options[index]}
-                                checked={option === options[index]}
-                                onChange={(ev) => handleOnChangeMono(ev)}
-                                disabled={disable}
-                            />
-                            <span
-                                className={
-                                    option === options[index]
-                                        ? `text-blue-500`
-                                        : `text-blue-500 dark:text-blue-100`
-                                }
+            <div className="h-12 overflow-x-scroll w-full lg:overflow-x-visible  rounded-full flex items-center switch-scroll">
+                <div className="wrapper flex  w-fit border dark:border-white/60 h-8 rounded-full relative">
+                    <div
+                        className={`bubble z-0 transition duration-300 rounded-full top-[2px] h-[26px] absolute ${getBubblePosition()}`}
+                    ></div>
+                    <div
+                        className={`container flex w-[${
+                            options.length * 100
+                        }px] justify-between items-center font-bold z-10  text-xs leading-8 uppercase dark:text-white/60`}
+                    >
+                        {options.map((_option, index) => (
+                            <label
+                                style={{ flex: "0 0 150px" }}
+                                key={index}
+                                className="flex w-[150px] items-center justify-center cursor-pointer"
                             >
-                                {options[index]}
-                            </span>
-                        </label>
-                    ))}
+                                <input
+                                    type="radio"
+                                    className="sr-only"
+                                    name="worktype"
+                                    value={options[index]}
+                                    checked={option === options[index]}
+                                    onChange={(ev) => handleOnChangeMono(ev)}
+                                    disabled={disable}
+                                />
+                                <span
+                                    className={
+                                        option === options[index]
+                                            ? `text-blue-500`
+                                            : `text-blue-500 dark:text-blue-100`
+                                    }
+                                >
+                                    {options[index]}
+                                </span>
+                            </label>
+                        ))}
+                    </div>
                 </div>
             </div>
         </>
