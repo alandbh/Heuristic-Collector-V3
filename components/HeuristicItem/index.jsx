@@ -266,7 +266,7 @@ function HeuristicItem({ heuristic, id, allScoresJson }) {
                     {heuristic.description}
                 </p>
 
-                <div className="flex flex-col gap-3 justify-between">
+                <div className="flex flex-col gap-3 justify-between mt-2">
                     <div className="max-w-sm">
                         <Range
                             type={"range"}
@@ -278,7 +278,7 @@ function HeuristicItem({ heuristic, id, allScoresJson }) {
                             disabled={userType !== "tester"}
                         />
                         <p
-                            className="text-sm text-slate-500"
+                            className="text-sm text-slate-500 pt-2"
                             style={{
                                 color: scoreDescription[scoreValue].color,
                             }}
