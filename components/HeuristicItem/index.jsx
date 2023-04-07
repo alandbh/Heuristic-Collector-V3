@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import Range from "../Range";
 import Evidence from "../Evidence";
 import client from "../../lib/apollo";
-import { processChange, waitForNewData, standByData } from "../../lib/utils";
+import { processChange, waitForNewData, delay } from "../../lib/utils";
 import { MUTATION_SCORE_OBJ } from "../../lib/mutations";
 
 /**
@@ -27,11 +27,11 @@ function HeuristicItem({ heuristic, id, allScoresJson }) {
     const [evidenceUrl, setEvidenceUrl] = useState(
         currentScore?.evidenceUrl || ""
     );
-    const { getNewScoresObj, setAllScoresObj, allScoresObj } =
+    const { getNewScoresObj, getNewScoresJson, allScoresObj } =
         useScoresObjContext();
     const [boxOpen, setBoxOpen] = useState(false);
     const router = useRouter();
-    const { user, userType } = useCredentialsContext();
+    const { userType } = useCredentialsContext();
     const [scoreHasChanged, setScoreHasChanged] = useState(false);
     const [enable, setEnable] = useState(false);
     const [toast, setToast] = useState({ open: false, text: "" });
@@ -73,16 +73,15 @@ function HeuristicItem({ heuristic, id, allScoresJson }) {
             console.log("allScoresObj", "YESSSS EMPTY");
             setEmpty(true);
             setScoreValue(0);
-            // DELETAR
-            // const newEmptyScore = {
-            //     projectSlug: router.query.slug,
-            //     playerSlug: router.query.player,
-            //     journeySlug: router.query.journey,
-            //     heuristicId: heuristic.id,
-            //     scoreValue: 0,
-            // };
         }
-    }, [currentScore, router, heuristic, userType, allScoresObj]);
+    }, [
+        currentScore,
+        router,
+        heuristic,
+        userType,
+        allScoresObj,
+        allScoresJson,
+    ]);
 
     /**
      *
@@ -152,16 +151,21 @@ function HeuristicItem({ heuristic, id, allScoresJson }) {
         allScoresObjJsonClone[router.query.journey].map((item) => {
             if (item.id === currentScore.id) {
                 item.scoreValue = scoreValue;
+                item.note = text;
+                item.evidenceUrl = evidenceUrl;
             }
 
             return item;
         });
 
         setScoreHasChanged(false);
+        setStatus("loading");
 
         console.log("criando?");
 
-        doTheChangeInScoreObj(allScoresObjJsonClone);
+        doTheChangeInScoreObj(allScoresObjJsonClone, null, () => {
+            setStatus("saved");
+        });
     }, [scoreValue, scoreHasChanged]);
 
     /**
@@ -172,9 +176,15 @@ function HeuristicItem({ heuristic, id, allScoresJson }) {
      *
      */
 
-    function handleChangeRange(ev) {
+    async function handleChangeRange(ev) {
+        // const newScoreValue = Number(ev.target.value);
         setScoreValue(Number(ev.target.value));
-        setScoreHasChanged(true);
+
+        delay(async () => {
+            const newScoresJson = await getNewScoresJson();
+
+            setScoreHasChanged(true);
+        }, 1000);
     }
 
     /**
@@ -205,28 +215,17 @@ function HeuristicItem({ heuristic, id, allScoresJson }) {
     const [status, setStatus] = useState("saved");
 
     async function onSaveEvidence() {
-        // DELETAR
-        // let scoreId, scoreData;
-
-        // if (empty) {
-        //     scoreData = await standByData();
-        //     console.log("standByIdUrl", scoreData);
-
-        //     scoreId = scoreData.id;
-        // } else {
-        //     scoreId = currentScore.id;
-        // }
-
         setStatus("loading");
 
-        // console.log("atualizando text", text);
-        // return;
-        let allScoresObjJson = JSON.stringify(allScoresJson);
+        const newScoresJson = await getNewScoresJson();
+
+        let allScoresObjJson = JSON.stringify(newScoresJson);
         let allScoresObjJsonClone = JSON.parse(allScoresObjJson);
         allScoresObjJsonClone[router.query.journey].map((item) => {
             if (item.id === currentScore.id) {
                 item.note = text;
                 item.evidenceUrl = evidenceUrl;
+                item.scoreValue = scoreValue;
             }
 
             return item;
