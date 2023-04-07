@@ -56,9 +56,8 @@ export function ScoresObjWrapper({ children }) {
         },
     });
 
-    console.log("isNotEmpty inicio");
-
     window.getNewScoresObj = async function getNewScoresObj() {
+        console.log("fetching new scores");
         const { data: newData } = await client.query({
             query: QUERY_SCORES_FROM_PLAYER,
             variables: {
@@ -69,14 +68,39 @@ export function ScoresObjWrapper({ children }) {
         });
 
         if (newData.players[0]["scoresObject"] !== null) {
+            setAllScoresJson(newData.players[0]["scoresObject"]);
             setAllScoresObj(
                 newData.players[0]["scoresObject"][router.query.journey]
             );
             console.log(
-                "SETTING NEW ALL SCORES OBJ",
+                "fetching SETTING NEW ALL SCORES OBJ",
                 newData.players[0]["scoresObject"]
             );
             return newData.players[0]["scoresObject"][router.query.journey];
+        }
+    };
+
+    window.getNewScoresJson = async function getNewScoresJson() {
+        console.log("fetching new scoresJson");
+        const { data } = await client.query({
+            query: QUERY_SCORES_FROM_PLAYER,
+            variables: {
+                projectSlug: router.query.slug,
+                playerSlug: router.query.player,
+            },
+            fetchPolicy: "network-only",
+        });
+
+        if (data.players[0]["scoresObject"] !== null) {
+            setAllScoresJson(data.players[0]["scoresObject"]);
+            setAllScoresObj(
+                data.players[0]["scoresObject"][router.query.journey]
+            );
+            console.log(
+                "fetching SETTING NEW ALL SCORES OBJ",
+                data.players[0]["scoresObject"]
+            );
+            return data.players[0]["scoresObject"];
         }
     };
 
@@ -197,6 +221,7 @@ export function ScoresObjWrapper({ children }) {
             value={{
                 allScoresObj,
                 allScoresJson,
+                getNewScoresJson,
                 loading,
                 error,
                 setAllScoresObj,
