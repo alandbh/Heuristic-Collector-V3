@@ -243,7 +243,7 @@ function GroupContainer({ data }) {
                             scrollY > 150 ? "md:sticky top-20" : "relative"
                         }
                     >
-                        <aside className="mb-10 mx-4 md:mx-0">
+                        <aside className="mb-10 ml-4 md:mx-0">
                             <div>
                                 <SearchBox data={allHeuristics} />
                             </div>
