@@ -5,12 +5,18 @@ function getPosition(min, max, value, drop) {
     const difference = value - min;
     const percentage = (difference / range) * 100;
     if (percentage === 0) {
-        return `calc(${percentage}% + ${drop - 13}px)`;
-    } else if (percentage === 100) {
-        return `calc(${percentage}% + ${drop - 38}px)`;
-    } else {
-        return `calc(${percentage}% - ${drop * (percentage / 100)}px)`;
+        return `calc(${percentage}% + ${drop / 4}px)`;
+        // return `${percentage}%`;
     }
+    return `calc(${percentage}% - ${drop / 2}px)`;
+    // if (percentage === 0) {
+    //     return `calc(${percentage}% + ${drop - 11}px)`;
+    // } else if (percentage === 100) {
+    //     return `calc(${percentage}% + ${drop - 38}px)`;
+    // } else {
+    //     // return `calc(${percentage}% - ${drop * (percentage / 100)}px)`;
+    //     return `calc(${percentage}% - ${drop / 2}px)`;
+    // }
 }
 
 const Range = (props) => {
@@ -49,7 +55,7 @@ const Range = (props) => {
 
     const dropstyles = {
         container: {
-            left: getPosition(props.min, props.max, props.value, 16),
+            left: getPosition(props.min, props.max, props.value, 18),
         },
         content: {
             background: dropColor,
@@ -90,6 +96,15 @@ const Range = (props) => {
                 value={props.value}
                 onChange={props.onChange}
                 disabled={isDisable}
+                onFocus={(e) => {
+                    e.target.classList.add("focused");
+                    e.target.classList.remove("blurred");
+                }}
+                onBlur={(e) => {
+                    e.target.classList.remove("focused");
+                    e.target.classList.add("blurred");
+                }}
+                className="blurred"
             />
 
             <span className={styles.dropContainer} style={dropstyles.container}>
