@@ -44,15 +44,16 @@ import { useRouter } from "next/router";
 // }
 
 function getButtonClass(isActive = false) {
-    let color = isActive ? "grayscale-0 text-primary" : "grayscale";
+    let color = isActive ? "grayscale-0 text-primary" : "";
     let opacity = isActive ? "opacity-100" : "opacity-70";
     let border = isActive
-        ? "shadow-[inset_0px_0px_0px_4px_rgba(0,171,255,0.8)] "
+        ? "shadow-[inset_0px_0px_0px_2px_rgba(0,171,255,0.8)] "
         : "shadow-[inset_0px_0px_0px_1px_rgba(255,0,0,0.3)]";
+    let bg = isActive ? "bg-primary/20" : "";
     let hover = isActive
         ? ""
         : "hover:text-primary hover:shadow-primary hover:grayscale-0 hover:opacity-100";
-    return `${color} border items-center h-full box-border border-l-0  ${border} font-bold  ${hover} p-8 w-full flex justify-center  ${opacity}  transition-all`;
+    return `${color} border relative items-center h-full box-border border-l-0 ${bg} ${border} font-bold  ${hover} p-8 w-full flex justify-center  ${opacity}  transition-all`;
 }
 
 function JourneySelect({ compact = false }) {
@@ -72,7 +73,17 @@ function JourneySelect({ compact = false }) {
     //     },
     // });
 
-    console.log("setJourneysData", journeysData);
+    function getZeroedScores(journeySlug) {
+        const zeroedScores = currentPlayer.scoresObject[journeySlug].filter(
+            (score) => {
+                return score.scoreValue === 0;
+            }
+        );
+
+        return zeroedScores.length;
+    }
+
+    // console.log("setJourneysData", zeroedScores.length);
 
     // useEffect(() => {
     //     console.log("currentAAA", { currentProject, currentPlayer });
@@ -233,6 +244,15 @@ function JourneySelect({ compact = false }) {
                                     onClick={() => handleSelectPlayer(journey)}
                                 >
                                     {journey.name}
+                                    <span
+                                        className={`w-5 h-5 absolute top-1 right-[6px] ${
+                                            getZeroedScores(journey.slug) === 0
+                                                ? "bg-green-500"
+                                                : "bg-red-500"
+                                        } text-white font-normal text-xs rounded-full leading-5`}
+                                    >
+                                        {getZeroedScores(journey.slug)}
+                                    </span>
                                 </button>
                             </li>
                         ))}

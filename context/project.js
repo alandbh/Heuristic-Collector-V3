@@ -43,6 +43,7 @@ const QUERY_CURRENT_PLAYER = gql`
             id
             name
             slug
+            scoresObject
             journeys {
                 id
                 slug
