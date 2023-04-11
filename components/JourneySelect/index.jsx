@@ -194,7 +194,14 @@ function JourneySelect({ compact = false }) {
                     Select a Journey
                 </label>
                 <div className="flex gap-2 items-center content-center">
-                    <h2 className="text-lg h-6 block font-bold leading-none">
+                    <h2
+                        className={`text-lg h-6 block font-bold leading-none ${
+                            getZeroedScores(currentJourney.slug) === 0
+                                ? "text-green-500"
+                                : ""
+                        }`}
+                    >
+                        {getZeroedScores(currentJourney.slug) === 0 ? "✓" : ""}{" "}
                         {selected?.name}
                     </h2>
                     <button
