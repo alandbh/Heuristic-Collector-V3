@@ -4,6 +4,7 @@ import React from "react";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useProjectContext } from "../../context/project";
 import { useRouter } from "next/router";
+import Progress from "../Progress";
 // import Spinner from "../Spinner";
 
 // import { useDetectOutsideClick } from "../../lib/useDetectOutsideClick";
@@ -74,13 +75,12 @@ function JourneySelect({ compact = false }) {
     // });
 
     function getZeroedScores(journeySlug) {
-        const zeroedScores = currentPlayer.scoresObject[journeySlug].filter(
-            (score) => {
-                return score.scoreValue === 0;
-            }
-        );
-
-        return zeroedScores.length;
+        return currentPlayer?.scoresObject[journeySlug].filter((score) => {
+            return score.scoreValue === 0;
+        }).length;
+    }
+    function getTotalScores(journeySlug) {
+        return currentPlayer.scoresObject[journeySlug].length;
     }
 
     // console.log("setJourneysData", zeroedScores.length);
@@ -253,6 +253,27 @@ function JourneySelect({ compact = false }) {
                                     >
                                         {getZeroedScores(journey.slug)}
                                     </span>
+                                    <div className="absolute bottom-1 h-3 flex  w-full justify-center">
+                                        <Progress
+                                            size="small"
+                                            showCounter={false}
+                                            showPercentage={false}
+                                            // barColor="#1e77fcb3"
+                                            barColor={
+                                                getZeroedScores(
+                                                    journey.slug
+                                                ) === 0
+                                                    ? "limegreen"
+                                                    : "#1e77fcb3"
+                                            }
+                                            baseColor="#ccc"
+                                            total={getTotalScores(journey.slug)}
+                                            amount={
+                                                getTotalScores(journey.slug) -
+                                                getZeroedScores(journey.slug)
+                                            }
+                                        />
+                                    </div>
                                 </button>
                             </li>
                         ))}

@@ -8,6 +8,9 @@ function Progress({
     style,
     size = "big",
     barColor = "limeGreen",
+    baseColor = "#ddd",
+    showCounter = true,
+    showPercentage = true,
 }) {
     const [percentage, setPercentage] = useState(0);
     useEffect(() => {
@@ -38,6 +41,9 @@ function Progress({
                     className={
                         size === "small" ? styles.baseSmall : styles.base
                     }
+                    style={{
+                        background: baseColor,
+                    }}
                 >
                     <div
                         style={{
@@ -47,21 +53,25 @@ function Progress({
                         className={styles.bar}
                     ></div>
                 </div>
-                <b
-                    style={
-                        size === "small"
-                            ? { fontSize: "small", width: "2rem" }
-                            : { fontSize: "1.5rem" }
-                    }
-                >
-                    {percentage}%
-                </b>
+                {showPercentage && (
+                    <b
+                        style={
+                            size === "small"
+                                ? { fontSize: "small", width: "2rem" }
+                                : { fontSize: "1.5rem" }
+                        }
+                    >
+                        {percentage}%
+                    </b>
+                )}
             </div>
-            <div className={styles.description}>
-                <span className={styles.numbers}>
-                    {amount} of {total}
-                </span>
-            </div>
+            {showCounter && (
+                <div className={styles.description}>
+                    <span className={styles.numbers}>
+                        {amount} of {total}
+                    </span>
+                </div>
+            )}
         </div>
     );
 }
