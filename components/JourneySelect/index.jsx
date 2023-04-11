@@ -1,48 +1,9 @@
 import React from "react";
-// import { gql, useQuery } from "@apollo/client";
-// import clientFast from "../../lib/apollo-fast";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useProjectContext } from "../../context/project";
+import { useScoresObjContext } from "../../context/scoresObj";
 import { useRouter } from "next/router";
 import Progress from "../Progress";
-// import Spinner from "../Spinner";
-
-// import { useDetectOutsideClick } from "../../lib/useDetectOutsideClick";
-
-// const QUERY_JOURNEYS = gql`
-//     query GetGroups($playerSlug: String, $projectSlug: String) {
-//         journeys(
-//             where: {
-//                 players_some: {
-//                     slug: $playerSlug
-//                     project: { slug: $projectSlug }
-//                 }
-//             }
-//         ) {
-//             name
-//             slug
-//         }
-//     }
-// `;
-
-// async function getJourneys(projectSlug, playerSlug, setJourneysData) {
-//     console.log("journey select - querying journeys");
-
-//     const result = await clientFast.query({
-//         query: QUERY_JOURNEYS,
-//         variables: {
-//             projectSlug,
-//             playerSlug,
-//         },
-//         fetchPolicy: "network-only",
-//     });
-
-//     const data = result.data,
-//         loading = result.loading,
-//         error = result.error;
-
-//     setJourneysData({ data, loading, error });
-// }
 
 function getButtonClass(isActive = false) {
     let color = isActive ? "grayscale-0 text-primary" : "";
@@ -61,40 +22,20 @@ function JourneySelect({ compact = false }) {
     // const [journeysData, setJourneysData] = useState(null);
     const [selected, setSelected] = useState(null);
     const router = useRouter();
-    const {
-        currentProject,
-        currentPlayer,
-        currentJourney,
-        allJourneysData: journeysData,
-    } = useProjectContext();
-    // const { data, loading, error } = useQuery(QUERY_JOURNEYS, {
-    //     variables: {
-    //         playerSlug: currentPlayer?.slug,
-    //         projectSlug: currentProject?.slug,
-    //     },
-    // });
+    const { currentJourney, allJourneysData: journeysData } =
+        useProjectContext();
+    const { allScoresJson } = useScoresObjContext();
 
     function getZeroedScores(journeySlug) {
-        return currentPlayer?.scoresObject[journeySlug].filter((score) => {
+        return allScoresJson[journeySlug].filter((score) => {
             return score.scoreValue === 0;
         }).length;
     }
     function getTotalScores(journeySlug) {
-        return currentPlayer.scoresObject[journeySlug].length;
+        return allScoresJson[journeySlug].length;
     }
 
-    // console.log("setJourneysData", zeroedScores.length);
-
-    // useEffect(() => {
-    //     console.log("currentAAA", { currentProject, currentPlayer });
-    //     if (currentProject?.id && currentPlayer?.id) {
-    //         getJourneys(
-    //             currentProject.slug,
-    //             currentPlayer.slug,
-    //             setJourneysData
-    //         );
-    //     }
-    // }, [currentProject, currentPlayer]);
+    // console.log("setJourneysData", allScoresJson);
 
     const modalRef = useRef(null);
     // const [modalOpen, setModalOpen] = useDetectOutsideClick(modalRef, true);
@@ -171,18 +112,6 @@ function JourneySelect({ compact = false }) {
     if ((journeysData.journeys, currentJourney) === undefined) {
         return null;
     }
-
-    // if (journeysData.loading) {
-    //     return (
-    //         <div className="pt-3">
-    //             <Spinner radius={10} thick={3} />
-    //         </div>
-    //     );
-    // }
-
-    // if (journeysData.error) {
-    //     return <div>SOMETHING WENT WRONG: Please, reload the page.</div>;
-    // }
 
     return (
         <div>

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useProjectContext } from "../../context/project";
+import { ScoresObjWrapper } from "../../context/scoresObj";
 import JourneySelect from "../JourneySelect";
 import PlayerSelect from "../PlayerSelect";
 import ToggleTheme from "../ToggleTheme";
@@ -165,8 +166,10 @@ function Header({ routes, className, auth }) {
 
                         {!isProgress ? (
                             <>
-                                <PlayerSelect compact={scrollY > 200} />
-                                <JourneySelect compact={scrollY > 200} />
+                                <ScoresObjWrapper>
+                                    <PlayerSelect compact={scrollY > 200} />
+                                    <JourneySelect compact={scrollY > 200} />
+                                </ScoresObjWrapper>
                             </>
                         ) : (
                             <h2 className="text-2xl font-bold">Progress</h2>
