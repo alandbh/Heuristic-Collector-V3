@@ -1,16 +1,17 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import client from "../lib/apollo";
-import { processChange, waitForNewData } from "../lib/utils";
+import { processChange } from "../lib/utils";
 import { MUTATION_SCORE_OBJ } from "../lib/mutations";
-import Spinner from "../components/Spinner";
 
 import { gql, useQuery } from "@apollo/client";
 
-const QUERY_SCORES = gql`
-    query GetScores($projectSlug: String, $playerSlug: String) {
-        player(where: { id: "clag1accr0sww0alr76x1k8wg" }, first: 10000) {
-            scoresObject
+const QUERY_FIRST_PLAYER = gql`
+    query GetAllPlayers($projectSlug: String) {
+        players(where: { project: { slug: $projectSlug } }, first: 1) {
+            id
+            name
+            slug
         }
     }
 `;
@@ -31,12 +32,7 @@ const QUERY_SCORES_FROM_PLAYER = gql`
 const ScoresObjContext = createContext();
 
 function isScoresObjectEmpty(scoresObject) {
-    console.log("isNotEmpty type", typeof scoresObject);
     if (typeof scoresObject === "object" && scoresObject !== null) {
-        console.log(
-            "isNotEmpty obj value",
-            Object.keys(scoresObject).length === 0
-        );
         return Object.keys(scoresObject).length === 0;
     } else if (scoresObject === null) {
         return true;
@@ -49,10 +45,18 @@ export function ScoresObjWrapper({ children }) {
     const [allScoresObj, setAllScoresObj] = useState(null);
     const [allScoresJson, setAllScoresJson] = useState(null);
     const router = useRouter();
+
+    const { data: firstPlayerData } = useQuery(QUERY_FIRST_PLAYER, {
+        variables: {
+            projectSlug: router.query.slug,
+        },
+    });
+
     const { data, loading, error } = useQuery(QUERY_SCORES_FROM_PLAYER, {
         variables: {
             projectSlug: router.query.slug,
-            playerSlug: router.query.player,
+            playerSlug:
+                router.query.player || firstPlayerData?.players[0]["slug"],
         },
     });
 
@@ -107,7 +111,7 @@ export function ScoresObjWrapper({ children }) {
     useEffect(() => {
         // isScoresObjectEmpty(data?.players[0]["scoresObject"]);
 
-        if (!data) {
+        if (!data || !firstPlayerData) {
             return;
         }
 
@@ -144,66 +148,8 @@ export function ScoresObjWrapper({ children }) {
             console.log("InitialScores", allScoresJson);
         }
 
-        // if (data && !isScoresObjectEmpty(data.players[0]["scoresObject"])) {
-        //     console.log("isNotEmpty NAO NULL", allScoresJson);
-        //     isScoresObjectEmpty(data.players[0]["scoresObject"]);
-        //     setAllScoresObj(
-        //         data.players[0]["scoresObject"][router.query.journey]
-        //     );
-        //     setAllScoresJson(data.players[0]["scoresObject"]);
-        //     console.log("InitialScores", allScoresJson);
-        // } else if (
-        //     data &&
-        //     isScoresObjectEmpty(data.players[0]["scoresObject"])
-        // ) {
-        //     console.log("isNotEmpty SIM NULL", allScoresJson);
-        //     let scoresObjModel = {};
-
-        //     data?.players[0]["journeys"].map((journey) => {
-        //         scoresObjModel[journey.slug] = [];
-        //     });
-        //     console.log("InitialScores", data.players[0]["scoresObject"]);
-
-        //     setAllScoresJson(JSON.stringify(scoresObjModel));
-
-        //     let allScoresObjJson = JSON.stringify(scoresObjModel);
-        //     let allScoresObjJsonClone = JSON.parse(allScoresObjJson);
-
-        //     processChange(
-        //         client,
-        //         {
-        //             playerId: data.players[0].id,
-        //             scoresObj: allScoresObjJsonClone,
-        //         },
-        //         MUTATION_SCORE_OBJ,
-        //         true
-        //     );
-
-        //     // console.log("InitialScores SALVOUU", newData);
-        //     // async function getNewData() {
-        //     //     let newData = await waitForNewData();
-
-        //     // }
-
-        //     // getNewData();
         // }
     }, [data]);
-
-    // if (loading || !allScores) {
-    //     return (
-    //         <div className="h-[calc(100vh_-_126px)] flex flex-col items-center">
-    //             <Spinner radius={40} thick={6} />
-    //         </div>
-    //     );
-    //     return <div>LOADING SCORES OBJECT</div>;
-    // }
-
-    // if (error) {
-    //     return <div>SOMETHING WENT WRONG: {error.message}</div>;
-    // }
-    // if (data === undefined) {
-    //     return null;
-    // }
 
     // console.log("SCORES", data);
 
@@ -211,7 +157,6 @@ export function ScoresObjWrapper({ children }) {
         return null;
     }
 
-    console.log("InitialScores FIAL", allScoresObj);
     window.scoresObj = data?.players[0]["scoresObject"]
         ? data?.players[0]["scoresObject"][router.query.journey]
         : null;
