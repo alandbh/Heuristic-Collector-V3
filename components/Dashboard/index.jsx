@@ -8,6 +8,8 @@ import Donnut from "../Donnut";
 import Progress from "../Progress";
 import { SwitchMono } from "../Switch";
 import { getAllScoresApi, getAllFindingsApi } from "../../lib/utils";
+import Link from "next/link";
+import Debugg from "../../lib/Debugg";
 
 const QUERY_ALL_JOURNEYS = gql`
     query getAllJourneys($projectSlug: String) {
@@ -152,15 +154,25 @@ function getPlayerPercentage(params) {
     const totalAmountOfScores = scoresByPlayerByJourney.length;
     const totalAmountOfZeroedScores = zeroedsByPlayer.length;
     const totalDone = totalAmountOfScores - totalAmountOfZeroedScores;
+
+    const division = isNaN(totalDone / totalAmountOfScores)
+        ? 0
+        : totalDone / totalAmountOfScores;
+    const percentage = division * 100;
     // const scoresByPlayer = scores.find(
     //     (player) => player.playerSlug === playerSlug
     // );
 
-    console.log("scoresByPlayer", scoresByPlayerByJourney);
+    console.log("scoresByPlayer percentage", {
+        total: totalAmountOfScores,
+        done: totalDone,
+        percentage,
+    });
 
     return {
         total: totalAmountOfScores,
         done: totalDone,
+        percentage,
     };
 }
 
@@ -419,12 +431,14 @@ function Dashboard({ auth }) {
                                         </div>
                                         <div className="flex flex-col gap-3 max-w-[80px] md:max-w-[200px] text-blue-600">
                                             <div className="text-4xl font-bold">
-                                                {
-                                                    getUncompletedPlayers({
-                                                        scores: allScores,
+                                                {getUncompletedPlayers({
+                                                    scores: allScores,
+                                                    journey,
+                                                }).length -
+                                                    getBlockedPlayers({
+                                                        findings: allFindings,
                                                         journey,
-                                                    }).length
-                                                }
+                                                    }).length}
                                             </div>
                                             <div className="text-xs md:text-md">
                                                 Players In Progress
@@ -455,7 +469,7 @@ function Dashboard({ auth }) {
                                             ></Donnut>
 
                                             <h3 className="font-bold text-xl">
-                                                Done
+                                                Collected heuristics
                                             </h3>
                                         </div>
 
@@ -481,7 +495,7 @@ function Dashboard({ auth }) {
                                                 }}
                                             ></Donnut>
                                             <h3 className="font-bold text-xl">
-                                                Players with flags
+                                                Blocked players
                                             </h3>
                                         </div>
                                     </div>
@@ -500,7 +514,7 @@ function Dashboard({ auth }) {
                                             Progress by Player
                                         </h3>
 
-                                        <ul className="mt-10 mb-10 md:grid md:grid-cols-4 md:max-w-4xl mx-auto gap-5 flex-wrap">
+                                        <ul className="mt-10 mb-10 md:grid md:grid-cols-4 md:max-w-4xl mx-auto gap-4 flex-wrap">
                                             {getAllPlayersObj({
                                                 scores: allScores,
                                                 journey,
@@ -519,13 +533,9 @@ function Dashboard({ auth }) {
                                                     getPlayerPercentage({
                                                         scores: allScores,
                                                         journey,
-                                                        playerSlug: "extra",
-                                                    }).total ===
-                                                    getPlayerPercentage({
-                                                        scores: allScores,
-                                                        journey,
-                                                        playerSlug: "extra",
-                                                    }).done
+                                                        playerSlug:
+                                                            player.playerSlug,
+                                                    }).percentage === 100
                                                 ) {
                                                     playerColor = "#1cab1c";
                                                 } else {
@@ -535,47 +545,56 @@ function Dashboard({ auth }) {
                                                 return (
                                                     <li
                                                         key={player.playerSlug}
-                                                        className={`col-span-1 flex gap-2 items-center border-r-0 border-r-[${playerColor}] py-3`}
+                                                        className={`col-span-1 flex gap-1 items-center  py-3 px-2 border border-slate-300 hover:border-blue-300 rounded-md hover:bg-blue-100/30`}
                                                     >
-                                                        <div>
-                                                            <div
-                                                                style={{
-                                                                    background:
-                                                                        playerColor,
-                                                                }}
-                                                                className={`p-1 bg-[${playerColor}] w-1 rounded-full hidden`}
-                                                            ></div>
-                                                        </div>
                                                         <div className="flex-1 mr-2">
-                                                            <Progress
-                                                                amount={
-                                                                    getPlayerPercentage(
-                                                                        {
-                                                                            scores: allScores,
-                                                                            journey,
-                                                                            playerSlug:
-                                                                                player.playerSlug,
-                                                                        }
-                                                                    ).done
-                                                                }
-                                                                total={
-                                                                    getPlayerPercentage(
-                                                                        {
-                                                                            scores: allScores,
-                                                                            journey,
-                                                                            playerSlug:
-                                                                                player.playerSlug,
-                                                                        }
-                                                                    ).total
-                                                                }
-                                                                legend={
-                                                                    player.playerName
-                                                                }
-                                                                size="small"
-                                                                barColor={
-                                                                    playerColor
-                                                                }
-                                                            />
+                                                            <Link
+                                                                href={`/project/${
+                                                                    router.query
+                                                                        .slug
+                                                                }?player=${
+                                                                    player.playerSlug
+                                                                }&journey=${
+                                                                    journey ||
+                                                                    allJourneysSlug[0]
+                                                                }`}
+                                                            >
+                                                                <a>
+                                                                    <div className="">
+                                                                        <Progress
+                                                                            amount={
+                                                                                getPlayerPercentage(
+                                                                                    {
+                                                                                        scores: allScores,
+                                                                                        journey,
+                                                                                        playerSlug:
+                                                                                            player.playerSlug,
+                                                                                    }
+                                                                                )
+                                                                                    .done
+                                                                            }
+                                                                            total={
+                                                                                getPlayerPercentage(
+                                                                                    {
+                                                                                        scores: allScores,
+                                                                                        journey,
+                                                                                        playerSlug:
+                                                                                            player.playerSlug,
+                                                                                    }
+                                                                                )
+                                                                                    .total
+                                                                            }
+                                                                            legend={
+                                                                                player.playerName
+                                                                            }
+                                                                            size="small"
+                                                                            barColor={
+                                                                                playerColor
+                                                                            }
+                                                                        />
+                                                                    </div>
+                                                                </a>
+                                                            </Link>
                                                         </div>
                                                     </li>
                                                 );

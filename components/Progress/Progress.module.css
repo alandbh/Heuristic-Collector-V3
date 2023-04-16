@@ -25,6 +25,10 @@
     display: flex;
     justify-content: space-between;
 }
+.description span {
+    font-size: small;
+    color: #777;
+}
 .container span {
     /* color: #555; */
     line-height: 2rem;
@@ -34,7 +38,7 @@
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 8px;
 }
 
 .bar-wrapper b {

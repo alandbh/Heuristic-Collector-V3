@@ -55,9 +55,13 @@ function Progress({
                 </div>
                 {showPercentage && (
                     <b
+                        className="text-left text-slate-500"
                         style={
                             size === "small"
-                                ? { fontSize: "small", width: "2rem" }
+                                ? {
+                                      fontSize: "11px",
+                                      width: "2.5rem",
+                                  }
                                 : { fontSize: "1.5rem" }
                         }
                     >
