@@ -34,6 +34,9 @@ const QUERY_ALL = gql`
                 }
                 findingObject
             }
+            ignored_journeys {
+                slug
+            }
         }
     }
 `;
@@ -67,17 +70,30 @@ export default async function handler(req, res) {
     // console.log(allPlayers.data.players[0].finding);
 
     const newPlayerArr = allPlayers.data.players.map(
-        ({ id, name, slug, department, scoresObject, finding }) => {
+        ({
+            id,
+            name,
+            slug,
+            department,
+            scoresObject,
+            finding,
+            ignored_journeys,
+        }) => {
             const playerOb = {};
             playerOb.id = id;
             playerOb.name = name;
             playerOb.slug = slug;
             playerOb.department = department;
             playerOb.scores = {};
+            playerOb.ignored_journeys = [];
 
             if (scoresObject === null) {
                 return;
             }
+
+            ignored_journeys.map((journey) => {
+                playerOb.ignored_journeys.push(journey.slug);
+            });
 
             // const journeys = {};
 
