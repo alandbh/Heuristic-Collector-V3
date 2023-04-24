@@ -36,6 +36,7 @@ const QUERY_ALL = gql`
             }
             ignored_journeys {
                 slug
+                name
             }
         }
     }
@@ -91,8 +92,15 @@ export default async function handler(req, res) {
                 return;
             }
 
+            const ignoredJourneysSlugs = ignored_journeys.map(
+                (journey) => journey.slug
+            );
+
             ignored_journeys.map((journey) => {
-                playerOb.ignored_journeys.push(journey.slug);
+                playerOb.ignored_journeys.push({
+                    name: journey.name,
+                    slug: journey.slug,
+                });
             });
 
             // const journeys = {};
@@ -102,6 +110,8 @@ export default async function handler(req, res) {
             allJourneys.data.journeys.map((jou) => {
                 playerOb.scores[jou.slug] = {};
                 scoresObject[jou.slug]?.map((score) => {
+                    playerOb.scores[jou.slug].ignore_journey =
+                        ignoredJourneysSlugs.includes(jou.slug);
                     playerOb.scores[jou.slug][
                         "h_" + score.heuristic.heuristicNumber
                     ] = {
