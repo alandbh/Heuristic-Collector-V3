@@ -292,6 +292,7 @@ function Dashboard({ auth }) {
                 setAllScores(getAllScoresApi(result));
                 setAllFindings(getAllFindingsApi(result));
                 console.log("allScores", result);
+                setLoadingDash(false);
             });
         });
         // console.log("allFindings", allFindings);
