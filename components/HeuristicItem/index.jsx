@@ -49,9 +49,12 @@ function HeuristicItem({ heuristic, id, allScoresJson }) {
     );
     console.log("allScoresObj currentScore", currentScore);
 
-    useEffect(() => {
-        getNewScoresObj();
-    }, [router.query.journey]);
+    // 25/04/2023
+    // OBSERVAR WATCH se este useEffect abaixo vai causar algum problema depois de comentado.
+    // DELETAR
+    // useEffect(() => {
+    //     getNewScoresObj();
+    // }, [router.query.journey]);
 
     useEffect(() => {
         // debugger;
