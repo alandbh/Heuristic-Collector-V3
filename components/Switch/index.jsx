@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Switch({ onChange, options, selected, disable = false }) {
     const [option, setOption] = useState(selected);
@@ -137,7 +137,13 @@ export default Switch;
  */
 
 function SwitchMono({ onChange, options, selected, disable = false }) {
+    console.log("ignore initial switch", selected);
+    console.log("ignore initial switchArr", options);
     const [option, setOption] = useState(selected);
+
+    useEffect(() => {
+        setOption(selected);
+    }, [selected]);
 
     console.log("options", options);
 
@@ -149,17 +155,17 @@ function SwitchMono({ onChange, options, selected, disable = false }) {
     }
 
     function getBubblePosition() {
-        if (option === options[0]) {
+        if (selected === options[0]) {
             return "translate-x-[2px] w-[150px] border border-blue-500 bg-blue-100";
-        } else if (option === options[1]) {
+        } else if (selected === options[1]) {
             return "translate-x-[152px] w-[150px] border border-blue-500 bg-blue-100";
-        } else if (option === options[2]) {
+        } else if (selected === options[2]) {
             return "translate-x-[302px] w-[150px] border border-blue-500 bg-blue-100";
-        } else if (option === options[3]) {
+        } else if (selected === options[3]) {
             return "translate-x-[452px] w-[150px] border border-blue-500 bg-blue-100";
-        } else if (option === options[4]) {
+        } else if (selected === options[4]) {
             return "translate-x-[602px] w-[150px] border border-blue-500 bg-blue-100";
-        } else if (option === options[5]) {
+        } else if (selected === options[5]) {
             return "translate-x-[752px] w-[150px] border border-blue-500 bg-blue-100";
         } else {
             return "translate-x-[902px] w-[150px] border border-blue-500 bg-blue-100";
@@ -189,13 +195,13 @@ function SwitchMono({ onChange, options, selected, disable = false }) {
                                     className="sr-only"
                                     name="worktype"
                                     value={options[index]}
-                                    checked={option === options[index]}
+                                    checked={selected === options[index]}
                                     onChange={(ev) => handleOnChangeMono(ev)}
                                     disabled={disable}
                                 />
                                 <span
                                     className={
-                                        option === options[index]
+                                        selected === options[index]
                                             ? `text-blue-500`
                                             : `text-blue-500 dark:text-blue-100`
                                     }
