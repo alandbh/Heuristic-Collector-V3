@@ -145,6 +145,7 @@ function SwitchMono({ onChange, options, selected, disable = false }) {
         console.log(ev.target.value);
         setOption(ev.target.value);
         onChange(ev.target.value);
+        return ev;
     }
 
     function getBubblePosition() {

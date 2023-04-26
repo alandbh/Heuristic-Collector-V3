@@ -13,6 +13,7 @@ import Findings from "../Findings";
 import client from "../../lib/apollo";
 import SearchBox from "../SearchBox";
 import Donnut from "../Donnut";
+import Ignore from "../Ignore";
 
 const QUERY_FINDINGS = gql`
     query GetAllFindings(
@@ -29,6 +30,20 @@ const QUERY_FINDINGS = gql`
         ) {
             id
             findingObject
+        }
+    }
+`;
+
+const MUTATION_IGNORE = gql`
+    mutation MutateIgnoreJourney($playerId: ID, $journeyId: ID) {
+        updatePlayer(
+            where: { id: $playerId }
+            data: {
+                ignored_journeys: { connect: { where: { id: $journeyId } } }
+            }
+        ) {
+            name
+            id
         }
     }
 `;
@@ -69,6 +84,8 @@ function GroupContainer({ data }) {
     const { allScoresJson, allScoresObj: allScoresObjContext } =
         useScoresObjContext();
     const { userType } = useCredentialsContext();
+    const { currentProject, currentPlayer, currentJourney } =
+        useProjectContext();
 
     const getFindings = useCallback(() => {
         const variables = {
@@ -89,6 +106,20 @@ function GroupContainer({ data }) {
             });
     }, [router]);
 
+    const ignoreJourney = useCallback(() => {
+        client
+            .mutate({
+                mutation: MUTATION_IGNORE,
+                variables: {
+                    playerId: currentPlayer.id,
+                    journeyId: currentJourney.id,
+                },
+            })
+            .then(({ data }) => {
+                alert("Journey Ignored");
+            });
+    });
+
     useEffect(() => {
         getFindings();
     }, [getFindings]);
@@ -98,9 +129,6 @@ function GroupContainer({ data }) {
      * Setting empty scores
      * ------------------------------
      */
-
-    const { currentProject, currentPlayer, currentJourney } =
-        useProjectContext();
 
     useEffect(() => {
         console.log("singleScore allScoresObjContext", allScoresObjContext);
@@ -194,6 +222,8 @@ function GroupContainer({ data }) {
     const [scrollY] = useScroll(0);
     // const scrollY = 0;
 
+    // console.log("currentJourney group", currentJourney);
+
     if (!currentJourney) {
         return null;
     }
@@ -215,6 +245,14 @@ function GroupContainer({ data }) {
 
     console.log("groupsToMap", groupsToMap);
 
+    function handleOnChangeIgnore(value) {
+        console.log("ignore", "aaaaa", value);
+
+        if (value === "Yes") {
+            ignoreJourney();
+        }
+    }
+
     return (
         <>
             <div className="gap-5 max-w-5xl mx-auto flex flex-col-reverse md:grid md:grid-cols-3 ">
@@ -226,7 +264,6 @@ function GroupContainer({ data }) {
                             key={group.id}
                         />
                     ))}
-
                     <Findings
                         data={findingsList}
                         router={router}
@@ -235,6 +272,10 @@ function GroupContainer({ data }) {
                         currentPlayer={currentPlayer}
                         currentProject={currentProject}
                         disable={userType !== "tester"}
+                    />
+                    <Ignore
+                        onChange={handleOnChangeIgnore}
+                        isDisable={userType !== "tester"}
                     />
                 </div>
                 <div className="relative mr-4">
