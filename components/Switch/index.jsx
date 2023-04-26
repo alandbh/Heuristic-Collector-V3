@@ -137,15 +137,11 @@ export default Switch;
  */
 
 function SwitchMono({ onChange, options, selected, disable = false }) {
-    console.log("ignore initial switch", selected);
-    console.log("ignore initial switchArr", options);
     const [option, setOption] = useState(selected);
 
     useEffect(() => {
         setOption(selected);
     }, [selected]);
-
-    console.log("options", options);
 
     function handleOnChangeMono(ev) {
         console.log(ev.target.value);
