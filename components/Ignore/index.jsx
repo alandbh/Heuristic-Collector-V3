@@ -1,9 +1,20 @@
 import React from "react";
 import Switch, { SwitchMono } from "../Switch";
+import Debug from "../Debug";
 
 // import { Container } from './styles';
 
-function Ignore({ onChange, isDisable = true }) {
+function MessageContainer({ ignored }) {
+    const message = ignored
+        ? "This journey is now ignored"
+        : "Ignore this journey?";
+
+    const classNames = ignored ? "text-red-500" : "";
+
+    return <span className={classNames}>{message}</span>;
+}
+
+function Ignore({ onChange, isDisable = true, ignored = false }) {
     console.log("ignore disable", isDisable);
     function handleOnChange(value) {
         onChange(value);
@@ -17,8 +28,9 @@ function Ignore({ onChange, isDisable = true }) {
                 </h1>
                 <div className="text-lg flex items-center flex-col gap-5 border-dashed border-spacing-2 border-red-200 border-4 p-4">
                     <h1 className="text-xl font-bold flex flex-col items-center gap-2">
-                        <span>Ignore this journey?</span>
+                        <MessageContainer ignored={ignored} />
                     </h1>
+                    {/* <Debug data={ignored} /> */}
                     <p>
                         Sometimes we are unable to test some journeys. In this
                         case, we need to fulfill as many heuristics as possible
@@ -28,7 +40,7 @@ function Ignore({ onChange, isDisable = true }) {
                     <div className="flex items-center">
                         <SwitchMono
                             onChange={handleOnChange}
-                            selected={"No"}
+                            selected={ignored ? "Yes" : "No"}
                             options={["No", "Yes"]}
                             disable={isDisable}
                         />

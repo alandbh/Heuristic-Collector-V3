@@ -47,6 +47,27 @@ const MUTATION_IGNORE = gql`
         }
     }
 `;
+const MUTATION_REMOVE_IGNORE = gql`
+    mutation MutateRemoveIgnoreJourney($playerId: ID, $journeyId: ID) {
+        updatePlayer(
+            where: { id: $playerId }
+            data: { ignored_journeys: { disconnect: { id: $journeyId } } }
+        ) {
+            name
+            id
+        }
+    }
+`;
+
+const MUTATION_PUBLISH_PLAYER = gql`
+    mutation PublishPlayer($playerId: ID) {
+        publishPlayer(where: { id: $playerId }) {
+            id
+            name
+            slug
+        }
+    }
+`;
 
 // let selectedJourney;
 
@@ -66,6 +87,17 @@ function isPresentInThisJourney(heuristic, journeySlug) {
     }
 }
 
+function publishPlayer(variables) {
+    client
+        .mutate({
+            mutation: MUTATION_PUBLISH_PLAYER,
+            variables,
+        })
+        .then(({ data }) => {
+            alert("Journey ignored");
+        });
+}
+
 /**
  *
  *
@@ -81,6 +113,7 @@ function GroupContainer({ data }) {
     const router = useRouter();
     const [findingsList, setFindingsList] = useState(null);
     const [validJourney, setValidJourney] = useState(true);
+    const [journeyIgnored, setJourneyIgnored] = useState(false);
     const { allScoresJson, allScoresObj: allScoresObjContext } =
         useScoresObjContext();
     const { userType } = useCredentialsContext();
@@ -106,19 +139,27 @@ function GroupContainer({ data }) {
             });
     }, [router]);
 
-    const ignoreJourney = useCallback(() => {
-        client
-            .mutate({
-                mutation: MUTATION_IGNORE,
-                variables: {
-                    playerId: currentPlayer.id,
-                    journeyId: currentJourney.id,
-                },
-            })
-            .then(({ data }) => {
-                alert("Journey Ignored");
-            });
-    });
+    const ignoreJourney = useCallback(
+        (ignore) => {
+            const mutation = ignore ? MUTATION_IGNORE : MUTATION_REMOVE_IGNORE;
+
+            const variables = {
+                playerId: currentPlayer.id,
+                journeyId: currentJourney.id,
+            };
+            client
+                .mutate({
+                    mutation,
+                    variables,
+                })
+                .then(({ data }) => {
+                    publishPlayer({
+                        playerId: currentPlayer.id,
+                    });
+                });
+        },
+        [currentJourney, currentPlayer]
+    );
 
     useEffect(() => {
         getFindings();
@@ -219,6 +260,14 @@ function GroupContainer({ data }) {
         setAllHeuristics(heuristicsArr);
     }, [data.groups]);
 
+    useEffect(() => {
+        const isThisJourneyIgnored = currentPlayer?.ignored_journeys.some(
+            (journey) => journey.slug === currentJourney.slug
+        );
+        console.log("ignore initial", isThisJourneyIgnored);
+        setJourneyIgnored(isThisJourneyIgnored);
+    }, [currentPlayer, currentJourney]);
+
     const [scrollY] = useScroll(0);
     // const scrollY = 0;
 
@@ -248,9 +297,8 @@ function GroupContainer({ data }) {
     function handleOnChangeIgnore(value) {
         console.log("ignore", "aaaaa", value);
 
-        if (value === "Yes") {
-            ignoreJourney();
-        }
+        ignoreJourney(value === "Yes");
+        setJourneyIgnored(value === "Yes");
     }
 
     return (
@@ -276,6 +324,7 @@ function GroupContainer({ data }) {
                     <Ignore
                         onChange={handleOnChangeIgnore}
                         isDisable={userType !== "tester"}
+                        ignored={journeyIgnored}
                     />
                 </div>
                 <div className="relative mr-4">
