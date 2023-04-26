@@ -48,6 +48,11 @@ const QUERY_CURRENT_PLAYER = gql`
                 id
                 slug
             }
+            ignored_journeys {
+                name
+                slug
+                id
+            }
         }
     }
 `;
