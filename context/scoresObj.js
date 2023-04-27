@@ -72,7 +72,10 @@ export function ScoresObjWrapper({ children }) {
             fetchPolicy: "network-only",
         });
 
-        if (newData.players[0]["scoresObject"] !== null) {
+        if (
+            newData?.players[0] &&
+            newData?.players[0]["scoresObject"] !== null
+        ) {
             setScoresLoading(false);
             setAllScoresJson(newData.players[0]["scoresObject"]);
             setAllScoresObj(
