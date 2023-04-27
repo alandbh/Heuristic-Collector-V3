@@ -61,7 +61,7 @@ export function ScoresObjWrapper({ children }) {
         },
     });
 
-    window.getNewScoresObj = async function getNewScoresObj() {
+    async function getNewScoresObj() {
         console.log("fetching new scores");
         const { data: newData } = await client.query({
             query: QUERY_SCORES_FROM_PLAYER,
@@ -87,7 +87,7 @@ export function ScoresObjWrapper({ children }) {
             );
             return newData.players[0]["scoresObject"][router.query.journey];
         }
-    };
+    }
 
     useEffect(() => {
         getNewScoresObj();
