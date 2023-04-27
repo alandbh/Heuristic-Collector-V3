@@ -191,13 +191,13 @@ function SwitchMono({ onChange, options, selected, disable = false }) {
                                     className="sr-only"
                                     name="worktype"
                                     value={options[index]}
-                                    checked={selected === options[index]}
+                                    checked={option === options[index]}
                                     onChange={(ev) => handleOnChangeMono(ev)}
                                     disabled={disable}
                                 />
                                 <span
                                     className={
-                                        selected === options[index]
+                                        option === options[index]
                                             ? `text-blue-500`
                                             : `text-blue-500 dark:text-blue-100`
                                     }
