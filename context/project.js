@@ -53,6 +53,11 @@ const QUERY_CURRENT_PLAYER = gql`
                 slug
                 id
             }
+            zeroed_journeys {
+                name
+                slug
+                id
+            }
         }
     }
 `;

@@ -38,6 +38,10 @@ const QUERY_ALL = gql`
                 slug
                 name
             }
+            zeroed_journeys {
+                slug
+                name
+            }
         }
     }
 `;
@@ -79,6 +83,7 @@ export default async function handler(req, res) {
             scoresObject,
             finding,
             ignored_journeys,
+            zeroed_journeys,
         }) => {
             const playerOb = {};
             playerOb.id = id;
@@ -87,6 +92,7 @@ export default async function handler(req, res) {
             playerOb.department = department;
             playerOb.scores = {};
             playerOb.ignored_journeys = [];
+            playerOb.zeroed_journeys = [];
 
             if (scoresObject === null) {
                 return;
@@ -102,6 +108,16 @@ export default async function handler(req, res) {
                     slug: journey.slug,
                 });
             });
+            const zeroedJourneysSlugs = zeroed_journeys.map(
+                (journey) => journey.slug
+            );
+
+            zeroed_journeys.map((journey) => {
+                playerOb.zeroed_journeys.push({
+                    name: journey.name,
+                    slug: journey.slug,
+                });
+            });
 
             // const journeys = {};
 
@@ -112,6 +128,8 @@ export default async function handler(req, res) {
                 scoresObject[jou.slug]?.map((score) => {
                     playerOb.scores[jou.slug].ignore_journey =
                         ignoredJourneysSlugs.includes(jou.slug);
+                    playerOb.scores[jou.slug].zeroed_journey =
+                        zeroedJourneysSlugs.includes(jou.slug);
                     playerOb.scores[jou.slug][
                         "h_" + score.heuristic.heuristicNumber
                     ] = {

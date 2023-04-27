@@ -58,6 +58,30 @@ const MUTATION_REMOVE_IGNORE = gql`
         }
     }
 `;
+const MUTATION_ZERO = gql`
+    mutation MutateZeroJourney($playerId: ID, $journeyId: ID) {
+        updatePlayer(
+            where: { id: $playerId }
+            data: {
+                zeroed_journeys: { connect: { where: { id: $journeyId } } }
+            }
+        ) {
+            name
+            id
+        }
+    }
+`;
+const MUTATION_REMOVE_ZERO = gql`
+    mutation MutateRemoveZeroJourney($playerId: ID, $journeyId: ID) {
+        updatePlayer(
+            where: { id: $playerId }
+            data: { zeroed_journeys: { disconnect: { id: $journeyId } } }
+        ) {
+            name
+            id
+        }
+    }
+`;
 
 const MUTATION_PUBLISH_PLAYER = gql`
     mutation PublishPlayer($playerId: ID) {
@@ -87,14 +111,14 @@ function isPresentInThisJourney(heuristic, journeySlug) {
     }
 }
 
-function publishPlayer(variables) {
+function publishPlayer(variables, message = "Journey has changed") {
     client
         .mutate({
             mutation: MUTATION_PUBLISH_PLAYER,
             variables,
         })
         .then(({ data }) => {
-            alert("Journey ignored");
+            alert(message);
         });
 }
 
@@ -114,6 +138,7 @@ function GroupContainer({ data }) {
     const [findingsList, setFindingsList] = useState(null);
     const [validJourney, setValidJourney] = useState(true);
     const [journeyIgnored, setJourneyIgnored] = useState(false);
+    const [journeyZeroed, setJourneyZeroed] = useState(false);
     const {
         allScoresJson,
         allScoresObj: allScoresObjContext,
@@ -145,6 +170,27 @@ function GroupContainer({ data }) {
     const ignoreJourney = useCallback(
         (ignore) => {
             const mutation = ignore ? MUTATION_IGNORE : MUTATION_REMOVE_IGNORE;
+
+            const variables = {
+                playerId: currentPlayer.id,
+                journeyId: currentJourney.id,
+            };
+            client
+                .mutate({
+                    mutation,
+                    variables,
+                })
+                .then(({ data }) => {
+                    publishPlayer({
+                        playerId: currentPlayer.id,
+                    });
+                });
+        },
+        [currentJourney, currentPlayer]
+    );
+    const zeroJourney = useCallback(
+        (zero) => {
+            const mutation = zero ? MUTATION_ZERO : MUTATION_REMOVE_ZERO;
 
             const variables = {
                 playerId: currentPlayer.id,
@@ -267,8 +313,12 @@ function GroupContainer({ data }) {
         const isThisJourneyIgnored = currentPlayer?.ignored_journeys.some(
             (journey) => journey.slug === currentJourney.slug
         );
+        const isThisJourneyZeroed = currentPlayer?.zeroed_journeys.some(
+            (journey) => journey.slug === currentJourney.slug
+        );
         console.log("ignore initial", isThisJourneyIgnored);
         setJourneyIgnored(isThisJourneyIgnored);
+        setJourneyZeroed(isThisJourneyZeroed);
     }, [currentPlayer, currentJourney]);
 
     const [scrollY] = useScroll(0);
@@ -303,6 +353,12 @@ function GroupContainer({ data }) {
         ignoreJourney(value === "Yes");
         setJourneyIgnored(value === "Yes");
     }
+    function handleOnChangeZero(value) {
+        console.log("zero", "aaaaa", value);
+
+        zeroJourney(value === "Yes");
+        setJourneyZeroed(value === "Yes");
+    }
 
     if (scoresLoading) {
         return <div className="text-center">Loading</div>;
@@ -315,11 +371,20 @@ function GroupContainer({ data }) {
                     className={`md:col-span-2 flex flex-col gap-20 ${
                         journeyIgnored &&
                         "bg-red-100 border-red-300 border-4 border-dashed rounded-lg"
+                    }
+                    ${
+                        journeyZeroed &&
+                        "bg-purple-100 border-purple-300 border-4 border-dashed rounded-lg"
                     }`}
                 >
                     {journeyIgnored && (
                         <p className="text-center -mb-10 mt-4 uppercase text-red-600 font-mono">
                             This journey is ignored
+                        </p>
+                    )}
+                    {journeyZeroed && (
+                        <p className="text-center -mb-10 mt-4 uppercase text-purple-600 font-mono">
+                            This journey is zeroed
                         </p>
                     )}
                     {groupsToMap.map((group) => (
@@ -342,8 +407,10 @@ function GroupContainer({ data }) {
                     {getUserLevel(userType) === 1 && (
                         <Ignore
                             onChange={handleOnChangeIgnore}
+                            onChangeZero={handleOnChangeZero}
                             isDisable={getUserLevel(userType) !== 1}
                             ignored={journeyIgnored}
+                            zeroed={journeyZeroed}
                         />
                     )}
                 </div>
