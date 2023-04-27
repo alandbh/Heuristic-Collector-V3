@@ -44,6 +44,7 @@ function isScoresObjectEmpty(scoresObject) {
 export function ScoresObjWrapper({ children }) {
     const [allScoresObj, setAllScoresObj] = useState(null);
     const [allScoresJson, setAllScoresJson] = useState(null);
+    const [scoresLoading, setScoresLoading] = useState(true);
     const router = useRouter();
 
     const { data: firstPlayerData } = useQuery(QUERY_FIRST_PLAYER, {
@@ -72,6 +73,7 @@ export function ScoresObjWrapper({ children }) {
         });
 
         if (newData.players[0]["scoresObject"] !== null) {
+            setScoresLoading(false);
             setAllScoresJson(newData.players[0]["scoresObject"]);
             setAllScoresObj(
                 newData.players[0]["scoresObject"][router.query.journey]
@@ -84,29 +86,35 @@ export function ScoresObjWrapper({ children }) {
         }
     };
 
-    window.getNewScoresJson = async function getNewScoresJson() {
-        console.log("fetching new scoresJson");
-        const { data } = await client.query({
-            query: QUERY_SCORES_FROM_PLAYER,
-            variables: {
-                projectSlug: router.query.slug,
-                playerSlug: router.query.player,
-            },
-            fetchPolicy: "network-only",
-        });
+    useEffect(() => {
+        getNewScoresObj();
+    }, [router.query.journey]);
 
-        if (data.players[0]["scoresObject"] !== null) {
-            setAllScoresJson(data.players[0]["scoresObject"]);
-            setAllScoresObj(
-                data.players[0]["scoresObject"][router.query.journey]
-            );
-            console.log(
-                "fetching SETTING NEW ALL SCORES OBJ",
-                data.players[0]["scoresObject"]
-            );
-            return data.players[0]["scoresObject"];
-        }
-    };
+    const getNewScoresJson = getNewScoresObj;
+
+    // window.getNewScoresJson = async function getNewScoresJson() {
+    //     console.log("fetching new scoresJson");
+    //     const { data } = await client.query({
+    //         query: QUERY_SCORES_FROM_PLAYER,
+    //         variables: {
+    //             projectSlug: router.query.slug,
+    //             playerSlug: router.query.player,
+    //         },
+    //         fetchPolicy: "network-only",
+    //     });
+
+    //     if (data.players[0]["scoresObject"] !== null) {
+    //         setAllScoresJson(data.players[0]["scoresObject"]);
+    //         setAllScoresObj(
+    //             data.players[0]["scoresObject"][router.query.journey]
+    //         );
+    //         console.log(
+    //             "fetching SETTING NEW ALL SCORES OBJ",
+    //             data.players[0]["scoresObject"]
+    //         );
+    //         return data.players[0]["scoresObject"];
+    //     }
+    // };
 
     useEffect(() => {
         // isScoresObjectEmpty(data?.players[0]["scoresObject"]);
@@ -114,6 +122,8 @@ export function ScoresObjWrapper({ children }) {
         if (!data || !firstPlayerData) {
             return;
         }
+
+        setScoresLoading(false);
 
         if (isScoresObjectEmpty(data.players[0]["scoresObject"])) {
             console.log("isNotEmpty SIM", allScoresJson);
@@ -171,6 +181,7 @@ export function ScoresObjWrapper({ children }) {
                 error,
                 setAllScoresObj,
                 getNewScoresObj,
+                scoresLoading,
             }}
         >
             {children}

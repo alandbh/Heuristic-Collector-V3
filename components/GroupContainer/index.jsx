@@ -7,7 +7,7 @@ import { Link as Scroll } from "react-scroll";
 import HeuristicGroup from "../HeuristicGroup";
 import { useScoresObjContext } from "../../context/scoresObj";
 import { useProjectContext } from "../../context/project";
-import { useScroll, processChange } from "../../lib/utils";
+import { useScroll, processChange, getUserLevel } from "../../lib/utils";
 import { MUTATION_SCORE_OBJ } from "../../lib/mutations";
 import Findings from "../Findings";
 import client from "../../lib/apollo";
@@ -114,8 +114,11 @@ function GroupContainer({ data }) {
     const [findingsList, setFindingsList] = useState(null);
     const [validJourney, setValidJourney] = useState(true);
     const [journeyIgnored, setJourneyIgnored] = useState(false);
-    const { allScoresJson, allScoresObj: allScoresObjContext } =
-        useScoresObjContext();
+    const {
+        allScoresJson,
+        allScoresObj: allScoresObjContext,
+        scoresLoading,
+    } = useScoresObjContext();
     const { userType } = useCredentialsContext();
     const { currentProject, currentPlayer, currentJourney } =
         useProjectContext();
@@ -301,15 +304,30 @@ function GroupContainer({ data }) {
         setJourneyIgnored(value === "Yes");
     }
 
+    if (scoresLoading) {
+        return <div className="text-center">Loading</div>;
+    }
+
     return (
         <>
-            <div className="gap-5 max-w-5xl mx-auto flex flex-col-reverse md:grid md:grid-cols-3 ">
-                <div className="md:col-span-2 flex flex-col gap-20">
+            <div className="gap-5 max-w-5xl mx-auto flex flex-col-reverse md:grid md:grid-cols-3  ">
+                <div
+                    className={`md:col-span-2 flex flex-col gap-20 ${
+                        journeyIgnored &&
+                        "bg-red-100 border-red-300 border-4 border-dashed rounded-lg"
+                    }`}
+                >
+                    {journeyIgnored && (
+                        <p className="text-center -mb-10 mt-4 uppercase text-red-600 font-mono">
+                            This journey is ignored
+                        </p>
+                    )}
                     {groupsToMap.map((group) => (
                         <HeuristicGroup
                             allScoresJson={allScoresJson}
                             group={group}
                             key={group.id}
+                            allScoresObj={allScoresObjContext}
                         />
                     ))}
                     <Findings
@@ -319,13 +337,15 @@ function GroupContainer({ data }) {
                         currentJourney={currentJourney}
                         currentPlayer={currentPlayer}
                         currentProject={currentProject}
-                        disable={userType !== "tester"}
+                        disable={getUserLevel(userType) > 2}
                     />
-                    <Ignore
-                        onChange={handleOnChangeIgnore}
-                        isDisable={userType !== "tester"}
-                        ignored={journeyIgnored}
-                    />
+                    {getUserLevel(userType) === 1 && (
+                        <Ignore
+                            onChange={handleOnChangeIgnore}
+                            isDisable={getUserLevel(userType) !== 1}
+                            ignored={journeyIgnored}
+                        />
+                    )}
                 </div>
                 <div className="relative mr-4">
                     <div

@@ -8,7 +8,12 @@ import { useRouter } from "next/router";
 import Range from "../Range";
 import Evidence from "../Evidence";
 import client from "../../lib/apollo";
-import { processChange, waitForNewData, delay } from "../../lib/utils";
+import {
+    processChange,
+    waitForNewData,
+    delay,
+    getUserLevel,
+} from "../../lib/utils";
 import { MUTATION_SCORE_OBJ } from "../../lib/mutations";
 
 /**
@@ -19,7 +24,7 @@ import { MUTATION_SCORE_OBJ } from "../../lib/mutations";
  *
  */
 
-function HeuristicItem({ heuristic, id, allScoresJson }) {
+function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
     const { currentPlayer } = useProjectContext();
     const [scoreValue, setScoreValue] = useState(0);
     const [empty, setEmpty] = useState(false);
@@ -27,8 +32,7 @@ function HeuristicItem({ heuristic, id, allScoresJson }) {
     const [evidenceUrl, setEvidenceUrl] = useState(
         currentScore?.evidenceUrl || ""
     );
-    const { getNewScoresObj, getNewScoresJson, allScoresObj } =
-        useScoresObjContext();
+    const { getNewScoresObj, getNewScoresJson } = useScoresObjContext();
     const [boxOpen, setBoxOpen] = useState(false);
     const router = useRouter();
     const { userType } = useCredentialsContext();
@@ -36,7 +40,7 @@ function HeuristicItem({ heuristic, id, allScoresJson }) {
     const [enable, setEnable] = useState(false);
     const [toast, setToast] = useState({ open: false, text: "" });
 
-    // console.log("aaaaaaa", userType);
+    console.log("allScoresObj json", allScoresJson);
 
     // debugger;
     console.log("allScoresObj currentPlayer", allScoresObj);
@@ -59,11 +63,7 @@ function HeuristicItem({ heuristic, id, allScoresJson }) {
     useEffect(() => {
         // debugger;
         // console.log("HAS SCORE", currentScore);
-        if (
-            currentScore !== undefined &&
-            allScoresObj !== null &&
-            allScoresObj.length > 0
-        ) {
+        if (currentScore) {
             console.log("allScoresObj", "NOT EMPTY");
             setScoreValue(currentScore.scoreValue);
             setText(currentScore.note);
@@ -278,7 +278,7 @@ function HeuristicItem({ heuristic, id, allScoresJson }) {
                             max={5}
                             value={scoreValue}
                             onChange={handleChangeRange}
-                            disabled={userType !== "tester"}
+                            disabled={getUserLevel(userType) > 2}
                         />
                         <p
                             className="text-sm text-slate-500 pt-2"
@@ -324,7 +324,7 @@ function HeuristicItem({ heuristic, id, allScoresJson }) {
                         onSaveEvidence={onSaveEvidence}
                         status={status}
                         hid={heuristic.id}
-                        disabled={userType !== "tester"}
+                        disabled={getUserLevel(userType) > 2}
                     />
                 </div>
             </div>

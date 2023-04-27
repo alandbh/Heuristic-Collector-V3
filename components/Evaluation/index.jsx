@@ -131,11 +131,9 @@ function Evaluation() {
     }
 
     return (
-        <ScoresWrapper>
-            <ScoresObjWrapper>
-                <GroupContainer data={groupsData.data}></GroupContainer>
-            </ScoresObjWrapper>
-        </ScoresWrapper>
+        <ScoresObjWrapper>
+            <GroupContainer data={groupsData.data}></GroupContainer>
+        </ScoresObjWrapper>
     );
 }
 
