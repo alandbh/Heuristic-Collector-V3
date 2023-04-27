@@ -151,17 +151,17 @@ function SwitchMono({ onChange, options, selected, disable = false }) {
     }
 
     function getBubblePosition() {
-        if (selected === options[0]) {
+        if (option === options[0]) {
             return "translate-x-[2px] w-[150px] border border-blue-500 bg-blue-100";
-        } else if (selected === options[1]) {
+        } else if (option === options[1]) {
             return "translate-x-[152px] w-[150px] border border-blue-500 bg-blue-100";
-        } else if (selected === options[2]) {
+        } else if (option === options[2]) {
             return "translate-x-[302px] w-[150px] border border-blue-500 bg-blue-100";
-        } else if (selected === options[3]) {
+        } else if (option === options[3]) {
             return "translate-x-[452px] w-[150px] border border-blue-500 bg-blue-100";
-        } else if (selected === options[4]) {
+        } else if (option === options[4]) {
             return "translate-x-[602px] w-[150px] border border-blue-500 bg-blue-100";
-        } else if (selected === options[5]) {
+        } else if (option === options[5]) {
             return "translate-x-[752px] w-[150px] border border-blue-500 bg-blue-100";
         } else {
             return "translate-x-[902px] w-[150px] border border-blue-500 bg-blue-100";
