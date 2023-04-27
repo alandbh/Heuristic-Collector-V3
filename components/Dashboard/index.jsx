@@ -298,16 +298,16 @@ function Dashboard({ auth }) {
         // console.log("allFindings", allFindings);
     }, [router.query.slug]);
 
-    useEffect(() => {
-        console.log("comecou");
-        const timeout = setTimeout(() => {
-            setLoadingDash(false);
-        }, _pagination * 200);
+    // useEffect(() => {
+    //     console.log("comecou");
+    //     const timeout = setTimeout(() => {
+    //         setLoadingDash(false);
+    //     }, _pagination * 200);
 
-        return () => {
-            clearTimeout(timeout);
-        };
-    });
+    //     return () => {
+    //         clearTimeout(timeout);
+    //     };
+    // });
 
     function onChangeJourney(journey) {
         let selectedJourney = journey !== "overall" ? journey : "";
@@ -326,9 +326,9 @@ function Dashboard({ auth }) {
 
     return (
         <>
-            <h1 className={`${loadingDash ? "opacity-100" : "opacity-0"}`}>
+            {/* <h1 className={`${loadingDash ? "opacity-100" : "opacity-0"}`}>
                 LOADING...
-            </h1>
+            </h1> */}
             <div
                 style={{ transition: ".5s", transitionDelay: ".5s" }}
                 className={`${
