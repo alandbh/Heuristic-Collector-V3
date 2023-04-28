@@ -93,31 +93,35 @@ export function ScoresObjWrapper({ children }) {
         getNewScoresObj();
     }, [router.query.journey]);
 
-    const getNewScoresJson = getNewScoresObj;
+    // const getNewScoresJson = getNewScoresObj;
 
-    // window.getNewScoresJson = async function getNewScoresJson() {
-    //     console.log("fetching new scoresJson");
-    //     const { data } = await client.query({
-    //         query: QUERY_SCORES_FROM_PLAYER,
-    //         variables: {
-    //             projectSlug: router.query.slug,
-    //             playerSlug: router.query.player,
-    //         },
-    //         fetchPolicy: "network-only",
-    //     });
+    window.getNewScoresJson = async function getNewScoresJson() {
+        console.log("fetching new scoresJson");
+        const { data } = await client.query({
+            query: QUERY_SCORES_FROM_PLAYER,
+            variables: {
+                projectSlug: router.query.slug,
+                playerSlug: router.query.player,
+            },
+            fetchPolicy: "network-only",
+        });
 
-    //     if (data.players[0]["scoresObject"] !== null) {
-    //         setAllScoresJson(data.players[0]["scoresObject"]);
-    //         setAllScoresObj(
-    //             data.players[0]["scoresObject"][router.query.journey]
-    //         );
-    //         console.log(
-    //             "fetching SETTING NEW ALL SCORES OBJ",
-    //             data.players[0]["scoresObject"]
-    //         );
-    //         return data.players[0]["scoresObject"];
-    //     }
-    // };
+        if (data.players[0]["scoresObject"] !== null) {
+            setAllScoresJson(data.players[0]["scoresObject"]);
+            setAllScoresObj(
+                data.players[0]["scoresObject"][router.query.journey]
+            );
+            console.log(
+                "fetching SETTING NEW ALL SCORES OBJ",
+                data.players[0]["scoresObject"]
+            );
+
+            console.log("ASAS", data.players[0]["scoresObject"]);
+
+            debugger;
+            return data.players[0]["scoresObject"];
+        }
+    };
 
     useEffect(() => {
         // isScoresObjectEmpty(data?.players[0]["scoresObject"]);
