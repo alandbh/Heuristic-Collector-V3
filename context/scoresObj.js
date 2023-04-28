@@ -118,7 +118,7 @@ export function ScoresObjWrapper({ children }) {
 
             console.log("ASAS", data.players[0]["scoresObject"]);
 
-            debugger;
+            // debugger;
             return data.players[0]["scoresObject"];
         }
     };
