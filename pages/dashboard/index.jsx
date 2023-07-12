@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { gql } from "@apollo/client";
+import { from, gql } from "@apollo/client";
+import { saveSvgAsPng } from "save-svg-as-png";
 import client from "../../lib/apollo";
 import Fuse from "fuse.js";
 import Debugg from "../../lib/Debugg";
@@ -269,6 +270,17 @@ function Dashboard() {
 
         const svgText = chartRef.current.outerHTML;
 
+        saveSvgAsPng(
+            chartRef.current,
+            `chart-${currentJourney}-h_${selectedHeuristic.heuristicNumber}-${router.query.showPlayer}.png`
+        );
+        return;
+
+        /**
+         * Caso seja necessário plotar o PNG na tela
+         *
+         * Remover o return acima
+         */
         const svgBlob = new Blob([svgText], {
             type: "image/svg+xml;charset=utf-8",
         });
@@ -313,28 +325,6 @@ function Dashboard() {
         img.src = svgUrl;
 
         setPngSrc(svgUrl);
-
-        // const setToClipboard = async (blob) => {
-        //     const data = [new ClipboardItem({ [blob.type]: blob })];
-        //     await navigator.clipboard.write(data);
-        // };
-
-        // copy as an image
-        // fetch(svgUrl)
-        //     .then((response) => {
-        //         return response.blob();
-        //     })
-        //     .then((blob) => setToClipboard(blob));
-
-        console.log({ svgUrl });
-
-        // Force download
-        const link = document.createElement("a");
-        link.href = canvas.toDataURL();
-        link.download = `chart-${currentJourney}-h_${selectedHeuristic.heuristicNumber}-${router.query.showPlayer}.png`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
     }
 
     return (
@@ -463,7 +453,7 @@ function Dashboard() {
                             className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
                             onClick={handleClickCopyPng}
                         >
-                            {svgCopied ? "✅ PNG Copied" : "Copy as PNG"}
+                            Export as a PNG file
                         </button>
                     </div>
 
