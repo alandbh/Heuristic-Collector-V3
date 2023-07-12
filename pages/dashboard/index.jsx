@@ -4,6 +4,7 @@ import { gql } from "@apollo/client";
 import client from "../../lib/apollo";
 import Fuse from "fuse.js";
 import Debugg from "../../lib/Debugg";
+import BarChart from "../../components/BarChart";
 
 const QUERY_HEURISTICS = gql`
     query GetAllHeuristics($projectSlug: String) {
@@ -36,55 +37,6 @@ const QUERY_PLAYERS = gql`
     }
 `;
 
-function Chart({ allScores }) {
-    if (!allScores || !allScores.scores_by_heuristic) {
-        return null;
-    }
-    function getHeight(score) {
-        return (340 / 5) * score;
-    }
-    function getAveragePosition(score) {
-        let amount = score !== 0 ? 1 : -2;
-
-        return 340 - (340 / 5) * score + amount;
-    }
-
-    function getColor(showPlayer) {
-        return showPlayer ? "#5383EB" : "#D9D9D9";
-    }
-
-    return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="901"
-            height="340"
-            fill="none"
-            viewBox="0 0 901 339"
-        >
-            {allScores.scores_by_heuristic.map((score, index) => {
-                return (
-                    <rect
-                        key={score.label}
-                        x={index * 21 + index * 23}
-                        y={340 - getHeight(score.value)}
-                        height={getHeight(score.value)}
-                        width="21"
-                        fill={getColor(score.show_player)}
-                    />
-                );
-            })}
-
-            <rect
-                x="0"
-                y={getAveragePosition(allScores.average_score)}
-                width="901"
-                height="2"
-                fill="#ff0000"
-            />
-        </svg>
-    );
-}
-
 function Dashboard() {
     const router = useRouter();
     const { project, heuristic, showPlayer, journey } = router.query;
@@ -93,20 +45,18 @@ function Dashboard() {
     const [allJourneys, setAllJourneys] = useState(null);
     const [allPlayers, setAllPlayers] = useState(null);
     const [currentJourney, setCurrentJourney] = useState(null);
-    const [currentPlayer, setCurrentPlayer] = useState(null);
     const [heuristicsByJourney, setHeuristicsByJourney] = useState(null);
     const [selectedHeuristic, setSelectedHeuristic] = useState(null);
     const [result, setResult] = useState([]);
+    const [svgCopied, setSVGCopied] = useState(false);
     const inputRef = useRef(null);
+    const chartRef = useRef(null);
 
     function fetchAllScores(project, journey, heuristic, showPlayer) {
         fetch(
             `/api/all?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}`
         ).then((data) => {
             data.json().then((result) => {
-                // setApiResult(result);
-
-                // setTotalOfScores(getAllScoresApi(result).length);
                 setAllScores(result);
             });
         });
@@ -183,9 +133,9 @@ function Dashboard() {
         if (router.query.journey !== undefined) {
             setCurrentJourney(router.query.journey);
         }
-        if (router.query.showPlayer !== undefined) {
-            setCurrentPlayer(router.query.showPlayer);
-        }
+        // if (router.query.showPlayer !== undefined) {
+        //     setCurrentPlayer(router.query.showPlayer);
+        // }
         if (
             router.query.heuristic !== undefined &&
             router.query.heuristic !== "" &&
@@ -304,6 +254,15 @@ function Dashboard() {
         });
     }
 
+    function handleClickCopySvg() {
+        navigator.clipboard.writeText(chartRef.current.outerHTML);
+        setSVGCopied(true);
+
+        setTimeout(() => {
+            setSVGCopied(false);
+        }, 6000);
+    }
+
     return (
         <div className="m-10">
             <div className="flex w-[800px] gap-10 mb-10">
@@ -417,7 +376,18 @@ function Dashboard() {
                             </p>
                         </div>
                     </div>
-                    <Chart allScores={allScores} />
+                    <BarChart refDom={chartRef} allScores={allScores} />
+
+                    <div className="mt-10">
+                        <button
+                            className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
+                            onClick={handleClickCopySvg}
+                        >
+                            {svgCopied ? "✅ SVG Copied" : "Copy as SVG"}
+                        </button>
+                    </div>
+
+                    {/* <button onClick={handleClickCopySvg}>Copy as SVG</button> */}
                 </div>
             ) : currentJourney ? (
                 <p>Please, find and select the heuristic</p>
