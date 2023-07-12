@@ -135,17 +135,23 @@ function Dashboard() {
         if (router.query.journey !== undefined) {
             setCurrentJourney(router.query.journey);
         }
+
+        setSelectedHeuristic(null);
         // if (router.query.showPlayer !== undefined) {
         //     setCurrentPlayer(router.query.showPlayer);
         // }
         if (
             router.query.heuristic !== undefined &&
             router.query.heuristic !== "" &&
-            allHeuristics !== null
+            allHeuristics !== null &&
+            heuristicsByJourney !== null &&
+            heuristicsByJourney !== undefined
         ) {
-            const currentHeuristicByUrl = allHeuristics.filter((heuristic) => {
-                return heuristic.heuristicNumber === router.query.heuristic;
-            });
+            const currentHeuristicByUrl = heuristicsByJourney.filter(
+                (heuristic) => {
+                    return heuristic.heuristicNumber === router.query.heuristic;
+                }
+            );
             console.log({ allHeuristics });
             setSelectedHeuristic(currentHeuristicByUrl[0]);
         }
@@ -154,6 +160,7 @@ function Dashboard() {
         allHeuristics,
         router.query.heuristic,
         router.query.showPlayer,
+        heuristicsByJourney,
     ]);
     // useEffect(() => {
     //     if (allScores !== null) {
@@ -195,6 +202,8 @@ function Dashboard() {
 
     function handleSelectJourney(ev) {
         console.log("Journey", ev.target.value);
+        setResult([]);
+        setSelectedHeuristic(null);
 
         setCurrentJourney(ev.target.value);
         router.replace({
@@ -204,8 +213,6 @@ function Dashboard() {
                 heuristic: null,
             },
         });
-        setResult([]);
-        setSelectedHeuristic(null);
     }
     function handleSelectPlayer(ev) {
         console.log("Player", ev.target.value);
