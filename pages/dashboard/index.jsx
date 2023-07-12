@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { from, gql } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { saveSvgAsPng } from "save-svg-as-png";
 import client from "../../lib/apollo";
 import Fuse from "fuse.js";
