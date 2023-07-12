@@ -1,7 +1,33 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { gql } from "@apollo/client";
+import client from "../../lib/apollo";
+import Fuse from "fuse.js";
+import Debugg from "../../lib/Debugg";
 
-function Icon({ allScores }) {
+const QUERY_HEURISTICS = gql`
+    query GetAllHeuristics($projectSlug: String) {
+        heuristics(last: 10000, where: { project: { slug: $projectSlug } }) {
+            name
+            heuristicNumber
+            journeys {
+                slug
+                name
+            }
+        }
+    }
+`;
+
+const QUERY_JOURNEYS = gql`
+    query GetAllJourneys($projectSlug: String) {
+        journeys(first: 1000, where: { project: { slug: $projectSlug } }) {
+            name
+            slug
+        }
+    }
+`;
+
+function Chart({ allScores }) {
     function getHeight(score) {
         return (340 / 5) * score;
     }
@@ -43,30 +69,6 @@ function Icon({ allScores }) {
                 height="2"
                 fill="#ff0000"
             />
-
-            {/* 
-            <rect y="273" width="21" height="66" fill="#D9D9D9" />
-            <rect x="44" y="204" width="21" height="135" fill="#D9D9D9" />
-            <rect x="88" y="137" width="21" height="202" fill="#D9D9D9" />
-            <rect x="132" y="68" width="21" height="271" fill="#D9D9D9" />
-            <rect x="176" width="21" height="339" fill="#D9D9D9" />
-            <rect x="220" width="21" height="339" fill="#D9D9D9" />
-            <rect x="264" width="21" height="339" fill="#D9D9D9" />
-            <rect x="308" y="273" width="21" height="66" fill="#5383EB" />
-            <rect x="352" width="21" height="339" fill="#D9D9D9" />
-            <rect x="396" width="21" height="339" fill="#D9D9D9" />
-            <rect x="440" y="137" width="21" height="202" fill="#D9D9D9" />
-            <rect x="484" y="68" width="21" height="271" fill="#D9D9D9" />
-            <rect x="528" width="21" height="339" fill="#D9D9D9" />
-            <rect x="572" width="21" height="339" fill="#D9D9D9" />
-            <rect x="616" y="137" width="21" height="202" fill="#D9D9D9" />
-            <rect x="660" width="21" height="339" fill="#D9D9D9" />
-            <rect x="704" width="21" height="339" fill="#D9D9D9" />
-            <rect x="748" y="137" width="21" height="202" fill="#D9D9D9" />
-            <rect x="792" y="137" width="21" height="202" fill="#D9D9D9" />
-            <rect x="836" y="137" width="21" height="202" fill="#D9D9D9" />
-            <rect x="880" y="137" width="21" height="202" fill="#D9D9D9" /> 
-            */}
         </svg>
     );
 }
@@ -75,17 +77,13 @@ function Dashboard() {
     const router = useRouter();
     const { project, heuristic, showPlayer, journey } = router.query;
     const [allScores, setAllScores] = useState(null);
+    const [allHeuristics, setAllHeuristics] = useState(null);
+    const [allJourneys, setAllJourneys] = useState(null);
+    const [currentJourney, setCurrentJourney] = useState(null);
+    const [heuristicsByJourney, setHeuristicsByJourney] = useState(null);
+    const [result, setResult] = useState([]);
 
-    // const project = searchParams.get("project");
-    // const journey = searchParams.get("journey");
-    // const heuristic = searchParams.get("heuristic");
-    // const showPlayer = searchParams.get("showPlayer");
-
-    // const yourParamName = request.nextUrl.searchParams.get("player");
-
-    // console.log({ project, journey, heuristic, showPlayer });
-
-    useEffect(() => {
+    function fetchAllScores(project, journey, heuristic, showPlayer) {
         fetch(
             `/api/all?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}`
         ).then((data) => {
@@ -96,21 +94,153 @@ function Dashboard() {
                 setAllScores(result);
             });
         });
-    }, [project]);
+    }
+
+    const getHeuristics = useCallback(() => {
+        const variables = {
+            projectSlug: router.query.project,
+        };
+
+        // Not using clientFast in order to not cache results
+        client
+            .query({
+                query: QUERY_HEURISTICS,
+                variables,
+                fetchPolicy: "network-only",
+            })
+            .then(({ data }) => {
+                setAllHeuristics(data.heuristics);
+            });
+    }, [router]);
+
+    const getJourneys = useCallback(() => {
+        const variables = {
+            projectSlug: router.query.project,
+        };
+        client
+            .query({
+                query: QUERY_JOURNEYS,
+                variables,
+                fetchPolicy: "network-only",
+            })
+            .then(({ data }) => {
+                setAllJourneys(data.journeys);
+                setCurrentJourney(data.journeys[0].slug);
+            });
+    }, []);
 
     useEffect(() => {
-        if (allScores !== null) {
-            console.log("allScores", allScores);
-        }
-    }, [allScores]);
+        fetchAllScores(project, journey, heuristic, showPlayer);
+        getHeuristics();
+        getJourneys();
+    }, [project, heuristic, showPlayer, journey, getHeuristics, getJourneys]);
 
-    if (allScores === null) {
+    // useEffect(() => {
+    //     if (allScores !== null) {
+    //         console.log("allScores", allScores);
+    //     }
+    // }, [allScores]);
+
+    useEffect(() => {
+        console.log({ allHeuristics });
+    }, [allHeuristics]);
+
+    useEffect(() => {
+        const heuristicsByJourney = allHeuristics?.filter((heuristic) => {
+            // Filtering the heuristics by the current journey and if journey is empty.
+            return (
+                heuristic.journeys.filter(
+                    (journey) => journey.slug === currentJourney
+                ).length > 0
+            );
+        });
+
+        setHeuristicsByJourney(heuristicsByJourney);
+    }, [currentJourney]);
+
+    if (
+        allScores === null ||
+        allHeuristics === null ||
+        allJourneys === null ||
+        heuristicsByJourney === null
+    ) {
         return null;
     }
 
+    function handleSelectJourney(ev) {
+        console.log("Journey", ev.target.value);
+        setCurrentJourney(ev.target.value);
+    }
+
+    const options = {
+        includeScore: true,
+        keys: ["name", "heuristicNumber"],
+        minMatchCharLength: 2,
+        threshold: 0.3,
+        location: 0,
+        distance: 2000,
+    };
+
+    const fuse = new Fuse(heuristicsByJourney, options);
+
+    function handleSearch(ev) {
+        console.log("heuristicsByJourney", fuse.search(ev.target.value));
+
+        setResult(fuse.search(ev.target.value));
+    }
+
     return (
-        <div className="m-0">
-            <Icon allScores={allScores} />
+        <div className="m-10">
+            <div className="flex max-w-md gap-10 mb-10">
+                <div className="flex flex-col gap-1">
+                    <label className="text-slate-400">Select a journey</label>
+                    <select
+                        className="border border-slate-300  block h-10 px-4 rounded-md"
+                        onChange={(ev) => handleSelectJourney(ev)}
+                    >
+                        {allJourneys.map((journey) => {
+                            return (
+                                <option key={journey.slug} value={journey.slug}>
+                                    {journey.name}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <label className="text-slate-400">Select a heuristic</label>
+                    <input
+                        className="border border-slate-300  block h-10 px-4 rounded-md"
+                        onChange={(e) => handleSearch(e)}
+                        type="search"
+                        name="search"
+                        id="search"
+                        autoComplete="off"
+                        // ref={inputRef}
+                        accessKey="s"
+                        // placeholder={shortCut}
+                    />
+
+                    <ul>
+                        {result.map((item, index) => {
+                            return (
+                                <li
+                                    key={index}
+                                    className="flex gap-1 border-b-2"
+                                >
+                                    <b>{item.item.heuristicNumber}</b>
+                                    <span className="text-slate-500">
+                                        {item.item.name}
+                                    </span>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </div>
+            </div>
+            {/* {<Debugg data={heuristicsByJourney} />} */}
+            <Chart allScores={allScores} />
         </div>
     );
 }
