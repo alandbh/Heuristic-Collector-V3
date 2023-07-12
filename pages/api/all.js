@@ -202,7 +202,9 @@ export default async function handler(req, res) {
             (
                 nonZeroedScores
                     .map((score) => score.value)
-                    .reduce((acc, n) => acc + n) / nonZeroedScores.length
+                    .reduce((acc, n) => {
+                        return acc + n;
+                    }, 0) / nonZeroedScores.length
             ).toFixed(2)
         );
 
