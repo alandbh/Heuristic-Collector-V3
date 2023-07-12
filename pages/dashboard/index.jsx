@@ -49,6 +49,7 @@ function Dashboard() {
     const [selectedHeuristic, setSelectedHeuristic] = useState(null);
     const [result, setResult] = useState([]);
     const [svgCopied, setSVGCopied] = useState(false);
+    const [pngSrc, setPngSrc] = useState(null);
     const inputRef = useRef(null);
     const chartRef = useRef(null);
 
@@ -263,6 +264,79 @@ function Dashboard() {
         }, 6000);
     }
 
+    function handleClickCopyPng() {
+        let domUrl = window.URL || window.webkitURL || window;
+
+        const svgText = chartRef.current.outerHTML;
+
+        const svgBlob = new Blob([svgText], {
+            type: "image/svg+xml;charset=utf-8",
+        });
+
+        const svgUrl = domUrl.createObjectURL(svgBlob);
+
+        // create a canvas element to pass through
+        let canvas = document.createElement("canvas");
+        // width="901" height="340"
+        canvas.width = 901;
+        canvas.height = 340;
+        let ctx = canvas.getContext("2d");
+
+        // create a new image to hold it the converted type
+        const img = new Image();
+
+        // when the image is loaded we can get it as base64 url
+        img.onload = function () {
+            // draw it to the canvas
+            ctx.drawImage(this, 0, 0);
+
+            // if it needs some styling, we need a new canvas
+            let styled = document.createElement("canvas");
+            styled.width = canvas.width;
+            styled.height = canvas.height;
+            let styledCtx = styled.getContext("2d");
+            styledCtx.save();
+            // styledCtx.fillStyle = fill;
+            styledCtx.fillRect(0, 0, canvas.width, canvas.height);
+            styledCtx.strokeRect(0, 0, canvas.width, canvas.height);
+            styledCtx.restore();
+            styledCtx.drawImage(canvas, 0, 0);
+            canvas = styled;
+
+            // we don't need the original any more
+            domUrl.revokeObjectURL(svgUrl);
+            // now we can resolve the promise, passing the base64 url
+            return canvas.toDataURL();
+        };
+
+        // load the image
+        img.src = svgUrl;
+
+        setPngSrc(svgUrl);
+
+        // const setToClipboard = async (blob) => {
+        //     const data = [new ClipboardItem({ [blob.type]: blob })];
+        //     await navigator.clipboard.write(data);
+        // };
+
+        // copy as an image
+        // fetch(svgUrl)
+        //     .then((response) => {
+        //         return response.blob();
+        //     })
+        //     .then((blob) => setToClipboard(blob));
+
+        console.log({ svgUrl });
+
+        // Force download
+        const link = document.createElement("a");
+        link.href = canvas.toDataURL();
+        link.download = `chart-${currentJourney}-h_${selectedHeuristic.heuristicNumber}-${router.query.showPlayer}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     return (
         <div className="m-10">
             <div className="flex w-[800px] gap-10 mb-10">
@@ -378,12 +452,18 @@ function Dashboard() {
                     </div>
                     <BarChart refDom={chartRef} allScores={allScores} />
 
-                    <div className="mt-10">
+                    <div className="mt-10 flex gap-10">
                         <button
                             className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
                             onClick={handleClickCopySvg}
                         >
                             {svgCopied ? "✅ SVG Copied" : "Copy as SVG"}
+                        </button>
+                        <button
+                            className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
+                            onClick={handleClickCopyPng}
+                        >
+                            {svgCopied ? "✅ PNG Copied" : "Copy as PNG"}
                         </button>
                     </div>
 
