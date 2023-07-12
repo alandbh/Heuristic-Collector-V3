@@ -67,11 +67,11 @@ const QUERY_JOURNEYS = gql`
 //       },
 
 export default async function handler(req, res) {
-    const { project } = req.query;
+    const { project, journey, heuristic, showPlayer } = req.query;
     const allJourneys = await getData(QUERY_JOURNEYS, { projectSlug: project });
     const allPlayers = await getData(QUERY_ALL, { projectSlug: project });
 
-    console.log(project);
+    // console.log({ journey, heuristic });
     // console.log(allPlayers.data.players[0].finding);
 
     const newPlayerArr = allPlayers.data.players.map(
@@ -140,50 +140,6 @@ export default async function handler(req, res) {
                 });
             });
 
-            // allJourneys.data.journeys.map((jou) => {
-            //     journeys[jou.slug] = {};
-
-            //     // const scoresByJourney = scores
-            //     //     .filter((score) => {
-            //     //         return score.journey.slug === jou.slug;
-            //     //     })
-            //     //     .map((score) => {
-            //     //         return {
-            //     //             journey: score.journey.slug,
-            //     //             heuristic: "h_" + score.heuristic.heuristicNumber,
-            //     //             scoreValue: score.scoreValue,
-            //     //             note: score.note,
-            //     //             evidenceUrl: score.evidenceUrl,
-            //     //         };
-            //     //     });
-
-            //     // scoresByJourney.sort((a, b) => {
-            //     //     const nameA = a.heuristic.toUpperCase(); // ignore upper and lowercase
-            //     //     const nameB = b.heuristic.toUpperCase(); // ignore upper and lowercase
-            //     //     if (nameA < nameB) {
-            //     //         return -1;
-            //     //     }
-            //     //     if (nameA > nameB) {
-            //     //         return 1;
-            //     //     }
-
-            //     //     // names must be equal
-            //     //     return 0;
-            //     // });
-
-            //     // scoresByJourney.map((score) => {
-            //     //     journeys[jou.slug][score.heuristic] = {};
-            //     //     journeys[jou.slug][score.heuristic].scoreValue =
-            //     //         score.scoreValue;
-            //     //     journeys[jou.slug][score.heuristic].note = score.note;
-            //     //     journeys[jou.slug][score.heuristic].evidenceUrl =
-            //     //         score.evidenceUrl;
-            //     // });
-
-            //     playerOb.scores = JSON.parse(scoresObject);
-            // });
-            // playerOb.scores = scoresObject;
-
             playerOb.findings = {};
 
             const allFindings = finding.map((item) => {
@@ -215,7 +171,45 @@ export default async function handler(req, res) {
             return playerOb;
         }
     );
-    serve(newPlayerArr);
+
+    if (journey && heuristic) {
+        let scores_by_heuristic = [];
+
+        newPlayerArr.map((player) => {
+            const scoreChartObj = {};
+            scoreChartObj.label = player.name;
+            scoreChartObj.show_player = showPlayer === player.slug;
+
+            if (!player.scores[journey]) {
+                serve("Invalid Journey");
+                return;
+            }
+            if (!player.scores[journey]["h_" + heuristic]) {
+                serve("Invalid Heuristic");
+                return;
+            }
+
+            scoreChartObj.value =
+                player.scores[journey]["h_" + heuristic]["scoreValue"];
+
+            scores_by_heuristic.push(scoreChartObj);
+        });
+
+        const nonZeroedScores = scores_by_heuristic.filter((score) => {
+            return score.value > 0;
+        });
+        const average_score = Number(
+            (
+                nonZeroedScores
+                    .map((score) => score.value)
+                    .reduce((acc, n) => acc + n) / nonZeroedScores.length
+            ).toFixed(2)
+        );
+
+        serve({ journey, heuristic, average_score, scores_by_heuristic });
+    } else {
+        serve(newPlayerArr);
+    }
     // serve(allPlayers);
 
     function serve(data) {
