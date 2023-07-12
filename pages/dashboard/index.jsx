@@ -397,7 +397,7 @@ function Dashboard() {
             </div>
             {/* {<Debugg data={currentJourney} />} */}
             {/* {<Debugg data={heuristicsByJourney} />} */}
-            {/* {<Debugg data={allPlayers} />} */}
+            {/* {<Debugg data={allScores} />} */}
             {selectedHeuristic !== null ? (
                 <div>
                     <div className="mb-10">
@@ -408,6 +408,12 @@ function Dashboard() {
                             <b>{selectedHeuristic?.heuristicNumber}</b>
                             <p className="w-[600px] text-slate-500">
                                 {selectedHeuristic?.name}
+                            </p>
+                        </div>
+                        <div className="flex gap-2 text-left mt-5">
+                            <b>Average:</b>
+                            <p className="w-[600px] text-slate-500">
+                                {allScores.average_score}
                             </p>
                         </div>
                     </div>
