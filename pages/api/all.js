@@ -134,6 +134,7 @@ export default async function handler(req, res) {
                         "h_" + score.heuristic.heuristicNumber
                     ] = {
                         scoreValue: score.scoreValue,
+                        scoreValuePrev: score.scoreValuePrev,
                         note: score.note,
                         evidenceUrl: score.evidenceUrl,
                     };
@@ -192,11 +193,18 @@ export default async function handler(req, res) {
             scoreChartObj.value =
                 player.scores[journey]["h_" + heuristic]["scoreValue"];
 
+            scoreChartObj.valuePrev =
+                player.scores[journey]["h_" + heuristic]["scoreValuePrev"] ||
+                null;
+
             scores_by_heuristic.push(scoreChartObj);
         });
 
         const nonZeroedScores = scores_by_heuristic.filter((score) => {
             return score.value > 0;
+        });
+        const validScoresPrev = scores_by_heuristic.filter((score) => {
+            return score.valuePrev !== null;
         });
         const average_score = Number(
             (
@@ -207,8 +215,23 @@ export default async function handler(req, res) {
                     }, 0) / nonZeroedScores.length
             ).toFixed(2)
         );
+        const average_score_prev = Number(
+            (
+                validScoresPrev
+                    .map((score) => score.valuePrev)
+                    .reduce((acc, n) => {
+                        return acc + n;
+                    }, 0) / validScoresPrev.length
+            ).toFixed(2)
+        );
 
-        serve({ journey, heuristic, average_score, scores_by_heuristic });
+        serve({
+            journey,
+            heuristic,
+            average_score,
+            average_score_prev,
+            scores_by_heuristic,
+        });
     } else {
         serve(newPlayerArr);
     }
