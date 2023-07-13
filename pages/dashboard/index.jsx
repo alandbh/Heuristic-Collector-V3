@@ -397,7 +397,7 @@ function Dashboard() {
             </div>
             <div className="flex items-end content-end w-[600px] relative">
                 {result.length > 0 ? (
-                    <ul className="absolute top-[-20px] p-4 bg-white shadow-xl w-full">
+                    <ul className="absolute flex flex-col gap-3 top-[-20px] p-4 bg-white shadow-xl w-full">
                         {result.map((item, index) => {
                             return (
                                 <li className="w-full" key={index}>
@@ -408,11 +408,13 @@ function Dashboard() {
                                                 item.item.name
                                             )
                                         }
-                                        className="flex gap-2 border-b-2 text-left h-16 bg-white"
+                                        className="flex flex-1 w-full gap-2 text-left py-2 bg-white"
                                         tabIndex={2}
                                     >
-                                        <b>{item.item.heuristicNumber}</b>
-                                        <span className="text-slate-500">
+                                        <b className="block w-12 ">
+                                            {item.item.heuristicNumber}
+                                        </b>
+                                        <span className="text-slate-500 flex-1">
                                             {item.item.name.substring(0, 130) +
                                                 "..."}
                                         </span>
