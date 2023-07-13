@@ -334,6 +334,12 @@ function Dashboard() {
         setPngSrc(svgUrl);
     }
 
+    // Retrying to fectch the scores in case the api returns empty data
+    if (allScores.average_score === null) {
+        // fetchAllScores()
+        fetchAllScores(project, journey, heuristic, showPlayer);
+    }
+
     return (
         <div className="m-10">
             <div className="flex w-[800px] gap-10 mb-10">
