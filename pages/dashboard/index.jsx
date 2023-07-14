@@ -467,6 +467,7 @@ function Dashboard() {
             {/* {<Debugg data={getPlayerObj(showPlayer).valuePrev} />} */}
             {/* {<Debugg data={allScores} />}  */}
             {/* {<Debugg data={showPlayer} />} */}
+            {/* {<Debugg data={"asasas" + prevScores[showPlayer]} />} */}
 
             {selectedHeuristic !== null ? (
                 <div>
@@ -507,33 +508,42 @@ function Dashboard() {
                     <div className="mt-16 mb-4 flex gap-10">
                         {selectedHeuristic &&
                         showPlayer &&
+                        prevScores[showPlayer] &&
                         router.query.journey ? (
-                            <CompareBar
-                                showPlayer={showPlayer}
-                                allScores={allScores}
-                                prevScores={prevScores}
-                                currentJourney={router.query.journey}
-                                selectedHeuristic={selectedHeuristic}
-                                refDom={chartCompareRef}
-                            />
+                            <div>
+                                <CompareBar
+                                    showPlayer={showPlayer}
+                                    allScores={allScores}
+                                    prevScores={prevScores}
+                                    currentJourney={router.query.journey}
+                                    selectedHeuristic={selectedHeuristic}
+                                    refDom={chartCompareRef}
+                                />
+                                <div className="mt-4 flex gap-10">
+                                    <button
+                                        className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
+                                        onClick={() =>
+                                            handleClickCopySvg(
+                                                chartCompareRef,
+                                                "id2"
+                                            )
+                                        }
+                                    >
+                                        {svgCopied?.id2
+                                            ? "✅ SVG Copied"
+                                            : "Copy as SVG"}
+                                    </button>
+                                    <button
+                                        className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
+                                        onClick={() =>
+                                            handleClickCopyPng(chartCompareRef)
+                                        }
+                                    >
+                                        Export as a PNG file
+                                    </button>
+                                </div>
+                            </div>
                         ) : null}
-                    </div>
-
-                    <div className="mt-4 flex gap-10">
-                        <button
-                            className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
-                            onClick={() =>
-                                handleClickCopySvg(chartCompareRef, "id2")
-                            }
-                        >
-                            {svgCopied?.id2 ? "✅ SVG Copied" : "Copy as SVG"}
-                        </button>
-                        <button
-                            className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
-                            onClick={() => handleClickCopyPng(chartCompareRef)}
-                        >
-                            Export as a PNG file
-                        </button>
                     </div>
                 </div>
             ) : currentJourney ? (
