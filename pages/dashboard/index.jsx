@@ -47,6 +47,7 @@ function Dashboard() {
     const router = useRouter();
     const { project, heuristic, showPlayer, journey } = router.query;
     const [allJourneyScores, setAllJourneyScores] = useState(null);
+    const [allProjectScores, setAllProjectScores] = useState(null);
     const [allHeuristics, setAllHeuristics] = useState(null);
     const [allJourneys, setAllJourneys] = useState(null);
     const [allPlayers, setAllPlayers] = useState(null);
@@ -69,12 +70,10 @@ function Dashboard() {
             });
         });
     }
-    function fetchAllData(project, journey, heuristic, showPlayer) {
-        fetch(
-            `/api/all?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}`
-        ).then((data) => {
+    function fetchAllProjectScores(project) {
+        fetch(`/api/all?project=${project}`).then((data) => {
             data.json().then((result) => {
-                setAllJourneyScores(result);
+                setAllProjectScores(result.length > 0 ? result : null);
             });
         });
     }
@@ -132,6 +131,7 @@ function Dashboard() {
     }, [router.query.project]);
 
     useEffect(() => {
+        fetchAllProjectScores(project);
         fetchAllJourneyScores(project, journey, heuristic, showPlayer);
         getHeuristics();
         getJourneys();
@@ -184,8 +184,8 @@ function Dashboard() {
     // }, [allJourneyScores]);
 
     useEffect(() => {
-        console.log({ allHeuristics });
-    }, [allHeuristics]);
+        console.log({ allProjectScores });
+    }, [allProjectScores]);
 
     useEffect(() => {
         const heuristicsByJourney = allHeuristics?.filter((heuristic) => {
@@ -205,8 +205,122 @@ function Dashboard() {
         setHeuristicsByJourney(heuristicsByJourney);
     }, [currentJourney, allHeuristics]);
 
+    // Getting the scores for the current journey
+    const scoresByJourney = allProjectScores?.map((playerScore) => {
+        const playerObj = {};
+        playerObj.journeyScores = {};
+        playerObj.journeyScoresArr = [];
+
+        playerObj.playerSlug = playerScore.slug;
+        playerObj.playerName = playerScore.name;
+
+        setScoresByJourney(currentJourney);
+
+        function setScoresByJourney(journey) {
+            for (const heuristic in playerScore.scores[journey]) {
+                let scoresArray = [];
+                if (heuristic.includes("h_")) {
+                    playerObj.journeyScores[heuristic] =
+                        playerScore.scores[journey][heuristic].scoreValue;
+
+                    playerObj.journeyScoresArr.push(
+                        playerScore.scores[journey][heuristic].scoreValue
+                    );
+
+                    scoresArray.push(
+                        playerScore.scores[journey][heuristic].scoreValue
+                    );
+
+                    // return {
+                    //     [heuristic]:
+                    //         playerScore.scores[journey][heuristic].scoreValue,
+                    //     scoresArray,
+                    // };
+                }
+            }
+        }
+
+        const geraisArr = [];
+
+        for (const heuristic in playerScore.scores["gerais"]) {
+            if (heuristic.includes("h_")) {
+                geraisArr.push(
+                    playerScore.scores["gerais"][heuristic].scoreValue
+                );
+            }
+        }
+
+        // Total score for the current journey
+
+        const journeyTotalScore = playerObj.journeyScoresArr.reduce(
+            (acc, current) => {
+                return acc + current;
+            },
+            0
+        );
+
+        // Total score for the "gerais" journey
+        const geraisTotalScore = geraisArr.reduce((acc, current) => {
+            return acc + current;
+        }, 0);
+
+        // Jornada	Peso de Gerais
+
+        const geraisWeight = {
+            "open-finance": 0.2380952381,
+            cartao: 0.619047619,
+            abertura: 0.6666666667,
+        };
+
+        const maximunScore = allProjectScores.length * 5;
+        const maximunJourneyScore = playerObj.journeyScoresArr.length * 5;
+
+        // Calculating current journey score based on gerais weight
+
+        //=SUM(($C4*geralWeight["abertura"]),journeyTotalScore) / SUM(maximunScore*geralWeight["abertura"], journeyMaximunScore)
+
+        // =SUM(($C4*$K$32),F4)/SUM((GERAIS!$F$96*$K$32), ABERTURA!$J$87)
+
+        // SUM((geraisTotalScore*geraisWeight[currentJourney]),journeyTotalScore) dividido por
+        // SUM((maximunScore*geraisWeight[currentJourney]), maximunJourneyScore)
+
+        playerObj.journeyTotalPercentage =
+            (geraisTotalScore * geraisWeight[currentJourney] +
+                journeyTotalScore) /
+            (maximunScore * geraisWeight[currentJourney] + maximunJourneyScore);
+
+        // playerObj.journeyTotalScore = journeyTotalScore;
+        // playerObj.geraisTotalScore = geraisTotalScore;
+        // playerObj.maximunScore = maximunScore;
+        // playerObj.maximunJourneyScore = maximunJourneyScore;
+
+        // playerObj.journeyTotalPercentage =
+        //     (journeyTotalScore * geraisWeight["abertura"] + journeyTotalScore) /
+        //     (maximunScore * geraisWeight["abertura"] + maximunJourneyScore);
+
+        // playerObj.journeyTotalPercentage =
+        //     (playerObj.journeyTotalScore /
+        //         (playerObj.journeyScoresArr.length * 5)) *
+        //     100;
+        return playerObj;
+    });
+
+    console.log({ scoresByJourney });
+
+    /**
+     *
+     *
+     *
+     * Checking whether all the data is available. If not, returns null.
+     * ----------------------------------------------------------------
+     *
+     *
+     *
+     */
+
     if (
         allJourneyScores === null ||
+        allProjectScores === null ||
         allHeuristics === null ||
         allJourneys === null ||
         allPlayers === null ||
