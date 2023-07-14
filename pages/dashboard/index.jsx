@@ -471,21 +471,21 @@ function Dashboard() {
 
             {selectedHeuristic !== null ? (
                 <div>
-                    <div className="mb-10">
-                        <h1 className="font-bold text-xl my-4">
-                            Selected Heuristic
+                    <div className="mb-10  border border-black flex max-w-fit">
+                        <h1 className="font-bold text-sm  border-dashed border-r border-slate-400 p-4 align-middle min-h-min flex content-center">
+                            Selected Heuristic:
                         </h1>
-                        <div className="flex gap-2 text-left">
+                        <div className="flex gap-2 text-left p-4 border-r border-dashed border-slate-400 text-sm min-w-[400px]">
                             <b>{selectedHeuristic?.heuristicNumber}</b>
-                            <p className="w-[600px] text-slate-500">
+                            <p className="max-w-lg text-slate-500">
                                 {selectedHeuristic?.name}
                             </p>
                         </div>
-                        <div className="flex gap-2 text-left mt-5">
-                            <b>Average:</b>
-                            <p className="w-[600px] text-slate-500">
+                        <div className="text-left text-sm p-4 max-w-[180px]">
+                            <b>Average: </b>
+                            <span className=" text-slate-500">
                                 {allScores.average_score}
-                            </p>
+                            </span>
                         </div>
                     </div>
                     <BarChart refDom={chartRef} allScores={allScores} />
