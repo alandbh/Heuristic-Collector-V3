@@ -17,9 +17,14 @@ export default function CompareBar({
     }
 
     function getPreviousScoreByPlayer(player) {
-        return prevScores[player][currentJourney].find(
-            (score) => score.id === Number(selectedHeuristic.heuristicNumber)
-        );
+        if (prevScores[player]) {
+            return prevScores[player][currentJourney].find(
+                (score) =>
+                    score.id === Number(selectedHeuristic.heuristicNumber)
+            );
+        }
+
+        return null;
     }
 
     function getCurrentYear() {
@@ -30,8 +35,13 @@ export default function CompareBar({
 
     if (
         !getPreviousScoreByPlayer(showPlayer) ||
-        !selectedHeuristic ||
-        !allScores
+        !allScores ||
+        !currentJourney ||
+        currentJourney === null ||
+        currentJourney === undefined ||
+        !showPlayer ||
+        !prevScores ||
+        !getPlayerObj(showPlayer)
     ) {
         return null;
     }

@@ -504,13 +504,17 @@ function Dashboard() {
                     </div>
 
                     <div className="mt-10 mb-[200px] flex gap-10">
-                        <CompareBar
-                            showPlayer={showPlayer}
-                            allScores={allScores}
-                            prevScores={prevScores}
-                            currentJourney={router.query.journey}
-                            selectedHeuristic={selectedHeuristic}
-                        />
+                        {selectedHeuristic &&
+                        showPlayer &&
+                        router.query.journey ? (
+                            <CompareBar
+                                showPlayer={showPlayer}
+                                allScores={allScores}
+                                prevScores={prevScores}
+                                currentJourney={router.query.journey}
+                                selectedHeuristic={selectedHeuristic}
+                            />
+                        ) : null}
                     </div>
 
                     {/* <svg
