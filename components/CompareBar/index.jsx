@@ -20,8 +20,8 @@ export default function CompareBar({
     }
 
     function getPreviousScoreByPlayer(player) {
-        if (prevScores[player]) {
-            return prevScores[player][currentJourney].find(
+        if (prevScores) {
+            return prevScores.find(
                 (score) =>
                     score.id === Number(selectedHeuristic.heuristicNumber)
             );

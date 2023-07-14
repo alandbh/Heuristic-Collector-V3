@@ -6,6 +6,8 @@ import client from "../../lib/apollo";
 import Fuse from "fuse.js";
 import Debugg from "../../lib/Debugg";
 
+//test
+
 // import { bancoDoBrasil } from "./edition2021/banco-do-brasil";
 import { prevScores } from "../../components/edition2021/prevScores";
 
@@ -615,12 +617,15 @@ function Dashboard() {
                         showPlayer &&
                         prevScores[showPlayer] &&
                         allJourneyScores &&
+                        allJourneyScores.scores_by_heuristic &&
                         router.query.journey ? (
                             <div>
                                 <CompareBar
                                     showPlayer={showPlayer}
                                     allJourneyScores={allJourneyScores}
-                                    prevScores={prevScores}
+                                    prevScores={
+                                        prevScores[showPlayer][currentJourney]
+                                    }
                                     currentJourney={router.query.journey}
                                     selectedHeuristic={selectedHeuristic}
                                     refDom={chartCompareRef}
