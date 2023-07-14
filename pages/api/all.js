@@ -135,6 +135,7 @@ export default async function handler(req, res) {
                     ] = {
                         scoreValue: score.scoreValue,
                         scoreValuePrev: score.scoreValuePrev,
+                        averageScoreValuePrev: score.averageScoreValuePrev,
                         note: score.note,
                         evidenceUrl: score.evidenceUrl,
                     };
@@ -179,6 +180,7 @@ export default async function handler(req, res) {
         newPlayerArr.map((player) => {
             const scoreChartObj = {};
             scoreChartObj.label = player.name;
+            scoreChartObj.playerSlug = player.slug;
             scoreChartObj.show_player = showPlayer === player.slug;
 
             if (!player.scores[journey]) {
@@ -196,6 +198,11 @@ export default async function handler(req, res) {
             scoreChartObj.valuePrev =
                 player.scores[journey]["h_" + heuristic]["scoreValuePrev"] ||
                 null;
+
+            scoreChartObj.averageScoreValuePrev =
+                player.scores[journey]["h_" + heuristic][
+                    "averageScoreValuePrev"
+                ] || null;
 
             scores_by_heuristic.push(scoreChartObj);
         });
