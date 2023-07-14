@@ -4,6 +4,7 @@ export default function CompareBar({
     prevScores,
     currentJourney,
     selectedHeuristic,
+    refDom,
 }) {
     function getPlayerObj(playerSlug) {
         // console.log({ allPlayers });
@@ -53,6 +54,7 @@ export default function CompareBar({
             viewBox="0 0 453 342"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            ref={refDom}
         >
             <g>
                 <rect
