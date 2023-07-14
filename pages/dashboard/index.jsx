@@ -49,6 +49,7 @@ function Dashboard() {
     const router = useRouter();
     const { project, heuristic, showPlayer, journey } = router.query;
     const [allJourneyScores, setAllJourneyScores] = useState(null);
+    const [journeyScores, setJourneyScores] = useState(null);
     const [allProjectScores, setAllProjectScores] = useState(null);
     const [allHeuristics, setAllHeuristics] = useState(null);
     const [allJourneys, setAllJourneys] = useState(null);
@@ -272,6 +273,7 @@ function Dashboard() {
             "open-finance": 0.2380952381,
             cartao: 0.619047619,
             abertura: 0.6666666667,
+            gerais: 0,
         };
 
         const maximunScore = allProjectScores.length * 5;
@@ -279,22 +281,15 @@ function Dashboard() {
 
         // Calculating current journey score based on gerais weight
 
-        //=SUM(($C4*geralWeight["abertura"]),journeyTotalScore) / SUM(maximunScore*geralWeight["abertura"], journeyMaximunScore)
-
-        // =SUM(($C4*$K$32),F4)/SUM((GERAIS!$F$96*$K$32), ABERTURA!$J$87)
-
-        // SUM((geraisTotalScore*geraisWeight[currentJourney]),journeyTotalScore) dividido por
-        // SUM((maximunScore*geraisWeight[currentJourney]), maximunJourneyScore)
-
         playerObj.journeyTotalPercentage =
             (geraisTotalScore * geraisWeight[currentJourney] +
                 journeyTotalScore) /
             (maximunScore * geraisWeight[currentJourney] + maximunJourneyScore);
 
-        // playerObj.journeyTotalScore = journeyTotalScore;
-        // playerObj.geraisTotalScore = geraisTotalScore;
-        // playerObj.maximunScore = maximunScore;
-        // playerObj.maximunJourneyScore = maximunJourneyScore;
+        playerObj.journeyTotalScore = journeyTotalScore;
+        playerObj.geraisTotalScore = geraisTotalScore;
+        playerObj.maximunScore = maximunScore;
+        playerObj.maximunJourneyScore = maximunJourneyScore;
 
         // playerObj.journeyTotalPercentage =
         //     (journeyTotalScore * geraisWeight["abertura"] + journeyTotalScore) /
@@ -304,8 +299,18 @@ function Dashboard() {
         //     (playerObj.journeyTotalScore /
         //         (playerObj.journeyScoresArr.length * 5)) *
         //     100;
+
+        playerObj;
         return playerObj;
     });
+
+    if (scoresByJourney) {
+        // const journeyScoresDataset = scoresByJourney.map((player) => {
+        //     const playerObj = {};
+        //     playerObj.value;
+        // });
+        // setJourneyScores(journeyScoresDataset);
+    }
 
     console.log({ scoresByJourney });
 
@@ -592,7 +597,13 @@ function Dashboard() {
                     </div>
                     <BarChart
                         refDom={chartRef}
-                        allJourneyScores={allJourneyScores}
+                        // allJourneyScores={allJourneyScores}
+                        dataSet={allJourneyScores.scores_by_heuristic}
+                        averageLine={allJourneyScores.average_score}
+                    />
+                    <BarChart
+                        // refDom={chartRef}
+                        // allJourneyScores={allJourneyScores}
                         dataSet={allJourneyScores.scores_by_heuristic}
                         averageLine={allJourneyScores.average_score}
                     />
