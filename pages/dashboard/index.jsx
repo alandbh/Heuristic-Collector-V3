@@ -206,6 +206,8 @@ function Dashboard() {
         return null;
     }
 
+    console.log("allScores", allScores);
+
     function handleSelectJourney(ev) {
         console.log("Journey", ev.target.value);
         setResult([]);
@@ -487,12 +489,15 @@ function Dashboard() {
                         showPlayer &&
                         prevScores[showPlayer] &&
                         allScores &&
+                        allScores.scores_by_heuristic &&
                         router.query.journey ? (
                             <div>
                                 <CompareBar
                                     showPlayer={showPlayer}
                                     allScores={allScores}
-                                    prevScores={prevScores}
+                                    prevScores={
+                                        prevScores[showPlayer][currentJourney]
+                                    }
                                     currentJourney={router.query.journey}
                                     selectedHeuristic={selectedHeuristic}
                                     refDom={chartCompareRef}
