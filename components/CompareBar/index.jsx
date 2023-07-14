@@ -47,6 +47,18 @@ export default function CompareBar({
         return null;
     }
 
+    const style = {
+        year: {
+            fontFamily: "Helvetica, Arial, sans-serif",
+            fontSize: 16,
+        },
+        label: {
+            fontFamily: "Helvetica, Arial, sans-serif",
+            fontWeight: "bold",
+            fontSize: 20,
+        },
+    };
+
     return (
         <svg
             width="453"
@@ -116,7 +128,7 @@ export default function CompareBar({
                     x="50"
                     y="264"
                     textAnchor="middle"
-                    style={{ fontWeight: "bold", fontSize: 20 }}
+                    style={style.label}
                     fill="#9AA0A6"
                 >
                     {getPreviousScoreByPlayer(showPlayer).scoreValuePrev}
@@ -125,7 +137,7 @@ export default function CompareBar({
                     x="140"
                     y="264"
                     textAnchor="middle"
-                    style={{ fontWeight: "bold", fontSize: 20 }}
+                    style={style.label}
                     fill="#9AA0A6"
                 >
                     {getPreviousScoreByPlayer(showPlayer).averageScoreValuePrev}
@@ -135,7 +147,7 @@ export default function CompareBar({
                     x="90"
                     y="20"
                     textAnchor="middle"
-                    style={{ fontSize: 16 }}
+                    style={style.year}
                     fill="#9AA0A6"
                 >
                     2021
@@ -179,7 +191,7 @@ export default function CompareBar({
                     x={50 + 230}
                     y="264"
                     textAnchor="middle"
-                    style={{ fontWeight: "bold", fontSize: 20 }}
+                    style={style.label}
                     fill="#9AA0A6"
                 >
                     {getPlayerObj(showPlayer).value}
@@ -188,7 +200,7 @@ export default function CompareBar({
                     x={140 + 230}
                     y="264"
                     textAnchor="middle"
-                    style={{ fontWeight: "bold", fontSize: 20 }}
+                    style={style.label}
                     fill="#9AA0A6"
                 >
                     {allScores.average_score}
@@ -198,8 +210,8 @@ export default function CompareBar({
                     x={90 + 230}
                     y="20"
                     textAnchor="middle"
-                    style={{ fontSize: 16 }}
                     fill="#000000"
+                    style={style.year}
                 >
                     {getCurrentYear()}
                 </text>
