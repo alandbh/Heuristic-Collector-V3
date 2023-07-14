@@ -7,7 +7,7 @@ import Fuse from "fuse.js";
 import Debugg from "../../lib/Debugg";
 
 // import { bancoDoBrasil } from "./edition2021/banco-do-brasil";
-import { prevScores } from "./edition2021/prevScores";
+import { prevScores } from "../../components/edition2021/prevScores";
 
 import BarChart from "../../components/BarChart";
 import CompareBar from "../../components/CompareBar";
