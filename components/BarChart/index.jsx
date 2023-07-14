@@ -3,12 +3,12 @@ export default function BarChart({ allScores, refDom }) {
         return null;
     }
     function getHeight(score) {
-        return (340 / 5) * score;
+        return (385 / 5) * score;
     }
     function getAveragePosition(score) {
         let amount = score !== 0 ? 1 : -2;
 
-        return 340 - (340 / 5) * score + amount;
+        return 385 - (385 / 5) * score + amount;
     }
 
     function getColor(showPlayer) {
@@ -18,20 +18,20 @@ export default function BarChart({ allScores, refDom }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="901"
-            height="340"
+            width="1048"
+            height="387"
             fill="none"
-            viewBox="0 0 901 339"
+            viewBox="0 0 1048 387"
             ref={refDom}
         >
             {allScores.scores_by_heuristic.map((score, index) => {
                 return (
                     <rect
                         key={score.label}
-                        x={index * 21 + index * 23}
-                        y={340 - getHeight(score.value)}
+                        x={22 + index * 24 + index * 25}
+                        y={385 - getHeight(score.value) + 2}
                         height={getHeight(score.value)}
-                        width="21"
+                        width="24"
                         fill={getColor(score.show_player)}
                     />
                 );
@@ -39,8 +39,8 @@ export default function BarChart({ allScores, refDom }) {
 
             <rect
                 x="0"
-                y={getAveragePosition(allScores.average_score)}
-                width="901"
+                y={getAveragePosition(allScores.average_score) + 2}
+                width="1048"
                 height="1"
                 fill="#ff0000"
             />
