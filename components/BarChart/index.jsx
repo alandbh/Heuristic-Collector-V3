@@ -1,5 +1,5 @@
-export default function BarChart({ allJourneyScores, refDom }) {
-    if (!allJourneyScores || !allJourneyScores.scores_by_heuristic) {
+export default function BarChart({ dataSet, averageLine, refDom }) {
+    if (!dataSet) {
         return null;
     }
     function getHeight(score) {
@@ -24,7 +24,7 @@ export default function BarChart({ allJourneyScores, refDom }) {
             viewBox="0 0 1048 387"
             ref={refDom}
         >
-            {allJourneyScores.scores_by_heuristic.map((score, index) => {
+            {dataSet.map((score, index) => {
                 return (
                     <rect
                         key={score.label}
@@ -39,7 +39,7 @@ export default function BarChart({ allJourneyScores, refDom }) {
 
             <rect
                 x="0"
-                y={getAveragePosition(allJourneyScores.average_score) + 2}
+                y={getAveragePosition(averageLine) + 2}
                 width="1048"
                 height="1"
                 fill="#ff0000"

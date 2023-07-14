@@ -591,6 +591,8 @@ function Dashboard() {
                     <BarChart
                         refDom={chartRef}
                         allJourneyScores={allJourneyScores}
+                        dataSet={allJourneyScores.scores_by_heuristic}
+                        averageLine={allJourneyScores.average_score}
                     />
 
                     <div className="mt-4 flex gap-10">
