@@ -158,7 +158,7 @@ function Dashboard() {
                     return heuristic.heuristicNumber === router.query.heuristic;
                 }
             );
-            console.log({ allHeuristics });
+            // console.log({ allHeuristics });
             setSelectedHeuristic(currentHeuristicByUrl[0]);
         }
     }, [
@@ -221,7 +221,7 @@ function Dashboard() {
         });
     }
     function handleSelectPlayer(ev) {
-        console.log("Player", ev.target.value);
+        // console.log("Player", ev.target.value);
 
         // setCurrentPlayer(ev.target.value);
         router.replace({
@@ -233,29 +233,6 @@ function Dashboard() {
         setResult([]);
         // setSelectedHeuristic(null);
     }
-
-    // function getPlayerObj(playerSlug) {
-    //     // console.log({ allPlayers });
-    //     const playerObj = allScores.scores_by_heuristic.filter((player) => {
-    //         return player.playerSlug === playerSlug;
-    //     });
-
-    //     console.log(playerObj[0]);
-
-    //     return playerObj[0];
-    // }
-
-    // function getPreviousScoreByPlayer(player) {
-    //     return prevScores[showPlayer][router.query.journey].find(
-    //         (score) => score.id === Number(selectedHeuristic.heuristicNumber)
-    //     );
-    // }
-
-    // function getCurrentYear() {
-    //     const currentDate = new Date();
-
-    //     return currentDate.getFullYear();
-    // }
 
     const options = {
         includeScore: true,
@@ -269,7 +246,7 @@ function Dashboard() {
     const fuse = new Fuse(heuristicsByJourney, options);
 
     function handleSearch(ev) {
-        console.log("heuristicsByJourney", fuse.search(ev.target.value));
+        // console.log("heuristicsByJourney", fuse.search(ev.target.value));
 
         setResult(fuse.search(ev.target.value));
     }
@@ -509,6 +486,7 @@ function Dashboard() {
                         {selectedHeuristic &&
                         showPlayer &&
                         prevScores[showPlayer] &&
+                        allScores &&
                         router.query.journey ? (
                             <div>
                                 <CompareBar
@@ -550,6 +528,12 @@ function Dashboard() {
                 <p>Please, find and select the heuristic</p>
             ) : (
                 <p>Please, select a Journey</p>
+            )}
+
+            {currentJourney && (
+                <div>
+                    <h1>Journey chart</h1>
+                </div>
             )}
         </div>
     );
