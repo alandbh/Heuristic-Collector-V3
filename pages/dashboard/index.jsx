@@ -46,7 +46,7 @@ const QUERY_PLAYERS = gql`
 function Dashboard() {
     const router = useRouter();
     const { project, heuristic, showPlayer, journey } = router.query;
-    const [allScores, setAllScores] = useState(null);
+    const [allJourneyScores, setAllJourneyScores] = useState(null);
     const [allHeuristics, setAllHeuristics] = useState(null);
     const [allJourneys, setAllJourneys] = useState(null);
     const [allPlayers, setAllPlayers] = useState(null);
@@ -60,12 +60,21 @@ function Dashboard() {
     const chartRef = useRef(null);
     const chartCompareRef = useRef(null);
 
-    function fetchAllScores(project, journey, heuristic, showPlayer) {
+    function fetchAllJourneyScores(project, journey, heuristic, showPlayer) {
         fetch(
             `/api/all?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}`
         ).then((data) => {
             data.json().then((result) => {
-                setAllScores(result);
+                setAllJourneyScores(result);
+            });
+        });
+    }
+    function fetchAllData(project, journey, heuristic, showPlayer) {
+        fetch(
+            `/api/all?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}`
+        ).then((data) => {
+            data.json().then((result) => {
+                setAllJourneyScores(result);
             });
         });
     }
@@ -123,7 +132,7 @@ function Dashboard() {
     }, [router.query.project]);
 
     useEffect(() => {
-        fetchAllScores(project, journey, heuristic, showPlayer);
+        fetchAllJourneyScores(project, journey, heuristic, showPlayer);
         getHeuristics();
         getJourneys();
         getPlayers();
@@ -169,10 +178,10 @@ function Dashboard() {
         heuristicsByJourney,
     ]);
     // useEffect(() => {
-    //     if (allScores !== null) {
-    //         console.log("allScores", allScores);
+    //     if (allJourneyScores !== null) {
+    //         console.log("allJourneyScores", allJourneyScores);
     //     }
-    // }, [allScores]);
+    // }, [allJourneyScores]);
 
     useEffect(() => {
         console.log({ allHeuristics });
@@ -197,7 +206,7 @@ function Dashboard() {
     }, [currentJourney, allHeuristics]);
 
     if (
-        allScores === null ||
+        allJourneyScores === null ||
         allHeuristics === null ||
         allJourneys === null ||
         allPlayers === null ||
@@ -341,9 +350,9 @@ function Dashboard() {
     }
 
     // Retrying to fectch the scores in case the api returns empty data
-    if (allScores.average_score === null) {
-        // fetchAllScores()
-        fetchAllScores(project, journey, heuristic, showPlayer);
+    if (allJourneyScores.average_score === null) {
+        // fetchAllJourneyScores()
+        fetchAllJourneyScores(project, journey, heuristic, showPlayer);
     }
 
     return (
@@ -442,7 +451,7 @@ function Dashboard() {
             {/* {<Debugg data={currentJourney} />} */}
             {/* {<Debugg data={heuristicsByJourney} />} */}
             {/* {<Debugg data={getPlayerObj(showPlayer).valuePrev} />} */}
-            {/* {<Debugg data={allScores} />}  */}
+            {/* {<Debugg data={allJourneyScores} />}  */}
             {/* {<Debugg data={showPlayer} />} */}
             {/* {<Debugg data={"asasas" + prevScores[showPlayer]} />} */}
 
@@ -461,11 +470,14 @@ function Dashboard() {
                         <div className="text-left text-sm p-4 max-w-[180px]">
                             <b>Average: </b>
                             <span className=" text-slate-500">
-                                {allScores.average_score}
+                                {allJourneyScores.average_score}
                             </span>
                         </div>
                     </div>
-                    <BarChart refDom={chartRef} allScores={allScores} />
+                    <BarChart
+                        refDom={chartRef}
+                        allJourneyScores={allJourneyScores}
+                    />
 
                     <div className="mt-4 flex gap-10">
                         <button
@@ -486,12 +498,12 @@ function Dashboard() {
                         {selectedHeuristic &&
                         showPlayer &&
                         prevScores[showPlayer] &&
-                        allScores &&
+                        allJourneyScores &&
                         router.query.journey ? (
                             <div>
                                 <CompareBar
                                     showPlayer={showPlayer}
-                                    allScores={allScores}
+                                    allJourneyScores={allJourneyScores}
                                     prevScores={prevScores}
                                     currentJourney={router.query.journey}
                                     selectedHeuristic={selectedHeuristic}

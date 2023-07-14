@@ -1,6 +1,6 @@
 export default function CompareBar({
     showPlayer,
-    allScores,
+    allJourneyScores,
     prevScores,
     currentJourney,
     selectedHeuristic,
@@ -8,9 +8,11 @@ export default function CompareBar({
 }) {
     function getPlayerObj(playerSlug) {
         // console.log({ allPlayers });
-        const playerObj = allScores.scores_by_heuristic.filter((player) => {
-            return player.playerSlug === playerSlug;
-        });
+        const playerObj = allJourneyScores.scores_by_heuristic.filter(
+            (player) => {
+                return player.playerSlug === playerSlug;
+            }
+        );
 
         // console.log(playerObj[0]);
 
@@ -36,7 +38,7 @@ export default function CompareBar({
 
     if (
         !getPreviousScoreByPlayer(showPlayer) ||
-        !allScores ||
+        !allJourneyScores ||
         !currentJourney ||
         currentJourney === null ||
         currentJourney === undefined ||
@@ -168,9 +170,15 @@ export default function CompareBar({
 
                 <rect
                     x={125 + 230}
-                    y={46 + (192 - (192 / 5) * allScores.average_score) + 2}
+                    y={
+                        46 +
+                        (192 - (192 / 5) * allJourneyScores.average_score) +
+                        2
+                    }
                     height={
-                        192 - 3 - (192 - (192 / 5) * allScores.average_score)
+                        192 -
+                        3 -
+                        (192 - (192 / 5) * allJourneyScores.average_score)
                     }
                     width="35"
                     stroke="#9AA0A6"
@@ -203,7 +211,7 @@ export default function CompareBar({
                     style={style.label}
                     fill="#9AA0A6"
                 >
-                    {allScores.average_score}
+                    {allJourneyScores.average_score}
                 </text>
 
                 <text
