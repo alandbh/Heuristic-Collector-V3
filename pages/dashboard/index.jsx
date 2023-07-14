@@ -519,7 +519,7 @@ function Dashboard() {
                         ) : null}
                     </div>
 
-                    <div className="mt-10 flex gap-10">
+                    <div className="mt-4 flex gap-10">
                         <button
                             className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
                             onClick={() =>
