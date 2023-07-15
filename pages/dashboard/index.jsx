@@ -211,8 +211,16 @@ function Dashboard() {
 
     // Getting the scores for the current journey
 
+    // console.log({ allProjectScores });
+
     useEffect(() => {
-        const scores = allProjectScores?.map((playerScore) => {
+        // Filtering all zeroed or ignored players
+
+        const filteredSllProjectScores = allProjectScores?.filter((player) => {
+            return !player.scores[currentJourney].ignore_journey;
+        });
+
+        const scores = filteredSllProjectScores?.map((playerScore) => {
             const playerObj = {};
             playerObj.journeyScores = {};
             playerObj.journeyScoresArr = [];
@@ -225,10 +233,15 @@ function Dashboard() {
             for (const heuristic in playerScore.scores[currentJourney]) {
                 let scoresArray = [];
                 if (heuristic.includes("h_")) {
-                    playerObj.journeyScores[heuristic] =
-                        playerScore.scores[currentJourney][
-                            heuristic
-                        ].scoreValue;
+                    if (playerScore.scores[currentJourney].zeroed_journey) {
+                        playerObj.journeyScores[heuristic] = 0;
+                        console.log("zeraddooo");
+                    } else {
+                        playerObj.journeyScores[heuristic] =
+                            playerScore.scores[currentJourney][
+                                heuristic
+                            ].scoreValue;
+                    }
 
                     playerObj.journeyScoresArr.push(
                         playerScore.scores[currentJourney][heuristic].scoreValue
@@ -285,13 +298,19 @@ function Dashboard() {
 
             // Calculating current journey score based on gerais weight
 
-            playerObj.journeyTotalPercentage =
-                (geraisTotalScore * geraisWeight[currentJourney] +
-                    journeyTotalScore) /
-                (maximunScore * geraisWeight[currentJourney] +
-                    maximunJourneyScore);
+            if (playerScore.scores[currentJourney].zeroed_journey) {
+                playerObj.journeyTotalPercentage = 0;
+                playerObj.journeyTotalScore = 0;
+                console.log("zeraddooo");
+            } else {
+                playerObj.journeyTotalPercentage =
+                    (geraisTotalScore * geraisWeight[currentJourney] +
+                        journeyTotalScore) /
+                    (maximunScore * geraisWeight[currentJourney] +
+                        maximunJourneyScore);
+                playerObj.journeyTotalScore = journeyTotalScore;
+            }
 
-            playerObj.journeyTotalScore = journeyTotalScore;
             playerObj.geraisTotalScore = geraisTotalScore;
             playerObj.maximunScore = maximunScore;
             playerObj.maximunJourneyScore = maximunJourneyScore;
@@ -328,23 +347,23 @@ function Dashboard() {
         }
     }, [scoresByJourney, showPlayer]);
 
-    console.log({ journeyScoresDatasetArr });
-
     const averageJourneyScore = useMemo(() => {
         if (scoresByJourney && journeyScoresDatasetArr) {
             const scoresArr = journeyScoresDatasetArr.map((player) => {
-                return player.value;
+                return Number(player.value.toFixed(4));
             });
 
             const sumScores = scoresArr.reduce((acc, current) => {
                 return acc + current;
             }, 0);
 
-            const maximunJourneyScore =
-                journeyScoresDatasetArr[0]["maximunJourneyScore"];
-            console.log(sumScores / (5 * journeyScoresDatasetArr.length));
+            console.log("sum", sumScores / scoresArr.length);
+
+            return sumScores / scoresArr.length;
         }
     }, [scoresByJourney, journeyScoresDatasetArr]);
+
+    console.log({ scoresByJourney });
 
     /**
      *
@@ -606,7 +625,7 @@ function Dashboard() {
             {/* {<Debugg data={getPlayerObj(showPlayer).valuePrev} />} */}
             {/* {<Debugg data={allJourneyScores} />}  */}
             {/* {<Debugg data={showPlayer} />} */}
-            {/* {<Debugg data={journeyScoresDatasetArr} />} */}
+            {<Debugg data={journeyScoresDatasetArr} />}
 
             {selectedHeuristic !== null ? (
                 <div>
@@ -708,7 +727,7 @@ function Dashboard() {
                         // refDom={chartRef}
                         // allJourneyScores={allJourneyScores}
                         dataSet={journeyScoresDatasetArr}
-                        averageLine={1}
+                        averageLine={averageJourneyScore}
                         percentage
                     />
                 </div>
