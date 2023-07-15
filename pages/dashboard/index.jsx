@@ -539,7 +539,7 @@ function Dashboard() {
     }
 
     const hasComparison = Boolean(
-        prevScores[showPlayer]
+        prevScores[showPlayer] && prevScores[showPlayer][currentJourney]
             ? prevScores[showPlayer][currentJourney].find(
                   (score) =>
                       score.id === Number(selectedHeuristic?.heuristicNumber)
