@@ -223,7 +223,7 @@ function Dashboard() {
         // Filtering all zeroed or ignored players
 
         const filteredSllProjectScores = allProjectScores?.filter((player) => {
-            return !player.scores[currentJourney].ignore_journey;
+            return !player.scores[currentJourney]?.ignore_journey;
         });
 
         const scores = filteredSllProjectScores?.map((playerScore) => {
@@ -304,7 +304,7 @@ function Dashboard() {
 
             // Calculating current journey score based on gerais weight
 
-            if (playerScore.scores[currentJourney].zeroed_journey) {
+            if (playerScore.scores[currentJourney]?.zeroed_journey) {
                 playerObj.journeyTotalPercentage = 0;
                 playerObj.journeyTotalScore = 0;
                 console.log("zeraddooo");
@@ -550,7 +550,7 @@ function Dashboard() {
     return (
         <div className="bg-slate-100/70 dark:bg-slate-800/50 p-10">
             <main className="mt-10 min-h-[calc(100vh_-_126px)] flex flex-col items-center">
-                <div className="max-w-6xl mx-auto flex flex-col">
+                <div className="w-[864px] mx-auto flex flex-col">
                     <div className="flex w-full gap-10 mb-10 text-sm">
                         <div className="flex flex-col gap-1 flex-1">
                             <label className="text-slate-500 font-bold">
