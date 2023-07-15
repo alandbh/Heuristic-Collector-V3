@@ -1,3 +1,5 @@
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
+
 export default function CompareBar({
     showPlayer,
     allJourneyScores,
@@ -6,6 +8,8 @@ export default function CompareBar({
     selectedHeuristic,
     refDom,
 }) {
+    const [previousScores, setPreviousScores] = useState(null);
+
     function getPlayerObj(playerSlug) {
         // console.log({ allPlayers });
         const playerObj = allJourneyScores.scores_by_heuristic.filter(
@@ -19,12 +23,52 @@ export default function CompareBar({
         return playerObj[0];
     }
 
-    function getPreviousScoreByPlayer(player) {
-        if (prevScores) {
-            return prevScores.find(
-                (score) =>
-                    score.id === Number(selectedHeuristic.heuristicNumber)
+    useEffect(() => {
+        if (prevScores && selectedHeuristic) {
+            console.log({ prevScores });
+            console.log(selectedHeuristic.hasOwnProperty("heuristicNumber"));
+
+            const initialScoreObj = {
+                scoreValuePrev: 0,
+                averageScoreValuePrev: 0,
+            };
+            const heuristicNumber = selectedHeuristic.hasOwnProperty(
+                "heuristicNumber"
+            )
+                ? Number(selectedHeuristic.heuristicNumber)
+                : 0;
+
+            const scoreObj = prevScores.find(
+                (score) => score.id === heuristicNumber
             );
+            console.log({ scoreObj });
+
+            setPreviousScores(scoreObj || null);
+        }
+    }, [prevScores, selectedHeuristic]);
+
+    function getPreviousScoreByPlayer() {
+        if (prevScores && selectedHeuristic) {
+            console.log({ prevScores });
+            console.log({ selectedHeuristic });
+
+            const initialScoreObj = {
+                scoreValuePrev: 0,
+                averageScoreValuePrev: 0,
+            };
+            const heuristicNumber = selectedHeuristic.hasOwnProperty("id")
+                ? Number(selectedHeuristic.heuristicNumber)
+                : 0;
+
+            const scoreObj = prevScores.find(
+                (score) => score.id === heuristicNumber
+            );
+
+            return scoreObj || initialScoreObj;
+
+            // return null;
+            // return prevScores.find((score) => score.id === 1.2);
+            // return prevScores.find((score) => score.id === heuristicNumber);
         }
 
         return null;
@@ -37,14 +81,16 @@ export default function CompareBar({
     }
 
     if (
-        !getPreviousScoreByPlayer(showPlayer) ||
-        !allJourneyScores ||
-        !currentJourney ||
-        currentJourney === null ||
-        currentJourney === undefined ||
-        !showPlayer ||
-        !prevScores ||
-        !getPlayerObj(showPlayer)
+        // !getPreviousScoreByPlayer() ||
+        // !allJourneyScores ||
+        // !currentJourney ||
+        // currentJourney === null ||
+        // currentJourney === undefined ||
+        // !showPlayer ||
+        // !prevScores ||
+        // !getPlayerObj(showPlayer)
+        // !selectedHeuristic.hasOwnProperty("id")
+        !previousScores
     ) {
         return null;
     }
@@ -73,19 +119,9 @@ export default function CompareBar({
             <g>
                 <rect
                     x={33}
-                    y={
-                        46 +
-                        (192 -
-                            (192 / 5) *
-                                getPreviousScoreByPlayer(showPlayer)
-                                    .scoreValuePrev)
-                    }
+                    y={46 + (192 - (192 / 5) * previousScores.scoreValuePrev)}
                     height={
-                        192 -
-                        (192 -
-                            (192 / 5) *
-                                getPreviousScoreByPlayer(showPlayer)
-                                    .scoreValuePrev)
+                        192 - (192 - (192 / 5) * previousScores.scoreValuePrev)
                     }
                     width="35"
                     fill="#666666"
@@ -98,18 +134,13 @@ export default function CompareBar({
                     y={
                         46 +
                         (192 -
-                            (192 / 5) *
-                                getPreviousScoreByPlayer(showPlayer)
-                                    .averageScoreValuePrev) +
+                            (192 / 5) * previousScores.averageScoreValuePrev) +
                         2
                     }
                     height={
                         192 -
                         3 -
-                        (192 -
-                            (192 / 5) *
-                                getPreviousScoreByPlayer(showPlayer)
-                                    .averageScoreValuePrev)
+                        (192 - (192 / 5) * previousScores.averageScoreValuePrev)
                     }
                     width="35"
                     stroke="#9AA0A6"

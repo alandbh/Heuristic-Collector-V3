@@ -9,7 +9,7 @@ import Debugg from "../../lib/Debugg";
 //test
 
 // import { bancoDoBrasil } from "./edition2021/banco-do-brasil";
-import { prevScores } from "../../components/edition2021/prevScores";
+import { prevScores as rawPrevScores } from "../../components/edition2021/prevScores";
 
 import BarChart from "../../components/BarChart";
 import CompareBar from "../../components/CompareBar";
@@ -52,6 +52,7 @@ function Dashboard() {
     const [journeyScoresDataset, setJourneyScoresDataset] = useState(null);
     const [scoresByJourney, setScoresByJourney] = useState(null);
     const [allProjectScores, setAllProjectScores] = useState(null);
+    const [prevScores, setPrevScores] = useState(null);
     const [allHeuristics, setAllHeuristics] = useState(null);
     const [allJourneys, setAllJourneys] = useState(null);
     const [allPlayers, setAllPlayers] = useState(null);
@@ -149,6 +150,10 @@ function Dashboard() {
         getJourneys,
         getPlayers,
     ]);
+
+    useEffect(() => {
+        setPrevScores(rawPrevScores);
+    }, []);
 
     useEffect(() => {
         if (router.query.journey !== undefined) {
@@ -532,229 +537,282 @@ function Dashboard() {
         fetchAllJourneyScores(project, journey, heuristic, showPlayer);
     }
 
+    const hasComparison = Boolean(
+        prevScores[showPlayer]
+            ? prevScores[showPlayer][currentJourney].find(
+                  (score) =>
+                      score.id === Number(selectedHeuristic?.heuristicNumber)
+              )
+            : false
+    );
+    // const hasComparison = prevScores[showPlayer][currentJourney];
     return (
-        <div className="m-10">
-            <div className="flex w-[800px] gap-10 mb-10">
-                <div className="flex flex-col gap-1 flex-1">
-                    <label className="text-slate-500 font-bold">
-                        Select a journey
-                    </label>
-                    <select
-                        className="border border-slate-300  block h-10 px-4 rounded-sm"
-                        onChange={(ev) => handleSelectJourney(ev)}
-                        defaultValue={router.query.journey}
-                    >
-                        <option>...</option>
-                        {allJourneys.map((journey) => {
-                            return (
-                                <option key={journey.slug} value={journey.slug}>
-                                    {journey.name}
-                                </option>
-                            );
-                        })}
-                    </select>
-                </div>
-
-                <div className="flex flex-col gap-1 flex-1">
-                    <label className="text-slate-500 font-bold">
-                        Find the heuristic
-                    </label>
-                    <input
-                        className="border border-slate-300  block h-10 px-4 rounded-sm"
-                        onChange={(e) => handleSearch(e)}
-                        type="search"
-                        name="search"
-                        id="search"
-                        autoComplete="off"
-                        ref={inputRef}
-                        accessKey="s"
-                        placeholder={"Type something and select"}
-                        tabIndex={1}
-                    />
-                </div>
-                <div className="flex flex-col gap-1 flex-1">
-                    <label className="text-slate-500 font-bold">
-                        Select a player to highlight it
-                    </label>
-
-                    <select
-                        className="border border-slate-300  block h-10 px-4 rounded-sm"
-                        onChange={(ev) => handleSelectPlayer(ev)}
-                        defaultValue={router.query.showPlayer}
-                    >
-                        <option>...</option>
-                        {allPlayers?.map((player) => {
-                            return (
-                                <option key={player.slug} value={player.slug}>
-                                    {player.name}
-                                </option>
-                            );
-                        })}
-                    </select>
-                </div>
-            </div>
-            <div className="flex items-end content-end w-[600px] relative">
-                {result.length > 0 ? (
-                    <ul className="absolute flex flex-col gap-3 top-[-20px] p-4 bg-white shadow-xl w-full">
-                        {result.map((item, index) => {
-                            return (
-                                <li className="w-full" key={index}>
-                                    <button
-                                        onClick={() =>
-                                            handleClickHeuristic(
-                                                item.item.heuristicNumber,
-                                                item.item.name
-                                            )
-                                        }
-                                        className="flex flex-1 w-full gap-2 text-left py-2 bg-white"
-                                        tabIndex={2}
-                                    >
-                                        <b className="block w-12 ">
-                                            {item.item.heuristicNumber}
-                                        </b>
-                                        <span className="text-slate-500 flex-1">
-                                            {item.item.name.substring(0, 130) +
-                                                "..."}
-                                        </span>
-                                    </button>
-                                </li>
-                            );
-                        })}
-                    </ul>
-                ) : (
-                    ""
-                )}
-            </div>
-            {/* {<Debugg data={currentJourney} />} */}
-            {/* {<Debugg data={heuristicsByJourney} />} */}
-            {/* {<Debugg data={getPlayerObj(showPlayer).valuePrev} />} */}
-            {/* {<Debugg data={allJourneyScores} />}  */}
-            {/* {<Debugg data={showPlayer} />} */}
-            {/* {<Debugg data={journeyScoresDatasetArr} />} */}
-
-            {selectedHeuristic !== null ? (
-                <div>
-                    <div className="mb-10  border border-black flex max-w-fit">
-                        <h1 className="font-bold text-sm  border-dashed border-r border-slate-400 p-4 align-middle min-h-min flex content-center">
-                            Selected Heuristic:
-                        </h1>
-                        <div className="flex gap-2 text-left p-4 border-r border-dashed border-slate-400 text-sm min-w-[400px]">
-                            <b>{selectedHeuristic?.heuristicNumber}</b>
-                            <p className="max-w-lg text-slate-500">
-                                {selectedHeuristic?.name}
-                            </p>
+        <div className="bg-slate-100/70 dark:bg-slate-800/50 p-10">
+            <main className="mt-10 min-h-[calc(100vh_-_126px)] flex flex-col items-center">
+                <div className="gap-5 max-w-6xl mx-auto flex flex-col">
+                    <div className="flex w-[800px] gap-10 mb-10">
+                        <div className="flex flex-col gap-1 flex-1">
+                            <label className="text-slate-500 font-bold">
+                                Select a journey
+                            </label>
+                            <select
+                                className="border border-slate-300  block h-10 px-4 rounded-sm"
+                                onChange={(ev) => handleSelectJourney(ev)}
+                                defaultValue={router.query.journey}
+                            >
+                                <option>...</option>
+                                {allJourneys.map((journey) => {
+                                    return (
+                                        <option
+                                            key={journey.slug}
+                                            value={journey.slug}
+                                        >
+                                            {journey.name}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                         </div>
-                        <div className="text-left text-sm p-4 max-w-[180px]">
-                            <b>Average: </b>
-                            <span className=" text-slate-500">
-                                {allJourneyScores.average_score}
-                            </span>
+
+                        <div className="flex flex-col gap-1 flex-1">
+                            <label className="text-slate-500 font-bold">
+                                Find the heuristic
+                            </label>
+                            <input
+                                className="border border-slate-300  block h-10 px-4 rounded-sm"
+                                onChange={(e) => handleSearch(e)}
+                                type="search"
+                                name="search"
+                                id="search"
+                                autoComplete="off"
+                                ref={inputRef}
+                                accessKey="s"
+                                placeholder={"Type something and select"}
+                                tabIndex={1}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-1 flex-1">
+                            <label className="text-slate-500 font-bold">
+                                Select a player to highlight it
+                            </label>
+
+                            <select
+                                className="border border-slate-300  block h-10 px-4 rounded-sm"
+                                onChange={(ev) => handleSelectPlayer(ev)}
+                                defaultValue={router.query.showPlayer}
+                            >
+                                <option>...</option>
+                                {allPlayers?.map((player) => {
+                                    return (
+                                        <option
+                                            key={player.slug}
+                                            value={player.slug}
+                                        >
+                                            {player.name}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                         </div>
                     </div>
-                    <BarChart
-                        refDom={chartRef}
-                        // allJourneyScores={allJourneyScores}
-                        dataSet={allJourneyScores.scores_by_heuristic}
-                        averageLine={allJourneyScores.average_score}
-                    />
-
-                    <div className="mt-4 flex gap-10">
-                        <button
-                            className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
-                            onClick={() => handleClickCopySvg(chartRef, "id1")}
-                        >
-                            {svgCopied?.id1 ? "✅ SVG Copied" : "Copy as SVG"}
-                        </button>
-                        <button
-                            className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
-                            onClick={() => handleClickCopyPng(chartRef)}
-                        >
-                            Export as a PNG file
-                        </button>
+                    <div className="flex items-end content-end w-[600px] relative">
+                        {result.length > 0 ? (
+                            <ul className="absolute flex flex-col gap-3 top-[-20px] p-4 bg-white shadow-xl w-full">
+                                {result.map((item, index) => {
+                                    return (
+                                        <li className="w-full" key={index}>
+                                            <button
+                                                onClick={() =>
+                                                    handleClickHeuristic(
+                                                        item.item
+                                                            .heuristicNumber,
+                                                        item.item.name
+                                                    )
+                                                }
+                                                className="flex flex-1 w-full gap-2 text-left py-2 bg-white"
+                                                tabIndex={2}
+                                            >
+                                                <b className="block w-12 ">
+                                                    {item.item.heuristicNumber}
+                                                </b>
+                                                <span className="text-slate-500 flex-1">
+                                                    {item.item.name.substring(
+                                                        0,
+                                                        130
+                                                    ) + "..."}
+                                                </span>
+                                            </button>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        ) : (
+                            ""
+                        )}
                     </div>
+                    {/* {<Debugg data={currentJourney} />} */}
+                    {/* {<Debugg data={heuristicsByJourney} />} */}
+                    {/* {<Debugg data={getPlayerObj(showPlayer).valuePrev} />} */}
+                    {/* {<Debugg data={allJourneyScores} />}  */}
+                    {/* {<Debugg data={showPlayer} />} */}
+                    {/* {<Debugg data={journeyScoresDatasetArr} />} */}
+                    <Debugg data={{ hasComparison }} />
 
-                    <div className="mt-16 mb-4 flex gap-10">
-                        {selectedHeuristic &&
-                        showPlayer &&
-                        prevScores[showPlayer] &&
-                        allJourneyScores &&
-                        allJourneyScores.scores_by_heuristic &&
-                        router.query.journey ? (
-                            <div>
-                                <CompareBar
-                                    showPlayer={showPlayer}
-                                    allJourneyScores={allJourneyScores}
-                                    prevScores={
-                                        prevScores[showPlayer][currentJourney]
-                                    }
-                                    currentJourney={router.query.journey}
-                                    selectedHeuristic={selectedHeuristic}
-                                    refDom={chartCompareRef}
-                                />
-                                <div className="mt-4 flex gap-10">
-                                    <button
-                                        className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
-                                        onClick={() =>
-                                            handleClickCopySvg(
-                                                chartCompareRef,
-                                                "id2"
-                                            )
-                                        }
-                                    >
-                                        {svgCopied?.id2
-                                            ? "✅ SVG Copied"
-                                            : "Copy as SVG"}
-                                    </button>
-                                    <button
-                                        className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
-                                        onClick={() =>
-                                            handleClickCopyPng(chartCompareRef)
-                                        }
-                                    >
-                                        Export as a PNG file
-                                    </button>
+                    {selectedHeuristic !== null ? (
+                        <div>
+                            <div className="mb-10  border border-black flex max-w-fit">
+                                <h1 className="font-bold text-sm  border-dashed border-r border-slate-400 p-4 align-middle min-h-min flex content-center">
+                                    Selected Heuristic:
+                                </h1>
+                                <div className="flex gap-2 text-left p-4 border-r border-dashed border-slate-400 text-sm min-w-[400px]">
+                                    <b>{selectedHeuristic?.heuristicNumber}</b>
+                                    <p className="max-w-lg text-slate-500">
+                                        {selectedHeuristic?.name}
+                                    </p>
+                                </div>
+                                <div className="text-left text-sm p-4 max-w-[180px]">
+                                    <b>Average: </b>
+                                    <span className=" text-slate-500">
+                                        {allJourneyScores.average_score}
+                                    </span>
                                 </div>
                             </div>
-                        ) : null}
-                    </div>
-                </div>
-            ) : currentJourney ? (
-                <p>Please, find and select the heuristic</p>
-            ) : (
-                <p>Please, select a Journey</p>
-            )}
 
-            {currentJourney && (
-                <div>
-                    <div className="mb-10  border border-black flex max-w-fit">
-                        <h1 className="font-bold text-sm  border-dashed border-r border-slate-400 p-4 align-middle min-h-min flex content-center">
-                            Selected Journey:
-                        </h1>
-                        <div className="flex gap-2 text-left p-4 border-r border-dashed border-slate-400 text-sm min-w-[400px]">
-                            {
-                                allJourneys.find(
-                                    (journey) => journey.slug === currentJourney
-                                ).name
-                            }
-                        </div>
-                        <div className="text-left text-sm p-4 max-w-[180px]">
-                            <b>Average: </b>
-                            <span className=" text-slate-500">
-                                {(averageJourneyScore * 100).toFixed(2)}
-                            </span>
-                        </div>
-                    </div>
+                            <header className="flex justify-between mb-6 items-center px-4 gap-3">
+                                <h1 className="text-xl font-bold">
+                                    <div className="h-[5px] bg-primary w-10 mb-1"></div>
+                                    3. Visibility
+                                </h1>
+                                <div className="text-lg flex items-center gap-5">
+                                    <b className="whitespace-nowrap text-sm md:text-xl">
+                                        15 of 15
+                                    </b>
+                                </div>
+                            </header>
 
-                    <hr className="bg-black text-black" />
-                    <BarChart
-                        // refDom={chartRef}
-                        // allJourneyScores={allJourneyScores}
-                        dataSet={journeyScoresDatasetArr}
-                        averageLine={averageJourneyScore}
-                        percentage
-                    />
+                            <div className="bg-white dark:bg-slate-800 pt-8 pb-1 px-4 pr-8 rounded-lg shadow-lg max-w-fit">
+                                <BarChart
+                                    refDom={chartRef}
+                                    // allJourneyScores={allJourneyScores}
+                                    dataSet={
+                                        allJourneyScores.scores_by_heuristic
+                                    }
+                                    averageLine={allJourneyScores.average_score}
+                                />
+                            </div>
+
+                            <div className="mt-4 flex gap-10">
+                                <button
+                                    className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
+                                    onClick={() =>
+                                        handleClickCopySvg(chartRef, "id1")
+                                    }
+                                >
+                                    {svgCopied?.id1
+                                        ? "✅ SVG Copied"
+                                        : "Copy as SVG"}
+                                </button>
+                                <button
+                                    className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
+                                    onClick={() => handleClickCopyPng(chartRef)}
+                                >
+                                    Export as a PNG file
+                                </button>
+                            </div>
+
+                            <div className="mt-16 mb-4 flex gap-10">
+                                {showPlayer &&
+                                allJourneyScores &&
+                                allJourneyScores.scores_by_heuristic &&
+                                hasComparison &&
+                                router.query.journey ? (
+                                    <div>
+                                        asasasasasasas
+                                        <CompareBar
+                                            showPlayer={showPlayer}
+                                            allJourneyScores={allJourneyScores}
+                                            prevScores={
+                                                prevScores[showPlayer][
+                                                    currentJourney
+                                                ]
+                                            }
+                                            currentJourney={
+                                                router.query.journey
+                                            }
+                                            selectedHeuristic={
+                                                selectedHeuristic
+                                            }
+                                            refDom={chartCompareRef}
+                                        />
+                                        <div className="mt-4 flex gap-10">
+                                            <button
+                                                className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
+                                                onClick={() =>
+                                                    handleClickCopySvg(
+                                                        chartCompareRef,
+                                                        "id2"
+                                                    )
+                                                }
+                                            >
+                                                {svgCopied?.id2
+                                                    ? "✅ SVG Copied"
+                                                    : "Copy as SVG"}
+                                            </button>
+                                            <button
+                                                className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
+                                                onClick={() =>
+                                                    handleClickCopyPng(
+                                                        chartCompareRef
+                                                    )
+                                                }
+                                            >
+                                                Export as a PNG file
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : null}
+                            </div>
+                        </div>
+                    ) : currentJourney ? (
+                        <p>Please, find and select the heuristic</p>
+                    ) : (
+                        <p>Please, select a Journey</p>
+                    )}
+
+                    {currentJourney && (
+                        <div>
+                            <div className="mb-10  border border-black flex max-w-fit">
+                                <h1 className="font-bold text-sm  border-dashed border-r border-slate-400 p-4 align-middle min-h-min flex content-center">
+                                    Selected Journey:
+                                </h1>
+                                <div className="flex gap-2 text-left p-4 border-r border-dashed border-slate-400 text-sm min-w-[400px]">
+                                    {
+                                        allJourneys.find(
+                                            (journey) =>
+                                                journey.slug === currentJourney
+                                        ).name
+                                    }
+                                </div>
+                                <div className="text-left text-sm p-4 max-w-[180px]">
+                                    <b>Average: </b>
+                                    <span className=" text-slate-500">
+                                        {(averageJourneyScore * 100).toFixed(2)}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <hr className="bg-black text-black" />
+                            <BarChart
+                                // refDom={chartRef}
+                                // allJourneyScores={allJourneyScores}
+                                dataSet={journeyScoresDatasetArr}
+                                averageLine={averageJourneyScore}
+                                percentage
+                            />
+                        </div>
+                    )}
                 </div>
-            )}
+            </main>
         </div>
     );
 }
