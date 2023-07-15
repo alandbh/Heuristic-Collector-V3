@@ -204,6 +204,11 @@ export default async function handler(req, res) {
                     "averageScoreValuePrev"
                 ] || null;
 
+            scoreChartObj.ignore_journey =
+                player.scores[journey].ignore_journey;
+            scoreChartObj.zeroed_journey =
+                player.scores[journey].zeroed_journey;
+
             scores_by_heuristic.push(scoreChartObj);
         });
 
