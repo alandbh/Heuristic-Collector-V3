@@ -192,6 +192,13 @@ export default async function handler(req, res) {
                 return;
             }
 
+            if (
+                player.scores[journey].ignore_journey ||
+                player.scores[journey].zeroed_journey
+            ) {
+                return;
+            }
+
             scoreChartObj.value =
                 player.scores[journey]["h_" + heuristic]["scoreValue"];
 
@@ -204,16 +211,11 @@ export default async function handler(req, res) {
                     "averageScoreValuePrev"
                 ] || null;
 
-            scoreChartObj.ignore_journey =
-                player.scores[journey].ignore_journey;
-            scoreChartObj.zeroed_journey =
-                player.scores[journey].zeroed_journey;
-
             scores_by_heuristic.push(scoreChartObj);
         });
 
         const nonZeroedScores = scores_by_heuristic.filter((score) => {
-            return score.value > 0;
+            return score.value > 0 && score.ignore_journey !== true;
         });
         const validScoresPrev = scores_by_heuristic.filter((score) => {
             return score.valuePrev !== null;
