@@ -137,7 +137,7 @@ export default function CompareBar({
                     style={style.label}
                     fill="#9AA0A6"
                 >
-                    {previousScores.averageScoreValuePrev}
+                    {previousScores.scoreValuePrev}
                 </text>
                 <text
                     x="140"
