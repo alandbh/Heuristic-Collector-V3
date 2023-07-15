@@ -1,14 +1,16 @@
-export default function BarChart({ dataSet, averageLine, refDom }) {
+export default function BarChart({ dataSet, averageLine, percentage, refDom }) {
     if (!dataSet) {
         return null;
     }
     function getHeight(score) {
-        return (385 / 5) * score;
+        return percentage ? (385 / 5) * score * 5 : (385 / 5) * score;
     }
     function getAveragePosition(score) {
         let amount = score !== 0 ? 1 : -2;
 
-        return 385 - (385 / 5) * score + amount;
+        return percentage
+            ? 385 - (385 / 5) * (score * 5) + amount
+            : 385 - (385 / 5) * score + amount;
     }
 
     function getColor(showPlayer) {

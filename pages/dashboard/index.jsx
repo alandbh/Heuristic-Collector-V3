@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { gql } from "@apollo/client";
 import { saveSvgAsPng } from "save-svg-as-png";
 import client from "../../lib/apollo";
@@ -49,7 +49,8 @@ function Dashboard() {
     const router = useRouter();
     const { project, heuristic, showPlayer, journey } = router.query;
     const [allJourneyScores, setAllJourneyScores] = useState(null);
-    const [journeyScores, setJourneyScores] = useState(null);
+    const [journeyScoresDataset, setJourneyScoresDataset] = useState(null);
+    const [scoresByJourney, setScoresByJourney] = useState(null);
     const [allProjectScores, setAllProjectScores] = useState(null);
     const [allHeuristics, setAllHeuristics] = useState(null);
     const [allJourneys, setAllJourneys] = useState(null);
@@ -209,29 +210,32 @@ function Dashboard() {
     }, [currentJourney, allHeuristics]);
 
     // Getting the scores for the current journey
-    const scoresByJourney = allProjectScores?.map((playerScore) => {
-        const playerObj = {};
-        playerObj.journeyScores = {};
-        playerObj.journeyScoresArr = [];
 
-        playerObj.playerSlug = playerScore.slug;
-        playerObj.playerName = playerScore.name;
+    useEffect(() => {
+        const scores = allProjectScores?.map((playerScore) => {
+            const playerObj = {};
+            playerObj.journeyScores = {};
+            playerObj.journeyScoresArr = [];
 
-        setScoresByJourney(currentJourney);
+            playerObj.playerSlug = playerScore.slug;
+            playerObj.playerName = playerScore.name;
 
-        function setScoresByJourney(journey) {
-            for (const heuristic in playerScore.scores[journey]) {
+            setScoresByJourney(currentJourney);
+
+            for (const heuristic in playerScore.scores[currentJourney]) {
                 let scoresArray = [];
                 if (heuristic.includes("h_")) {
                     playerObj.journeyScores[heuristic] =
-                        playerScore.scores[journey][heuristic].scoreValue;
+                        playerScore.scores[currentJourney][
+                            heuristic
+                        ].scoreValue;
 
                     playerObj.journeyScoresArr.push(
-                        playerScore.scores[journey][heuristic].scoreValue
+                        playerScore.scores[currentJourney][heuristic].scoreValue
                     );
 
                     scoresArray.push(
-                        playerScore.scores[journey][heuristic].scoreValue
+                        playerScore.scores[currentJourney][heuristic].scoreValue
                     );
 
                     // return {
@@ -241,78 +245,106 @@ function Dashboard() {
                     // };
                 }
             }
-        }
+            function setScoresByJourney(journey) {}
 
-        const geraisArr = [];
+            const geraisArr = [];
 
-        for (const heuristic in playerScore.scores["gerais"]) {
-            if (heuristic.includes("h_")) {
-                geraisArr.push(
-                    playerScore.scores["gerais"][heuristic].scoreValue
-                );
+            for (const heuristic in playerScore.scores["gerais"]) {
+                if (heuristic.includes("h_")) {
+                    geraisArr.push(
+                        playerScore.scores["gerais"][heuristic].scoreValue
+                    );
+                }
             }
-        }
 
-        // Total score for the current journey
+            // Total score for the current journey
 
-        const journeyTotalScore = playerObj.journeyScoresArr.reduce(
-            (acc, current) => {
+            const journeyTotalScore = playerObj.journeyScoresArr.reduce(
+                (acc, current) => {
+                    return acc + current;
+                },
+                0
+            );
+
+            // Total score for the "gerais" journey
+            const geraisTotalScore = geraisArr.reduce((acc, current) => {
                 return acc + current;
-            },
-            0
-        );
+            }, 0);
 
-        // Total score for the "gerais" journey
-        const geraisTotalScore = geraisArr.reduce((acc, current) => {
-            return acc + current;
-        }, 0);
+            // Jornada	Peso de Gerais
 
-        // Jornada	Peso de Gerais
+            const geraisWeight = {
+                "open-finance": 0.2380952381,
+                cartao: 0.619047619,
+                abertura: 0.6666666667,
+                gerais: 0,
+            };
 
-        const geraisWeight = {
-            "open-finance": 0.2380952381,
-            cartao: 0.619047619,
-            abertura: 0.6666666667,
-            gerais: 0,
-        };
+            const maximunScore = allProjectScores.length * 5;
+            const maximunJourneyScore = playerObj.journeyScoresArr.length * 5;
 
-        const maximunScore = allProjectScores.length * 5;
-        const maximunJourneyScore = playerObj.journeyScoresArr.length * 5;
+            // Calculating current journey score based on gerais weight
 
-        // Calculating current journey score based on gerais weight
+            playerObj.journeyTotalPercentage =
+                (geraisTotalScore * geraisWeight[currentJourney] +
+                    journeyTotalScore) /
+                (maximunScore * geraisWeight[currentJourney] +
+                    maximunJourneyScore);
 
-        playerObj.journeyTotalPercentage =
-            (geraisTotalScore * geraisWeight[currentJourney] +
-                journeyTotalScore) /
-            (maximunScore * geraisWeight[currentJourney] + maximunJourneyScore);
+            playerObj.journeyTotalScore = journeyTotalScore;
+            playerObj.geraisTotalScore = geraisTotalScore;
+            playerObj.maximunScore = maximunScore;
+            playerObj.maximunJourneyScore = maximunJourneyScore;
 
-        playerObj.journeyTotalScore = journeyTotalScore;
-        playerObj.geraisTotalScore = geraisTotalScore;
-        playerObj.maximunScore = maximunScore;
-        playerObj.maximunJourneyScore = maximunJourneyScore;
+            // playerObj.journeyTotalPercentage =
+            //     (journeyTotalScore * geraisWeight["abertura"] + journeyTotalScore) /
+            //     (maximunScore * geraisWeight["abertura"] + maximunJourneyScore);
 
-        // playerObj.journeyTotalPercentage =
-        //     (journeyTotalScore * geraisWeight["abertura"] + journeyTotalScore) /
-        //     (maximunScore * geraisWeight["abertura"] + maximunJourneyScore);
+            // playerObj.journeyTotalPercentage =
+            //     (playerObj.journeyTotalScore /
+            //         (playerObj.journeyScoresArr.length * 5)) *
+            //     100;
 
-        // playerObj.journeyTotalPercentage =
-        //     (playerObj.journeyTotalScore /
-        //         (playerObj.journeyScoresArr.length * 5)) *
-        //     100;
+            playerObj;
+            return playerObj;
+        });
 
-        playerObj;
-        return playerObj;
-    });
+        setScoresByJourney(scores);
+    }, [allProjectScores, currentJourney]);
 
-    if (scoresByJourney) {
-        // const journeyScoresDataset = scoresByJourney.map((player) => {
-        //     const playerObj = {};
-        //     playerObj.value;
-        // });
-        // setJourneyScores(journeyScoresDataset);
-    }
+    const journeyScoresDatasetArr = useMemo(() => {
+        if (scoresByJourney) {
+            const dataset = scoresByJourney.map((player) => {
+                const playerObj = {};
+                playerObj.value = player.journeyTotalPercentage;
+                playerObj.total = player.journeyTotalScore;
+                playerObj.label = player.playerName;
+                playerObj.maximunJourneyScore = player.maximunJourneyScore;
+                playerObj.playerSlug = player.playerSlug;
+                playerObj.show_player = player.playerSlug === showPlayer;
+                return playerObj;
+            });
+            return dataset;
+        }
+    }, [scoresByJourney, showPlayer]);
 
-    console.log({ scoresByJourney });
+    console.log({ journeyScoresDatasetArr });
+
+    const averageJourneyScore = useMemo(() => {
+        if (scoresByJourney && journeyScoresDatasetArr) {
+            const scoresArr = journeyScoresDatasetArr.map((player) => {
+                return player.value;
+            });
+
+            const sumScores = scoresArr.reduce((acc, current) => {
+                return acc + current;
+            }, 0);
+
+            const maximunJourneyScore =
+                journeyScoresDatasetArr[0]["maximunJourneyScore"];
+            console.log(sumScores / (5 * journeyScoresDatasetArr.length));
+        }
+    }, [scoresByJourney, journeyScoresDatasetArr]);
 
     /**
      *
@@ -574,7 +606,7 @@ function Dashboard() {
             {/* {<Debugg data={getPlayerObj(showPlayer).valuePrev} />} */}
             {/* {<Debugg data={allJourneyScores} />}  */}
             {/* {<Debugg data={showPlayer} />} */}
-            {/* {<Debugg data={"asasas" + prevScores[showPlayer]} />} */}
+            {/* {<Debugg data={journeyScoresDatasetArr} />} */}
 
             {selectedHeuristic !== null ? (
                 <div>
@@ -597,12 +629,6 @@ function Dashboard() {
                     </div>
                     <BarChart
                         refDom={chartRef}
-                        // allJourneyScores={allJourneyScores}
-                        dataSet={allJourneyScores.scores_by_heuristic}
-                        averageLine={allJourneyScores.average_score}
-                    />
-                    <BarChart
-                        // refDom={chartRef}
                         // allJourneyScores={allJourneyScores}
                         dataSet={allJourneyScores.scores_by_heuristic}
                         averageLine={allJourneyScores.average_score}
@@ -677,6 +703,14 @@ function Dashboard() {
             {currentJourney && (
                 <div>
                     <h1>Journey chart</h1>
+                    <hr className="bg-black text-black" />
+                    <BarChart
+                        // refDom={chartRef}
+                        // allJourneyScores={allJourneyScores}
+                        dataSet={journeyScoresDatasetArr}
+                        averageLine={1}
+                        percentage
+                    />
                 </div>
             )}
         </div>
