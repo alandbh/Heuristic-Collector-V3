@@ -687,7 +687,7 @@ function Dashboard() {
                                         </span>
                                     </div>
                                 </div>
-                                <div className=" p-8">
+                                <div className=" px-8 pt-8 pb-4">
                                     <BarChart
                                         refDom={chartRef}
                                         // allJourneyScores={allJourneyScores}
@@ -698,78 +698,112 @@ function Dashboard() {
                                             allJourneyScores.average_score
                                         }
                                     />
+                                    <div className="mt-4 flex gap-10">
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
+                                            onClick={() =>
+                                                handleClickCopySvg(
+                                                    chartRef,
+                                                    "id1"
+                                                )
+                                            }
+                                        >
+                                            {svgCopied?.id1
+                                                ? "✅ SVG Copied"
+                                                : "Copy as SVG"}
+                                        </button>
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
+                                            onClick={() =>
+                                                handleClickCopyPng(chartRef)
+                                            }
+                                        >
+                                            Export as a PNG file
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="mt-4 flex gap-10">
-                                <button
-                                    className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
-                                    onClick={() =>
-                                        handleClickCopySvg(chartRef, "id1")
-                                    }
-                                >
-                                    {svgCopied?.id1
-                                        ? "✅ SVG Copied"
-                                        : "Copy as SVG"}
-                                </button>
-                                <button
-                                    className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
-                                    onClick={() => handleClickCopyPng(chartRef)}
-                                >
-                                    Export as a PNG file
-                                </button>
-                            </div>
-
-                            <div className="mt-16 mb-4 flex gap-10">
+                            <div className="mt-16 mb-4">
                                 {showPlayer &&
                                 allJourneyScores &&
                                 allJourneyScores.scores_by_heuristic &&
                                 hasComparison &&
                                 router.query.journey ? (
-                                    <div>
-                                        asasasasasasas
-                                        <CompareBar
-                                            showPlayer={showPlayer}
-                                            allJourneyScores={allJourneyScores}
-                                            prevScores={
-                                                prevScores[showPlayer][
-                                                    currentJourney
-                                                ]
-                                            }
-                                            currentJourney={
-                                                router.query.journey
-                                            }
-                                            selectedHeuristic={
-                                                selectedHeuristic
-                                            }
-                                            refDom={chartCompareRef}
-                                        />
-                                        <div className="mt-4 flex gap-10">
-                                            <button
-                                                className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
-                                                onClick={() =>
-                                                    handleClickCopySvg(
-                                                        chartCompareRef,
-                                                        "id2"
-                                                    )
-                                                }
-                                            >
-                                                {svgCopied?.id2
-                                                    ? "✅ SVG Copied"
-                                                    : "Copy as SVG"}
-                                            </button>
-                                            <button
-                                                className="border border-blue-300 h-10 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400"
-                                                onClick={() =>
-                                                    handleClickCopyPng(
-                                                        chartCompareRef
-                                                    )
-                                                }
-                                            >
-                                                Export as a PNG file
-                                            </button>
+                                    <>
+                                        <header className="flex justify-between mb-6 items-center px-4 gap-3">
+                                            <h1 className="text-xl font-bold">
+                                                <div className="h-[5px] bg-primary w-10 mb-1"></div>
+                                                Comparative Chart
+                                            </h1>
+                                        </header>
+                                        <div className="bg-white dark:bg-slate-800 pb-1 rounded-lg shadow-lg ">
+                                            <div className="flex border-b px-4 min-h-[50px]">
+                                                <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
+                                                    <p>Selected Heuristic:</p>
+                                                </div>
+                                                <div className="flex gap-2 text-sm pt-4 pb-4">
+                                                    <b>
+                                                        {
+                                                            selectedHeuristic?.heuristicNumber
+                                                        }
+                                                    </b>
+                                                    <span className="max-w-lg text-slate-700">
+                                                        {
+                                                            selectedHeuristic?.name
+                                                        }
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className=" px-8 pt-8 pb-4">
+                                                <div className="flex flex-col items-center">
+                                                    <CompareBar
+                                                        showPlayer={showPlayer}
+                                                        allJourneyScores={
+                                                            allJourneyScores
+                                                        }
+                                                        prevScores={
+                                                            prevScores[
+                                                                showPlayer
+                                                            ][currentJourney]
+                                                        }
+                                                        currentJourney={
+                                                            router.query.journey
+                                                        }
+                                                        selectedHeuristic={
+                                                            selectedHeuristic
+                                                        }
+                                                        refDom={chartCompareRef}
+                                                    />
+                                                </div>
+                                                <div className="mt-4 flex gap-10">
+                                                    <button
+                                                        className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 text-sm"
+                                                        onClick={() =>
+                                                            handleClickCopySvg(
+                                                                chartCompareRef,
+                                                                "id2"
+                                                            )
+                                                        }
+                                                    >
+                                                        {svgCopied?.id2
+                                                            ? "✅ SVG Copied"
+                                                            : "Copy as SVG"}
+                                                    </button>
+                                                    <button
+                                                        className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 text-sm"
+                                                        onClick={() =>
+                                                            handleClickCopyPng(
+                                                                chartCompareRef
+                                                            )
+                                                        }
+                                                    >
+                                                        Export as a PNG file
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </>
                                 ) : null}
                             </div>
                         </div>
