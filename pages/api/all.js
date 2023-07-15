@@ -192,15 +192,19 @@ export default async function handler(req, res) {
                 return;
             }
 
+            let shouldConsiderThisPlayer = true;
+
             if (
                 player.scores[journey].ignore_journey ||
                 player.scores[journey].zeroed_journey
             ) {
-                return;
+                shouldConsiderThisPlayer = false;
+                // return;
             }
 
-            scoreChartObj.value =
-                player.scores[journey]["h_" + heuristic]["scoreValue"];
+            scoreChartObj.value = shouldConsiderThisPlayer
+                ? player.scores[journey]["h_" + heuristic]["scoreValue"]
+                : 0;
 
             scoreChartObj.valuePrev =
                 player.scores[journey]["h_" + heuristic]["scoreValuePrev"] ||
@@ -210,6 +214,11 @@ export default async function handler(req, res) {
                 player.scores[journey]["h_" + heuristic][
                     "averageScoreValuePrev"
                 ] || null;
+
+            scoreChartObj.ignore_journey =
+                player.scores[journey].ignore_journey;
+            scoreChartObj.zeroed_journey =
+                player.scores[journey].zeroed_journey;
 
             scores_by_heuristic.push(scoreChartObj);
         });
