@@ -47,33 +47,6 @@ export default function CompareBar({
         }
     }, [prevScores, selectedHeuristic]);
 
-    function getPreviousScoreByPlayer() {
-        if (prevScores && selectedHeuristic) {
-            console.log({ prevScores });
-            console.log({ selectedHeuristic });
-
-            const initialScoreObj = {
-                scoreValuePrev: 0,
-                averageScoreValuePrev: 0,
-            };
-            const heuristicNumber = selectedHeuristic.hasOwnProperty("id")
-                ? Number(selectedHeuristic.heuristicNumber)
-                : 0;
-
-            const scoreObj = prevScores.find(
-                (score) => score.id === heuristicNumber
-            );
-
-            return scoreObj || initialScoreObj;
-
-            // return null;
-            // return prevScores.find((score) => score.id === 1.2);
-            // return prevScores.find((score) => score.id === heuristicNumber);
-        }
-
-        return null;
-    }
-
     function getCurrentYear() {
         const currentDate = new Date();
 
@@ -164,7 +137,7 @@ export default function CompareBar({
                     style={style.label}
                     fill="#9AA0A6"
                 >
-                    {getPreviousScoreByPlayer(showPlayer).scoreValuePrev}
+                    {previousScores.averageScoreValuePrev}
                 </text>
                 <text
                     x="140"
@@ -173,7 +146,7 @@ export default function CompareBar({
                     style={style.label}
                     fill="#9AA0A6"
                 >
-                    {getPreviousScoreByPlayer(showPlayer).averageScoreValuePrev}
+                    {previousScores.averageScoreValuePrev}
                 </text>
 
                 <text
