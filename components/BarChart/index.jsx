@@ -25,7 +25,7 @@ export default function BarChart({ dataSet, averageLine, percentage, refDom }) {
             fill="none"
             viewBox="0 0 1048 387"
             ref={refDom}
-            className="max-w-[800px]"
+            className="max-w-[800px] object-contain h-auto"
         >
             {dataSet.map((score, index) => {
                 return (

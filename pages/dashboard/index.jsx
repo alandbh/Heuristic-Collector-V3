@@ -550,7 +550,7 @@ function Dashboard() {
         <div className="bg-slate-100/70 dark:bg-slate-800/50 p-10">
             <main className="mt-10 min-h-[calc(100vh_-_126px)] flex flex-col items-center">
                 <div className="gap-5 max-w-6xl mx-auto flex flex-col">
-                    <div className="flex w-[800px] gap-10 mb-10">
+                    <div className="flex w-full gap-10 mb-10 text-sm">
                         <div className="flex flex-col gap-1 flex-1">
                             <label className="text-slate-500 font-bold">
                                 Select a journey
@@ -615,9 +615,9 @@ function Dashboard() {
                             </select>
                         </div>
                     </div>
-                    <div className="flex items-end content-end w-[600px] relative">
+                    <div className="flex items-end content-end  relative">
                         {result.length > 0 ? (
-                            <ul className="absolute flex flex-col gap-3 top-[-20px] p-4 bg-white shadow-xl w-full">
+                            <ul className="absolute flex flex-col gap-3 top-[-60px] left-1/2 -ml-[300px] w-[600px] p-4 bg-white shadow-xl ">
                                 {result.map((item, index) => {
                                     return (
                                         <li className="w-full" key={index}>
@@ -656,49 +656,49 @@ function Dashboard() {
                     {/* {<Debugg data={allJourneyScores} />}  */}
                     {/* {<Debugg data={showPlayer} />} */}
                     {/* {<Debugg data={journeyScoresDatasetArr} />} */}
-                    <Debugg data={{ hasComparison }} />
+                    {/* <Debugg data={{ hasComparison }} /> */}
 
                     {selectedHeuristic !== null ? (
                         <div>
-                            <div className="mb-10  border border-black flex max-w-fit">
-                                <h1 className="font-bold text-sm  border-dashed border-r border-slate-400 p-4 align-middle min-h-min flex content-center">
-                                    Selected Heuristic:
+                            <header className="flex justify-between mb-6 items-center px-4 gap-3">
+                                <h1 className="text-xl font-bold">
+                                    <div className="h-[5px] bg-primary w-10 mb-1"></div>
+                                    Heuristic Chart
                                 </h1>
-                                <div className="flex gap-2 text-left p-4 border-r border-dashed border-slate-400 text-sm min-w-[400px]">
-                                    <b>{selectedHeuristic?.heuristicNumber}</b>
-                                    <p className="max-w-lg text-slate-500">
-                                        {selectedHeuristic?.name}
-                                    </p>
-                                </div>
-                                <div className="text-left text-sm p-4 max-w-[180px]">
+                                <div className="text-lg flex items-center gap-1 whitespace-nowrap">
                                     <b>Average: </b>
                                     <span className=" text-slate-500">
                                         {allJourneyScores.average_score}
                                     </span>
                                 </div>
-                            </div>
-
-                            <header className="flex justify-between mb-6 items-center px-4 gap-3">
-                                <h1 className="text-xl font-bold">
-                                    <div className="h-[5px] bg-primary w-10 mb-1"></div>
-                                    3. Visibility
-                                </h1>
-                                <div className="text-lg flex items-center gap-5">
-                                    <b className="whitespace-nowrap text-sm md:text-xl">
-                                        15 of 15
-                                    </b>
-                                </div>
                             </header>
 
-                            <div className="bg-white dark:bg-slate-800 pt-8 pb-1 px-4 pr-8 rounded-lg shadow-lg max-w-fit">
-                                <BarChart
-                                    refDom={chartRef}
-                                    // allJourneyScores={allJourneyScores}
-                                    dataSet={
-                                        allJourneyScores.scores_by_heuristic
-                                    }
-                                    averageLine={allJourneyScores.average_score}
-                                />
+                            <div className="bg-white dark:bg-slate-800 pb-1 rounded-lg shadow-lg max-w-fit">
+                                <div className="flex border-b px-4 min-h-[50px]">
+                                    <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
+                                        <p>Selected Heuristic:</p>
+                                    </div>
+                                    <div className="flex gap-2 text-sm pt-4 pb-4">
+                                        <b>
+                                            {selectedHeuristic?.heuristicNumber}
+                                        </b>
+                                        <span className="max-w-lg text-slate-700">
+                                            {selectedHeuristic?.name}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className=" p-8">
+                                    <BarChart
+                                        refDom={chartRef}
+                                        // allJourneyScores={allJourneyScores}
+                                        dataSet={
+                                            allJourneyScores.scores_by_heuristic
+                                        }
+                                        averageLine={
+                                            allJourneyScores.average_score
+                                        }
+                                    />
+                                </div>
                             </div>
 
                             <div className="mt-4 flex gap-10">
