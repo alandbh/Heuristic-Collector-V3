@@ -331,7 +331,7 @@ function Dashboard() {
         setScoresByJourney(scores);
     }, [allProjectScores, currentJourney]);
 
-    const journeyScoresDatasetArr = useMemo(() => {
+    let journeyScoresDatasetArr = useMemo(() => {
         if (scoresByJourney) {
             const dataset = scoresByJourney.map((player) => {
                 const playerObj = {};
@@ -346,6 +346,10 @@ function Dashboard() {
             return dataset;
         }
     }, [scoresByJourney, showPlayer]);
+
+    journeyScoresDatasetArr?.sort((a, b) => {
+        return b.value - a.value;
+    });
 
     const averageJourneyScore = useMemo(() => {
         if (scoresByJourney && journeyScoresDatasetArr) {
@@ -382,6 +386,7 @@ function Dashboard() {
         allHeuristics === null ||
         allJourneys === null ||
         allPlayers === null ||
+        !journeyScoresDatasetArr ||
         heuristicsByJourney === null
     ) {
         return null;
