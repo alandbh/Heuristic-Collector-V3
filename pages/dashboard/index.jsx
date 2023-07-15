@@ -540,7 +540,7 @@ function Dashboard() {
                         Select a journey
                     </label>
                     <select
-                        className="border border-slate-300  block h-10 px-4 rounded-md"
+                        className="border border-slate-300  block h-10 px-4 rounded-sm"
                         onChange={(ev) => handleSelectJourney(ev)}
                         defaultValue={router.query.journey}
                     >
@@ -560,7 +560,7 @@ function Dashboard() {
                         Find the heuristic
                     </label>
                     <input
-                        className="border border-slate-300  block h-10 px-4 rounded-md"
+                        className="border border-slate-300  block h-10 px-4 rounded-sm"
                         onChange={(e) => handleSearch(e)}
                         type="search"
                         name="search"
@@ -578,7 +578,7 @@ function Dashboard() {
                     </label>
 
                     <select
-                        className="border border-slate-300  block h-10 px-4 rounded-md"
+                        className="border border-slate-300  block h-10 px-4 rounded-sm"
                         onChange={(ev) => handleSelectPlayer(ev)}
                         defaultValue={router.query.showPlayer}
                     >
@@ -630,7 +630,7 @@ function Dashboard() {
             {/* {<Debugg data={getPlayerObj(showPlayer).valuePrev} />} */}
             {/* {<Debugg data={allJourneyScores} />}  */}
             {/* {<Debugg data={showPlayer} />} */}
-            {<Debugg data={journeyScoresDatasetArr} />}
+            {/* {<Debugg data={journeyScoresDatasetArr} />} */}
 
             {selectedHeuristic !== null ? (
                 <div>
@@ -726,7 +726,25 @@ function Dashboard() {
 
             {currentJourney && (
                 <div>
-                    <h1>Journey chart</h1>
+                    <div className="mb-10  border border-black flex max-w-fit">
+                        <h1 className="font-bold text-sm  border-dashed border-r border-slate-400 p-4 align-middle min-h-min flex content-center">
+                            Selected Journey:
+                        </h1>
+                        <div className="flex gap-2 text-left p-4 border-r border-dashed border-slate-400 text-sm min-w-[400px]">
+                            {
+                                allJourneys.find(
+                                    (journey) => journey.slug === currentJourney
+                                ).name
+                            }
+                        </div>
+                        <div className="text-left text-sm p-4 max-w-[180px]">
+                            <b>Average: </b>
+                            <span className=" text-slate-500">
+                                {(averageJourneyScore * 100).toFixed(2)}
+                            </span>
+                        </div>
+                    </div>
+
                     <hr className="bg-black text-black" />
                     <BarChart
                         // refDom={chartRef}
