@@ -179,6 +179,24 @@ function Dashboard() {
     }, []);
 
     useEffect(() => {
+        if (!currentJourney && allJourneys?.length > 0) {
+            setCurrentJourney(allJourneys[0].slug);
+        }
+    }, [currentJourney, allJourneys]);
+
+    useEffect(() => {
+        if (currentJourney && router.query.project && !router.query.journey) {
+            router.replace({
+                query: {
+                    ...router.query,
+                    journey: currentJourney,
+                    // heuristic: null,
+                },
+            });
+        }
+    }, [currentJourney, router]);
+
+    useEffect(() => {
         if (router.query.journey !== undefined) {
             setCurrentJourney(router.query.journey);
         }
@@ -603,12 +621,18 @@ function Dashboard() {
                             </select>
                         </div>
 
-                        <div className="flex flex-col gap-1 flex-1">
+                        <div
+                            className={`flex flex-col gap-1 flex-1 ${
+                                currentJourney ? "opacity-100" : "opacity-40"
+                            }`}
+                        >
                             <label className="text-slate-500 font-bold">
                                 Find the heuristic
                             </label>
 
-                            <div className="rounded-md flex items-center gap-2 pl-2 border-slate-200 border text-slate-500 w-full bg-white dark:bg-transparent">
+                            <div
+                                className={`rounded flex items-center gap-2 pl-2 border-slate-200 border text-slate-500 w-full bg-white dark:bg-transparent `}
+                            >
                                 <label htmlFor="search">
                                     <svg
                                         width="24"
@@ -636,6 +660,7 @@ function Dashboard() {
                                     autoComplete="off"
                                     accessKey="s"
                                     placeholder={shortCut}
+                                    disabled={!currentJourney}
                                     onChange={(e) => handleSearch(e)}
                                     ref={inputRef}
                                 />
@@ -700,13 +725,18 @@ function Dashboard() {
                                 )}
                             </div>
                         </div>
-                        <div className="flex flex-col gap-1 flex-1">
+                        <div
+                            className={`flex flex-col gap-1 flex-1 ${
+                                currentJourney ? "opacity-100" : "opacity-40"
+                            }`}
+                        >
                             <label className="text-slate-500 font-bold">
                                 Select a player to highlight it
                             </label>
 
                             <select
                                 className="border border-slate-300  block h-10 px-4 rounded-sm"
+                                disabled={!currentJourney}
                                 onChange={(ev) => handleSelectPlayer(ev)}
                                 defaultValue={router.query.showPlayer}
                             >
