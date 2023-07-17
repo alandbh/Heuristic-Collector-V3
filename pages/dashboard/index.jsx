@@ -243,21 +243,23 @@ function Dashboard() {
     }, [allProjectScores]);
 
     useEffect(() => {
-        const heuristicsByJourney = allHeuristics?.filter((heuristic) => {
-            // Filtering the heuristics by the current journey and if journey is empty.
-            return (
-                heuristic.journeys.filter(
-                    (journey) => journey.slug === currentJourney
-                ).length > 0
-            );
-        });
+        const heuristicsByJourneyFiltered = allHeuristics?.filter(
+            (heuristic) => {
+                // Filtering the heuristics by the current journey and if journey is empty.
+                return (
+                    heuristic.journeys.filter(
+                        (journey) => journey.slug === currentJourney
+                    ).length > 0
+                );
+            }
+        );
 
         if (inputRef.current !== null) {
             inputRef.current.value = "";
             setResult([]);
         }
 
-        setHeuristicsByJourney(heuristicsByJourney);
+        setHeuristicsByJourney(heuristicsByJourneyFiltered);
     }, [currentJourney, allHeuristics]);
 
     // Getting the scores for the current journey
