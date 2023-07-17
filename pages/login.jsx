@@ -9,7 +9,8 @@ function Login() {
     const googleProvider = new GoogleAuthProvider();
     const [user, loading] = useAuthState(auth);
     const router = useRouter();
-    const { project, tab, player, journey } = router.query;
+    const { project, tab, player, journey, heuristic, showPlayer, page } =
+        router.query;
 
     console.log("parametro login", { project, tab, player, journey });
 
@@ -20,10 +21,20 @@ function Login() {
             // console.log(result.user);
             if (
                 (project || player || journey || tab) !== "undefined" &&
-                (project || player || journey || tab) !== undefined
+                (project || player || journey || tab) !== undefined &&
+                (page === undefined || page === "undefined")
             ) {
                 router.push(
                     `/project/${project}?player=${player}&journey=${journey}&tab=${tab}`
+                );
+            } else if (
+                (project || showPlayer || journey || page) !== "undefined" &&
+                (project || showPlayer || journey || page) !== undefined
+            ) {
+                router.push(
+                    `/dashboard?project=${project}&journey=${journey}&heuristic=${
+                        heuristic || null
+                    }&showPlayer=${showPlayer || null}`
                 );
             } else {
                 router.push(`/projects/`);
@@ -40,10 +51,20 @@ function Login() {
         console.log("user", user);
         if (
             (project || player || journey || tab) !== "undefined" &&
-            (project || player || journey || tab) !== undefined
+            (project || player || journey || tab) !== undefined &&
+            (page === undefined || page === "undefined")
         ) {
             router.push(
                 `/project/${project}?player=${player}&journey=${journey}&tab=${tab}`
+            );
+        } else if (
+            (project || showPlayer || journey || page) !== "undefined" &&
+            (project || showPlayer || journey || page) !== undefined
+        ) {
+            router.push(
+                `/${page}?project=${project}&journey=${journey}&heuristic=${
+                    heuristic || null
+                }&showPlayer=${showPlayer || null}`
             );
         } else {
             router.push(`/projects/`);

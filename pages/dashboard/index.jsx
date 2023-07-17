@@ -5,6 +5,8 @@ import { saveSvgAsPng } from "save-svg-as-png";
 import client from "../../lib/apollo";
 import Fuse from "fuse.js";
 import useKeyPress from "../../lib/useKeyPress";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../lib/firebase";
 import Debugg from "../../lib/Debugg";
 
 //test
@@ -77,6 +79,9 @@ function Dashboard() {
     const chartCompareRef = useRef(null);
     const journeyChartRef = useRef(null);
     const resultRef = useRef(null);
+    const [user, loadingUser] = useAuthState(auth);
+
+    console.log({ user });
 
     function fetchAllJourneyScores(project, journey, heuristic, showPlayer) {
         fetch(
@@ -423,6 +428,13 @@ function Dashboard() {
 
     console.log({ scoresByJourney });
 
+    if (!user && !loadingUser) {
+        router.push(
+            `/login?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}&page=dashboard`
+        );
+        return;
+    }
+
     /**
      *
      *
@@ -631,7 +643,7 @@ function Dashboard() {
                             </label>
 
                             <div
-                                className={`rounded flex items-center gap-2 pl-2 border-slate-200 border text-slate-500 w-full bg-white dark:bg-transparent `}
+                                className={`rounded flex items-center gap-2 pl-2 border-slate-300 border text-slate-500 w-full bg-white dark:bg-transparent `}
                             >
                                 <label htmlFor="search">
                                     <svg
@@ -683,7 +695,7 @@ function Dashboard() {
                             <div className="flex items-end content-end  relative">
                                 {result.length > 0 ? (
                                     <ul
-                                        className="absolute flex flex-col gap-3 top-[0px] left-1/2 -ml-[300px] w-[600px]  bg-white shadow-2xl "
+                                        className="absolute flex flex-col top-[0px] left-1/2 -ml-[300px] w-[600px]  bg-white shadow-2xl "
                                         ref={resultRef}
                                     >
                                         {result.map((item, index) => {
@@ -700,7 +712,7 @@ function Dashboard() {
                                                                 item.item.name
                                                             )
                                                         }
-                                                        className="flex flex-1 w-full gap-2 text-left py-3 px-4 bg-white focus:bg-blue-50 focus:outline-blue-200"
+                                                        className="flex flex-1 w-full gap-2 text-left py-4 px-4 bg-white focus:bg-blue-50 focus:outline-blue-200"
                                                         tabIndex={0}
                                                     >
                                                         <b className="block w-12 ">

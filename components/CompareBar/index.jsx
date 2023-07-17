@@ -63,7 +63,8 @@ export default function CompareBar({
         // !prevScores ||
         // !getPlayerObj(showPlayer)
         // !selectedHeuristic.hasOwnProperty("id")
-        !previousScores
+        !previousScores ||
+        getPlayerObj(showPlayer) === undefined
     ) {
         return null;
     }
