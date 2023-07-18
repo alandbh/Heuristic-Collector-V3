@@ -975,6 +975,7 @@ function Dashboard() {
                                     <b>Average: </b>
                                     <span className=" text-slate-500">
                                         {(averageJourneyScore * 100).toFixed(2)}
+                                        %
                                     </span>
                                 </div>
                             </header>
@@ -1006,6 +1007,7 @@ function Dashboard() {
                                                         showPlayer
                                                 ).value * 100
                                             ).toFixed(2)}
+                                            %
                                         </b>
                                     </div>
                                 </div>
