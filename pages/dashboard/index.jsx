@@ -202,11 +202,16 @@ function Dashboard() {
     }, [currentJourney, router]);
 
     useEffect(() => {
+        if (currentJourney) {
+            setSelectedHeuristic(null);
+        }
+    }, [currentJourney]);
+
+    useEffect(() => {
         if (router.query.journey !== undefined) {
             setCurrentJourney(router.query.journey);
         }
 
-        setSelectedHeuristic(null);
         // if (router.query.showPlayer !== undefined) {
         //     setCurrentPlayer(router.query.showPlayer);
         // }
