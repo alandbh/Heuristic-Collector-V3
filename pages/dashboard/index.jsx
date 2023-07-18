@@ -536,14 +536,22 @@ function Dashboard() {
         }, 6000);
     }
 
-    function handleClickCopyPng(ref) {
+    function handleClickCopyPng(
+        ref,
+        { heuristicNumber = "", playerSlug = "" } = {
+            heuristicNumber: "",
+            playerSlug: "",
+        }
+    ) {
         let domUrl = window.URL || window.webkitURL || window;
 
         const svgText = ref.current.outerHTML;
 
         saveSvgAsPng(
             ref.current,
-            `chart-${currentJourney}-h_${selectedHeuristic.heuristicNumber}-${router.query.showPlayer}.png`
+            `chart-${currentJourney}${
+                heuristicNumber && "-h_" + heuristicNumber
+            }${playerSlug && "-" + playerSlug}.png`
         );
         return;
 
@@ -848,7 +856,15 @@ function Dashboard() {
                                             <button
                                                 className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
                                                 onClick={() =>
-                                                    handleClickCopyPng(chartRef)
+                                                    handleClickCopyPng(
+                                                        chartRef,
+                                                        {
+                                                            heuristicNumber:
+                                                                selectedHeuristic?.heuristicNumber,
+                                                            playerSlug:
+                                                                showPlayer,
+                                                        }
+                                                    )
                                                 }
                                             >
                                                 Export as a PNG file
@@ -928,7 +944,14 @@ function Dashboard() {
                                                         className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 text-sm"
                                                         onClick={() =>
                                                             handleClickCopyPng(
-                                                                chartCompareRef
+                                                                chartCompareRef,
+                                                                {
+                                                                    heuristicNumber:
+                                                                        selectedHeuristic?.heuristicNumber,
+                                                                    playerSlug:
+                                                                        showPlayer +
+                                                                        "_comp",
+                                                                }
                                                             )
                                                         }
                                                     >
@@ -1047,7 +1070,10 @@ function Dashboard() {
                                             className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
                                             onClick={() =>
                                                 handleClickCopyPng(
-                                                    journeyChartRef
+                                                    journeyChartRef,
+                                                    {
+                                                        playerSlug: showPlayer,
+                                                    }
                                                 )
                                             }
                                         >
