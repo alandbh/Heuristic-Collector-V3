@@ -12,5 +12,5 @@ export const prevScores = {
     nubank,
     bradesco,
     picpay,
-    bancoOriginal,
+    "banco-original": bancoOriginal,
 };
