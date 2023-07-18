@@ -626,9 +626,9 @@ function Dashboard() {
                             <select
                                 className="border border-slate-300  block h-10 px-4 rounded-sm"
                                 onChange={(ev) => handleSelectJourney(ev)}
-                                defaultValue={router.query.journey}
+                                defaultValue={currentJourney}
                             >
-                                <option>...</option>
+                                <option value="">...</option>
                                 {allJourneys.map((journey) => {
                                     return (
                                         <option
