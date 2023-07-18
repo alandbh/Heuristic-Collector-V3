@@ -761,7 +761,7 @@ function Dashboard() {
                                 onChange={(ev) => handleSelectPlayer(ev)}
                                 defaultValue={router.query.showPlayer}
                             >
-                                <option>...</option>
+                                <option value="">...</option>
                                 {allPlayers?.map((player) => {
                                     return (
                                         <option
@@ -1007,7 +1007,7 @@ function Dashboard() {
                                                             (player) =>
                                                                 player.playerSlug ===
                                                                 showPlayer
-                                                        ).value * 100
+                                                        )?.value * 100
                                                     ).toFixed(2)}
                                                     %
                                                 </b>
