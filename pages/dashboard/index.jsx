@@ -613,7 +613,11 @@ function Dashboard() {
             : false
     );
     // const hasComparison = prevScores[showPlayer][currentJourney];
-    console.log("selectedHeuristic server", selectedHeuristic);
+    function isValidJourney(journeySlugToTest) {
+        return Boolean(
+            allJourneys.find((journey) => journey.slug === journeySlugToTest)
+        );
+    }
     return (
         <div className="bg-slate-100/70 dark:bg-slate-800/50 p-10">
             <main className="mt-10 min-h-[calc(100vh_-_126px)] flex flex-col items-center">
@@ -937,34 +941,35 @@ function Dashboard() {
                                 ) : null}
                             </div>
                         </div>
-                    ) : currentJourney ? (
-                        <div className="mb-10">
-                            <div className="flex border-orange-200 border bg-yellow-100 min-h-[64px]">
-                                <div className="w-24 flex items-center justify-center">
-                                    <svg
-                                        width="100"
-                                        height="100"
-                                        viewBox="0 0 100 100"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        style={{ width: 36, height: 36 }}
-                                    >
-                                        <path
-                                            d="M50 90C60.6087 90 70.7828 85.7857 78.2843 78.2843C85.7857 70.7828 90 60.6087 90 50C90 39.3913 85.7857 29.2172 78.2843 21.7157C70.7828 14.2143 60.6087 10 50 10C39.3913 10 29.2172 14.2143 21.7157 21.7157C14.2143 29.2172 10 39.3913 10 50C10 60.6087 14.2143 70.7828 21.7157 78.2843C29.2172 85.7857 39.3913 90 50 90ZM50 100C22.385 100 0 77.615 0 50C0 22.385 22.385 0 50 0C77.615 0 100 22.385 100 50C100 77.615 77.615 100 50 100ZM45 45V75H55V45H45ZM45 25H55V35H45V25Z"
-                                            fill="orange"
-                                        />
-                                    </svg>
-                                </div>
-                                <p className="text-slate-800/70 py-4 pl-0 pr-5 text-lg flex-1">
-                                    Please, find and select an heuristic.
-                                </p>
-                            </div>
-                        </div>
                     ) : (
-                        <p>Please, select a Journey</p>
+                        currentJourney &&
+                        isValidJourney(currentJourney) && (
+                            <div className="mb-10">
+                                <div className="flex border-orange-200 border bg-yellow-100 min-h-[64px]">
+                                    <div className="w-24 flex items-center justify-center">
+                                        <svg
+                                            width="100"
+                                            height="100"
+                                            viewBox="0 0 100 100"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            style={{ width: 36, height: 36 }}
+                                        >
+                                            <path
+                                                d="M50 90C60.6087 90 70.7828 85.7857 78.2843 78.2843C85.7857 70.7828 90 60.6087 90 50C90 39.3913 85.7857 29.2172 78.2843 21.7157C70.7828 14.2143 60.6087 10 50 10C39.3913 10 29.2172 14.2143 21.7157 21.7157C14.2143 29.2172 10 39.3913 10 50C10 60.6087 14.2143 70.7828 21.7157 78.2843C29.2172 85.7857 39.3913 90 50 90ZM50 100C22.385 100 0 77.615 0 50C0 22.385 22.385 0 50 0C77.615 0 100 22.385 100 50C100 77.615 77.615 100 50 100ZM45 45V75H55V45H45ZM45 25H55V35H45V25Z"
+                                                fill="orange"
+                                            />
+                                        </svg>
+                                    </div>
+                                    <p className="text-slate-800/70 py-4 pl-0 pr-5 text-lg flex-1">
+                                        Please, find and select an heuristic.
+                                    </p>
+                                </div>
+                            </div>
+                        )
                     )}
 
-                    {currentJourney && (
+                    {currentJourney && isValidJourney(currentJourney) ? (
                         <>
                             <header className="flex justify-between mb-6 items-center px-4 gap-3">
                                 <h1 className="text-xl font-bold">
@@ -991,7 +996,7 @@ function Dashboard() {
                                                     (journey) =>
                                                         journey.slug ===
                                                         currentJourney
-                                                ).name
+                                                )?.name
                                             }
                                         </b>
                                     </div>
@@ -1052,6 +1057,29 @@ function Dashboard() {
                                 </div>
                             </div>
                         </>
+                    ) : (
+                        <div className="mb-10">
+                            <div className="flex border-red-200 border bg-red-50 min-h-[64px]">
+                                <div className="w-24 flex items-center justify-center">
+                                    <svg
+                                        width="100"
+                                        height="100"
+                                        viewBox="0 0 100 100"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        style={{ width: 36, height: 36 }}
+                                    >
+                                        <path
+                                            d="M50 90C60.6087 90 70.7828 85.7857 78.2843 78.2843C85.7857 70.7828 90 60.6087 90 50C90 39.3913 85.7857 29.2172 78.2843 21.7157C70.7828 14.2143 60.6087 10 50 10C39.3913 10 29.2172 14.2143 21.7157 21.7157C14.2143 29.2172 10 39.3913 10 50C10 60.6087 14.2143 70.7828 21.7157 78.2843C29.2172 85.7857 39.3913 90 50 90ZM50 100C22.385 100 0 77.615 0 50C0 22.385 22.385 0 50 0C77.615 0 100 22.385 100 50C100 77.615 77.615 100 50 100ZM45 45V75H55V45H45ZM45 25H55V35H45V25Z"
+                                            fill="red"
+                                        />
+                                    </svg>
+                                </div>
+                                <p className="text-slate-800/70 py-4 pl-0 pr-5 text-lg flex-1">
+                                    Please, Select a valid Journey.
+                                </p>
+                            </div>
+                        </div>
                     )}
                 </div>
             </main>
