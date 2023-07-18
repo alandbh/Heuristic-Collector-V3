@@ -969,7 +969,7 @@ function Dashboard() {
                             <header className="flex justify-between mb-6 items-center px-4 gap-3">
                                 <h1 className="text-xl font-bold">
                                     <div className="h-[5px] bg-primary w-10 mb-1"></div>
-                                    Joruney Chart
+                                    Journey Chart
                                 </h1>
                                 <div className="text-lg flex items-center gap-1 whitespace-nowrap">
                                     <b>Average: </b>
