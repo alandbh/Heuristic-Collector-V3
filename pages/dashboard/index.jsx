@@ -243,9 +243,9 @@ function Dashboard() {
     //     }
     // }, [allJourneyScores]);
 
-    useEffect(() => {
-        console.log({ allProjectScores });
-    }, [allProjectScores]);
+    // useEffect(() => {
+    //     console.log({ allProjectScores });
+    // }, [allProjectScores]);
 
     useEffect(() => {
         const heuristicsByJourneyFiltered = allHeuristics?.filter(
@@ -612,6 +612,7 @@ function Dashboard() {
             : false
     );
     // const hasComparison = prevScores[showPlayer][currentJourney];
+    console.log("selectedHeuristic server", selectedHeuristic);
     return (
         <div className="bg-slate-100/70 dark:bg-slate-800/50 p-10">
             <main className="mt-10 min-h-[calc(100vh_-_126px)] flex flex-col items-center">
