@@ -995,44 +995,26 @@ function Dashboard() {
                                             }
                                         </b>
                                     </div>
-                                    <div className="ml-auto flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
-                                        <p>Player Score:</p>
-                                    </div>
-                                    <div className="flex gap-2 text-sm pt-4 pb-4">
-                                        <b className="max-w-lg text-slate-700">
-                                            {(
-                                                journeyScoresDatasetArr.find(
-                                                    (player) =>
-                                                        player.playerSlug ===
-                                                        showPlayer
-                                                ).value * 100
-                                            ).toFixed(2)}
-                                            %
-                                        </b>
-                                    </div>
+                                    {showPlayer && (
+                                        <>
+                                            <div className="ml-auto flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
+                                                <p>Player Score:</p>
+                                            </div>
+                                            <div className="flex gap-2 text-sm pt-4 pb-4">
+                                                <b className="max-w-lg text-slate-700">
+                                                    {(
+                                                        journeyScoresDatasetArr.find(
+                                                            (player) =>
+                                                                player.playerSlug ===
+                                                                showPlayer
+                                                        ).value * 100
+                                                    ).toFixed(2)}
+                                                    %
+                                                </b>
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
-                                {/* <div className="mb-10  border border-black flex max-w-fit">
-                                    <h1 className="font-bold text-sm  border-dashed border-r border-slate-400 p-4 align-middle min-h-min flex content-center">
-                                        Selected Journey:
-                                    </h1>
-                                    <div className="flex gap-2 text-left p-4 border-r border-dashed border-slate-400 text-sm min-w-[400px]">
-                                        {
-                                            allJourneys.find(
-                                                (journey) =>
-                                                    journey.slug ===
-                                                    currentJourney
-                                            ).name
-                                        }
-                                    </div>
-                                    <div className="text-left text-sm p-4 max-w-[180px]">
-                                        <b>Average: </b>
-                                        <span className=" text-slate-500">
-                                            {(
-                                                averageJourneyScore * 100
-                                            ).toFixed(2)}
-                                        </span>
-                                    </div>
-                                </div> */}
 
                                 <div className=" px-8 pt-8 pb-4">
                                     <BarChart
