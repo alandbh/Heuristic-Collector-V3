@@ -44,6 +44,7 @@ const QUERY_PLAYERS = gql`
         players(first: 10000, where: { project: { slug: $projectSlug } }) {
             name
             slug
+            previousScores
         }
     }
 `;
@@ -626,6 +627,14 @@ function Dashboard() {
             allJourneys.find((journey) => journey.slug === journeySlugToTest)
         );
     }
+
+    function getPreviousScoresByPlayer(playerSlug = showPlayer) {
+        const currentPlayerObj = allPlayers.find(
+            (player) => player.slug === playerSlug
+        );
+
+        return currentPlayerObj ? currentPlayerObj.previousScores : null;
+    }
     return (
         <div className="bg-slate-100/70 dark:bg-slate-800/50 p-10">
             <main className="mt-10 min-h-[calc(100vh_-_126px)] flex flex-col items-center">
@@ -794,7 +803,14 @@ function Dashboard() {
                     {/* {<Debugg data={allJourneyScores} />}  */}
                     {/* {<Debugg data={showPlayer} />} */}
                     {/* {<Debugg data={journeyScoresDatasetArr} />} */}
-                    {/* <Debugg data={{ hasComparison }} /> */}
+                    {/* <Debugg
+                        data={
+                            getPreviousScoresByPlayer(showPlayer) &&
+                            getPreviousScoresByPlayer(showPlayer)[
+                                currentJourney
+                            ]
+                        }
+                    /> */}
 
                     {selectedHeuristic !== null ? (
                         <div>
@@ -907,7 +923,7 @@ function Dashboard() {
                                             </div>
                                             <div className=" px-8 pt-8 pb-4">
                                                 <div className="flex flex-col items-center">
-                                                    <CompareBar
+                                                    {/* <CompareBar
                                                         showPlayer={showPlayer}
                                                         allJourneyScores={
                                                             allJourneyScores
@@ -916,6 +932,27 @@ function Dashboard() {
                                                             prevScores[
                                                                 showPlayer
                                                             ][currentJourney]
+                                                        }
+                                                        currentJourney={
+                                                            router.query.journey
+                                                        }
+                                                        selectedHeuristic={
+                                                            selectedHeuristic
+                                                        }
+                                                        refDom={chartCompareRef}
+                                                    /> */}
+                                                    <CompareBar
+                                                        showPlayer={showPlayer}
+                                                        allJourneyScores={
+                                                            allJourneyScores
+                                                        }
+                                                        prevScores={
+                                                            getPreviousScoresByPlayer(
+                                                                showPlayer
+                                                            ) &&
+                                                            getPreviousScoresByPlayer(
+                                                                showPlayer
+                                                            )[currentJourney]
                                                         }
                                                         currentJourney={
                                                             router.query.journey
