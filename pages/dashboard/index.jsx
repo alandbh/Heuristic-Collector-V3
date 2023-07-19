@@ -62,7 +62,6 @@ function Dashboard() {
     const router = useRouter();
     const { project, heuristic, showPlayer, journey } = router.query;
     const [allJourneyScores, setAllJourneyScores] = useState(null);
-    const [journeyScoresDataset, setJourneyScoresDataset] = useState(null);
     const [scoresByJourney, setScoresByJourney] = useState(null);
     const [allProjectScores, setAllProjectScores] = useState(null);
     const [prevScores, setPrevScores] = useState(null);
@@ -80,9 +79,8 @@ function Dashboard() {
     const chartCompareRef = useRef(null);
     const journeyChartRef = useRef(null);
     const resultRef = useRef(null);
+    const searchRef = useRef(null);
     const [user, loadingUser] = useAuthState(auth);
-
-    console.log({ user });
 
     function fetchAllJourneyScores(project, journey, heuristic, showPlayer) {
         fetch(
@@ -123,7 +121,6 @@ function Dashboard() {
             const variables = {
                 projectSlug: router.query.project,
             };
-            console.log({ variables });
             client
                 .query({
                     query: QUERY_JOURNEYS,
@@ -154,9 +151,7 @@ function Dashboard() {
     }, [router.query.project]);
 
     const onKeyPress = (event) => {
-        console.log(`key pressedaaa: ${event.key}`, event);
         inputRef.current.focus();
-        // console.log(inputRef);
     };
 
     const changeKey = isMac() ? ["metaKey", "k"] : ["ctrlKey", "l"];
@@ -269,9 +264,11 @@ function Dashboard() {
         }
     }, [currentJourney, allHeuristics]);
 
-    // Getting the scores for the current journey
-
-    // console.log({ allProjectScores });
+    /**
+     *
+     * Getting the scores for the current journey
+     *
+     */
 
     useEffect(() => {
         // Filtering all zeroed or ignored players
@@ -295,7 +292,6 @@ function Dashboard() {
                 if (heuristic.includes("h_")) {
                     if (playerScore.scores[currentJourney].zeroed_journey) {
                         playerObj.journeyScores[heuristic] = 0;
-                        console.log("zeraddooo");
                     } else {
                         playerObj.journeyScores[heuristic] =
                             playerScore.scores[currentJourney][
@@ -310,12 +306,6 @@ function Dashboard() {
                     scoresArray.push(
                         playerScore.scores[currentJourney][heuristic].scoreValue
                     );
-
-                    // return {
-                    //     [heuristic]:
-                    //         playerScore.scores[journey][heuristic].scoreValue,
-                    //     scoresArray,
-                    // };
                 }
             }
             function setScoresByJourney(journey) {}
@@ -361,7 +351,6 @@ function Dashboard() {
             if (playerScore.scores[currentJourney]?.zeroed_journey) {
                 playerObj.journeyTotalPercentage = 0;
                 playerObj.journeyTotalScore = 0;
-                console.log("zeraddooo");
             } else {
                 playerObj.journeyTotalPercentage =
                     (geraisTotalScore * geraisWeight[currentJourney] +
@@ -375,15 +364,6 @@ function Dashboard() {
             playerObj.maximunScore = maximunScore;
             playerObj.maximunJourneyScore = maximunJourneyScore;
 
-            // playerObj.journeyTotalPercentage =
-            //     (journeyTotalScore * geraisWeight["abertura"] + journeyTotalScore) /
-            //     (maximunScore * geraisWeight["abertura"] + maximunJourneyScore);
-
-            // playerObj.journeyTotalPercentage =
-            //     (playerObj.journeyTotalScore /
-            //         (playerObj.journeyScoresArr.length * 5)) *
-            //     100;
-
             playerObj;
             return playerObj;
         });
@@ -391,13 +371,54 @@ function Dashboard() {
         setScoresByJourney(scores);
     }, [allProjectScores, currentJourney]);
 
-    // useEffect(() => {
-    //     if (result.length > 0) {
-    //         // resultRef?.current?.querySelector("button")[0].focus();
-    //         console.log("focus", resultRef?.current);
-    //         resultRef?.current.focus();
-    //     }
-    // }, [result]);
+    /**
+     *
+     * Controlling the search result display
+     *
+     *
+     */
+    const closeResultSearchBox = useCallback(
+        (ev) => {
+            if (result.length > 0) {
+                if (searchRef) {
+                    if (
+                        !searchRef.current?.contains(ev.target) ||
+                        ev.key === "Escape"
+                    ) {
+                        setResult([]);
+                        inputRef.current.blur();
+                        // removeListening();
+                        window.removeEventListener(
+                            "click",
+                            closeResultSearchBox,
+                            true
+                        );
+                        window.removeEventListener(
+                            "keydown",
+                            closeResultSearchBox,
+                            true
+                        );
+                    }
+                }
+            }
+        },
+        [searchRef, result]
+    );
+
+    useEffect(() => {
+        if (typeof window !== "undefined" && result.length > 0) {
+            window.addEventListener("click", closeResultSearchBox, true);
+            window.addEventListener("keydown", closeResultSearchBox, true);
+        }
+    }, [result, closeResultSearchBox]);
+
+    /**
+     *
+     *
+     * Preparing the dataset for the Journey Chart
+     *
+     *
+     */
 
     let journeyScoresDatasetArr = useMemo(() => {
         if (scoresByJourney) {
@@ -435,8 +456,6 @@ function Dashboard() {
         }
     }, [scoresByJourney, journeyScoresDatasetArr]);
 
-    console.log({ scoresByJourney });
-
     if (!user && !loadingUser) {
         router.push(
             `/login?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}&page=dashboard`
@@ -462,10 +481,13 @@ function Dashboard() {
         allJourneys === null ||
         allPlayers === null ||
         !journeyScoresDatasetArr ||
-        heuristicsByJourney === null
+        heuristicsByJourney === null ||
+        !user
     ) {
         return null;
     }
+
+    console.log({ user });
 
     function handleSelectJourney(ev) {
         console.log("Journey", ev.target.value);
@@ -510,13 +532,18 @@ function Dashboard() {
         setResult(fuse.search(ev.target.value));
     }
 
+    const fullResult = heuristicsByJourney.map((heuristic) => {
+        return {
+            item: heuristic,
+        };
+    });
+
+    function handleFocusSearch() {
+        // fuse.setCollection(heuristicsByJourney);
+        setResult(fullResult.slice(0, 5));
+    }
+
     function handleClickHeuristic(heuristicNumber, name) {
-        console.log({ heuristicNumber, name });
-        // console.log(
-        //     allHeuristics.filter(
-        //         (heuristic) => heuristic["heuristicNumber"] === heuristicNumber
-        //     )[0]
-        // );
         setSelectedHeuristic({ heuristicNumber, name });
         setResult([]);
 
@@ -667,6 +694,7 @@ function Dashboard() {
                             className={`flex flex-col gap-1 flex-1 ${
                                 currentJourney ? "opacity-100" : "opacity-40"
                             }`}
+                            ref={searchRef}
                         >
                             <label className="text-slate-500 font-bold">
                                 Find the heuristic
@@ -704,6 +732,7 @@ function Dashboard() {
                                     placeholder={shortCut}
                                     disabled={!currentJourney}
                                     onChange={(e) => handleSearch(e)}
+                                    onFocus={handleFocusSearch}
                                     ref={inputRef}
                                 />
                             </div>
@@ -723,7 +752,7 @@ function Dashboard() {
                                 tabIndex={1}
                             /> */}
                             <div className="flex items-end content-end  relative">
-                                {result.length > 0 ? (
+                                {result?.length > 0 ? (
                                     <ul
                                         className="absolute flex flex-col top-[0px] left-1/2 -ml-[300px] w-[600px]  bg-white shadow-2xl "
                                         ref={resultRef}
@@ -798,7 +827,8 @@ function Dashboard() {
                     </div>
 
                     {/* {<Debugg data={currentJourney} />} */}
-                    {/* {<Debugg data={heuristicsByJourney} />} */}
+                    {/* {<Debugg data={result} />}
+                    {<Debugg data={heuristicsByJourney} />} */}
                     {/* {<Debugg data={getPlayerObj(showPlayer).valuePrev} />} */}
                     {/* {<Debugg data={allJourneyScores} />}  */}
                     {/* {<Debugg data={showPlayer} />} */}

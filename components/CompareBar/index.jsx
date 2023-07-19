@@ -25,8 +25,8 @@ export default function CompareBar({
 
     useEffect(() => {
         if (prevScores && selectedHeuristic) {
-            console.log({ prevScores });
-            console.log(selectedHeuristic.hasOwnProperty("heuristicNumber"));
+            // console.log({ prevScores });
+            // console.log(selectedHeuristic.hasOwnProperty("heuristicNumber"));
 
             const initialScoreObj = {
                 scoreValuePrev: 0,
@@ -41,7 +41,7 @@ export default function CompareBar({
             const scoreObj = prevScores.find(
                 (score) => score.id === heuristicNumber
             );
-            console.log({ scoreObj });
+            // console.log({ scoreObj });
 
             setPreviousScores(scoreObj || null);
         }
