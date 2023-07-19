@@ -640,14 +640,32 @@ function Dashboard() {
         fetchAllJourneyScores(project, journey, heuristic, showPlayer);
     }
 
-    const hasComparison = Boolean(
-        prevScores[showPlayer] && prevScores[showPlayer][currentJourney]
-            ? prevScores[showPlayer][currentJourney].find(
-                  (score) =>
-                      score.id === Number(selectedHeuristic?.heuristicNumber)
-              )
-            : false
-    );
+    // const hasComparison = Boolean(
+    //     prevScores[showPlayer] && prevScores[showPlayer][currentJourney]
+    //         ? prevScores[showPlayer][currentJourney].find(
+    //               (score) =>
+    //                   score.id === Number(selectedHeuristic?.heuristicNumber)
+    //           )
+    //         : false
+    // );
+
+    let hasComparison = false;
+
+    function checkHasComparison() {
+        const hasComparison = Boolean(
+            getPreviousScoresByPlayer(showPlayer)
+                ? getPreviousScoresByPlayer(showPlayer)[currentJourney].find(
+                      (score) =>
+                          score.id ===
+                          Number(selectedHeuristic?.heuristicNumber)
+                  )
+                : false
+        );
+
+        return hasComparison;
+    }
+
+    hasComparison = checkHasComparison();
     // const hasComparison = prevScores[showPlayer][currentJourney];
     function isValidJourney(journeySlugToTest) {
         return Boolean(
@@ -831,7 +849,7 @@ function Dashboard() {
                     {<Debugg data={heuristicsByJourney} />} */}
                     {/* {<Debugg data={getPlayerObj(showPlayer).valuePrev} />} */}
                     {/* {<Debugg data={allJourneyScores} />}  */}
-                    {/* {<Debugg data={showPlayer} />} */}
+                    {/* {<Debugg data={allPlayers} />} */}
                     {/* {<Debugg data={journeyScoresDatasetArr} />} */}
                     {/* <Debugg
                         data={
