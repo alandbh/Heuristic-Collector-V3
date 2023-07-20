@@ -24,7 +24,7 @@ function Evidence({
                 urlRef.current.focus();
 
                 setTimeout(() => {
-                    collapseRef.current.style.height = "312px";
+                    collapseRef.current.style.height = "342px";
                     collapseRef.current.style.opacity = 1;
                 }, 10);
             } else {
@@ -53,7 +53,7 @@ function Evidence({
                         className="text-slate-500"
                         htmlFor={"evidenceUrl_" + hid}
                     >
-                        Evidence URL
+                        Evidence file{"(s)"}
                     </label>
                     <input
                         id={"evidenceUrl_" + hid}
@@ -73,12 +73,13 @@ function Evidence({
                         className="text-slate-500"
                         htmlFor={"noteText_" + hid}
                     >
-                        Note
+                        Occurrence observed{" "}
+                        {"(describe it as clearly as possible)"}
                     </label>
                     <textarea
                         id={"noteText_" + hid}
                         disabled={disabled}
-                        className="w-full border border-slate-300 dark:border-slate-500 p-2 h-28 text-slate-500 dark:text-slate-300 rounded-md"
+                        className="w-full border border-slate-300 dark:border-slate-500 p-2 h-32 text-slate-500 dark:text-slate-300 rounded-md"
                         rows="3"
                         value={text || ""}
                         onChange={(ev) => {
