@@ -74,7 +74,7 @@ function Evidence({
                         htmlFor={"noteText_" + hid}
                     >
                         Occurrence observed{" "}
-                        {"(describe it as clearly as possible)"}
+                        {"(Justify the given score as clearly as possible)"}
                     </label>
                     <textarea
                         id={"noteText_" + hid}
