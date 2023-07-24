@@ -654,7 +654,7 @@ function Dashboard() {
     function checkHasComparison() {
         const hasComparison = Boolean(
             getPreviousScoresByPlayer(showPlayer)
-                ? getPreviousScoresByPlayer(showPlayer)[currentJourney].find(
+                ? getPreviousScoresByPlayer(showPlayer)[currentJourney]?.find(
                       (score) =>
                           score.id ===
                           Number(selectedHeuristic?.heuristicNumber)
