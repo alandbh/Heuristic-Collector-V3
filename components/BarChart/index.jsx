@@ -1,6 +1,8 @@
+import { useState } from "react";
+
 export default function BarChart({ dataSet, averageLine, percentage, refDom }) {
     if (!dataSet) {
-        return null;
+        return <div>Loading...</div>;
     }
     function getHeight(score) {
         return percentage ? (385 / 5) * score * 5 : (385 / 5) * score;
@@ -26,10 +28,11 @@ export default function BarChart({ dataSet, averageLine, percentage, refDom }) {
             viewBox="0 0 1048 387"
             ref={refDom}
             className="max-w-[800px] object-contain h-auto"
+            style={{ width: 800, transition: "0.4s" }}
         >
             {dataSet.map((score, index) => {
                 return (
-                    <rect
+                    <Bar
                         key={score.label}
                         x={22 + index * 24 + index * 25}
                         y={385 - getHeight(score.value) + 2}
@@ -46,7 +49,26 @@ export default function BarChart({ dataSet, averageLine, percentage, refDom }) {
                 width="1048"
                 height="1"
                 fill="#ff0000"
+                style={{ transition: "0.4s" }}
             />
         </svg>
+    );
+}
+
+function Bar({ x, y, height, fill }) {
+    const [initialSize, setInitialSize] = useState({ height: 20, y: 365 });
+
+    setTimeout(() => {
+        setInitialSize({ height, y });
+    }, 200);
+    return (
+        <rect
+            x={x}
+            y={initialSize.y}
+            height={initialSize.height}
+            width="24"
+            fill={fill}
+            style={{ transition: "0.4s" }}
+        />
     );
 }

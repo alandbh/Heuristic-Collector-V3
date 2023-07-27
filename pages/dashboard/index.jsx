@@ -892,7 +892,10 @@ function Dashboard() {
                                             </span>
                                         </div>
                                     </div>
-                                    <div className=" px-8 pt-8 pb-4">
+                                    <div
+                                        style={{ width: 864 }}
+                                        className=" px-8 pt-8 pb-4"
+                                    >
                                         <BarChart
                                             refDom={chartRef}
                                             // allJourneyScores={allJourneyScores}
