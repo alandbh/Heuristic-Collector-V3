@@ -13,6 +13,7 @@ const QUERY_ALL_JOURNEYS = gql`
                     project: { slug: $projectSlug }
                 }
             }
+            orderBy: slug_ASC
         ) {
             name
             slug
@@ -24,7 +25,7 @@ const QUERY_ALL_PLAYERS = gql`
     query Projects($projectSlug: String) {
         project(where: { slug: $projectSlug }) {
             slug
-            players(first: 10000) {
+            players(first: 10000, orderBy: name_ASC) {
                 id
                 name
                 slug

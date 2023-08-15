@@ -6,10 +6,16 @@ import React from "react";
 //  http://localhost:3000/project/dummy?player=americanas&journey=desktop
 
 function Card({ data }) {
+    let sortedPlayers = [...data.players].sort((a, b) =>
+        a.slug.localeCompare(b.slug)
+    );
+    let sortedJourneys = [...data.journeys].sort((a, b) =>
+        a.slug.localeCompare(b.slug)
+    );
     return (
         <div className="md:max-w-[310px] max-w-[150px] transition-shadow rounded overflow-hidden shadow-md hover:shadow-xl dark:bg-slate-800">
             <Link
-                href={`/project/${data.slug}?player=${data.players[0].slug}&journey=${data.journeys[0].slug}`}
+                href={`/project/${data.slug}?player=${sortedPlayers[0].slug}&journey=${sortedJourneys[0].slug}`}
             >
                 <a>
                     <Image

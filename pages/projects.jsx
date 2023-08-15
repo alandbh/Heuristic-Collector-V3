@@ -63,16 +63,16 @@ const heuristicQuery = gql`
 
 const QUERY_PROJECTS = gql`
     query {
-        projects(orderBy: createdAt_DESC) {
+        projects(orderBy: name_DESC) {
             id
             name
             slug
             year
             public
-            journeys(first: 1) {
+            journeys(first: 1000) {
                 slug
             }
-            players(first: 1) {
+            players(first: 1000) {
                 slug
             }
             thumbnail {
