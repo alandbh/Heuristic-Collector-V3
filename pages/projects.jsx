@@ -5,61 +5,10 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../lib/firebase";
 import { useRouter } from "next/router";
 
-// import { withPageAuthRequired } from "@auth0/nextjs-auth0";
-// import { useUser } from "@auth0/nextjs-auth0";
 import Logo from "../components/Logo";
 import LoggedUser from "../components/LoggedUser";
 import Link from "next/link";
 import Head from "next/head";
-import Debugg from "../lib/Debugg";
-
-const GET_PLAYERS = gql`
-    query MyQuery($playerSlug: String) {
-        player(where: { slug: $playerSlug }) {
-            name
-            scores {
-                journey {
-                    slug
-                }
-                heuristic {
-                    name
-                    heuristicNumber
-                }
-                scoreValue
-            }
-        }
-    }
-`;
-
-const playersQuery = gql`
-    query {
-        player(where: { slug: "magalu" }) {
-            name
-            slug
-            project {
-                name
-            }
-            scores(where: { journey: { slug: "desktop" } }) {
-                heuristic {
-                    heuristicNumber
-                    name
-                    description
-                }
-                scoreValue
-            }
-        }
-    }
-`;
-const heuristicQuery = gql`
-    query {
-        heuristics(where: { group: { name: "1. Need Recognition" } }) {
-            name
-            group {
-                name
-            }
-        }
-    }
-`;
 
 const QUERY_PROJECTS = gql`
     query {
@@ -69,10 +18,10 @@ const QUERY_PROJECTS = gql`
             slug
             year
             public
-            journeys(first: 1000) {
+            journeys(first: 1000, orderBy: slug_ASC) {
                 slug
             }
-            players(first: 1000) {
+            players(first: 1000, orderBy: slug_ASC) {
                 slug
             }
             thumbnail {
@@ -144,8 +93,6 @@ function Projects(props) {
                 ></link>
             </Head>
             <ClientOnly>
-                {/* <HeuristicList query={heuristicQuery} /> */}
-                {/* <Header /> */}
                 <div className="flex px-4 w-full justify-between my-10">
                     <Link href={`/`}>
                         <a>
@@ -185,17 +132,3 @@ function isUserAuthorized(user) {
         return true;
     }
 }
-
-// test
-
-// export async function getStaticProps() {
-//     const res = await client.query({
-//         query: heuristicQuery,
-//     });
-
-//     return {
-//         props: {
-//             countries: res,
-//         },
-//     };
-// }
