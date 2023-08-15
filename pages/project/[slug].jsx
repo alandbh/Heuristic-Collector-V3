@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import client from "../../lib/apollo";
 
 import Dashboard from "../../components/Dashboard";
@@ -46,14 +46,6 @@ function Project() {
     const [user, loadingUser] = useAuthState(auth);
     const [projectData, setProjectData] = useState(null);
     const { slug, tab, player, journey } = router.query;
-
-    console.log("slugloading");
-
-    // const { data, loading, error } = useQuery(QUERY_PROJECTS, {
-    //     variables: {
-    //         slug,
-    //     },
-    // });
 
     useEffect(() => {
         if (slug !== undefined) {
@@ -130,30 +122,25 @@ function Project() {
     return (
         <div className="bg-slate-100/70 dark:bg-slate-800/50">
             <Head>
-                <Head>
-                    <meta charSet="utf-8" />
-                    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-                    <meta
-                        name="viewport"
-                        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
-                    />
-                    <meta
-                        name="description"
-                        content="R/GA's Heuristic Collector"
-                    />
-                    <meta name="theme-color" content="#dd0000" />
-                    <title>R/GA&apos;s Heuristic Collector</title>
-                    <link rel="manifest" href="/manifest.json" />
-                    <link rel="shortcut icon" href="/favicon.ico" />
-                    <link
-                        rel="apple-touch-icon"
-                        href="/apple-touch-icon.png"
-                    ></link>
-                    <link
-                        rel="android-chrome-192x192"
-                        href="/android-chrome-192x192.png"
-                    ></link>
-                </Head>
+                <meta charSet="utf-8" />
+                <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+                <meta
+                    name="viewport"
+                    content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+                />
+                <meta name="description" content="R/GA's Heuristic Collector" />
+                <meta name="theme-color" content="#dd0000" />
+                <title>R/GA&apos;s Heuristic Collector</title>
+                <link rel="manifest" href="/manifest.json" />
+                <link rel="shortcut icon" href="/favicon.ico" />
+                <link
+                    rel="apple-touch-icon"
+                    href="/apple-touch-icon.png"
+                ></link>
+                <link
+                    rel="android-chrome-192x192"
+                    href="/android-chrome-192x192.png"
+                ></link>
             </Head>
             <CredentialsWrapper>
                 <ProjectWrapper data={projectData.data}>
