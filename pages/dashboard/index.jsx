@@ -22,6 +22,7 @@ const QUERY_HEURISTICS = gql`
         heuristics(last: 10000, where: { project: { slug: $projectSlug } }) {
             name
             heuristicNumber
+            description
             journeys {
                 slug
                 name
@@ -697,6 +698,10 @@ function Dashboard() {
             tableRow.qtd = nonZeroedScores.filter(
                 (scoreObj) => scoreObj.value === score
             ).length;
+            tableRow.players = nonZeroedScores
+                .filter((scoreObj) => scoreObj.value === score)
+                .map((scoreObj) => scoreObj.label)
+                .join(", ");
 
             table.push(tableRow);
         });
@@ -964,13 +969,65 @@ function Dashboard() {
                                     </div>
                                     <div
                                         style={{ width: 864 }}
-                                        className="px-8 pt-8 pb-4"
+                                        className="px-8 pb-4"
                                     >
-                                        <Debugg
-                                            data={getUniqueScores(
+                                        <h3 className="text-lg font-bold my-5">
+                                            Scores Stats
+                                        </h3>
+
+                                        <table
+                                            style={{ width: 680 }}
+                                            className="table-fixed text-sm border border-solid border-collapse text-center"
+                                        >
+                                            <thead className="border border-b-4 h-10">
+                                                <tr>
+                                                    <th className="border border-solid w-[120px]">
+                                                        Score Value
+                                                    </th>
+                                                    <th className="border border-solid">
+                                                        Amount of players with
+                                                        this score
+                                                    </th>
+                                                    <th className="border border-solid">
+                                                        Players with this score
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {getUniqueScores(
+                                                    allJourneyScores.scores_by_heuristic
+                                                ).map((score) => (
+                                                    <tr
+                                                        className="border border-solid"
+                                                        key={score.score}
+                                                    >
+                                                        <td className="bg-slate-100">
+                                                            {score.score}
+                                                        </td>
+                                                        <td>
+                                                            <b className="text-xl">
+                                                                {score.qtd}
+                                                            </b>
+                                                        </td>
+                                                        <td className="text-left p-2 text-xs border-l">
+                                                            {score.players}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+
+                                        <h3 className="text-lg font-bold mt-10 mb-5">
+                                            Score Criteria
+                                        </h3>
+                                        <p className="text-xs break-all whitespace-pre-wrap">
+                                            {selectedHeuristic?.description}
+                                        </p>
+                                        {/* <Debugg
+                                            data={
                                                 allJourneyScores.scores_by_heuristic
-                                            )}
-                                        />
+                                            }
+                                        /> */}
                                     </div>
                                 </div>
                             </div>
