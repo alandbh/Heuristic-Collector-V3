@@ -687,7 +687,7 @@ function Dashboard() {
             (scoresObj) => scoresObj.value > 0
         );
         const table = [];
-        const scores = nonZeroedScores.map((scoreObj) => scoreObj.value);
+        const scores = nonZeroedScores?.map((scoreObj) => scoreObj.value);
 
         const uniqueScores = Array.from(new Set(scores));
 
