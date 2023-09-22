@@ -706,7 +706,9 @@ function Dashboard() {
             table.push(tableRow);
         });
 
-        return table;
+        const sortedTable = table.sort((a, b) => b.score - a.score);
+
+        return sortedTable;
     }
 
     return (
@@ -1024,9 +1026,9 @@ function Dashboard() {
                                             {selectedHeuristic?.description}
                                         </p>
                                         {/* <Debugg
-                                            data={
+                                            data={getUniqueScores(
                                                 allJourneyScores.scores_by_heuristic
-                                            }
+                                            )}
                                         /> */}
                                     </div>
                                 </div>
