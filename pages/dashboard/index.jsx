@@ -711,6 +711,18 @@ function Dashboard() {
         return sortedTable;
     }
 
+    function getCellColor(scoreValue) {
+        const colorClasses = {
+            5: "bg-lime-600 text-black font-bold border-none",
+            4: "bg-lime-400 text-black font-bold border-none",
+            3: "bg-yellow-400 text-black font-bold border-none",
+            2: "bg-red-300 text-black font-bold border-none",
+            1: "bg-red-500 text-black font-bold border-none",
+        };
+
+        return colorClasses[scoreValue];
+    }
+
     return (
         <div className="bg-slate-100/70 dark:bg-slate-800/50 p-10">
             <main className="mt-10 min-h-[calc(100vh_-_126px)] flex flex-col items-center">
@@ -971,27 +983,24 @@ function Dashboard() {
                                     </div>
                                     <div
                                         style={{ width: 864 }}
-                                        className="px-8 pb-4"
+                                        className="px-8 pb-8"
                                     >
                                         <h3 className="text-lg font-bold my-5">
-                                            Scores Stats
+                                            Score Stats
                                         </h3>
 
-                                        <table
-                                            style={{ width: 680 }}
-                                            className="table-fixed text-sm border border-solid border-collapse text-center"
-                                        >
+                                        <table className="table-fixed w-full text-sm  text-center">
                                             <thead className="border border-b-4 h-10">
                                                 <tr>
                                                     <th className="border border-solid w-[120px]">
-                                                        Score Value
+                                                        Score value
+                                                    </th>
+                                                    <th className="border border-solid w-[220px]">
+                                                        Amount of players by
+                                                        score
                                                     </th>
                                                     <th className="border border-solid">
-                                                        Amount of players with
-                                                        this score
-                                                    </th>
-                                                    <th className="border border-solid">
-                                                        Players with this score
+                                                        Players by score
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -999,19 +1008,20 @@ function Dashboard() {
                                                 {getUniqueScores(
                                                     allJourneyScores.scores_by_heuristic
                                                 ).map((score) => (
-                                                    <tr
-                                                        className="border border-solid"
-                                                        key={score.score}
-                                                    >
-                                                        <td className="bg-slate-100">
+                                                    <tr key={score.score}>
+                                                        <td
+                                                            className={getCellColor(
+                                                                score.score
+                                                            )}
+                                                        >
                                                             {score.score}
                                                         </td>
-                                                        <td>
+                                                        <td className="border  border-solid h-12">
                                                             <b className="text-xl">
                                                                 {score.qtd}
                                                             </b>
                                                         </td>
-                                                        <td className="text-left p-2 text-xs border-l">
+                                                        <td className="text-left p-2 text-xs border-l border  border-solid">
                                                             {score.players}
                                                         </td>
                                                     </tr>
