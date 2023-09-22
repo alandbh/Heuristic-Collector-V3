@@ -683,7 +683,7 @@ function Dashboard() {
     }
 
     function getUniqueScores(scoresObj) {
-        const nonZeroedScores = scoresObj.filter(
+        const nonZeroedScores = scoresObj?.filter(
             (scoresObj) => scoresObj.value > 0
         );
         const table = [];
@@ -695,11 +695,11 @@ function Dashboard() {
             const tableRow = {};
 
             tableRow.score = score;
-            tableRow.qtd = nonZeroedScores.filter(
+            tableRow.qtd = nonZeroedScores?.filter(
                 (scoreObj) => scoreObj.value === score
             ).length;
             tableRow.players = nonZeroedScores
-                .filter((scoreObj) => scoreObj.value === score)
+                ?.filter((scoreObj) => scoreObj.value === score)
                 .map((scoreObj) => scoreObj.label)
                 .join(", ");
 
