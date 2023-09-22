@@ -680,6 +680,30 @@ function Dashboard() {
 
         return currentPlayerObj ? currentPlayerObj.previousScores : null;
     }
+
+    function getUniqueScores(scoresObj) {
+        const nonZeroedScores = scoresObj.filter(
+            (scoresObj) => scoresObj.value > 0
+        );
+        const table = [];
+        const scores = nonZeroedScores.map((scoreObj) => scoreObj.value);
+
+        const uniqueScores = Array.from(new Set(scores));
+
+        uniqueScores.map((score) => {
+            const tableRow = {};
+
+            tableRow.score = score;
+            tableRow.qtd = nonZeroedScores.filter(
+                (scoreObj) => scoreObj.value === score
+            ).length;
+
+            table.push(tableRow);
+        });
+
+        return table;
+    }
+
     return (
         <div className="bg-slate-100/70 dark:bg-slate-800/50 p-10">
             <main className="mt-10 min-h-[calc(100vh_-_126px)] flex flex-col items-center">
@@ -937,6 +961,16 @@ function Dashboard() {
                                                 Export as a PNG file
                                             </button>
                                         </div>
+                                    </div>
+                                    <div
+                                        style={{ width: 864 }}
+                                        className="px-8 pt-8 pb-4"
+                                    >
+                                        <Debugg
+                                            data={getUniqueScores(
+                                                allJourneyScores.scores_by_heuristic
+                                            )}
+                                        />
                                     </div>
                                 </div>
                             </div>
