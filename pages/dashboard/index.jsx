@@ -682,11 +682,15 @@ function Dashboard() {
         return currentPlayerObj ? currentPlayerObj.previousScores : null;
     }
 
-    function getUniqueScores(scoresObj) {
-        const nonZeroedScores = scoresObj?.filter(
+    function getValidScores(scoresObj) {
+        return scoresObj?.filter(
             (scoresObj) =>
                 !scoresObj.ignore_journey && !scoresObj.zeroed_journey
         );
+    }
+
+    function getUniqueScores(scoresObj) {
+        const nonZeroedScores = getValidScores(scoresObj);
         const table = [];
         const scores = nonZeroedScores?.map((scoreObj) => scoreObj.value);
 
@@ -719,6 +723,7 @@ function Dashboard() {
             3: "bg-yellow-400 text-black font-bold border-none",
             2: "bg-red-300 text-black font-bold border-none",
             1: "bg-red-500 text-black font-bold border-none",
+            0: "bg-black text-white font-bold border-none",
         };
 
         return colorClasses[scoreValue];
@@ -1027,6 +1032,23 @@ function Dashboard() {
                                                         </td>
                                                     </tr>
                                                 ))}
+                                                <tr>
+                                                    <td className="text-right h-12 pt-8">
+                                                        <b className="">
+                                                            TOTAL amount of
+                                                            players:
+                                                        </b>
+                                                    </td>
+                                                    <td className="text-center pt-8 text-xs ">
+                                                        <b className="text-xl">
+                                                            {
+                                                                getValidScores(
+                                                                    allJourneyScores.scores_by_heuristic
+                                                                )?.length
+                                                            }
+                                                        </b>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
 
