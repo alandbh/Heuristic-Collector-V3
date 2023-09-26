@@ -684,7 +684,8 @@ function Dashboard() {
 
     function getUniqueScores(scoresObj) {
         const nonZeroedScores = scoresObj?.filter(
-            (scoresObj) => scoresObj.value > 0
+            (scoresObj) =>
+                !scoresObj.ignore_journey && !scoresObj.zeroed_journey
         );
         const table = [];
         const scores = nonZeroedScores?.map((scoreObj) => scoreObj.value);
@@ -892,7 +893,7 @@ function Dashboard() {
                     {<Debugg data={heuristicsByJourney} />} */}
                     {/* {<Debugg data={getPlayerObj(showPlayer).valuePrev} />} */}
                     {/* {<Debugg data={allJourneyScores} />}  */}
-                    {/* {<Debugg data={allPlayers} />} */}
+                    {/* {<Debugg data={journeyScoresDatasetArr} />} */}
                     {/* {<Debugg data={journeyScoresDatasetArr} />} */}
                     {/* <Debugg
                         data={
