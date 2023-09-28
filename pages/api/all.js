@@ -54,6 +54,18 @@ const QUERY_JOURNEYS = gql`
         }
     }
 `;
+const QUERY_PROJECTS = gql`
+    query GetProjectBySlug($projectSlug: String) {
+        project(where: { slug: $projectSlug }) {
+            id
+            name
+            slug
+            year
+            public
+            collectorsApiKey
+        }
+    }
+`;
 
 // scores": {
 //     "mobile": {
@@ -68,10 +80,17 @@ const QUERY_JOURNEYS = gql`
 
 export default async function handler(req, res) {
     const { project, journey, heuristic, showPlayer } = req.query;
+    const projectObj = await getData(QUERY_PROJECTS, { projectSlug: project });
+    const projectApiKey = projectObj.data.project.collectorsApiKey;
+    if (req.headers["sec-fetch-site"] !== "same-origin") {
+        if (req.headers.api_key !== projectApiKey) {
+            res.status(401).send("Send a valid API key");
+        }
+    }
     const allJourneys = await getData(QUERY_JOURNEYS, { projectSlug: project });
     const allPlayers = await getData(QUERY_ALL, { projectSlug: project });
 
-    // console.log({ journey, heuristic });
+    //console.log("REQUISICAO", req.headers["sec-fetch-site"]);
     // console.log(allPlayers.data.players[0].finding);
 
     const newPlayerArr = allPlayers.data.players.map(
