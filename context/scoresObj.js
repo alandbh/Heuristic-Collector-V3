@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+    createContext,
+    useCallback,
+    useContext,
+    useEffect,
+    useState,
+} from "react";
 import { useRouter } from "next/router";
 import client from "../lib/apollo";
 import { processChange } from "../lib/utils";
@@ -61,7 +67,7 @@ export function ScoresObjWrapper({ children }) {
         },
     });
 
-    async function getNewScoresObj() {
+    const getNewScoresObj = useCallback(async () => {
         console.log("fetching new scores");
         const { data: newData } = await client.query({
             query: QUERY_SCORES_FROM_PLAYER,
@@ -82,16 +88,18 @@ export function ScoresObjWrapper({ children }) {
                 newData.players[0]["scoresObject"][router.query.journey]
             );
             console.log(
-                "fetching SETTING NEW ALL SCORES OBJ",
+                "fetching callback SETTING NEW ALL SCORES OBJ",
                 newData.players[0]["scoresObject"]
             );
             return newData.players[0]["scoresObject"][router.query.journey];
         }
-    }
+    }, [router.query.journey, router.query.player, router.query.slug]);
 
+    // Este useEffect chamava a funcao getNewScoresObj diretamente sem um useCallback para memoizar.
+    // Observar se vai dar problema na hora de salvar scores.
     useEffect(() => {
         getNewScoresObj();
-    }, [router.query.journey]);
+    }, [router.query.journey, getNewScoresObj]);
 
     // const getNewScoresJson = getNewScoresObj;
 
