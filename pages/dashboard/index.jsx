@@ -9,7 +9,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../lib/firebase";
 import Debugg from "../../lib/Debugg";
 
-//test
+//test2
 
 // import { bancoDoBrasil } from "./edition2021/banco-do-brasil";
 import { prevScores as rawPrevScores } from "../../components/edition2021/prevScores";
