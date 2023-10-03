@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useProjectContext } from "../../context/project";
 import { useScoresObjContext } from "../../context/scoresObj";
 import { useCredentialsContext } from "../../context/credentials";
+import Debug from "../Debug";
 
 import { useRouter } from "next/router";
 import Range from "../Range";
@@ -35,7 +36,7 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
     const { getNewScoresObj, getNewScoresJson } = useScoresObjContext();
     const [boxOpen, setBoxOpen] = useState(false);
     const router = useRouter();
-    const { userType } = useCredentialsContext();
+    const { user, userType } = useCredentialsContext();
     const [scoreHasChanged, setScoreHasChanged] = useState(false);
     const [enable, setEnable] = useState(false);
     const [toast, setToast] = useState({ open: false, text: "" });
@@ -153,6 +154,31 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
         let allScoresObjJsonClone = JSON.parse(allScoresObjJson);
         allScoresObjJsonClone[router.query.journey].map((item) => {
             if (item.id === currentScore.id) {
+                const updateObj = {
+                    dateTime: new Date().getTime(),
+                    user: { name: user.displayName, email: user.email },
+                    scoreObj: {
+                        scoreValue,
+                        note: text,
+                        evidenceUrl,
+                    },
+                };
+
+                if (item.updates && item.updates.length > 0) {
+                    item.updates.push(updateObj);
+                } else {
+                    item.updates = [
+                        {
+                            dateTime: new Date().getTime(),
+                            user: { name: user.displayName, email: user.email },
+                            scoreObj: {
+                                scoreValue,
+                                note: text,
+                                evidenceUrl,
+                            },
+                        },
+                    ];
+                }
                 item.scoreValue = scoreValue;
                 item.note = text;
                 item.evidenceUrl = evidenceUrl;
@@ -226,7 +252,33 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
         let allScoresObjJsonClone = JSON.parse(allScoresObjJson);
         allScoresObjJsonClone[router.query.journey].map((item) => {
             if (item.id === currentScore.id) {
-                item.note = text;
+                const updateObj = {
+                    dateTime: new Date().getTime(),
+                    user: { name: user.displayName, email: user.email },
+                    scoreObj: {
+                        scoreValue,
+                        note: text,
+                        evidenceUrl,
+                    },
+                };
+
+                if (item.updates && item.updates.length > 0) {
+                    item.updates.push(updateObj);
+                } else {
+                    item.updates = [
+                        {
+                            dateTime: new Date().getTime(),
+                            user: { name: user.displayName, email: user.email },
+                            scoreObj: {
+                                scoreValue,
+                                note: text,
+                                evidenceUrl,
+                            },
+                        },
+                    ];
+                }
+
+                item.note = text + "\nBy: " + user.displayName;
                 item.evidenceUrl = evidenceUrl;
                 item.scoreValue = scoreValue;
             }
@@ -280,39 +332,59 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
                             onChange={handleChangeRange}
                             disabled={getUserLevel(userType) > 2}
                         />
-                        <p
+
+                        <small
                             className="text-sm text-slate-500 pt-2"
                             style={{
                                 color: scoreDescription[scoreValue].color,
                             }}
                         >
                             {scoreDescription[scoreValue].text}
-                        </p>
+                        </small>
                     </div>
-                    <button
-                        className={`font-bold py-1 pr-3 text-sm text-primary w-40  ${
-                            enable ? "opacity-100" : "opacity-40"
-                        }`}
-                        onClick={() => setBoxOpen(!boxOpen)}
-                        disabled={!enable}
-                    >
-                        <span className="flex gap-2">
-                            <svg
-                                width="20"
-                                height="23"
-                                viewBox="0 0 20 23"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M2 0.221802H18V12.2218H16V2.2218H2V18.2218H10V20.2218H0V0.221802H2ZM4 4.2218H14V6.2218H4V4.2218ZM14 8.2218H4V10.2218H14V8.2218ZM4 12.2218H11V14.2218H4V12.2218ZM17 17.2218H20V19.2218H17V22.2218H15V19.2218H12V17.2218H15V14.2218H17V17.2218Z"
-                                    fill="#1E77FC"
-                                />
-                            </svg>
-                            {boxOpen ? "Close" : "Add Evidence"}{" "}
-                            {(text || evidenceUrl) && "✓"}
-                        </span>
-                    </button>
+                    <div className="flex justify-between">
+                        <button
+                            className={`font-bold py-1 pr-3 text-sm text-primary w-40 whitespace-nowrap ${
+                                enable ? "opacity-100" : "opacity-40"
+                            }`}
+                            onClick={() => setBoxOpen(!boxOpen)}
+                            disabled={!enable}
+                        >
+                            <span className="flex gap-2">
+                                <svg
+                                    width="20"
+                                    height="23"
+                                    viewBox="0 0 20 23"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M2 0.221802H18V12.2218H16V2.2218H2V18.2218H10V20.2218H0V0.221802H2ZM4 4.2218H14V6.2218H4V4.2218ZM14 8.2218H4V10.2218H14V8.2218ZM4 12.2218H11V14.2218H4V12.2218ZM17 17.2218H20V19.2218H17V22.2218H15V19.2218H12V17.2218H15V14.2218H17V17.2218Z"
+                                        fill="#1E77FC"
+                                    />
+                                </svg>
+                                {boxOpen ? "Close" : "Add Evidence"}{" "}
+                                {(text || evidenceUrl) && "✓"}
+                            </span>
+                        </button>
+                        {currentScore?.updates && (
+                            <small className="text-slate-400 text-xs">
+                                Last updated by: <br />{" "}
+                                {
+                                    currentScore.updates
+                                        ?.slice(-1)[0]
+                                        .user.name.split(" ")[0]
+                                }{" "}
+                                at{" "}
+                                {new Date(
+                                    currentScore.updates?.slice(-1)[0].dateTime
+                                ).toLocaleString("en-US", {
+                                    dateStyle: "medium",
+                                    timeStyle: "short",
+                                })}
+                            </small>
+                        )}
+                    </div>
 
                     <Evidence
                         openBox={boxOpen}
@@ -326,6 +398,8 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
                         hid={heuristic.id}
                         disabled={getUserLevel(userType) > 2}
                     />
+
+                    {/* <Debug data={user}></Debug> */}
                 </div>
             </div>
             <div
