@@ -202,42 +202,45 @@ export default async function handler(req, res) {
             scoreChartObj.playerSlug = player.slug;
             scoreChartObj.show_player = showPlayer === player.slug;
 
-            if (!player.scores[journey]) {
-                serve("Invalid Journey");
+            const selectedJourney = journey;
+
+            if (!player.scores[selectedJourney]) {
+                serve({ error: "Invalid Journey" });
                 return;
             }
-            if (!player.scores[journey]["h_" + heuristic]) {
-                serve("Invalid Heuristic");
+            if (!player.scores[selectedJourney]["h_" + heuristic]) {
+                serve({ error: "Invalid Heuristic" });
                 return;
             }
 
             let shouldConsiderThisPlayer = true;
 
             if (
-                player.scores[journey].ignore_journey ||
-                player.scores[journey].zeroed_journey
+                player.scores[selectedJourney].ignore_journey ||
+                player.scores[selectedJourney].zeroed_journey
             ) {
                 shouldConsiderThisPlayer = false;
                 // return;
             }
 
             scoreChartObj.value = shouldConsiderThisPlayer
-                ? player.scores[journey]["h_" + heuristic]["scoreValue"]
+                ? player.scores[selectedJourney]["h_" + heuristic]["scoreValue"]
                 : 0;
 
             scoreChartObj.valuePrev =
-                player.scores[journey]["h_" + heuristic]["scoreValuePrev"] ||
-                null;
+                player.scores[selectedJourney]["h_" + heuristic][
+                    "scoreValuePrev"
+                ] || null;
 
             scoreChartObj.averageScoreValuePrev =
-                player.scores[journey]["h_" + heuristic][
+                player.scores[selectedJourney]["h_" + heuristic][
                     "averageScoreValuePrev"
                 ] || null;
 
             scoreChartObj.ignore_journey =
-                player.scores[journey].ignore_journey;
+                player.scores[selectedJourney].ignore_journey;
             scoreChartObj.zeroed_journey =
-                player.scores[journey].zeroed_journey;
+                player.scores[selectedJourney].zeroed_journey;
 
             scores_by_heuristic.push(scoreChartObj);
         });

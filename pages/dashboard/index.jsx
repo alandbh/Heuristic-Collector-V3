@@ -84,6 +84,10 @@ function Dashboard() {
     const [user, loadingUser] = useAuthState(auth);
 
     function fetchAllJourneyScores(project, journey, heuristic, showPlayer) {
+        if (!project || !journey) {
+            return;
+        }
+
         fetch(
             `/api/all?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}`
         ).then((data) => {
@@ -93,6 +97,10 @@ function Dashboard() {
         });
     }
     function fetchAllProjectScores(project) {
+        if (!project) {
+            return;
+        }
+
         fetch(`/api/all?project=${project}`).then((data) => {
             data.json().then((result) => {
                 setAllProjectScores(result.length > 0 ? result : null);
