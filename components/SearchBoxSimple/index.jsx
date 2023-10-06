@@ -1,3 +1,7 @@
+import { useEffect, useState, useRef, useCallback } from "react";
+import Fuse from "fuse.js";
+import useKeyPress from "../../lib/useKeyPress";
+
 function SearchBoxSimple({
     label,
     type,
@@ -7,16 +11,126 @@ function SearchBoxSimple({
     accessKey,
     placeholder,
     disabled,
-    onInputChange,
     onItemClick,
-    onFocus,
-    inputRefference,
-    resultRefference,
     srOnlyIconText,
     collection,
+    filterBy,
 }) {
+    /**
+     * 
+     * label="Find the heuristic"
+        type="search"
+        name="search"
+        id="search"
+        autoComplete="off"
+        accessKey="s"
+        placeholder={shortCut}
+        disabled={!currentJourney}
+        onInputChange={(e) => handleSearch(e)}
+        handleClickHeuristic={handleClickHeuristic}
+        onFocus={handleFocusSearch}
+        inputRefference={inputRef}
+        resultRefference={resultRef}
+        collection={result}
+        srOnlyIconText="Search for heuristics"
+     */
+
+    const [result, setResult] = useState([]);
+    const inputRef = useRef(null);
+    const resultRef = useRef(null);
+    const searchContainerRef = useRef(null);
+
+    const options = {
+        includeScore: true,
+        keys: filterBy,
+        minMatchCharLength: 2,
+        threshold: 0.3,
+        location: 0,
+        distance: 2000,
+    };
+
+    const fuse = new Fuse(collection, options);
+
+    function handleSearch(ev) {
+        setResult(fuse.search(ev.target.value));
+    }
+
+    const fullResult = collection.map((heuristic) => {
+        return {
+            item: heuristic,
+        };
+    });
+
+    function handleFocusSearch() {
+        // fuse.setCollection(collection);
+        setResult(fullResult.slice(0, 5));
+        inputRef.current.value = "";
+    }
+
+    function handleItemClic(item) {
+        onItemClick(item);
+        setResult([]);
+    }
+
+    function isMac() {
+        // "use client"
+        if (typeof navigator !== "undefined") {
+            return navigator.userAgent.indexOf("Mac") != -1;
+        }
+
+        return false;
+    }
+
+    const changeKey = isMac() ? ["metaKey", "k"] : ["ctrlKey", "l"];
+
+    const onKeyPress = (event) => {
+        inputRef.current.focus();
+    };
+
+    /**
+     *
+     * Controlling the search result display
+     *
+     *
+     */
+    const closeResultSearchBox = useCallback(
+        (ev) => {
+            if (result.length > 0) {
+                if (searchContainerRef) {
+                    if (
+                        !searchContainerRef.current?.contains(ev.target) ||
+                        ev.key === "Escape"
+                    ) {
+                        setResult([]);
+                        inputRef.current.blur();
+                        // removeListening();
+                        window.removeEventListener(
+                            "click",
+                            closeResultSearchBox,
+                            true
+                        );
+                        window.removeEventListener(
+                            "keydown",
+                            closeResultSearchBox,
+                            true
+                        );
+                    }
+                }
+            }
+        },
+        [searchContainerRef, result]
+    );
+
+    useEffect(() => {
+        if (typeof window !== "undefined" && result.length > 0) {
+            window.addEventListener("click", closeResultSearchBox, true);
+            window.addEventListener("keydown", closeResultSearchBox, true);
+        }
+    }, [result, closeResultSearchBox]);
+
+    useKeyPress(changeKey, onKeyPress);
     return (
-        <div>
+        <div ref={searchContainerRef}>
             <div className="flex flex-col gap-1 flex-1 opacity-100">
                 <label className="text-slate-500 font-bold">{label}</label>
 
@@ -49,29 +163,24 @@ function SearchBoxSimple({
                         accessKey={accessKey}
                         placeholder={placeholder}
                         disabled={disabled}
-                        onChange={onInputChange}
-                        onFocus={onFocus}
-                        ref={inputRefference}
+                        onChange={(e) => handleSearch(e)}
+                        onFocus={handleFocusSearch}
+                        ref={inputRef}
                     />
                 </div>
             </div>
 
             <div className="flex items-end content-end  relative">
-                {collection?.length > 0 ? (
+                {result?.length > 0 ? (
                     <ul
                         className="absolute flex flex-col top-[0px] left-1/2 -ml-[300px] w-[600px]  bg-white shadow-2xl "
-                        ref={resultRefference}
+                        ref={resultRef}
                     >
-                        {collection.map((item, index) => {
+                        {result.map((item, index) => {
                             return (
                                 <li className="w-full" key={index}>
                                     <button
-                                        onClick={() =>
-                                            onItemClick(
-                                                item.item.heuristicNumber,
-                                                item.item.name
-                                            )
-                                        }
+                                        onClick={() => handleItemClic(item)}
                                         className="flex flex-1 w-full gap-2 text-left py-4 px-4 bg-white focus:bg-blue-50 focus:outline-blue-200"
                                         tabIndex={0}
                                     >

@@ -3,8 +3,6 @@ import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { gql } from "@apollo/client";
 import { saveSvgAsPng } from "save-svg-as-png";
 import client from "../../lib/apollo";
-import Fuse from "fuse.js";
-import useKeyPress from "../../lib/useKeyPress";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../lib/firebase";
 import Debugg from "../../lib/Debugg";
@@ -49,15 +47,6 @@ const QUERY_PLAYERS = gql`
     }
 `;
 
-function isMac() {
-    // "use client"
-    if (typeof navigator !== "undefined") {
-        return navigator.userAgent.indexOf("Mac") != -1;
-    }
-
-    return false;
-}
-
 function Dashboard() {
     const router = useRouter();
     const { project, heuristic, showPlayer, journey } = router.query;
@@ -77,7 +66,6 @@ function Dashboard() {
     const chartRef = useRef(null);
     const chartCompareRef = useRef(null);
     const journeyChartRef = useRef(null);
-    const resultRef = useRef(null);
     const searchRef = useRef(null);
     const [user, loadingUser] = useAuthState(auth);
 
@@ -157,15 +145,6 @@ function Dashboard() {
         }
     }, [router.query.project]);
 
-    const onKeyPress = (event) => {
-        inputRef.current.focus();
-    };
-
-    const changeKey = isMac() ? ["metaKey", "k"] : ["ctrlKey", "l"];
-    const shortCut = isMac() ? "Cmd + K" : "Ctrl + L";
-
-    useKeyPress(changeKey, onKeyPress);
-
     useEffect(() => {
         fetchAllProjectScores(project);
         fetchAllJourneyScores(project, journey, heuristic, showPlayer);
@@ -211,9 +190,6 @@ function Dashboard() {
             setCurrentJourney(router.query.journey);
         }
 
-        // if (router.query.showPlayer !== undefined) {
-        //     setCurrentPlayer(router.query.showPlayer);
-        // }
         if (
             router.query.heuristic !== undefined &&
             router.query.heuristic !== "" &&
@@ -237,15 +213,6 @@ function Dashboard() {
         router.query.showPlayer,
         heuristicsByJourney,
     ]);
-    // useEffect(() => {
-    //     if (allJourneyScores !== null) {
-    //         console.log("allJourneyScores", allJourneyScores);
-    //     }
-    // }, [allJourneyScores]);
-
-    // useEffect(() => {
-    //     console.log({ allProjectScores });
-    // }, [allProjectScores]);
 
     useEffect(() => {
         if (allHeuristics && allHeuristics.length > 0) {
@@ -262,7 +229,7 @@ function Dashboard() {
             setHeuristicsByJourney(heuristicsByJourneyFiltered);
             if (inputRef.current !== null) {
                 inputRef.current.value = "";
-                setResult([]);
+                // setResult([]);
             }
         }
     }, [currentJourney, allHeuristics]);
@@ -376,47 +343,6 @@ function Dashboard() {
 
     /**
      *
-     * Controlling the search result display
-     *
-     *
-     */
-    const closeResultSearchBox = useCallback(
-        (ev) => {
-            if (result.length > 0) {
-                if (searchRef) {
-                    if (
-                        !searchRef.current?.contains(ev.target) ||
-                        ev.key === "Escape"
-                    ) {
-                        setResult([]);
-                        inputRef.current.blur();
-                        // removeListening();
-                        window.removeEventListener(
-                            "click",
-                            closeResultSearchBox,
-                            true
-                        );
-                        window.removeEventListener(
-                            "keydown",
-                            closeResultSearchBox,
-                            true
-                        );
-                    }
-                }
-            }
-        },
-        [searchRef, result]
-    );
-
-    useEffect(() => {
-        if (typeof window !== "undefined" && result.length > 0) {
-            window.addEventListener("click", closeResultSearchBox, true);
-            window.addEventListener("keydown", closeResultSearchBox, true);
-        }
-    }, [result, closeResultSearchBox]);
-
-    /**
-     *
      *
      * Preparing the dataset for the Journey Chart
      *
@@ -494,7 +420,7 @@ function Dashboard() {
 
     function handleSelectJourney(ev) {
         console.log("Journey", ev.target.value);
-        setResult([]);
+        // setResult([]);
         setSelectedHeuristic(null);
 
         setCurrentJourney(ev.target.value);
@@ -516,45 +442,22 @@ function Dashboard() {
                 showPlayer: ev.target.value,
             },
         });
-        setResult([]);
+        // setResult([]);
         // setSelectedHeuristic(null);
     }
 
-    const options = {
-        includeScore: true,
-        keys: ["name", "heuristicNumber"],
-        minMatchCharLength: 2,
-        threshold: 0.3,
-        location: 0,
-        distance: 2000,
-    };
-
-    const fuse = new Fuse(heuristicsByJourney, options);
-
-    function handleSearch(ev) {
-        setResult(fuse.search(ev.target.value));
-    }
-
-    const fullResult = heuristicsByJourney.map((heuristic) => {
-        return {
-            item: heuristic,
-        };
-    });
-
-    function handleFocusSearch() {
-        // fuse.setCollection(heuristicsByJourney);
-        setResult(fullResult.slice(0, 5));
-        inputRef.current.value = "";
-    }
-
-    function handleClickHeuristic(heuristicNumber, name) {
-        setSelectedHeuristic({ heuristicNumber, name });
-        setResult([]);
+    function handleClickHeuristic(item) {
+        console.log({ item });
+        setSelectedHeuristic({
+            heuristicNumber: item.item.heuristicNumber,
+            name: item.item.name,
+        });
+        // setResult([]);
 
         router.replace({
             query: {
                 ...router.query,
-                heuristic: heuristicNumber,
+                heuristic: item.item.heuristicNumber,
             },
         });
     }
@@ -701,15 +604,11 @@ function Dashboard() {
                                 id="search"
                                 autoComplete="off"
                                 accessKey="s"
-                                placeholder={shortCut}
                                 disabled={!currentJourney}
-                                onInputChange={(e) => handleSearch(e)}
                                 onItemClick={handleClickHeuristic}
-                                onFocus={handleFocusSearch}
-                                inputRefference={inputRef}
-                                resultRefference={resultRef}
-                                collection={result}
+                                collection={heuristicsByJourney}
                                 srOnlyIconText="Search for heuristics"
+                                filterBy={["name", "heuristicNumber"]}
                             />
                         </div>
                         <div
@@ -728,20 +627,6 @@ function Dashboard() {
                     </div>
 
                     {/* {<Debugg data={currentJourney} />} */}
-                    {/* {<Debugg data={result} />}
-                    {<Debugg data={heuristicsByJourney} />} */}
-                    {/* {<Debugg data={getPlayerObj(showPlayer).valuePrev} />} */}
-                    {/* {<Debugg data={allJourneyScores} />}  */}
-                    {/* {<Debugg data={journeyScoresDatasetArr} />} */}
-                    {/* {<Debugg data={journeyScoresDatasetArr} />} */}
-                    {/* <Debugg
-                        data={
-                            getPreviousScoresByPlayer(showPlayer) &&
-                            getPreviousScoresByPlayer(showPlayer)[
-                                currentJourney
-                            ]
-                        }
-                    /> */}
 
                     {selectedHeuristic !== null ? (
                         <div>
@@ -766,6 +651,11 @@ function Dashboard() {
                                     style={{ width: 864 }}
                                     className=" px-8 pt-8 pb-4"
                                 >
+                                    {/* <Debugg
+                                        data={
+                                            allJourneyScores?.scores_by_heuristic
+                                        }
+                                    /> */}
                                     <BarChart
                                         refDom={chartRef}
                                         // allJourneyScores={allJourneyScores}
