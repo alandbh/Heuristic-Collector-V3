@@ -1,16 +1,21 @@
 import { useState } from "react";
 
-export default function BarChart({ dataSet, averageLine, percentage, refDom }) {
+export default function BarChart({
+    dataSet,
+    averageLine,
+    isPercentage,
+    refDom,
+}) {
     if (!dataSet) {
         return <div>Loading...</div>;
     }
     function getHeight(score) {
-        return percentage ? (385 / 5) * score * 5 : (385 / 5) * score;
+        return isPercentage ? (385 / 5) * score * 5 : (385 / 5) * score;
     }
     function getAveragePosition(score) {
         let amount = score !== 0 ? 1 : -2;
 
-        return percentage
+        return isPercentage
             ? 385 - (385 / 5) * (score * 5) + amount
             : 385 - (385 / 5) * score + amount;
     }

@@ -1272,7 +1272,7 @@ function Dashboard() {
                                         // allJourneyScores={allJourneyScores}
                                         dataSet={journeyScoresDatasetArr}
                                         averageLine={averageJourneyScore}
-                                        percentage
+                                        isPercentage
                                     />
                                     <div className="mt-4 flex gap-10">
                                         <button
