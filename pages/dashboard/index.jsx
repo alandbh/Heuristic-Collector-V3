@@ -771,28 +771,13 @@ function Dashboard() {
                                 currentJourney ? "opacity-100" : "opacity-40"
                             }`}
                         >
-                            <label className="text-slate-500 font-bold">
-                                Select a player to highlight it
-                            </label>
-
-                            <select
-                                className="border border-slate-300  block h-10 px-4 rounded-sm"
+                            <Select
+                                label="Select a player to highlight it"
                                 disabled={!currentJourney}
                                 onChange={(ev) => handleSelectPlayer(ev)}
                                 defaultValue={router.query.showPlayer}
-                            >
-                                <option value="">...</option>
-                                {allPlayers?.map((player) => {
-                                    return (
-                                        <option
-                                            key={player.slug}
-                                            value={player.slug}
-                                        >
-                                            {player.name}
-                                        </option>
-                                    );
-                                })}
-                            </select>
+                                options={allPlayers}
+                            />
                         </div>
                     </div>
 
