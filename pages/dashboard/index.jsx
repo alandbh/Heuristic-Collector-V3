@@ -550,6 +550,7 @@ function Dashboard() {
     function handleFocusSearch() {
         // fuse.setCollection(heuristicsByJourney);
         setResult(fullResult.slice(0, 5));
+        inputRef.current.value = "";
     }
 
     function handleClickHeuristic(heuristicNumber, name) {
