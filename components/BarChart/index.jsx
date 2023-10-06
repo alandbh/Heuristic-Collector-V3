@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function BarChart({
     dataSet,
@@ -6,7 +6,23 @@ export default function BarChart({
     isPercentage,
     refDom,
 }) {
-    if (!dataSet) {
+    const [chartData, setChartData] = useState([]);
+
+    useEffect(() => {
+        // const initialChartData = dataSet?.map((data) => {
+        //     return {
+        //         value: 1,
+        //     };
+        // });
+        // setChartData(initialChartData);
+        setChartData(dataSet);
+        // setTimeout(() => {
+        //     setChartData(dataSet);
+        // }, 200);
+        console.log("dataSet", dataSet);
+    }, [dataSet]);
+
+    if (!chartData || !dataSet) {
         return <div>Loading...</div>;
     }
     function getHeight(score) {
@@ -35,15 +51,16 @@ export default function BarChart({
             className="max-w-[800px] object-contain h-auto"
             style={{ width: 800, transition: "0.4s" }}
         >
-            {dataSet.map((score, index) => {
+            {chartData.map((score, index) => {
                 return (
-                    <Bar
-                        key={score.label}
+                    <rect
+                        key={index}
                         x={22 + index * 24 + index * 25}
                         y={385 - getHeight(score.value) + 2}
                         height={getHeight(score.value)}
                         width="24"
                         fill={getColor(score.show_player)}
+                        style={{ transition: "0.4s" }}
                     />
                 );
             })}
@@ -57,23 +74,5 @@ export default function BarChart({
                 style={{ transition: "0.4s" }}
             />
         </svg>
-    );
-}
-
-function Bar({ x, y, height, fill }) {
-    const [initialSize, setInitialSize] = useState({ height: 20, y: 365 });
-
-    setTimeout(() => {
-        setInitialSize({ height, y });
-    }, 200);
-    return (
-        <rect
-            x={x}
-            y={initialSize.y}
-            height={initialSize.height}
-            width="24"
-            fill={fill}
-            style={{ transition: "0.4s" }}
-        />
     );
 }
