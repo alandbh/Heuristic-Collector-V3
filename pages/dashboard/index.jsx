@@ -13,6 +13,7 @@ import BarChart from "../../components/BarChart";
 import CompareBar from "../../components/CompareBar";
 import Select from "../../components/Select";
 import SearchBoxSimple from "../../components/SearchBoxSimple";
+import AutocompleteBox from "../../components/AutocompleteBox";
 
 const QUERY_HEURISTICS = gql`
     query GetAllHeuristics($projectSlug: String) {
@@ -763,50 +764,11 @@ function Dashboard() {
                                 srOnlyIconText="Search for heuristics"
                             />
 
-                            <div className="flex items-end content-end  relative">
-                                {result?.length > 0 ? (
-                                    <ul
-                                        className="absolute flex flex-col top-[0px] left-1/2 -ml-[300px] w-[600px]  bg-white shadow-2xl "
-                                        ref={resultRef}
-                                    >
-                                        {result.map((item, index) => {
-                                            return (
-                                                <li
-                                                    className="w-full"
-                                                    key={index}
-                                                >
-                                                    <button
-                                                        onClick={() =>
-                                                            handleClickHeuristic(
-                                                                item.item
-                                                                    .heuristicNumber,
-                                                                item.item.name
-                                                            )
-                                                        }
-                                                        className="flex flex-1 w-full gap-2 text-left py-4 px-4 bg-white focus:bg-blue-50 focus:outline-blue-200"
-                                                        tabIndex={0}
-                                                    >
-                                                        <b className="block w-12 ">
-                                                            {
-                                                                item.item
-                                                                    .heuristicNumber
-                                                            }
-                                                        </b>
-                                                        <span className="text-slate-500 flex-1">
-                                                            {item.item.name.substring(
-                                                                0,
-                                                                130
-                                                            ) + "..."}
-                                                        </span>
-                                                    </button>
-                                                </li>
-                                            );
-                                        })}
-                                    </ul>
-                                ) : (
-                                    ""
-                                )}
-                            </div>
+                            <AutocompleteBox
+                                collection={result}
+                                refference={resultRef}
+                                onItemClick={handleClickHeuristic}
+                            />
                         </div>
                         <div
                             className={`flex flex-col gap-1 flex-1 ${
