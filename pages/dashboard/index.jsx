@@ -13,7 +13,6 @@ import BarChart from "../../components/BarChart";
 import CompareBar from "../../components/CompareBar";
 import Select from "../../components/Select";
 import SearchBoxSimple from "../../components/SearchBoxSimple";
-import AutocompleteBox from "../../components/AutocompleteBox";
 
 const QUERY_HEURISTICS = gql`
     query GetAllHeuristics($projectSlug: String) {
@@ -758,16 +757,13 @@ function Dashboard() {
                                 accessKey="s"
                                 placeholder={shortCut}
                                 disabled={!currentJourney}
-                                onChange={(e) => handleSearch(e)}
-                                onFocus={handleFocusSearch}
-                                refference={inputRef}
-                                srOnlyIconText="Search for heuristics"
-                            />
-
-                            <AutocompleteBox
-                                collection={result}
-                                refference={resultRef}
+                                onInputChange={(e) => handleSearch(e)}
                                 onItemClick={handleClickHeuristic}
+                                onFocus={handleFocusSearch}
+                                inputRefference={inputRef}
+                                resultRefference={resultRef}
+                                collection={result}
+                                srOnlyIconText="Search for heuristics"
                             />
                         </div>
                         <div
