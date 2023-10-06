@@ -59,7 +59,6 @@ function Dashboard() {
     const [currentJourney, setCurrentJourney] = useState(null);
     const [heuristicsByJourney, setHeuristicsByJourney] = useState(null);
     const [selectedHeuristic, setSelectedHeuristic] = useState(null);
-    const [result, setResult] = useState([]);
     const [svgCopied, setSVGCopied] = useState(null);
     const [pngSrc, setPngSrc] = useState(null);
     const inputRef = useRef(null);
