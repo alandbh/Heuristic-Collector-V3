@@ -13,6 +13,8 @@ import BarChart from "../../components/BarChart";
 import CompareBar from "../../components/CompareBar";
 import Select from "../../components/Select";
 import SearchBoxSimple from "../../components/SearchBoxSimple";
+import ChartSection from "../../components/ChartSection";
+import ScoreStatsTable from "../../components/ScoreStatsTable";
 
 const QUERY_HEURISTICS = gql`
     query GetAllHeuristics($projectSlug: String) {
@@ -642,15 +644,6 @@ function Dashboard() {
         fetchAllJourneyScores(project, journey, heuristic, showPlayer);
     }
 
-    // const hasComparison = Boolean(
-    //     prevScores[showPlayer] && prevScores[showPlayer][currentJourney]
-    //         ? prevScores[showPlayer][currentJourney].find(
-    //               (score) =>
-    //                   score.id === Number(selectedHeuristic?.heuristicNumber)
-    //           )
-    //         : false
-    // );
-
     let hasComparison = false;
 
     function checkHasComparison() {
@@ -681,53 +674,6 @@ function Dashboard() {
         );
 
         return currentPlayerObj ? currentPlayerObj.previousScores : null;
-    }
-
-    function getValidScores(scoresObj) {
-        return scoresObj?.filter(
-            (scoresObj) =>
-                !scoresObj.ignore_journey && !scoresObj.zeroed_journey
-        );
-    }
-
-    function getUniqueScores(scoresObj) {
-        const nonZeroedScores = getValidScores(scoresObj);
-        const table = [];
-        const scores = nonZeroedScores?.map((scoreObj) => scoreObj.value);
-
-        const uniqueScores = Array.from(new Set(scores));
-
-        uniqueScores.map((score) => {
-            const tableRow = {};
-
-            tableRow.score = score;
-            tableRow.qtd = nonZeroedScores?.filter(
-                (scoreObj) => scoreObj.value === score
-            ).length;
-            tableRow.players = nonZeroedScores
-                ?.filter((scoreObj) => scoreObj.value === score)
-                .map((scoreObj) => scoreObj.label)
-                .join(", ");
-
-            table.push(tableRow);
-        });
-
-        const sortedTable = table.sort((a, b) => b.score - a.score);
-
-        return sortedTable;
-    }
-
-    function getCellColor(scoreValue) {
-        const colorClasses = {
-            5: "bg-lime-600 text-black font-bold border-none",
-            4: "bg-lime-400 text-black font-bold border-none",
-            3: "bg-yellow-400 text-black font-bold border-none",
-            2: "bg-red-300 text-black font-bold border-none",
-            1: "bg-red-500 text-black font-bold border-none",
-            0: "bg-black text-white font-bold border-none",
-        };
-
-        return colorClasses[scoreValue];
     }
 
     return (
@@ -799,21 +745,94 @@ function Dashboard() {
 
                     {selectedHeuristic !== null ? (
                         <div>
-                            <div className="heuristic-chart">
-                                <header className="flex justify-between mb-6 items-center px-4 gap-3">
-                                    <h1 className="text-xl font-bold">
-                                        <div className="h-[5px] bg-primary w-10 mb-1"></div>
-                                        Heuristic Chart
-                                    </h1>
-                                    <div className="text-lg flex items-center gap-1 whitespace-nowrap">
-                                        <b>Average: </b>
-                                        <span className=" text-slate-500">
-                                            {allJourneyScores.average_score}
+                            <ChartSection
+                                title="Heuristic Chart"
+                                average={allJourneyScores.average_score}
+                            >
+                                <div className="flex border-b px-4 min-h-[50px]">
+                                    <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
+                                        <p>Selected Heuristic:</p>
+                                    </div>
+                                    <div className="flex gap-2 text-sm pt-4 pb-4">
+                                        <b>
+                                            {selectedHeuristic?.heuristicNumber}
+                                        </b>
+                                        <span className="max-w-lg text-slate-700">
+                                            {selectedHeuristic?.name}
                                         </span>
                                     </div>
-                                </header>
+                                </div>
+                                <div
+                                    style={{ width: 864 }}
+                                    className=" px-8 pt-8 pb-4"
+                                >
+                                    <BarChart
+                                        refDom={chartRef}
+                                        // allJourneyScores={allJourneyScores}
+                                        dataSet={
+                                            allJourneyScores.scores_by_heuristic
+                                        }
+                                        averageLine={
+                                            allJourneyScores.average_score
+                                        }
+                                    />
+                                    <div className="mt-4 flex gap-10">
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
+                                            onClick={() =>
+                                                handleClickCopySvg(
+                                                    chartRef,
+                                                    "id1"
+                                                )
+                                            }
+                                        >
+                                            {svgCopied?.id1
+                                                ? "✅ SVG Copied"
+                                                : "Copy as SVG"}
+                                        </button>
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
+                                            onClick={() =>
+                                                handleClickCopyPng(chartRef, {
+                                                    heuristicNumber:
+                                                        selectedHeuristic?.heuristicNumber,
+                                                    playerSlug: showPlayer,
+                                                })
+                                            }
+                                        >
+                                            Export as a PNG file
+                                        </button>
+                                    </div>
+                                </div>
+                                <div
+                                    style={{ width: 864 }}
+                                    className="px-8 pb-8"
+                                >
+                                    <h3 className="text-lg font-bold my-5">
+                                        Score Stats
+                                    </h3>
 
-                                <div className="bg-white dark:bg-slate-800 pb-1 rounded-lg shadow-lg max-w-fit mb-16">
+                                    <ScoreStatsTable
+                                        collection={
+                                            allJourneyScores.scores_by_heuristic
+                                        }
+                                    />
+
+                                    <h3 className="text-lg font-bold mt-10 mb-5">
+                                        Score Criteria
+                                    </h3>
+                                    <p className="text-xs break-all whitespace-pre-wrap">
+                                        {selectedHeuristic?.description}
+                                    </p>
+                                </div>
+                            </ChartSection>
+
+                            {showPlayer &&
+                            allJourneyScores &&
+                            allJourneyScores.scores_by_heuristic &&
+                            hasComparison &&
+                            router.query.journey ? (
+                                <ChartSection title="Comparative Chart">
                                     <div className="flex border-b px-4 min-h-[50px]">
                                         <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
                                             <p>Selected Heuristic:</p>
@@ -829,44 +848,55 @@ function Dashboard() {
                                             </span>
                                         </div>
                                     </div>
-                                    <div
-                                        style={{ width: 864 }}
-                                        className=" px-8 pt-8 pb-4"
-                                    >
-                                        <BarChart
-                                            refDom={chartRef}
-                                            // allJourneyScores={allJourneyScores}
-                                            dataSet={
-                                                allJourneyScores.scores_by_heuristic
-                                            }
-                                            averageLine={
-                                                allJourneyScores.average_score
-                                            }
-                                        />
+                                    <div className=" px-8 pt-8 pb-4">
+                                        <div className="flex flex-col items-center">
+                                            <CompareBar
+                                                showPlayer={showPlayer}
+                                                allJourneyScores={
+                                                    allJourneyScores
+                                                }
+                                                prevScores={
+                                                    getPreviousScoresByPlayer(
+                                                        showPlayer
+                                                    ) &&
+                                                    getPreviousScoresByPlayer(
+                                                        showPlayer
+                                                    )[currentJourney]
+                                                }
+                                                currentJourney={
+                                                    router.query.journey
+                                                }
+                                                selectedHeuristic={
+                                                    selectedHeuristic
+                                                }
+                                                refDom={chartCompareRef}
+                                            />
+                                        </div>
                                         <div className="mt-4 flex gap-10">
                                             <button
-                                                className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
+                                                className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 text-sm"
                                                 onClick={() =>
                                                     handleClickCopySvg(
-                                                        chartRef,
-                                                        "id1"
+                                                        chartCompareRef,
+                                                        "id2"
                                                     )
                                                 }
                                             >
-                                                {svgCopied?.id1
+                                                {svgCopied?.id2
                                                     ? "✅ SVG Copied"
                                                     : "Copy as SVG"}
                                             </button>
                                             <button
-                                                className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
+                                                className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 text-sm"
                                                 onClick={() =>
                                                     handleClickCopyPng(
-                                                        chartRef,
+                                                        chartCompareRef,
                                                         {
                                                             heuristicNumber:
                                                                 selectedHeuristic?.heuristicNumber,
                                                             playerSlug:
-                                                                showPlayer,
+                                                                showPlayer +
+                                                                "_comp",
                                                         }
                                                     )
                                                 }
@@ -875,196 +905,8 @@ function Dashboard() {
                                             </button>
                                         </div>
                                     </div>
-                                    <div
-                                        style={{ width: 864 }}
-                                        className="px-8 pb-8"
-                                    >
-                                        <h3 className="text-lg font-bold my-5">
-                                            Score Stats
-                                        </h3>
-
-                                        <table className="table-fixed w-full text-sm  text-center">
-                                            <thead className="border border-b-4 h-10">
-                                                <tr>
-                                                    <th className="border border-solid w-[120px]">
-                                                        Score value
-                                                    </th>
-                                                    <th className="border border-solid w-[220px]">
-                                                        Amount of players by
-                                                        score
-                                                    </th>
-                                                    <th className="border border-solid">
-                                                        Players by score
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {getUniqueScores(
-                                                    allJourneyScores.scores_by_heuristic
-                                                ).map((score) => (
-                                                    <tr key={score.score}>
-                                                        <td
-                                                            className={getCellColor(
-                                                                score.score
-                                                            )}
-                                                        >
-                                                            {score.score}
-                                                        </td>
-                                                        <td className="border  border-solid h-12">
-                                                            <b className="text-xl">
-                                                                {score.qtd}
-                                                            </b>
-                                                        </td>
-                                                        <td className="text-left p-2 text-xs border-l border  border-solid">
-                                                            {score.players}
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                                <tr>
-                                                    <td className="text-right h-12 pt-8">
-                                                        <b className="">
-                                                            TOTAL amount of
-                                                            players:
-                                                        </b>
-                                                    </td>
-                                                    <td className="text-center pt-8 text-xs ">
-                                                        <b className="text-xl">
-                                                            {
-                                                                getValidScores(
-                                                                    allJourneyScores.scores_by_heuristic
-                                                                )?.length
-                                                            }
-                                                        </b>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-                                        <h3 className="text-lg font-bold mt-10 mb-5">
-                                            Score Criteria
-                                        </h3>
-                                        <p className="text-xs break-all whitespace-pre-wrap">
-                                            {selectedHeuristic?.description}
-                                        </p>
-                                        {/* <Debugg
-                                            data={getUniqueScores(
-                                                allJourneyScores.scores_by_heuristic
-                                            )}
-                                        /> */}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="comparative-chart">
-                                {showPlayer &&
-                                allJourneyScores &&
-                                allJourneyScores.scores_by_heuristic &&
-                                hasComparison &&
-                                router.query.journey ? (
-                                    <>
-                                        <header className="flex justify-between mb-6 items-center px-4 gap-3">
-                                            <h1 className="text-xl font-bold">
-                                                <div className="h-[5px] bg-primary w-10 mb-1"></div>
-                                                Comparative Chart
-                                            </h1>
-                                        </header>
-                                        <div className="bg-white dark:bg-slate-800 pb-1 rounded-lg shadow-lg mb-16">
-                                            <div className="flex border-b px-4 min-h-[50px]">
-                                                <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
-                                                    <p>Selected Heuristic:</p>
-                                                </div>
-                                                <div className="flex gap-2 text-sm pt-4 pb-4">
-                                                    <b>
-                                                        {
-                                                            selectedHeuristic?.heuristicNumber
-                                                        }
-                                                    </b>
-                                                    <span className="max-w-lg text-slate-700">
-                                                        {
-                                                            selectedHeuristic?.name
-                                                        }
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div className=" px-8 pt-8 pb-4">
-                                                <div className="flex flex-col items-center">
-                                                    {/* <CompareBar
-                                                        showPlayer={showPlayer}
-                                                        allJourneyScores={
-                                                            allJourneyScores
-                                                        }
-                                                        prevScores={
-                                                            prevScores[
-                                                                showPlayer
-                                                            ][currentJourney]
-                                                        }
-                                                        currentJourney={
-                                                            router.query.journey
-                                                        }
-                                                        selectedHeuristic={
-                                                            selectedHeuristic
-                                                        }
-                                                        refDom={chartCompareRef}
-                                                    /> */}
-                                                    <CompareBar
-                                                        showPlayer={showPlayer}
-                                                        allJourneyScores={
-                                                            allJourneyScores
-                                                        }
-                                                        prevScores={
-                                                            getPreviousScoresByPlayer(
-                                                                showPlayer
-                                                            ) &&
-                                                            getPreviousScoresByPlayer(
-                                                                showPlayer
-                                                            )[currentJourney]
-                                                        }
-                                                        currentJourney={
-                                                            router.query.journey
-                                                        }
-                                                        selectedHeuristic={
-                                                            selectedHeuristic
-                                                        }
-                                                        refDom={chartCompareRef}
-                                                    />
-                                                </div>
-                                                <div className="mt-4 flex gap-10">
-                                                    <button
-                                                        className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 text-sm"
-                                                        onClick={() =>
-                                                            handleClickCopySvg(
-                                                                chartCompareRef,
-                                                                "id2"
-                                                            )
-                                                        }
-                                                    >
-                                                        {svgCopied?.id2
-                                                            ? "✅ SVG Copied"
-                                                            : "Copy as SVG"}
-                                                    </button>
-                                                    <button
-                                                        className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 text-sm"
-                                                        onClick={() =>
-                                                            handleClickCopyPng(
-                                                                chartCompareRef,
-                                                                {
-                                                                    heuristicNumber:
-                                                                        selectedHeuristic?.heuristicNumber,
-                                                                    playerSlug:
-                                                                        showPlayer +
-                                                                        "_comp",
-                                                                }
-                                                            )
-                                                        }
-                                                    >
-                                                        Export as a PNG file
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </>
-                                ) : null}
-                            </div>
+                                </ChartSection>
+                            ) : null}
                         </div>
                     ) : (
                         currentJourney &&
@@ -1095,120 +937,85 @@ function Dashboard() {
                     )}
 
                     {currentJourney && isValidJourney(currentJourney) ? (
-                        <>
-                            <header className="flex justify-between mb-6 items-center px-4 gap-3">
-                                <h1 className="text-xl font-bold">
-                                    <div className="h-[5px] bg-primary w-10 mb-1"></div>
-                                    Journey Chart
-                                </h1>
-                                <div className="text-lg flex items-center gap-1 whitespace-nowrap">
-                                    <b>Average: </b>
-                                    <span className=" text-slate-500">
-                                        {(averageJourneyScore * 100).toFixed(2)}
-                                        %
-                                    </span>
+                        <ChartSection
+                            title="Journey Chart"
+                            average={(averageJourneyScore * 100).toFixed(2)}
+                        >
+                            <div className="flex border-b px-4 min-h-[50px]">
+                                <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
+                                    <p>Selected Journey:</p>
                                 </div>
-                            </header>
-                            <div className="bg-white dark:bg-slate-800 pb-1 rounded-lg shadow-lg max-w-fit mb-16">
-                                <div className="flex border-b px-4 min-h-[50px]">
-                                    <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
-                                        <p>Selected Journey:</p>
-                                    </div>
-                                    <div className="flex gap-2 text-sm pt-4 pb-4">
-                                        <b className="max-w-lg text-slate-700">
-                                            {
-                                                allJourneys.find(
-                                                    (journey) =>
-                                                        journey.slug ===
-                                                        currentJourney
-                                                )?.name
-                                            }
-                                        </b>
-                                    </div>
-                                    {showPlayer && (
-                                        <>
-                                            <div className="ml-auto flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
-                                                <p>Player Score:</p>
-                                            </div>
-                                            <div className="flex gap-2 text-sm pt-4 pb-4">
-                                                <b className="max-w-lg text-slate-700">
-                                                    {(
-                                                        journeyScoresDatasetArr.find(
-                                                            (player) =>
-                                                                player.playerSlug ===
-                                                                showPlayer
-                                                        )?.value * 100
-                                                    ).toFixed(2)}
-                                                    %
-                                                </b>
-                                            </div>
-                                        </>
-                                    )}
+                                <div className="flex gap-2 text-sm pt-4 pb-4">
+                                    <b className="max-w-lg text-slate-700">
+                                        {
+                                            allJourneys.find(
+                                                (journey) =>
+                                                    journey.slug ===
+                                                    currentJourney
+                                            )?.name
+                                        }
+                                    </b>
                                 </div>
+                                {showPlayer && (
+                                    <>
+                                        <div className="ml-auto flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
+                                            <p>Player Score:</p>
+                                        </div>
+                                        <div className="flex gap-2 text-sm pt-4 pb-4">
+                                            <b className="max-w-lg text-slate-700">
+                                                {(
+                                                    journeyScoresDatasetArr.find(
+                                                        (player) =>
+                                                            player.playerSlug ===
+                                                            showPlayer
+                                                    )?.value * 100
+                                                ).toFixed(2)}
+                                                %
+                                            </b>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
 
-                                <div className=" px-8 pt-8 pb-4">
-                                    <BarChart
-                                        refDom={journeyChartRef}
-                                        // allJourneyScores={allJourneyScores}
-                                        dataSet={journeyScoresDatasetArr}
-                                        averageLine={averageJourneyScore}
-                                        isPercentage
-                                    />
-                                    <div className="mt-4 flex gap-10">
-                                        <button
-                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
-                                            onClick={() =>
-                                                handleClickCopySvg(
-                                                    journeyChartRef,
-                                                    "id3"
-                                                )
-                                            }
-                                        >
-                                            {svgCopied?.id3
-                                                ? "✅ SVG Copied"
-                                                : "Copy as SVG"}
-                                        </button>
-                                        <button
-                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
-                                            onClick={() =>
-                                                handleClickCopyPng(
-                                                    journeyChartRef,
-                                                    {
-                                                        playerSlug: showPlayer,
-                                                    }
-                                                )
-                                            }
-                                        >
-                                            Export as a PNG file
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </>
-                    ) : (
-                        <div className="mb-10">
-                            <div className="flex border-red-200 border bg-red-50 min-h-[64px]">
-                                <div className="w-24 flex items-center justify-center">
-                                    <svg
-                                        width="100"
-                                        height="100"
-                                        viewBox="0 0 100 100"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        style={{ width: 36, height: 36 }}
+                            <div className=" px-8 pt-8 pb-4">
+                                <BarChart
+                                    refDom={journeyChartRef}
+                                    // allJourneyScores={allJourneyScores}
+                                    dataSet={journeyScoresDatasetArr}
+                                    averageLine={averageJourneyScore}
+                                    isPercentage
+                                />
+                                <div className="mt-4 flex gap-10">
+                                    <button
+                                        className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
+                                        onClick={() =>
+                                            handleClickCopySvg(
+                                                journeyChartRef,
+                                                "id3"
+                                            )
+                                        }
                                     >
-                                        <path
-                                            d="M50 90C60.6087 90 70.7828 85.7857 78.2843 78.2843C85.7857 70.7828 90 60.6087 90 50C90 39.3913 85.7857 29.2172 78.2843 21.7157C70.7828 14.2143 60.6087 10 50 10C39.3913 10 29.2172 14.2143 21.7157 21.7157C14.2143 29.2172 10 39.3913 10 50C10 60.6087 14.2143 70.7828 21.7157 78.2843C29.2172 85.7857 39.3913 90 50 90ZM50 100C22.385 100 0 77.615 0 50C0 22.385 22.385 0 50 0C77.615 0 100 22.385 100 50C100 77.615 77.615 100 50 100ZM45 45V75H55V45H45ZM45 25H55V35H45V25Z"
-                                            fill="red"
-                                        />
-                                    </svg>
+                                        {svgCopied?.id3
+                                            ? "✅ SVG Copied"
+                                            : "Copy as SVG"}
+                                    </button>
+                                    <button
+                                        className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
+                                        onClick={() =>
+                                            handleClickCopyPng(
+                                                journeyChartRef,
+                                                {
+                                                    playerSlug: showPlayer,
+                                                }
+                                            )
+                                        }
+                                    >
+                                        Export as a PNG file
+                                    </button>
                                 </div>
-                                <p className="text-slate-800/70 py-4 pl-0 pr-5 text-lg flex-1">
-                                    Please, Select a valid Journey.
-                                </p>
                             </div>
-                        </div>
-                    )}
+                        </ChartSection>
+                    ) : null}
                 </div>
             </main>
         </div>
