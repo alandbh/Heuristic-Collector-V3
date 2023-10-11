@@ -18,7 +18,7 @@ function getButtonClass(isActive = false) {
     let hover = isActive
         ? ""
         : "hover:text-primary hover:shadow-primary hover:grayscale-0 hover:opacity-100";
-    return `${color} items-center h-full border box-border border-l-0  ${border} font-bold text-slate-500 ${hover} p-8 w-full flex justify-center  ${opacity}  transition-all`;
+    return `${color} items-center h-full border box-border border-l-0  ${border} font-bold text-slate-500 ${hover} p-6 w-full flex justify-center  ${opacity}  transition-all`;
 }
 
 function PlayerSelect({ compact }) {
@@ -75,7 +75,7 @@ function PlayerSelect({ compact }) {
             modal.style.opacity = 0;
             modal.style.opacity = 1;
             modal.style.zIndex = 9;
-            modal.children[0].style.transform = "translateY(-2vh)";
+            modal.children[0].style.transform = "translateY(-5vh)";
         });
     }
 
@@ -158,7 +158,7 @@ function PlayerSelect({ compact }) {
                     >
                         {playersData?.project?.players?.map((player, index) => (
                             <li
-                                className="flex-1 min-w-[200px]"
+                                className="flex-1 min-w-[140px]"
                                 key={player.slug}
                             >
                                 <button
