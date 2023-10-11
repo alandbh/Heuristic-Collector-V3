@@ -7,7 +7,7 @@ import { Link as Scroll } from "react-scroll";
 import HeuristicGroup from "../HeuristicGroup";
 import { useScoresObjContext } from "../../context/scoresObj";
 import { useProjectContext } from "../../context/project";
-import { useScroll, processChange, getUserLevel } from "../../lib/utils";
+import { useIsSticky, processChange, getUserLevel } from "../../lib/utils";
 import { MUTATION_SCORE_OBJ } from "../../lib/mutations";
 import Findings from "../Findings";
 import client from "../../lib/apollo";
@@ -147,6 +147,9 @@ function GroupContainer({ data }) {
     const { userType } = useCredentialsContext();
     const { currentProject, currentPlayer, currentJourney } =
         useProjectContext();
+
+    const isSticky = useIsSticky(150);
+    const isSticky128 = useIsSticky(128);
 
     const getFindings = useCallback(() => {
         const variables = {
@@ -321,11 +324,6 @@ function GroupContainer({ data }) {
         setJourneyZeroed(isThisJourneyZeroed);
     }, [currentPlayer, currentJourney]);
 
-    const [scrollY] = useScroll(0);
-    // const scrollY = 0;
-
-    // console.log("currentJourney group", currentJourney);
-
     if (!currentJourney) {
         return null;
     }
@@ -366,123 +364,128 @@ function GroupContainer({ data }) {
 
     return (
         <>
-            <div className="gap-5 max-w-5xl mx-auto flex flex-col-reverse md:grid md:grid-cols-3  ">
-                <div
-                    className={`md:col-span-2 flex flex-col gap-20 ${
-                        journeyIgnored &&
-                        "bg-red-100 border-red-300 border-4 border-dashed rounded-lg"
-                    }
+            <div className={isSticky128 ? "pt-32" : ""}>
+                <div className="gap-5 max-w-5xl mx-auto flex flex-col-reverse md:grid md:grid-cols-3  ">
+                    <div
+                        className={`md:col-span-2 flex flex-col gap-20 ${
+                            journeyIgnored &&
+                            "bg-red-100 border-red-300 border-4 border-dashed rounded-lg"
+                        }
                     ${
                         journeyZeroed &&
                         "bg-purple-100 border-purple-300 border-4 border-dashed rounded-lg"
                     }`}
-                >
-                    {journeyIgnored && (
-                        <p className="text-center -mb-10 mt-4 uppercase text-red-600 font-mono">
-                            This journey is ignored
-                        </p>
-                    )}
-                    {journeyZeroed && (
-                        <p className="text-center -mb-10 mt-4 uppercase text-purple-600 font-mono">
-                            This journey is zeroed
-                        </p>
-                    )}
-                    {groupsToMap.map((group) => (
-                        <HeuristicGroup
-                            allScoresJson={allScoresJson}
-                            group={group}
-                            key={group.id}
-                            allScoresObj={allScoresObjContext}
-                        />
-                    ))}
-                    <Findings
-                        data={findingsList}
-                        router={router}
-                        getFindings={getFindings}
-                        currentJourney={currentJourney}
-                        currentPlayer={currentPlayer}
-                        currentProject={currentProject}
-                        disable={getUserLevel(userType) > 2}
-                    />
-                    {getUserLevel(userType) === 1 && (
-                        <Ignore
-                            onChange={handleOnChangeIgnore}
-                            onChangeZero={handleOnChangeZero}
-                            isDisable={getUserLevel(userType) !== 1}
-                            ignored={journeyIgnored}
-                            zeroed={journeyZeroed}
-                        />
-                    )}
-                </div>
-                <div className="relative mr-4">
-                    <div
-                        className={
-                            scrollY > 150 ? "md:sticky top-20" : "relative"
-                        }
                     >
-                        <aside className="mb-10 ml-4 md:mx-0">
-                            <div>
-                                <SearchBox data={allHeuristics} />
-                            </div>
-                        </aside>
-                        <aside className="hidden md:block">
-                            <h1 className="text-slate-400 text-sm uppercase mb-5 border-b-2 pb-3">
-                                Heuristic Groups
-                            </h1>
-                            <ul>
-                                {groupsToMap.map((group) => (
-                                    <li
-                                        key={group.id}
-                                        className="cursor-pointer"
-                                    >
+                        {journeyIgnored && (
+                            <p className="text-center -mb-10 mt-4 uppercase text-red-600 font-mono">
+                                This journey is ignored
+                            </p>
+                        )}
+                        {journeyZeroed && (
+                            <p className="text-center -mb-10 mt-4 uppercase text-purple-600 font-mono">
+                                This journey is zeroed
+                            </p>
+                        )}
+                        {groupsToMap.map((group) => (
+                            <HeuristicGroup
+                                allScoresJson={allScoresJson}
+                                group={group}
+                                key={group.id}
+                                allScoresObj={allScoresObjContext}
+                            />
+                        ))}
+                        <Findings
+                            data={findingsList}
+                            router={router}
+                            getFindings={getFindings}
+                            currentJourney={currentJourney}
+                            currentPlayer={currentPlayer}
+                            currentProject={currentProject}
+                            disable={getUserLevel(userType) > 2}
+                        />
+                        {getUserLevel(userType) === 1 && (
+                            <Ignore
+                                onChange={handleOnChangeIgnore}
+                                onChangeZero={handleOnChangeZero}
+                                isDisable={getUserLevel(userType) !== 1}
+                                ignored={journeyIgnored}
+                                zeroed={journeyZeroed}
+                            />
+                        )}
+                    </div>
+                    <div className="relative mr-4">
+                        <div
+                            className={
+                                isSticky ? "md:sticky top-20" : "relative"
+                            }
+                        >
+                            <aside className="mb-10 ml-4 md:mx-0">
+                                <div>
+                                    <SearchBox data={allHeuristics} />
+                                </div>
+                            </aside>
+                            <aside className="hidden md:block">
+                                <h1 className="text-slate-400 text-sm uppercase mb-5 border-b-2 pb-3">
+                                    Heuristic Groups
+                                </h1>
+                                <ul>
+                                    {groupsToMap.map((group) => (
+                                        <li
+                                            key={group.id}
+                                            className="cursor-pointer"
+                                        >
+                                            <Scroll
+                                                activeClass="underline underline-offset-4 hover:text-blue-700"
+                                                className="py-1 block text-primary font-bold hover:text-primary/70"
+                                                to={group.id}
+                                                spy={true}
+                                                smooth={true}
+                                                offset={-200}
+                                            >
+                                                {group.groupNumber}.{" "}
+                                                {group.name}
+                                            </Scroll>
+                                        </li>
+                                    ))}
+
+                                    <li className="mt-5">
+                                        <hr />
+                                    </li>
+
+                                    <li className="cursor-pointer mt-5">
                                         <Scroll
                                             activeClass="underline underline-offset-4 hover:text-blue-700"
                                             className="py-1 block text-primary font-bold hover:text-primary/70"
-                                            to={group.id}
+                                            to="findings_section"
                                             spy={true}
                                             smooth={true}
-                                            offset={-200}
+                                            offset={-50}
                                         >
-                                            {group.groupNumber}. {group.name}
+                                            General Findings
                                         </Scroll>
                                     </li>
-                                ))}
+                                </ul>
 
-                                <li className="mt-5">
-                                    <hr />
-                                </li>
+                                <h1 className="text-lg font-bold mt-10 text-center mb-5">
+                                    Total Scored by {currentPlayer.name}
+                                </h1>
 
-                                <li className="cursor-pointer mt-5">
-                                    <Scroll
-                                        activeClass="underline underline-offset-4 hover:text-blue-700"
-                                        className="py-1 block text-primary font-bold hover:text-primary/70"
-                                        to="findings_section"
-                                        spy={true}
-                                        smooth={true}
-                                        offset={-50}
-                                    >
-                                        General Findings
-                                    </Scroll>
-                                </li>
-                            </ul>
+                                <div className="flex justify-center items-center flex-col">
+                                    <Donnut
+                                        total={
+                                            getTotals(allScoresObjContext).total
+                                        }
+                                        sum={getTotals(allScoresObjContext).sum}
+                                        radius={60}
+                                    />
 
-                            <h1 className="text-lg font-bold mt-10 text-center mb-5">
-                                Total Scored by {currentPlayer.name}
-                            </h1>
-
-                            <div className="flex justify-center items-center flex-col">
-                                <Donnut
-                                    total={getTotals(allScoresObjContext).total}
-                                    sum={getTotals(allScoresObjContext).sum}
-                                    radius={60}
-                                />
-
-                                <p className="font-bold">
-                                    {getTotals(allScoresObjContext).sum} of{" "}
-                                    {getTotals(allScoresObjContext).total}
-                                </p>
-                            </div>
-                        </aside>
+                                    <p className="font-bold">
+                                        {getTotals(allScoresObjContext).sum} of{" "}
+                                        {getTotals(allScoresObjContext).total}
+                                    </p>
+                                </div>
+                            </aside>
+                        </div>
                     </div>
                 </div>
             </div>

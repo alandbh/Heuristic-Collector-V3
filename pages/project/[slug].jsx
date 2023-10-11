@@ -13,7 +13,7 @@ import { CredentialsWrapper } from "../../context/credentials";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../lib/firebase";
 import { Link as Scroll, animateScroll } from "react-scroll";
-import { useScroll } from "../../lib/utils";
+import { useIsSticky } from "../../lib/utils";
 
 const QUERY_PROJECTS = gql`
     query Projects($slug: String) {
@@ -165,11 +165,11 @@ function Project() {
 export default Project;
 
 function Gototop() {
-    const [scrollY, setScrollY] = useScroll();
+    const isSticky = useIsSticky(200);
     const goToUpRef = useRef(null);
 
     if (goToUpRef.current !== null) {
-        if (scrollY > 200) {
+        if (isSticky) {
             goToUpRef.current.classList.add("transition-all");
             goToUpRef.current.classList.remove("translate-y-20");
             goToUpRef.current.classList.remove("opacity-0");

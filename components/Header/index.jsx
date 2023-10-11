@@ -8,18 +8,16 @@ import PlayerSelect from "../PlayerSelect";
 import ToggleTheme from "../ToggleTheme";
 import LoggedUser from "../LoggedUser";
 // import { useCredentialsContext } from "../../context/credentials";
-import { useScroll } from "../../lib/utils";
+import { useIsSticky } from "../../lib/utils";
 import React, { useRef } from "react";
 
 function Header({ routes, className, auth }) {
     const router = useRouter();
     const { slug, tab } = router.query || "";
     const isProgress = tab === routes?.tab || "";
-    const [scrollY, setScrollY] = useScroll();
+    const isSticky = useIsSticky(128);
 
     const headerRef = useRef(null);
-
-    // console.log(scrollY);
 
     const { currentProject } = useProjectContext() || { project: { name: "" } };
 
@@ -47,7 +45,7 @@ function Header({ routes, className, auth }) {
 
     const LINK_CLASSES = `border flex gap-2 align-middle items-center py-1 px-4 md:px-5 rounded-full transition-all text-xs md:text-sm `;
 
-    if (scrollY < 200) {
+    if (!isSticky) {
         return (
             <header ref={headerRef} className={`z-10`}>
                 <div

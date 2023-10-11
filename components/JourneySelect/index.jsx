@@ -19,7 +19,6 @@ function getButtonClass(isActive = false) {
 }
 
 function JourneySelect({ compact = false }) {
-    // const [journeysData, setJourneysData] = useState(null);
     const [selected, setSelected] = useState(null);
     const router = useRouter();
     const { currentJourney, allJourneysData: journeysData } =
@@ -35,10 +34,7 @@ function JourneySelect({ compact = false }) {
         return allScoresJson[journeySlug].length;
     }
 
-    // console.log("setJourneysData", allScoresJson);
-
     const modalRef = useRef(null);
-    // const [modalOpen, setModalOpen] = useDetectOutsideClick(modalRef, true);
     useEffect(() => {
         if (journeysData !== null) {
             const { journeys } = journeysData;
