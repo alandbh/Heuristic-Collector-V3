@@ -9,15 +9,25 @@ import ToggleTheme from "../ToggleTheme";
 import LoggedUser from "../LoggedUser";
 // import { useCredentialsContext } from "../../context/credentials";
 import { useIsSticky } from "../../lib/utils";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 function Header({ routes, className, auth }) {
     const router = useRouter();
-    const { slug, tab } = router.query || "";
+    const { tab } = router.query || "";
     const isProgress = tab === routes?.tab || "";
     const isSticky = useIsSticky(128);
 
     const headerRef = useRef(null);
+
+    useEffect(() => {
+        if (isSticky) {
+            setTimeout(() => {
+                headerRef.current?.classList.add("transition-all");
+                headerRef.current?.classList.remove("-translate-y-20");
+                headerRef.current?.classList.remove("opacity-0");
+            }, 500);
+        }
+    }, [isSticky]);
 
     const { currentProject } = useProjectContext() || { project: { name: "" } };
 
@@ -45,9 +55,13 @@ function Header({ routes, className, auth }) {
 
     const LINK_CLASSES = `border flex gap-2 align-middle items-center py-1 px-4 md:px-5 rounded-full transition-all text-xs md:text-sm `;
 
-    if (!isSticky) {
-        return (
-            <header ref={headerRef} className={`z-10`}>
+    return (
+        <ScoresObjWrapper>
+            <header
+                style={isSticky ? { display: "none" } : { display: "block" }}
+                ref={headerRef}
+                className={`z-10`}
+            >
                 <div
                     className={`bg-primary flex justify-between px-5 items-center h-12`}
                 >
@@ -165,9 +179,7 @@ function Header({ routes, className, auth }) {
                         {!isProgress ? (
                             <>
                                 <PlayerSelect compact={scrollY > 200} />
-                                <ScoresObjWrapper>
-                                    <JourneySelect compact={scrollY > 200} />
-                                </ScoresObjWrapper>
+                                <JourneySelect compact={scrollY > 200} />
                             </>
                         ) : (
                             <h2 className="text-2xl font-bold">Progress</h2>
@@ -175,16 +187,9 @@ function Header({ routes, className, auth }) {
                     </div>
                 </div>
             </header>
-        );
-    } else {
-        setTimeout(() => {
-            headerRef.current?.classList.add("transition-all");
-            headerRef.current?.classList.remove("-translate-y-20");
-            headerRef.current?.classList.remove("opacity-0");
-        }, 500);
 
-        return (
             <header
+                style={isSticky ? { display: "block" } : { display: "none" }}
                 ref={headerRef}
                 className="z-10 fixed w-full top-0 -translate-y-20 opacity-0"
             >
@@ -215,9 +220,7 @@ function Header({ routes, className, auth }) {
                         {!isProgress ? (
                             <>
                                 <PlayerSelect compact={true} />
-                                <ScoresObjWrapper>
-                                    <JourneySelect compact={true} />
-                                </ScoresObjWrapper>
+                                <JourneySelect compact={true} />
                             </>
                         ) : (
                             <h2 className="text-2xl font-bold">Progress</h2>
@@ -225,8 +228,8 @@ function Header({ routes, className, auth }) {
                     </div>
                 </div>
             </header>
-        );
-    }
+        </ScoresObjWrapper>
+    );
 }
 
 export default React.memo(Header);

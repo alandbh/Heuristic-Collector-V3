@@ -215,7 +215,7 @@ function GroupContainer({ data }) {
 
     useEffect(() => {
         getFindings();
-    });
+    }, [getFindings]);
 
     /**
      *
