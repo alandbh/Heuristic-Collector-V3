@@ -404,7 +404,9 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
             </div>
             <div
                 className={`transition fixed right-5 bottom-40 bg-green-600 text-white/80 flex items-center p-3 w-80 font-bold z-10 ${
-                    toast.open ? "translate-y-20" : "translate-y-60"
+                    toast.open
+                        ? "translate-y-20 opacity-100"
+                        : "translate-y-60 opacity-0"
                 }`}
             >
                 {toast.text}

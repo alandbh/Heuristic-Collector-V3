@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import HeuristicItem from "../HeuristicItem";
 import { useScoresContext } from "../../context/scores";
 import { useScoresObjContext } from "../../context/scoresObj";
@@ -30,6 +30,18 @@ function HeuristicGroup({ group, allScoresJson, allScoresObj }) {
     // const { allScores } = useScoresContext();
     // const { allScoresObj } = useScoresObjContext();
     const router = useRouter();
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        if (group.heuristic.length > 0) {
+            containerRef.current?.classList.add("opacity-0");
+            containerRef.current?.classList.add("translate-y-10");
+            setTimeout(() => {
+                containerRef.current?.classList.remove("opacity-0");
+                containerRef.current?.classList.remove("translate-y-10");
+            }, 1000);
+        }
+    }, [group.heuristic, router.query.player, router.query.journey]);
 
     const heuristicsToMap = group.heuristic
         .filter(
@@ -52,7 +64,11 @@ function HeuristicGroup({ group, allScoresJson, allScoresObj }) {
     );
 
     return (
-        <section className="mx-3" id={group.id}>
+        <section
+            ref={containerRef}
+            className="transition opacity-0 translate-y-10 mx-3"
+            id={group.id}
+        >
             <header className="flex justify-between mb-6 items-center px-4 gap-3">
                 <h1 className="text-xl font-bold">
                     <div className="h-[5px] bg-primary w-10 mb-1"></div>
