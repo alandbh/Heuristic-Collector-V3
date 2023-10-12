@@ -26,7 +26,7 @@ function isPresentInThisJourney(heuristic, journeySlug) {
  *
  */
 
-function HeuristicGroup({ group, allScoresJson, allScoresObj }) {
+function HeuristicGroup({ group, allScoresJson, allScoresObj, index }) {
     // const { allScores } = useScoresContext();
     // const { allScoresObj } = useScoresObjContext();
     const router = useRouter();
@@ -34,12 +34,13 @@ function HeuristicGroup({ group, allScoresJson, allScoresObj }) {
 
     useEffect(() => {
         if (group.heuristic.length > 0) {
-            containerRef.current?.classList.add("opacity-0");
-            containerRef.current?.classList.add("translate-y-10");
+            containerRef.current?.classList.add("opacity-0", "translate-y-10");
             setTimeout(() => {
-                containerRef.current?.classList.remove("opacity-0");
-                containerRef.current?.classList.remove("translate-y-10");
-            }, 1000);
+                containerRef.current?.classList.remove(
+                    "opacity-0",
+                    "translate-y-10"
+                );
+            }, 500);
         }
     }, [group.heuristic, router.query.player, router.query.journey]);
 
@@ -68,6 +69,7 @@ function HeuristicGroup({ group, allScoresJson, allScoresObj }) {
             ref={containerRef}
             className="transition opacity-0 translate-y-10 mx-3"
             id={group.id}
+            style={{ transitionDelay: `${index * 150}ms` }}
         >
             <header className="flex justify-between mb-6 items-center px-4 gap-3">
                 <h1 className="text-xl font-bold">

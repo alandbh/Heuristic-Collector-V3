@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { gql } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useCredentialsContext } from "../../context/credentials";
@@ -150,6 +150,10 @@ function GroupContainer({ data }) {
 
     const isSticky = useIsSticky(150);
     const isSticky128 = useIsSticky(128);
+
+    const asideRef = useRef(new Set());
+
+    console.log({ asideRef });
 
     const getFindings = useCallback(() => {
         const variables = {
@@ -322,6 +326,16 @@ function GroupContainer({ data }) {
         console.log("ignore initial", isThisJourneyIgnored);
         setJourneyIgnored(isThisJourneyIgnored);
         setJourneyZeroed(isThisJourneyZeroed);
+
+        Array.from(asideRef.current).map((ref) => {
+            ref.classList.add("opacity-0", "translate-y-10");
+        });
+
+        setTimeout(() => {
+            Array.from(asideRef.current).map((ref) => {
+                ref?.classList.remove("opacity-0", "translate-y-10");
+            });
+        }, 600);
     }, [currentPlayer, currentJourney]);
 
     if (!currentJourney) {
@@ -386,12 +400,13 @@ function GroupContainer({ data }) {
                                 This journey is zeroed
                             </p>
                         )}
-                        {groupsToMap.map((group) => (
+                        {groupsToMap.map((group, index) => (
                             <HeuristicGroup
                                 allScoresJson={allScoresJson}
                                 group={group}
                                 key={group.id}
                                 allScoresObj={allScoresObjContext}
+                                index={index}
                             />
                         ))}
                         <Findings
@@ -419,12 +434,26 @@ function GroupContainer({ data }) {
                                 isSticky ? "md:sticky top-20" : "relative"
                             }
                         >
-                            <aside className="mb-10 ml-4 md:mx-0">
+                            <aside
+                                ref={(element) => {
+                                    if (element) {
+                                        asideRef.current.add(element);
+                                    }
+                                }}
+                                className="mb-10 opacity-0 translate-y-10 transition delay-100 ml-4 md:mx-0"
+                            >
                                 <div>
                                     <SearchBox data={allHeuristics} />
                                 </div>
                             </aside>
-                            <aside className="hidden md:block">
+                            <aside
+                                ref={(element) => {
+                                    if (element) {
+                                        asideRef.current.add(element);
+                                    }
+                                }}
+                                className="hidden opacity-0 translate-y-10 transition delay-200 md:block"
+                            >
                                 <h1 className="text-slate-400 text-sm uppercase mb-5 border-b-2 pb-3">
                                     Heuristic Groups
                                 </h1>
