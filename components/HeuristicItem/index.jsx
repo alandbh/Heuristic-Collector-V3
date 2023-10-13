@@ -9,12 +9,7 @@ import { useRouter } from "next/router";
 import Range from "../Range";
 import Evidence from "../Evidence";
 import client from "../../lib/apollo";
-import {
-    processChange,
-    waitForNewData,
-    delay,
-    getUserLevel,
-} from "../../lib/utils";
+import { processChange, delay, getUserLevel } from "../../lib/utils";
 import { MUTATION_SCORE_OBJ } from "../../lib/mutations";
 
 /**
@@ -33,7 +28,7 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
     const [evidenceUrl, setEvidenceUrl] = useState(
         currentScore?.evidenceUrl || ""
     );
-    const { getNewScoresObj, getNewScoresJson } = useScoresObjContext();
+    const { getNewScoresJson } = useScoresObjContext();
     const [boxOpen, setBoxOpen] = useState(false);
     const router = useRouter();
     const { user, userType } = useCredentialsContext();
@@ -41,18 +36,11 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
     const [enable, setEnable] = useState(false);
     const [toast, setToast] = useState({ open: false, text: "" });
 
-    console.log("allScoresObj json", allScoresJson);
-
-    // debugger;
-    console.log("allScoresObj currentPlayer", allScoresObj);
-    console.log("allScoresObj Number", heuristic.heuristicNumber);
-
     const currentScore = allScoresObj?.find(
         (someScore) =>
             Number(someScore.heuristic.heuristicNumber) ===
             Number(heuristic.heuristicNumber)
     );
-    console.log("allScoresObj currentScore", currentScore);
 
     // 25/04/2023
     // OBSERVAR WATCH se este useEffect abaixo vai causar algum problema depois de comentado.
@@ -63,9 +51,7 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
 
     useEffect(() => {
         // debugger;
-        // console.log("HAS SCORE", currentScore);
         if (currentScore) {
-            console.log("allScoresObj", "NOT EMPTY");
             setScoreValue(currentScore.scoreValue);
             setText(currentScore.note);
             setEvidenceUrl(currentScore.evidenceUrl);
@@ -113,9 +99,6 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
         );
 
         async function getNewData() {
-            let newData = await waitForNewData();
-            console.log("allScoresObjChange", allScoresObj);
-
             if (callBack) {
                 callBack();
             }
@@ -189,8 +172,6 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
 
         setScoreHasChanged(false);
         setStatus("loading");
-
-        console.log("criando?");
 
         doTheChangeInScoreObj(allScoresObjJsonClone, null, () => {
             setStatus("saved");
@@ -285,8 +266,6 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
 
             return item;
         });
-
-        console.log("saving allScoresUpdated", allScoresObjJsonClone);
 
         doTheChangeInScoreObj(
             allScoresObjJsonClone,
