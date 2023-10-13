@@ -153,8 +153,6 @@ function GroupContainer({ data }) {
 
     const asideRef = useRef(new Set());
 
-    console.log({ asideRef });
-
     const getFindings = useCallback(() => {
         const variables = {
             playerSlug: router.query.player,
