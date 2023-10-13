@@ -104,10 +104,18 @@ function Evaluation() {
     console.log("groupsData invalid", groupsData);
 
     if (groupsData === null) {
-        return null;
+        return (
+            <div className="h-[calc(100vh_-_126px)] flex flex-col items-center justify-center">
+                <Spinner radius={50} thick={7} colorClass="primary" />
+            </div>
+        );
     }
     if (groupsData.data === undefined) {
-        return null;
+        return (
+            <div className="h-[calc(100vh_-_126px)] flex flex-col items-center justify-center">
+                <Spinner radius={50} thick={7} colorClass="primary" />
+            </div>
+        );
     }
 
     if (groupsData.loading) {
