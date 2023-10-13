@@ -20,19 +20,11 @@ function getButtonClass(isActive = false) {
 
 function JourneySelect({ compact = false }) {
     const [selected, setSelected] = useState(null);
+    const [allScoresJson, setAllScoresJson] = useState(null);
     const router = useRouter();
     const { currentJourney, allJourneysData: journeysData } =
         useProjectContext();
-    const { allScoresJson } = useScoresObjContext();
-
-    function getZeroedScores(journeySlug) {
-        return allScoresJson[journeySlug].filter((score) => {
-            return score.scoreValue === 0;
-        }).length;
-    }
-    function getTotalScores(journeySlug) {
-        return allScoresJson[journeySlug].length;
-    }
+    const { allScoresJson: allScoresJsonTemp } = useScoresObjContext();
 
     const modalRef = useRef(null);
     useEffect(() => {
@@ -102,7 +94,22 @@ function JourneySelect({ compact = false }) {
         }, 300);
     }
 
-    if (journeysData === null) {
+    useEffect(() => {
+        if (allScoresJson === null) {
+            setAllScoresJson(allScoresJsonTemp);
+        }
+    }, [allScoresJsonTemp, allScoresJson]);
+
+    function getZeroedScores(journeySlug) {
+        return allScoresJson[journeySlug].filter((score) => {
+            return score.scoreValue === 0;
+        }).length;
+    }
+    function getTotalScores(journeySlug) {
+        return allScoresJson[journeySlug].length;
+    }
+
+    if (journeysData === null || allScoresJson === null) {
         return null;
     }
     if ((journeysData.journeys, currentJourney) === undefined) {
