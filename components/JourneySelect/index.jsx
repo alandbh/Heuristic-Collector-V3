@@ -100,9 +100,15 @@ function JourneySelect({ compact = false }) {
     //     }
     // }, [allScoresJsonTemp, allScoresJson]);
 
-    function getZeroedScores(journeySlug) {
+    // console.log({allScoresJson});
+
+    function getIncompleteScores(journeySlug) {
         return allScoresJson[journeySlug].filter((score) => {
-            return score.scoreValue === 0;
+            return (
+                score.scoreValue === 0 ||
+                score.note.trim().length === 0 ||
+                score.evidenceUrl.trim().length === 0
+            );
         }).length;
     }
     function getTotalScores(journeySlug) {
@@ -128,12 +134,14 @@ function JourneySelect({ compact = false }) {
                 <div className="flex gap-2 items-center content-center">
                     <h2
                         className={`text-lg h-6 block font-bold leading-none ${
-                            getZeroedScores(currentJourney.slug) === 0
+                            getIncompleteScores(currentJourney.slug) === 0
                                 ? "text-green-500"
                                 : ""
                         }`}
                     >
-                        {getZeroedScores(currentJourney.slug) === 0 ? "✓" : ""}{" "}
+                        {getIncompleteScores(currentJourney.slug) === 0
+                            ? "✓"
+                            : ""}{" "}
                         {selected?.name}
                     </h2>
                     <button
@@ -185,12 +193,14 @@ function JourneySelect({ compact = false }) {
                                     {journey.name}
                                     <span
                                         className={`w-5 h-5 absolute top-1 right-[6px] ${
-                                            getZeroedScores(journey.slug) === 0
+                                            getIncompleteScores(
+                                                journey.slug
+                                            ) === 0
                                                 ? "bg-green-500"
                                                 : "bg-red-500"
                                         } text-white font-normal text-xs rounded-full leading-5`}
                                     >
-                                        {getZeroedScores(journey.slug)}
+                                        {getIncompleteScores(journey.slug)}
                                     </span>
                                     <div className="absolute bottom-1 h-3 flex  w-full justify-center">
                                         <Progress
@@ -199,7 +209,7 @@ function JourneySelect({ compact = false }) {
                                             showPercentage={false}
                                             // barColor="#1e77fcb3"
                                             barColor={
-                                                getZeroedScores(
+                                                getIncompleteScores(
                                                     journey.slug
                                                 ) === 0
                                                     ? "limegreen"
@@ -209,7 +219,9 @@ function JourneySelect({ compact = false }) {
                                             total={getTotalScores(journey.slug)}
                                             amount={
                                                 getTotalScores(journey.slug) -
-                                                getZeroedScores(journey.slug)
+                                                getIncompleteScores(
+                                                    journey.slug
+                                                )
                                             }
                                         />
                                     </div>

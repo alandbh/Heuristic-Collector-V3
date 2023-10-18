@@ -42,6 +42,26 @@ function Evidence({
         return;
     }, [openBox]);
 
+    function moveCursorToTheEnd(target) {
+        // target.selectionEnd = target.value.length;
+
+        target.scrollTop = target.scrollHeight;
+
+        setTimeout(() => {
+            target.selectionStart = target.value.length;
+        }, 80);
+    }
+
+    function handleOnFocusText(target) {
+        //Moving the cursor to the end of the textarea.
+        moveCursorToTheEnd(target);
+    }
+
+    function handleOnClickText(target) {
+        //Moving the cursor to the end of the textarea.
+        moveCursorToTheEnd(target);
+    }
+
     return (
         <div
             className={`flex flex-col gap-3 overflow-hidden justify-between`}
@@ -84,6 +104,12 @@ function Evidence({
                         className="w-full border border-slate-300 dark:border-slate-500 p-2 h-52 text-slate-500 text-sm dark:text-slate-300 rounded-md"
                         rows="3"
                         value={text || ""}
+                        onFocus={(ev) => {
+                            handleOnFocusText(ev.target);
+                        }}
+                        onClick={(ev) => {
+                            handleOnClickText(ev.target);
+                        }}
                         onChange={(ev) => {
                             onChangeText(ev.target.value);
                         }}

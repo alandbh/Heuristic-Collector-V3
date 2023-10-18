@@ -274,7 +274,7 @@ function HeuristicItem({
                 let scoreTextWithTesterName = "";
 
                 if (
-                    text &&
+                    text.trim().length > 0 &&
                     !text.endsWith("\n----\nBy: " + user.displayName + "\n \n")
                 ) {
                     scoreTextWithTesterName =
@@ -346,8 +346,11 @@ function HeuristicItem({
             id={heuristic.id}
             className={
                 `${
-                    scoreValue > 0 && text && evidenceUrl && status === "saved"
-                        ? "bg-blue-200 dark:bg-blue-900/50"
+                    scoreValue > 0 &&
+                    text.trim().length > 0 &&
+                    evidenceUrl.trim().length > 0 &&
+                    status === "saved"
+                        ? "bg-blue-50 dark:bg-blue-900/50 border-l-[6px] border-blue-500"
                         : ""
                 }  ` + className
             }
@@ -358,7 +361,7 @@ function HeuristicItem({
                 </div>
                 <div className="w-full">
                     <h2 className="text-lg mb-2 font-bold">{heuristic.name}</h2>
-                    <p className="text-sm break-all whitespace-pre-wrap">
+                    <p className="text-sm xs:break-all xs:whitespace-pre-wrap">
                         {heuristic.description}
                     </p>
                     {/* <p>
