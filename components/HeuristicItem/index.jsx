@@ -316,26 +316,26 @@ function HeuristicItem({
      */
 
     useEffect(() => {
-        if (currentScore.scoreValue === scoreValue) {
+        if (currentScore?.scoreValue === scoreValue) {
             toastMessage(
-                `Score for Heuristic ${currentScore.heuristic.heuristicNumber} updated!`
+                `Score for Heuristic ${currentScore?.heuristic.heuristicNumber} updated!`
             );
         }
-    }, [currentScore.scoreValue]);
+    }, [currentScore?.scoreValue]);
 
     useEffect(() => {
         setStatus("saved");
         toastMessage(
-            `Justify for Heuristic ${currentScore.heuristic.heuristicNumber} updated!`
+            `Justify for Heuristic ${currentScore?.heuristic.heuristicNumber} updated!`
         );
-    }, [currentScore.note]);
+    }, [currentScore?.note]);
 
     useEffect(() => {
         setStatus("saved");
         toastMessage(
-            `Evidence files for Heuristic ${currentScore.heuristic.heuristicNumber} updated!`
+            `Evidence files for Heuristic ${currentScore?.heuristic.heuristicNumber} updated!`
         );
-    }, [currentScore.evidenceUrl]);
+    }, [currentScore?.evidenceUrl]);
 
     if (empty) {
         return <div>Empty</div>;
