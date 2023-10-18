@@ -20,11 +20,11 @@ function getButtonClass(isActive = false) {
 
 function JourneySelect({ compact = false }) {
     const [selected, setSelected] = useState(null);
-    const [allScoresJson, setAllScoresJson] = useState(null);
+    // const [allScoresJson, setAllScoresJson] = useState(null);
     const router = useRouter();
     const { currentJourney, allJourneysData: journeysData } =
         useProjectContext();
-    const { allScoresJson: allScoresJsonTemp } = useScoresObjContext();
+    const { allScoresJson } = useScoresObjContext();
 
     const modalRef = useRef(null);
     useEffect(() => {
@@ -94,11 +94,11 @@ function JourneySelect({ compact = false }) {
         }, 300);
     }
 
-    useEffect(() => {
-        if (allScoresJson === null) {
-            setAllScoresJson(allScoresJsonTemp);
-        }
-    }, [allScoresJsonTemp, allScoresJson]);
+    // useEffect(() => {
+    //     setAllScoresJson(allScoresJsonTemp);
+    //     if (allScoresJson === null) {
+    //     }
+    // }, [allScoresJsonTemp, allScoresJson]);
 
     function getZeroedScores(journeySlug) {
         return allScoresJson[journeySlug].filter((score) => {
