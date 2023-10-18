@@ -361,9 +361,9 @@ function HeuristicItem({
                     <p className="text-sm break-all whitespace-pre-wrap">
                         {heuristic.description}
                     </p>
-                    <p>
+                    {/* <p>
                         <Debug data={currentScore.scoreValue} />
-                    </p>
+                    </p> */}
 
                     <div className="flex flex-col gap-3 justify-between mt-2">
                         <div className="max-w-sm">
