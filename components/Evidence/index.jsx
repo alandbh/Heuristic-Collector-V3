@@ -24,7 +24,7 @@ function Evidence({
                 urlRef.current.focus();
 
                 setTimeout(() => {
-                    collapseRef.current.style.height = "342px";
+                    collapseRef.current.style.height = "420px";
                     collapseRef.current.style.opacity = 1;
                 }, 10);
             } else {
@@ -50,7 +50,7 @@ function Evidence({
             <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
                     <label
-                        className="text-slate-500"
+                        className="text-slate-900/50 dark:text-slate-50/50"
                         htmlFor={"evidenceUrl_" + hid}
                     >
                         <b>Evidence file{"(s)"}</b>
@@ -70,10 +70,10 @@ function Evidence({
                 </div>
                 <div className="flex flex-col gap-1">
                     <label
-                        className="text-slate-500"
+                        className="text-slate-900/50 dark:text-slate-50/50"
                         htmlFor={"noteText_" + hid}
                     >
-                        <b>Fact observed</b> <br />
+                        <b>Justification</b> <br />
                         <small>
                             {"(Justify the given score as clearly as possible)"}
                         </small>
@@ -81,7 +81,7 @@ function Evidence({
                     <textarea
                         id={"noteText_" + hid}
                         disabled={disabled}
-                        className="w-full border border-slate-300 dark:border-slate-500 p-2 h-32 text-slate-500 dark:text-slate-300 rounded-md"
+                        className="w-full border border-slate-300 dark:border-slate-500 p-2 h-52 text-slate-500 text-sm dark:text-slate-300 rounded-md"
                         rows="3"
                         value={text || ""}
                         onChange={(ev) => {
@@ -96,7 +96,7 @@ function Evidence({
                     onClick={() => onSaveEvidence()}
                     textActive="Save Evidence"
                     textFinished="Evidence Saved"
-                    disabled={disabled}
+                    disabled={disabled || status !== "active"}
                 />
             </div>
         </div>

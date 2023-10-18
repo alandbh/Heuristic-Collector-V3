@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import Range from "../Range";
 import Evidence from "../Evidence";
 import client from "../../lib/apollo";
-import { processChange, delay, getUserLevel } from "../../lib/utils";
+import { processChange, delay, getUserLevel, delayv2 } from "../../lib/utils";
 import { MUTATION_SCORE_OBJ } from "../../lib/mutations";
 
 /**
@@ -20,7 +20,13 @@ import { MUTATION_SCORE_OBJ } from "../../lib/mutations";
  *
  */
 
-function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
+function HeuristicItem({
+    heuristic,
+    id,
+    allScoresJson,
+    allScoresObj,
+    className,
+}) {
     const { currentPlayer } = useProjectContext();
     const [scoreValue, setScoreValue] = useState(0);
     const [empty, setEmpty] = useState(false);
@@ -103,7 +109,7 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
                 callBack();
             }
 
-            toastMessage(message);
+            // toastMessage(message);
         }
 
         getNewData();
@@ -190,11 +196,17 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
         // const newScoreValue = Number(ev.target.value);
         setScoreValue(Number(ev.target.value));
 
+        // await delayv2(400);
+
+        // const newScoresJson = await getNewScoresJson();
+
+        // setScoreHasChanged(true);
+
         delay(async () => {
             const newScoresJson = await getNewScoresJson();
 
             setScoreHasChanged(true);
-        }, 1000);
+        }, 400);
     }
 
     /**
@@ -259,7 +271,19 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
                     ];
                 }
 
-                item.note = text + "\nBy: " + user.displayName;
+                let scoreTextWithTesterName = "";
+
+                if (
+                    text &&
+                    !text.endsWith("\n----\nBy: " + user.displayName + "\n \n")
+                ) {
+                    scoreTextWithTesterName =
+                        text + "\n----\nBy: " + user.displayName + "\n \n";
+                } else {
+                    scoreTextWithTesterName = text;
+                }
+
+                item.note = scoreTextWithTesterName;
                 item.evidenceUrl = evidenceUrl;
                 item.scoreValue = scoreValue;
             }
@@ -271,7 +295,7 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
             allScoresObjJsonClone,
             `Evidence for Heuristic ${currentScore.heuristic.heuristicNumber} updated!`,
             () => {
-                setStatus("saved");
+                // setStatus("saved");
             }
         );
     }
@@ -285,110 +309,154 @@ function HeuristicItem({ heuristic, id, allScoresJson, allScoresObj }) {
         5: { color: "#14a914", text: "Totally agree" },
     };
 
+    /**
+     *
+     * Watching the changes in the current score
+     *
+     */
+
+    useEffect(() => {
+        if (currentScore.scoreValue === scoreValue) {
+            toastMessage(
+                `Score for Heuristic ${currentScore.heuristic.heuristicNumber} updated!`
+            );
+        }
+    }, [currentScore.scoreValue]);
+
+    useEffect(() => {
+        setStatus("saved");
+        toastMessage(
+            `Justify for Heuristic ${currentScore.heuristic.heuristicNumber} updated!`
+        );
+    }, [currentScore.note]);
+
+    useEffect(() => {
+        setStatus("saved");
+        toastMessage(
+            `Evidence files for Heuristic ${currentScore.heuristic.heuristicNumber} updated!`
+        );
+    }, [currentScore.evidenceUrl]);
+
     if (empty) {
         return <div>Empty</div>;
     }
 
     return (
-        <li id={heuristic.id} className="flex mb-10 gap-5">
-            <div>
-                <b className="text-xl">{heuristic.heuristicNumber}</b>
-            </div>
-            <div className="w-full">
-                <h2 className="text-lg mb-2 font-bold">{heuristic.name}</h2>
-                <p className="text-sm break-all whitespace-pre-wrap">
-                    {heuristic.description}
-                </p>
+        <li
+            id={heuristic.id}
+            className={
+                `${
+                    scoreValue > 0 && text && evidenceUrl && status === "saved"
+                        ? "bg-blue-200 dark:bg-blue-900/50"
+                        : ""
+                }  ` + className
+            }
+        >
+            <div className="flex py-5 px-4 gap-5">
+                <div>
+                    <b className="text-xl">{heuristic.heuristicNumber}</b>
+                </div>
+                <div className="w-full">
+                    <h2 className="text-lg mb-2 font-bold">{heuristic.name}</h2>
+                    <p className="text-sm break-all whitespace-pre-wrap">
+                        {heuristic.description}
+                    </p>
+                    <p>
+                        <Debug data={currentScore.scoreValue} />
+                    </p>
 
-                <div className="flex flex-col gap-3 justify-between mt-2">
-                    <div className="max-w-sm">
-                        <Range
-                            type={"range"}
-                            id={id}
-                            min={0}
-                            max={5}
-                            value={scoreValue}
-                            onChange={handleChangeRange}
+                    <div className="flex flex-col gap-3 justify-between mt-2">
+                        <div className="max-w-sm">
+                            <Range
+                                type={"range"}
+                                id={id}
+                                min={0}
+                                max={5}
+                                value={scoreValue}
+                                onChange={handleChangeRange}
+                                disabled={getUserLevel(userType) > 2}
+                            />
+
+                            <small
+                                className="text-sm text-slate-500 pt-2"
+                                style={{
+                                    color: scoreDescription[scoreValue].color,
+                                }}
+                            >
+                                {scoreDescription[scoreValue].text}
+                            </small>
+                        </div>
+                        <div className="flex justify-between">
+                            <button
+                                className={`font-bold py-1 pr-3 text-sm text-primary w-40 whitespace-nowrap ${
+                                    enable ? "opacity-100" : "opacity-40"
+                                }`}
+                                onClick={() => setBoxOpen(!boxOpen)}
+                                disabled={!enable}
+                            >
+                                <span className="flex gap-2">
+                                    <svg
+                                        width="20"
+                                        height="23"
+                                        viewBox="0 0 20 23"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M2 0.221802H18V12.2218H16V2.2218H2V18.2218H10V20.2218H0V0.221802H2ZM4 4.2218H14V6.2218H4V4.2218ZM14 8.2218H4V10.2218H14V8.2218ZM4 12.2218H11V14.2218H4V12.2218ZM17 17.2218H20V19.2218H17V22.2218H15V19.2218H12V17.2218H15V14.2218H17V17.2218Z"
+                                            fill="#1E77FC"
+                                        />
+                                    </svg>
+                                    {boxOpen ? "Close" : "Add Evidence"}{" "}
+                                    {(text || evidenceUrl) && "✓"}
+                                </span>
+                            </button>
+                            {currentScore?.updates && (
+                                <small className="text-slate-400 text-xs">
+                                    Last updated by: <br />{" "}
+                                    {
+                                        currentScore.updates
+                                            ?.slice(-1)[0]
+                                            .user.name.split(" ")[0]
+                                    }{" "}
+                                    at{" "}
+                                    {new Date(
+                                        currentScore.updates?.slice(
+                                            -1
+                                        )[0].dateTime
+                                    ).toLocaleString("en-US", {
+                                        dateStyle: "medium",
+                                        timeStyle: "short",
+                                    })}
+                                </small>
+                            )}
+                        </div>
+
+                        <Evidence
+                            openBox={boxOpen}
+                            currentScore={currentScore}
+                            text={text}
+                            evidenceUrl={evidenceUrl}
+                            onChangeText={handleChangeText}
+                            onChangeEvidenceUrl={handleChangeEvidenceUrl}
+                            onSaveEvidence={onSaveEvidence}
+                            status={status}
+                            hid={heuristic.id}
                             disabled={getUserLevel(userType) > 2}
                         />
 
-                        <small
-                            className="text-sm text-slate-500 pt-2"
-                            style={{
-                                color: scoreDescription[scoreValue].color,
-                            }}
-                        >
-                            {scoreDescription[scoreValue].text}
-                        </small>
+                        {/* <Debug data={user}></Debug> */}
                     </div>
-                    <div className="flex justify-between">
-                        <button
-                            className={`font-bold py-1 pr-3 text-sm text-primary w-40 whitespace-nowrap ${
-                                enable ? "opacity-100" : "opacity-40"
-                            }`}
-                            onClick={() => setBoxOpen(!boxOpen)}
-                            disabled={!enable}
-                        >
-                            <span className="flex gap-2">
-                                <svg
-                                    width="20"
-                                    height="23"
-                                    viewBox="0 0 20 23"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M2 0.221802H18V12.2218H16V2.2218H2V18.2218H10V20.2218H0V0.221802H2ZM4 4.2218H14V6.2218H4V4.2218ZM14 8.2218H4V10.2218H14V8.2218ZM4 12.2218H11V14.2218H4V12.2218ZM17 17.2218H20V19.2218H17V22.2218H15V19.2218H12V17.2218H15V14.2218H17V17.2218Z"
-                                        fill="#1E77FC"
-                                    />
-                                </svg>
-                                {boxOpen ? "Close" : "Add Evidence"}{" "}
-                                {(text || evidenceUrl) && "✓"}
-                            </span>
-                        </button>
-                        {currentScore?.updates && (
-                            <small className="text-slate-400 text-xs">
-                                Last updated by: <br />{" "}
-                                {
-                                    currentScore.updates
-                                        ?.slice(-1)[0]
-                                        .user.name.split(" ")[0]
-                                }{" "}
-                                at{" "}
-                                {new Date(
-                                    currentScore.updates?.slice(-1)[0].dateTime
-                                ).toLocaleString("en-US", {
-                                    dateStyle: "medium",
-                                    timeStyle: "short",
-                                })}
-                            </small>
-                        )}
-                    </div>
-
-                    <Evidence
-                        openBox={boxOpen}
-                        currentScore={currentScore}
-                        text={text}
-                        evidenceUrl={evidenceUrl}
-                        onChangeText={handleChangeText}
-                        onChangeEvidenceUrl={handleChangeEvidenceUrl}
-                        onSaveEvidence={onSaveEvidence}
-                        status={status}
-                        hid={heuristic.id}
-                        disabled={getUserLevel(userType) > 2}
-                    />
-
-                    {/* <Debug data={user}></Debug> */}
                 </div>
-            </div>
-            <div
-                className={`transition fixed right-5 bottom-40 bg-green-600 text-white/80 flex items-center p-3 w-80 font-bold z-10 ${
-                    toast.open
-                        ? "translate-y-20 opacity-100"
-                        : "translate-y-60 opacity-0"
-                }`}
-            >
-                {toast.text}
+                <div
+                    className={`transition fixed right-5 bottom-40 bg-green-600 text-white/80 flex items-center p-3 w-80 font-bold z-10 ${
+                        toast.open
+                            ? "translate-y-20 opacity-100"
+                            : "translate-y-60 opacity-0"
+                    }`}
+                >
+                    {toast.text}
+                </div>
             </div>
         </li>
     );

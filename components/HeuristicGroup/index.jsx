@@ -64,6 +64,18 @@ function HeuristicGroup({ group, allScoresJson, allScoresObj, index }) {
         0
     );
 
+    function getRoundedClass(collection, index) {
+        if (index === 0) {
+            return " rounded-tr-lg rounded-tl-lg ";
+        }
+
+        if (collection.length === index + 1) {
+            return " rounded-br-lg rounded-bl-lg ";
+        }
+
+        return "";
+    }
+
     return (
         <section
             ref={containerRef}
@@ -89,8 +101,8 @@ function HeuristicGroup({ group, allScoresJson, allScoresObj, index }) {
                     ></Donnut>
                 </div>
             </header>
-            <ul className="bg-white dark:bg-slate-800 pt-8 pb-1 px-4 pr-8 rounded-lg shadow-lg">
-                {heuristicsToMap.map((heuristicItem) => {
+            <ul className="bg-white dark:bg-slate-800 rounded-lg shadow-lg">
+                {heuristicsToMap.map((heuristicItem, index) => {
                     return (
                         <HeuristicItem
                             key={heuristicItem.id}
@@ -98,6 +110,7 @@ function HeuristicGroup({ group, allScoresJson, allScoresObj, index }) {
                             heuristic={heuristicItem}
                             allScoresJson={allScoresJson}
                             allScoresObj={allScoresObj}
+                            className={getRoundedClass(heuristicsToMap, index)}
                         />
                     );
                 })}
