@@ -180,7 +180,7 @@ function HeuristicItem({
         setStatus("loading");
 
         doTheChangeInScoreObj(allScoresObjJsonClone, null, () => {
-            setStatus("saved");
+            // setStatus("loading");
         });
     }, [scoreValue, scoreHasChanged]);
 
@@ -295,7 +295,7 @@ function HeuristicItem({
             allScoresObjJsonClone,
             `Evidence for Heuristic ${currentScore.heuristic.heuristicNumber} updated!`,
             () => {
-                // setStatus("saved");
+                // setStatus("changed");
             }
         );
     }
@@ -316,7 +316,8 @@ function HeuristicItem({
      */
 
     useEffect(() => {
-        if (currentScore?.scoreValue === scoreValue) {
+        if (currentScore?.scoreValue === scoreValue && status === "loading") {
+            setStatus("saved");
             toastMessage(
                 `Score for Heuristic ${currentScore?.heuristic.heuristicNumber} updated!`
             );
@@ -324,17 +325,21 @@ function HeuristicItem({
     }, [currentScore?.scoreValue]);
 
     useEffect(() => {
-        setStatus("saved");
-        toastMessage(
-            `Justify for Heuristic ${currentScore?.heuristic.heuristicNumber} updated!`
-        );
+        if (status == "loading") {
+            setStatus("saved");
+            toastMessage(
+                `Justify for Heuristic ${currentScore?.heuristic.heuristicNumber} updated!`
+            );
+        }
     }, [currentScore?.note]);
 
     useEffect(() => {
-        setStatus("saved");
-        toastMessage(
-            `Evidence files for Heuristic ${currentScore?.heuristic.heuristicNumber} updated!`
-        );
+        if (status == "loading") {
+            setStatus("saved");
+            toastMessage(
+                `Evidence files for Heuristic ${currentScore?.heuristic.heuristicNumber} updated!`
+            );
+        }
     }, [currentScore?.evidenceUrl]);
 
     if (empty) {
