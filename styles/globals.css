@@ -4,48 +4,46 @@
 
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .fullPage {
-  margin-left: calc((100vw - 1024px + 0px)/2 * -1);
-  
+    margin-left: calc((100vw - 1024px + 0px) / 2 * -1);
 }
 
 @media (max-width: 1024px) {
-  .fullPage {
-    margin-left: calc((100vw - 64rem + 40px)/2 * -1);
-  }
+    .fullPage {
+        margin-left: calc((100vw - 64rem + 40px) / 2 * -1);
+    }
 }
 @media (max-width: 768px) {
-  .fullPage {
-    /* margin-left: calc((100vw - 768px + 40px)/2 * -1); */
-    margin-left: -20px;
-  }
+    .fullPage {
+        /* margin-left: calc((100vw - 768px + 40px)/2 * -1); */
+        margin-left: -20px;
+    }
 
-  .switch-scroll {
-    box-shadow: -18px 0px 22px -10px inset #00000033;
-  }
-
+    .switch-scroll {
+        box-shadow: -18px 0px 22px -10px inset #00000033;
+    }
 }
 @media (max-width: 425px) {
-  .fullPage {
-    /* margin-left: calc((100vw - 425px + 40px)/2 * -1); */
-    margin-left: -20px;
-  }
-
+    .fullPage {
+        /* margin-left: calc((100vw - 425px + 40px)/2 * -1); */
+        margin-left: -20px;
+    }
 }
 /* @media (prefers-color-scheme: dark) {
   html {
@@ -58,9 +56,10 @@ a {
 } */
 
 html.dark {
-  color-scheme: dark;
+    color-scheme: dark;
 }
 .dark body {
-  color: rgba(255, 255, 255, .7);
-  background: rgb(25, 35, 55);
+    color: rgba(255, 255, 255, 0.7);
+    background: rgb(25, 35, 55);
 }
+/* Test */
