@@ -366,7 +366,7 @@ function HeuristicItem({
                 </div>
                 <div className="w-full">
                     <h2 className="text-lg mb-2 font-bold">{heuristic.name}</h2>
-                    <p className="text-sm xs:break-all xs:whitespace-pre-wrap">
+                    <p className="text-sm __break-all whitespace-pre-wrap">
                         {heuristic.description}
                     </p>
                     {/* <p>
