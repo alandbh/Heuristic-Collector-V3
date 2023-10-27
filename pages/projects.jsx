@@ -92,7 +92,7 @@ function Projects(props) {
                     href="/android-chrome-192x192.png"
                 ></link>
             </Head>
-            <ClientOnly>
+            <ClientOnly className="flex flex-col h-screen">
                 <div className="flex px-4 w-full justify-between my-10">
                     <Link href={`/`}>
                         <a>
@@ -157,10 +157,15 @@ function Projects(props) {
                         </h1>
                     </div>
                 )}
-                <div className="m-4 mt-20 md:m-10 md:mt-28 flex flex-wrap gap-5 md:gap-10 justify-center">
+                <div className=" px-4 mx-auto md:mt-10 flex flex-wrap gap-6 md:gap-10 sm:justify-center md:justify-items-start">
                     {projectsToMap?.map((proj) => (
                         <Card key={proj.id} data={proj} />
                     ))}
+                </div>
+                <div className="flex flex-col flex-1 mt-auto align-baseline">
+                    <pre className="text-xs text-slate-500 mt-auto">
+                        Environment: {process.env.NODE_ENV}
+                    </pre>
                 </div>
             </ClientOnly>
         </>
