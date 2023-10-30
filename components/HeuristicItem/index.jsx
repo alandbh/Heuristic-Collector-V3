@@ -208,6 +208,22 @@ function HeuristicItem({
             setScoreHasChanged(true);
         }, 400);
     }
+    async function handleChangeScore(scoreValue) {
+        // const newScoreValue = Number(ev.target.value);
+        setScoreValue(Number(scoreValue));
+
+        // await delayv2(400);
+
+        // const newScoresJson = await getNewScoresJson();
+
+        // setScoreHasChanged(true);
+
+        delay(async () => {
+            const newScoresJson = await getNewScoresJson();
+
+            setScoreHasChanged(true);
+        }, 400);
+    }
 
     /**
      *
@@ -385,6 +401,13 @@ function HeuristicItem({
                                 disabled={getUserLevel(userType) > 2}
                             />
 
+                            <ScoreButtons
+                                id={id}
+                                scoreValue={scoreValue}
+                                disabled={getUserLevel(userType) > 2}
+                                onChangeScore={handleChangeScore}
+                            />
+
                             <small
                                 className="text-sm text-slate-500 pt-2"
                                 style={{
@@ -471,3 +494,78 @@ function HeuristicItem({
 }
 
 export default HeuristicItem;
+
+// type={"range"}
+// id={id}
+// min={0}
+// max={5}
+// value={scoreValue}
+// onChange={handleChangeRange}
+// disabled={getUserLevel(userType) > 2}
+
+function ScoreButtons({ id, scoreValue, onChangeScore, disabled }) {
+    // const [score, setScore] = useState(scoreValue);
+    const amoutOfButtons = 6;
+
+    const buttonsArray = Array.from(Array(amoutOfButtons).keys());
+
+    function getClass(buttonValue) {
+        const baseStyle = "w-10 h-10 rounded-full font-bold text-white ";
+
+        const activeStyle = {
+            0: "bg-slate-400",
+            1: "bg-red-700",
+            2: "bg-red-500",
+            3: "bg-orange-500",
+            4: "bg-green-400",
+            5: "bg-green-500",
+        };
+
+        return buttonValue === scoreValue
+            ? baseStyle + activeStyle[buttonValue]
+            : baseStyle + " bg-slate-300";
+    }
+    let buttonTimeout;
+
+    function handlePressingNumber(event) {
+        const buttonValue = event.target.dataset.value;
+        const delay = event.target.dataset.delay || 2000;
+
+        if (event.type === "mousedown") {
+            if (buttonTimeout) {
+                buttonTimeout = null;
+            }
+            buttonTimeout = setTimeout(() => {
+                // setScore(buttonValue)
+                console.log("MUDOUUUUU", buttonValue);
+                onChangeScore(buttonValue);
+                // handleChangeScore(buttonValue);
+            }, delay);
+
+            return;
+        }
+
+        console.log("SOLTAAA");
+        clearTimeout(buttonTimeout);
+
+        // console.log("botao", event.type);
+    }
+    return (
+        <div className="flex gap-4" id={id}>
+            {buttonsArray.map((item, index) => (
+                <button
+                    key={index + "-button-" + new Date().getTime()}
+                    onMouseDown={(ev) => handlePressingNumber(ev)}
+                    onMouseUp={(ev) => handlePressingNumber(ev)}
+                    data-value={index}
+                    className={
+                        getClass(index) + " " + "hover:scale-125 transition"
+                    }
+                    disabled={disabled}
+                >
+                    {index}
+                </button>
+            ))}
+        </div>
+    );
+}
