@@ -1,10 +1,15 @@
-function Spinner({ radius = 10, thick = 4, colorClass = "slate-200" }) {
+function Spinner({
+    radius = 10,
+    thick = 4,
+    colorClass = "slate-200",
+    className,
+}) {
     const size = radius * 2 + thick;
     const center = radius + thick / 2;
     const dashArray = 2 * 3.14 * radius * 0.7;
 
     return (
-        <div className={`text-${colorClass}`}>
+        <div className={`text-${colorClass} ${className}`}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

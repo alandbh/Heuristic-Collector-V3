@@ -11,6 +11,7 @@ import Evidence from "../Evidence";
 import client from "../../lib/apollo";
 import { processChange, delay, getUserLevel, delayv2 } from "../../lib/utils";
 import { MUTATION_SCORE_OBJ } from "../../lib/mutations";
+import Spinner from "../Spinner";
 
 /**
  *
@@ -502,14 +503,21 @@ export default HeuristicItem;
 // value={scoreValue}
 // onChange={handleChangeRange}
 // disabled={getUserLevel(userType) > 2}
-
-function ScoreButtons({ id, scoreValue, onChangeScore, disabled }) {
+let buttonTimeout;
+function ScoreButtons({
+    id,
+    scoreValue,
+    onChangeScore,
+    disabled,
+    amoutOfButtons = 6,
+}) {
     // const [score, setScore] = useState(scoreValue);
-    const amoutOfButtons = 6;
+    const [buttonActive, setButtonActive] = useState(null);
+    // const amoutOfButtons = 6;
 
     const buttonsArray = Array.from(Array(amoutOfButtons).keys());
 
-    function getClass(buttonValue) {
+    function getButtonClass(buttonValue) {
         const baseStyle = "w-10 h-10 rounded-full font-bold text-white ";
 
         const activeStyle = {
@@ -525,9 +533,15 @@ function ScoreButtons({ id, scoreValue, onChangeScore, disabled }) {
             ? baseStyle + activeStyle[buttonValue]
             : baseStyle + " bg-slate-300";
     }
-    let buttonTimeout;
 
     function handlePressingNumber(event) {
+        const buttonValue = event.target.dataset.value;
+        setButtonActive(buttonValue);
+
+        handleHoldButton(event);
+    }
+
+    function handleHoldButton(event) {
         const buttonValue = event.target.dataset.value;
         const delay = event.target.dataset.delay || 2000;
 
@@ -546,26 +560,45 @@ function ScoreButtons({ id, scoreValue, onChangeScore, disabled }) {
         }
 
         console.log("SOLTAAA");
+        setButtonActive(null);
         clearTimeout(buttonTimeout);
 
         // console.log("botao", event.type);
     }
+
     return (
         <div className="flex gap-4" id={id}>
             {buttonsArray.map((item, index) => (
-                <button
-                    key={index + "-button-" + new Date().getTime()}
-                    onMouseDown={(ev) => handlePressingNumber(ev)}
-                    onMouseUp={(ev) => handlePressingNumber(ev)}
-                    data-value={index}
-                    className={
-                        getClass(index) + " " + "hover:scale-125 transition"
-                    }
-                    disabled={disabled}
-                >
-                    {index}
-                </button>
+                <div key={index + "-button-" + new Date().getTime()}>
+                    <div
+                        className={`relative ${
+                            index == buttonActive ? "opacity-100" : "opacity-0"
+                        }`}
+                    >
+                        <Spinner
+                            colorClass="blue-500"
+                            radius={22}
+                            thick={4}
+                            className="absolute z-0 scale-125"
+                        />
+                    </div>
+                    <button
+                        onMouseDown={(ev) => handlePressingNumber(ev)}
+                        onMouseUp={(ev) => handlePressingNumber(ev)}
+                        data-value={index}
+                        className={
+                            getButtonClass(index) +
+                            " " +
+                            " hover:scale-125 transition z-1 relative top-1 left-1"
+                        }
+                        disabled={disabled}
+                    >
+                        {index}
+                    </button>
+                </div>
             ))}
+
+            {<Debug data={buttonActive} />}
         </div>
     );
 }
