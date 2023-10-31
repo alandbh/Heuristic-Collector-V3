@@ -515,11 +515,16 @@ function ScoreButtons({
     const [buttonActive, setButtonActive] = useState(null);
     // const amoutOfButtons = 6;
 
+    // useEffect(() => {
+    //     setButtonActive(null);
+    //     clearTimeout(buttonTimeout);
+    // }, [scoreValue]);
+
     const buttonsArray = Array.from(Array(amoutOfButtons).keys());
 
     function getButtonClass(buttonValue) {
         const baseStyle =
-            "w-10 h-10 rounded-full font-bold text-white hover:scale-125 focus:scale-125 focus:outline-none active:scale-125  transition ";
+            "w-10 h-10 rounded-full font-bold text-white hover:scale-125 focus:scale-125 focus:outline-none  transition ";
 
         const activeStyle = {
             0: "bg-slate-600 opacity-100 scale-125",
@@ -562,7 +567,7 @@ function ScoreButtons({
                 console.log("MUDOUUUUU", buttonValue);
                 onChangeScore(buttonValue);
                 clearButtonTimeout();
-                // setButtonActive(null);
+                setButtonActive(null);
                 // handleChangeScore(buttonValue);
             }, delay);
 
@@ -571,9 +576,9 @@ function ScoreButtons({
             clearButtonTimeout();
         }
 
-        console.log("SOLTAAA");
-        setButtonActive(null);
-        clearTimeout(buttonTimeout);
+        // console.log("SOLTAAA");
+        // setButtonActive(null);
+        // clearTimeout(buttonTimeout);
 
         function clearButtonTimeout() {
             console.log("SOLTAAA");
