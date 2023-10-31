@@ -392,7 +392,7 @@ function HeuristicItem({
 
                     <div className="flex flex-col gap-3 justify-between mt-2">
                         <div className="max-w-sm">
-                            <Range
+                            {/* <Range
                                 type={"range"}
                                 id={id}
                                 min={0}
@@ -400,7 +400,7 @@ function HeuristicItem({
                                 value={scoreValue}
                                 onChange={handleChangeRange}
                                 disabled={getUserLevel(userType) > 2}
-                            />
+                            /> */}
 
                             <ScoreButtons
                                 id={id}
@@ -518,20 +518,22 @@ function ScoreButtons({
     const buttonsArray = Array.from(Array(amoutOfButtons).keys());
 
     function getButtonClass(buttonValue) {
-        const baseStyle = "w-10 h-10 rounded-full font-bold text-white ";
+        const baseStyle =
+            "w-10 h-10 rounded-full font-bold text-white hover:scale-125 focus:scale-125 focus:outline-none active:scale-125  transition ";
 
         const activeStyle = {
-            0: "bg-slate-400",
-            1: "bg-red-700",
-            2: "bg-red-500",
-            3: "bg-orange-500",
-            4: "bg-green-400",
-            5: "bg-green-500",
+            0: "bg-slate-600 opacity-100 scale-125",
+            1: "bg-red-700 opacity-100 scale-125",
+            2: "bg-red-500 opacity-100 scale-125",
+            3: "bg-orange-500 opacity-100 scale-125",
+            4: "bg-green-400 opacity-100 scale-125",
+            5: "bg-green-500 opacity-100 scale-125",
         };
 
         return buttonValue === scoreValue
             ? baseStyle + activeStyle[buttonValue]
-            : baseStyle + " bg-slate-300";
+            : baseStyle +
+                  " bg-blue-400 opacity-60 hover:opacity-100 focus:opacity-100";
     }
 
     function handlePressingNumber(event) {
@@ -544,8 +546,14 @@ function ScoreButtons({
     function handleHoldButton(event) {
         const buttonValue = event.target.dataset.value;
         const delay = event.target.dataset.delay || 2000;
+        console.log({ event });
 
-        if (event.type === "mousedown") {
+        if (
+            event.type === "mousedown" ||
+            (event.key === "Enter" &&
+                event.type === "keydown" &&
+                event.shiftKey === true)
+        ) {
             if (buttonTimeout) {
                 buttonTimeout = null;
             }
@@ -553,15 +561,25 @@ function ScoreButtons({
                 // setScore(buttonValue)
                 console.log("MUDOUUUUU", buttonValue);
                 onChangeScore(buttonValue);
+                clearButtonTimeout();
+                // setButtonActive(null);
                 // handleChangeScore(buttonValue);
             }, delay);
 
             return;
+        } else {
+            clearButtonTimeout();
         }
 
         console.log("SOLTAAA");
         setButtonActive(null);
         clearTimeout(buttonTimeout);
+
+        function clearButtonTimeout() {
+            console.log("SOLTAAA");
+            setButtonActive(null);
+            clearTimeout(buttonTimeout);
+        }
 
         // console.log("botao", event.type);
     }
@@ -569,7 +587,10 @@ function ScoreButtons({
     return (
         <div className="flex gap-4" id={id}>
             {buttonsArray.map((item, index) => (
-                <div key={index + "-button-" + new Date().getTime()}>
+                <div
+                    key={index + "-button-" + new Date().getTime()}
+                    className="my-4"
+                >
                     <div
                         className={`relative ${
                             index == buttonActive ? "opacity-100" : "opacity-0"
@@ -585,20 +606,21 @@ function ScoreButtons({
                     <button
                         onMouseDown={(ev) => handlePressingNumber(ev)}
                         onMouseUp={(ev) => handlePressingNumber(ev)}
+                        onKeyDown={(ev) => handlePressingNumber(ev)}
                         data-value={index}
                         className={
                             getButtonClass(index) +
                             " " +
-                            " hover:scale-125 transition z-1 relative top-1 left-1"
+                            " z-1 relative top-1 left-1"
                         }
-                        disabled={disabled}
+                        disabled={disabled || index == scoreValue}
                     >
                         {index}
                     </button>
                 </div>
             ))}
 
-            {<Debug data={buttonActive} />}
+            {/* {<Debug data={buttonActive} />} */}
         </div>
     );
 }
