@@ -11,7 +11,7 @@ import Evidence from "../Evidence";
 import client from "../../lib/apollo";
 import { processChange, delay, getUserLevel, delayv2 } from "../../lib/utils";
 import { MUTATION_SCORE_OBJ } from "../../lib/mutations";
-import Spinner from "../Spinner";
+import ScoreButtons from "../ScoreButtons";
 
 /**
  *
@@ -363,6 +363,11 @@ function HeuristicItem({
         return <div>Empty</div>;
     }
 
+    const isMobile =
+        typeof navigator !== "undefined"
+            ? /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+            : true;
+
     return (
         <li
             id={heuristic.id}
@@ -373,7 +378,7 @@ function HeuristicItem({
                     evidenceUrl.trim().length > 0 &&
                     status === "saved"
                         ? "bg-blue-50 dark:bg-blue-900/50 border-l-[6px] border-blue-500"
-                        : ""
+                        : "border-l-[6px] border-transparent"
                 }  ` + className
             }
         >
@@ -392,22 +397,24 @@ function HeuristicItem({
 
                     <div className="flex flex-col gap-3 justify-between mt-2">
                         <div className="max-w-sm">
-                            {/* <Range
-                                type={"range"}
-                                id={id}
-                                min={0}
-                                max={5}
-                                value={scoreValue}
-                                onChange={handleChangeRange}
-                                disabled={getUserLevel(userType) > 2}
-                            /> */}
-
-                            <ScoreButtons
-                                id={id}
-                                scoreValue={scoreValue}
-                                disabled={getUserLevel(userType) > 2}
-                                onChangeScore={handleChangeScore}
-                            />
+                            {isMobile ? (
+                                <Range
+                                    type={"range"}
+                                    id={id}
+                                    min={0}
+                                    max={5}
+                                    value={scoreValue}
+                                    onChange={handleChangeRange}
+                                    disabled={getUserLevel(userType) > 2}
+                                />
+                            ) : (
+                                <ScoreButtons
+                                    id={id}
+                                    scoreValue={scoreValue}
+                                    disabled={getUserLevel(userType) > 2}
+                                    onChangeScore={handleChangeScore}
+                                />
+                            )}
 
                             <small
                                 className="text-sm text-slate-500 pt-2"
@@ -495,137 +502,3 @@ function HeuristicItem({
 }
 
 export default HeuristicItem;
-
-// type={"range"}
-// id={id}
-// min={0}
-// max={5}
-// value={scoreValue}
-// onChange={handleChangeRange}
-// disabled={getUserLevel(userType) > 2}
-let buttonTimeout;
-function ScoreButtons({
-    id,
-    scoreValue,
-    onChangeScore,
-    disabled,
-    amoutOfButtons = 6,
-}) {
-    // const [score, setScore] = useState(scoreValue);
-    const [buttonActive, setButtonActive] = useState(null);
-    // const amoutOfButtons = 6;
-
-    // useEffect(() => {
-    //     setButtonActive(null);
-    //     clearTimeout(buttonTimeout);
-    // }, [scoreValue]);
-
-    const buttonsArray = Array.from(Array(amoutOfButtons).keys());
-
-    function getButtonClass(buttonValue) {
-        const baseStyle =
-            "w-10 h-10 rounded-full font-bold text-white hover:scale-125 focus:scale-125 focus:outline-none  transition ";
-
-        const activeStyle = {
-            0: "bg-slate-600 opacity-100 scale-125",
-            1: "bg-red-700 opacity-100 scale-125",
-            2: "bg-red-500 opacity-100 scale-125",
-            3: "bg-orange-500 opacity-100 scale-125",
-            4: "bg-green-400 opacity-100 scale-125",
-            5: "bg-green-500 opacity-100 scale-125",
-        };
-
-        return buttonValue === scoreValue
-            ? baseStyle + activeStyle[buttonValue]
-            : baseStyle +
-                  " bg-blue-400 opacity-60 hover:opacity-100 focus:opacity-100";
-    }
-
-    function handlePressingNumber(event) {
-        const buttonValue = event.target.dataset.value;
-        setButtonActive(buttonValue);
-
-        handleHoldButton(event);
-    }
-
-    function handleHoldButton(event) {
-        const buttonValue = event.target.dataset.value;
-        const delay = event.target.dataset.delay || 2000;
-        console.log({ event });
-
-        if (
-            event.type === "mousedown" ||
-            (event.key === "Enter" &&
-                event.type === "keydown" &&
-                event.shiftKey === true)
-        ) {
-            if (buttonTimeout) {
-                buttonTimeout = null;
-            }
-            buttonTimeout = setTimeout(() => {
-                // setScore(buttonValue)
-                console.log("MUDOUUUUU", buttonValue);
-                onChangeScore(buttonValue);
-                clearButtonTimeout();
-                setButtonActive(null);
-                // handleChangeScore(buttonValue);
-            }, delay);
-
-            return;
-        } else {
-            clearButtonTimeout();
-        }
-
-        // console.log("SOLTAAA");
-        // setButtonActive(null);
-        // clearTimeout(buttonTimeout);
-
-        function clearButtonTimeout() {
-            console.log("SOLTAAA");
-            setButtonActive(null);
-            clearTimeout(buttonTimeout);
-        }
-
-        // console.log("botao", event.type);
-    }
-
-    return (
-        <div className="flex gap-4" id={id}>
-            {buttonsArray.map((item, index) => (
-                <div
-                    key={index + "-button-" + new Date().getTime()}
-                    className="my-4"
-                >
-                    <div
-                        className={`relative ${
-                            index == buttonActive ? "opacity-100" : "opacity-0"
-                        }`}
-                    >
-                        <Spinner
-                            colorClass="blue-500"
-                            radius={22}
-                            thick={4}
-                            className="absolute z-0 scale-125"
-                        />
-                    </div>
-                    <button
-                        onMouseDown={(ev) => handlePressingNumber(ev)}
-                        onMouseUp={(ev) => handlePressingNumber(ev)}
-                        onKeyDown={(ev) => handlePressingNumber(ev)}
-                        data-value={index}
-                        className={
-                            getButtonClass(index) +
-                            " " +
-                            " z-1 relative top-1 left-1"
-                        }
-                        disabled={disabled || index == scoreValue}
-                    >
-                        {index}
-                    </button>
-                </div>
-            ))}
-
-            {/* {<Debug data={buttonActive} />} */}
-        </div>
-    );
-}
