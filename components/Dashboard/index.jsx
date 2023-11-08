@@ -147,13 +147,16 @@ function getPlayerPercentage(params) {
     const scoresByPlayerByJourney = journey
         ? scoresByPlayer.filter((score) => score.journeySlug === journey)
         : scoresByPlayer;
-    const zeroedsByPlayer = scoresByPlayerByJourney.filter(
-        (score) => score.scoreValue === 0
-    );
 
     const totalAmountOfScores = scoresByPlayerByJourney.length;
-    const totalAmountOfZeroedScores = zeroedsByPlayer.length;
-    const totalDone = totalAmountOfScores - totalAmountOfZeroedScores;
+
+    const totalDone = scoresByPlayerByJourney.filter((score) => {
+        return (
+            score.evidenceUrl.trim().length > 0 &&
+            score.note.trim().length &&
+            score.scoreValue > 0
+        );
+    }).length;
 
     const division = isNaN(totalDone / totalAmountOfScores)
         ? 0
@@ -164,6 +167,7 @@ function getPlayerPercentage(params) {
     // );
 
     console.log("scoresByPlayer percentage", {
+        scoresByPlayerByJourney,
         total: totalAmountOfScores,
         done: totalDone,
         percentage,
@@ -224,10 +228,6 @@ function hasBlocker(params) {
 
     const blocked = getBlockedPlayers({ findings, journey });
     return blocked.some((bplayer) => bplayer.playerSlug === player.playerSlug);
-
-    return playerObj.finding.some(
-        (obj) => obj.findingObject.theType === "blocker"
-    );
 }
 
 function getUnique(arr, key = null, subkey = null) {
