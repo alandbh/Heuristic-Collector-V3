@@ -231,16 +231,12 @@ function GroupContainer({ data }) {
 
         // se não tiver scores registrados, cria novos scores zerados.
         if (allScoresObjContext?.length === 0 && allScoresJson !== null) {
-            createNewScores();
-            console.log("singleScore contect", allScoresObjContext);
+            createMultipleZeroedScores();
         }
 
-        function createNewScores() {
+        function createMultipleZeroedScores() {
             let allScoresObjJson = JSON.stringify(allScoresJson);
             let allScoresObjJsonClone = JSON.parse(allScoresObjJson);
-
-            console.log("singleScore clone zero", allScoresObjJsonClone);
-            // return;
 
             data.groups.forEach((group) => {
                 group.heuristic.forEach((heuristic) => {
@@ -248,12 +244,14 @@ function GroupContainer({ data }) {
                     if (
                         isANotApplicableHeuristic(heuristic, currentPlayer.slug)
                     ) {
+                        console.log("pq nao - isANotApplicableHeuristic");
                         return;
                     }
 
                     if (
                         !isPresentInThisJourney(heuristic, currentJourney.slug)
                     ) {
+                        console.log("pq nao - isPresentInThisJourney");
                         return;
                     }
 

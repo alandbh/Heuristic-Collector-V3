@@ -141,7 +141,7 @@ export function ScoresObjWrapper({ children }) {
         setScoresLoading(false);
 
         if (isScoresObjectEmpty(data.players[0]["scoresObject"])) {
-            console.log("isNotEmpty SIM", allScoresJson);
+            console.log("isEmpty SIM", allScoresJson);
             let scoresObjModel = {};
 
             data?.players[0]["journeys"].map((journey) => {

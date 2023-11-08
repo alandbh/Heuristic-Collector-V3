@@ -56,6 +56,46 @@ function HeuristicItem({
     //     getNewScoresObj();
     // }, [router.query.journey]);
 
+    const createSingleZeroedScore = useCallback(() => {
+        // console.log("criando novo - avulso");
+
+        let allScoresObjJson = JSON.stringify(allScoresJson);
+        let allScoresObjJsonClone = JSON.parse(allScoresObjJson);
+
+        // console.log("singleScore clone zero", allScoresObjJsonClone);
+
+        let singleScore = {};
+
+        singleScore.id = `${router.query.player}-${router.query.journey}-h${heuristic.heuristicNumber}`;
+        singleScore.note = "";
+        singleScore.group = { name: heuristic.group.name };
+        singleScore.heuristic = {
+            heuristicNumber: heuristic.heuristicNumber,
+        };
+        singleScore.scoreValue = 0;
+        singleScore.evidenceUrl = "";
+
+        // console.log("singleScore", singleScore);
+
+        allScoresObjJsonClone[router.query.journey]?.push(singleScore);
+
+        processChange(
+            client,
+            {
+                playerId: currentPlayer.id,
+                scoresObj: allScoresObjJsonClone,
+            },
+            MUTATION_SCORE_OBJ,
+            true
+        );
+    }, [
+        allScoresJson,
+        router.query.journey,
+        currentPlayer,
+        heuristic,
+        router.query.player,
+    ]);
+
     useEffect(() => {
         // debugger;
         if (currentScore) {
@@ -67,9 +107,11 @@ function HeuristicItem({
             }
             setEmpty(false);
         } else {
-            console.log("allScoresObj", "YESSSS EMPTY");
             setEmpty(true);
-            setScoreValue(0);
+
+            if (allScoresObj?.length > 0) {
+                createSingleZeroedScore();
+            }
         }
     }, [
         currentScore,
@@ -78,6 +120,7 @@ function HeuristicItem({
         userType,
         allScoresObj,
         allScoresJson,
+        createSingleZeroedScore,
     ]);
 
     /**
