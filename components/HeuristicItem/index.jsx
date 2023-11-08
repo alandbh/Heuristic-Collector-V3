@@ -458,15 +458,23 @@ function HeuristicItem({
                                             ?.slice(-1)[0]
                                             .user.name.split(" ")[0]
                                     }{" "}
-                                    at{" "}
-                                    {new Date(
-                                        currentScore.updates?.slice(
-                                            -1
-                                        )[0].dateTime
-                                    ).toLocaleString("en-US", {
-                                        dateStyle: "medium",
-                                        timeStyle: "short",
-                                    })}
+                                    <span
+                                        className={
+                                            getUserLevel(userType) > 1
+                                                ? "hidden"
+                                                : ""
+                                        }
+                                    >
+                                        at{" "}
+                                        {new Date(
+                                            currentScore.updates?.slice(
+                                                -1
+                                            )[0].dateTime
+                                        ).toLocaleString("en-US", {
+                                            dateStyle: "medium",
+                                            timeStyle: "short",
+                                        })}
+                                    </span>
                                 </small>
                             )}
                         </div>
