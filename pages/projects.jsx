@@ -9,6 +9,7 @@ import Logo from "../components/Logo";
 import LoggedUser from "../components/LoggedUser";
 import Link from "next/link";
 import Head from "next/head";
+import { isUserAuthorized } from "../lib/utils";
 
 const QUERY_PROJECTS = gql`
     query {
@@ -174,13 +175,13 @@ function Projects(props) {
 
 export default Projects;
 
-function isUserAuthorized(user) {
-    if (
-        user?.email.includes("alandbh@gmail.com") ||
-        user?.email.includes("alanfuncionario@gmail.com") ||
-        user?.email.includes("cindy.gcp.rga") ||
-        user?.email.includes("@rga.com")
-    ) {
-        return true;
-    }
-}
+// function isUserAuthorized(user) {
+//     if (
+//         user?.email.includes("alandbh@gmail.com") ||
+//         user?.email.includes("alanfuncionario@gmail.com") ||
+//         user?.email.includes("cindy.gcp.rga") ||
+//         user?.email.includes("@rga.com")
+//     ) {
+//         return true;
+//     }
+// }
