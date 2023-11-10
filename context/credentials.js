@@ -15,6 +15,9 @@ const QUERY_USER = gql`
             id
             email
             userType
+            project {
+                slug
+            }
         }
     }
 `;

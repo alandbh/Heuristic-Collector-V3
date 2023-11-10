@@ -32,15 +32,40 @@ const QUERY_PROJECTS = gql`
     }
 `;
 
+const QUERY_USER = gql`
+    query getRgaUser($email: String) {
+        rgaUsers(where: { email: $email }) {
+            id
+            email
+            userType
+            project {
+                slug
+            }
+        }
+    }
+`;
+
 function Projects(props) {
     const { data, loading, error } = useQuery(QUERY_PROJECTS);
     console.log(data?.projects);
     const [user, loadingUser] = useAuthState(auth);
     const router = useRouter();
+    const { data: rgaUsersRetrieved } = useQuery(QUERY_USER, {
+        variables: { email: user?.email },
+    });
+
     // console.log("withPageAuthRequired", props.user);
     // const { user, error: errorUser, isLoading } = useUser();
 
-    console.log("user-", user);
+    function isPresentInThisProject(projectSlug) {
+        const projectsWhereThisUserIsPresent = rgaUsersRetrieved?.rgaUsers.map(
+            (user) => user.project.slug
+        );
+        console.log({ projectSlug });
+        return projectsWhereThisUserIsPresent?.includes(projectSlug);
+    }
+
+    // console.log("user-", rgaUsersRetrieved);
 
     if (typeof window !== "undefined") {
         if (!user && !loadingUser) {
@@ -61,7 +86,9 @@ function Projects(props) {
             return project.public === true;
         }
 
-        return true;
+        return isPresentInThisProject(project.slug);
+
+        // return true;
     });
 
     // console.log("projectsMap", projectsToMap);
@@ -174,14 +201,3 @@ function Projects(props) {
 }
 
 export default Projects;
-
-// function isUserAuthorized(user) {
-//     if (
-//         user?.email.includes("alandbh@gmail.com") ||
-//         user?.email.includes("alanfuncionario@gmail.com") ||
-//         user?.email.includes("cindy.gcp.rga") ||
-//         user?.email.includes("@rga.com")
-//     ) {
-//         return true;
-//     }
-// }
