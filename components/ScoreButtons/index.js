@@ -10,26 +10,27 @@ export default function ScoreButtons({
     amoutOfButtons = 6,
 }) {
     const [buttonActive, setButtonActive] = useState(null);
+    const [hintMessage, setHintMessage] = useState("");
 
     const buttonsArray = Array.from(Array(amoutOfButtons).keys());
 
     function getButtonClass(buttonValue) {
         const baseStyle =
-            "w-10 h-10 rounded-full font-bold text-white hover:scale-125 focus:scale-125 focus:outline-none  transition ";
+            "w-10 h-10 rounded-full font-bold hover:scale-125 focus:scale-125 focus:outline-none  transition ";
 
         const activeStyle = {
-            0: "bg-slate-600 opacity-100 scale-125",
-            1: "bg-red-700 opacity-100 scale-125",
-            2: "bg-red-500 opacity-100 scale-125",
-            3: "bg-orange-500 opacity-100 scale-125",
-            4: "bg-green-400 opacity-100 scale-125",
-            5: "bg-green-500 opacity-100 scale-125",
+            0: "bg-slate-600 opacity-100 scale-125 text-white",
+            1: "bg-red-700 opacity-100 scale-125 text-white",
+            2: "bg-red-500 opacity-100 scale-125 text-white",
+            3: "bg-orange-500 opacity-100 scale-125 text-white",
+            4: "bg-green-400 opacity-100 scale-125 text-white",
+            5: "bg-green-500 opacity-100 scale-125 text-white",
         };
 
         return buttonValue === scoreValue
             ? baseStyle + activeStyle[buttonValue]
             : baseStyle +
-                  " bg-blue-400 opacity-60 hover:opacity-100 focus:opacity-100";
+                  " bg-blue-100/50 opacity-70 text-blue-700 hover:opacity-100 focus:opacity-100 border border-2 border-blue-300";
     }
 
     const attrs = useLongPress(
@@ -44,6 +45,44 @@ export default function ScoreButtons({
             threshold: 2000,
         }
     );
+
+    function handlePressShiftEnter(event) {
+        if (
+            event.key === "Enter" &&
+            event.type === "keydown" &&
+            event.shiftKey === true
+        ) {
+            onChangeScore(event.target.dataset.value);
+            setButtonActive(null);
+        }
+    }
+
+    function handleMouseOver(event) {
+        if (event.type === "mouseover" && !event.target.disabled) {
+            console.log("MOUSE OVER", { targert: event.target });
+            setHintMessage("Press and hold to set a score");
+        } else {
+            setHintMessage("");
+            console.log("MOUSE OuTTTTT");
+        }
+    }
+
+    const lastButton =
+        scoreValue !== amoutOfButtons - 1
+            ? amoutOfButtons - 1
+            : amoutOfButtons - 2;
+
+    function handleOnFocus(event) {
+        if (event.type === "focus") {
+            setHintMessage("Press Shift + Enter do set a score");
+        } else if (
+            event.type === "blur" &&
+            Number(event.target.dataset.value) === lastButton
+        ) {
+            console.log("FOCUS", event.target.dataset.value);
+            setHintMessage("");
+        }
+    }
 
     // function handlePressingNumber(event) {
     //     const buttonValue = event.target.dataset.value;
@@ -137,8 +176,13 @@ export default function ScoreButtons({
     // }
 
     return (
-        <div className="flex flex-col gap-0 mt-4">
-            <div className="flex gap-5" id={id}>
+        <div className="flex flex-col gap-0 my-4">
+            <div
+                onMouseOver={(ev) => handleMouseOver(ev)}
+                onMouseOut={(ev) => handleMouseOver(ev)}
+                className="flex gap-5"
+                id={id}
+            >
                 {buttonsArray.map((item, index) => (
                     <div
                         key={index + "-button-" + new Date().getTime()}
@@ -159,12 +203,10 @@ export default function ScoreButtons({
                             />
                         </div>
                         <button
-                            // onMouseDown={(ev) => handlePressingNumber(ev)}
-                            // onMouseUp={(ev) => handlePressingNumber(ev)}
-                            // onKeyDown={(ev) => handlePressingNumber(ev)}
-                            // onTouchStart={(ev) => handleTouchStart(ev)}
-                            // // onTouchEnd={(ev) => handleTouchEnd(ev)}
-                            // onContextMenu={(ev) => ev.preventDefault()}
+                            onKeyDown={(ev) => handlePressShiftEnter(ev)}
+                            onFocus={(ev) => handleOnFocus(ev)}
+                            onBlur={(ev) => handleOnFocus(ev)}
+                            onContextMenu={(ev) => ev.preventDefault()}
                             {...attrs}
                             data-value={index}
                             className={
@@ -182,9 +224,8 @@ export default function ScoreButtons({
                 {/* {<Debug data={buttonActive} />} */}
                 {/* {<Debug data={valueTest} />} */}
             </div>
-            <small className="text-slate-500">
-                Press and hold to set a score
-            </small>
+
+            <small className="text-slate-500 h-3 -mt-1">{hintMessage}</small>
         </div>
     );
 }
