@@ -59,11 +59,9 @@ export default function ScoreButtons({
 
     function handleMouseOver(event) {
         if (event.type === "mouseover" && !event.target.disabled) {
-            console.log("MOUSE OVER", { targert: event.target });
             setHintMessage("Press and hold to set a score");
         } else {
             setHintMessage("");
-            console.log("MOUSE OuTTTTT");
         }
     }
 
@@ -79,7 +77,6 @@ export default function ScoreButtons({
             event.type === "blur" &&
             Number(event.target.dataset.value) === lastButton
         ) {
-            console.log("FOCUS", event.target.dataset.value);
             setHintMessage("");
         }
     }
