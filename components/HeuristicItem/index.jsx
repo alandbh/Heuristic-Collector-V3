@@ -71,8 +71,6 @@ function HeuristicItem({
             return;
         }
 
-        // console.log("singleScore clone zero", allScoresObjJsonClone);
-
         let singleScore = {};
 
         singleScore.id = `${router.query.player}-${router.query.journey}-h${heuristic.heuristicNumber}`;
