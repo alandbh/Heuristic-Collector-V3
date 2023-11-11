@@ -58,8 +58,18 @@ function HeuristicItem({
     const createSingleZeroedScore = useCallback(() => {
         // console.log("criando novo - avulso");
 
-        let allScoresObjJson = JSON.stringify(allScoresJson);
-        let allScoresObjJsonClone = JSON.parse(allScoresObjJson);
+        const allScoresObjJson = JSON.stringify(allScoresJson);
+        const allScoresObjJsonClone = JSON.parse(allScoresObjJson);
+
+        if (
+            allScoresObjJsonClone[router.query.journey].some(
+                (score) =>
+                    score.id ===
+                    `${router.query.player}-${router.query.journey}-h${heuristic.heuristicNumber}`
+            )
+        ) {
+            return;
+        }
 
         // console.log("singleScore clone zero", allScoresObjJsonClone);
 
