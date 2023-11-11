@@ -39,7 +39,7 @@ const QUERY_GROUPS = gql`
                 journeys {
                     slug
                 }
-                not_applicaple_players {
+                not_applicaple_players(first: 10000) {
                     slug
                 }
             }
