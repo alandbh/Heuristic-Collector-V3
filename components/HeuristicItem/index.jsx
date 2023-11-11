@@ -45,8 +45,7 @@ function HeuristicItem({
 
     const currentScore = allScoresObj?.find(
         (someScore) =>
-            Number(someScore.heuristic.heuristicNumber) ===
-            Number(heuristic.heuristicNumber)
+            someScore.heuristic.heuristicNumber === heuristic.heuristicNumber
     );
 
     // 25/04/2023
