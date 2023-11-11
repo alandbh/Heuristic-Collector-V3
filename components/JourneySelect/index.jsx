@@ -103,7 +103,7 @@ function JourneySelect({ compact = false }) {
     // console.log({allScoresJson});
 
     function getIncompleteScores(journeySlug) {
-        return allScoresJson[journeySlug].filter((score) => {
+        return allScoresJson[journeySlug]?.filter((score) => {
             return (
                 score.scoreValue === 0 ||
                 score.note.trim().length === 0 ||
@@ -112,7 +112,7 @@ function JourneySelect({ compact = false }) {
         }).length;
     }
     function getTotalScores(journeySlug) {
-        return allScoresJson[journeySlug].length;
+        return allScoresJson[journeySlug]?.length;
     }
 
     if (journeysData === null || allScoresJson === null) {

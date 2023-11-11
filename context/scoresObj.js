@@ -182,9 +182,10 @@ export function ScoresObjWrapper({ children }) {
         return null;
     }
 
-    window.scoresObj = data.players[0]
-        ? data?.players[0]["scoresObject"][router.query.journey]
-        : null;
+    window.scoresObj =
+        data.players[0] && data.players[0]["scoresObject"]
+            ? data?.players[0]["scoresObject"][router.query.journey]
+            : null;
 
     return (
         <ScoresObjContext.Provider
