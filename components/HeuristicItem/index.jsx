@@ -61,6 +61,10 @@ function HeuristicItem({
         const allScoresObjJson = JSON.stringify(allScoresJson);
         const allScoresObjJsonClone = JSON.parse(allScoresObjJson);
 
+        if (!allScoresObjJsonClone) {
+            return;
+        }
+
         if (
             allScoresObjJsonClone[router.query.journey].some(
                 (score) =>
@@ -117,7 +121,8 @@ function HeuristicItem({
             setEmpty(true);
 
             if (allScoresObj?.length > 0) {
-                createSingleZeroedScore();
+                // Suspeita de estar criando scores duplicados
+                // createSingleZeroedScore();
             }
         }
     }, [
