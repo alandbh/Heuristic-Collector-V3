@@ -20,6 +20,46 @@ const QUERY_ALL_JOURNEYS = gql`
     }
 `;
 
+function getUncompletedScores(params) {
+    const { scores, journey, player } = params;
+    let uncompleted;
+    if (scores && journey && player) {
+        uncompleted = scores?.filter(
+            (score) =>
+                (score.scoreValue === 0 ||
+                    score.evidenceUrl.trim().length === 0 ||
+                    score.note.trim().length === 0) &&
+                score.playerSlug === player &&
+                score.journeySlug === journey
+        );
+    } else if (scores && journey) {
+        uncompleted = scores?.filter(
+            (score) =>
+                (score.scoreValue === 0 ||
+                    score.evidenceUrl.trim().length === 0 ||
+                    score.note.trim().length === 0) &&
+                score.journeySlug === journey
+        );
+    } else if (scores && player) {
+        uncompleted = scores?.filter(
+            (score) =>
+                (score.scoreValue === 0 ||
+                    score.evidenceUrl.trim().length === 0 ||
+                    score.note.trim().length === 0) &&
+                score.playerSlug === player
+        );
+    } else {
+        uncompleted = scores?.filter(
+            (score) =>
+                score.scoreValue === 0 ||
+                score.evidenceUrl.trim().length === 0 ||
+                score.note.trim().length === 0
+        );
+    }
+
+    return uncompleted;
+}
+
 function getZeroedScores(params) {
     const { scores, journey, player } = params;
     let zeroed;
@@ -91,11 +131,27 @@ function getAllPlayersObj(params) {
 
     // return all unique players without any duplicates
 
-    return [
+    const allPlayersUnsorted = [
         ...new Map(
             playersArr.map((player) => [player.playerSlug, player])
         ).values(),
     ];
+
+    // sort players by name
+    // sort by name
+    return allPlayersUnsorted.sort((a, b) => {
+        const nameA = a.playerName.toUpperCase(); // ignore upper and lowercase
+        const nameB = b.playerName.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+            return -1;
+        }
+        if (nameA > nameB) {
+            return 1;
+        }
+
+        // names must be equal
+        return 0;
+    });
 
     // return [...new Set(playersArr)];
 
@@ -347,8 +403,9 @@ function Dashboard({ auth }) {
                             <div className="text-lg flex items-center gap-5">
                                 <b className="whitespace-nowrap text-sm md:text-xl">
                                     {allScores.length -
-                                        getZeroedScores({ scores: allScores })
-                                            .length}{" "}
+                                        getUncompletedScores({
+                                            scores: allScores,
+                                        }).length}{" "}
                                     of {allScores.length}
                                 </b>
 
@@ -356,8 +413,9 @@ function Dashboard({ auth }) {
                                     total={allScores.length}
                                     sum={
                                         allScores.length -
-                                        getZeroedScores({ scores: allScores })
-                                            .length
+                                        getUncompletedScores({
+                                            scores: allScores,
+                                        }).length
                                     }
                                     radius={25}
                                     thick={3}
