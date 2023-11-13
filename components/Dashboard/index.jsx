@@ -137,11 +137,11 @@ function getAllPlayersObj(params) {
         ).values(),
     ];
 
-    // sort players by name
-    // sort by name
-    return allPlayersUnsorted.sort((a, b) => {
-        const nameA = a.playerName.toUpperCase(); // ignore upper and lowercase
-        const nameB = b.playerName.toUpperCase(); // ignore upper and lowercase
+    // sort players by Sluf
+    // sorting by name causes inconsistent results with special caracters like Pão de Açúcar
+    const sortedPlayers = [...allPlayersUnsorted].sort((a, b) => {
+        const nameA = a.playerSlug.toUpperCase(); // ignore upper and lowercase
+        const nameB = b.playerSlug.toUpperCase(); // ignore upper and lowercase
         if (nameA < nameB) {
             return -1;
         }
@@ -152,6 +152,8 @@ function getAllPlayersObj(params) {
         // names must be equal
         return 0;
     });
+
+    return sortedPlayers;
 
     // return [...new Set(playersArr)];
 
