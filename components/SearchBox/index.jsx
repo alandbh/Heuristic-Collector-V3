@@ -89,20 +89,20 @@ function SearchBox(data) {
 
         heuristicElement.classList.add(
             "bg-blue-100",
-            "animate-pulse",
+            "animate-[pulse_0.6s_ease-in-out_infinite]",
             "text-slate-700"
         );
 
-        heuristicElement.style.boxShadow = "7px 0 0px 24px rgb(219, 234, 254)";
+        // heuristicElement.style.boxShadow = "7px 0 0px 24px rgb(219, 234, 254)";
 
         setTimeout(() => {
             heuristicElement.classList.remove(
                 "bg-blue-100",
-                "animate-pulse",
+                "animate-[pulse_0.6s_ease-in-out_infinite]",
                 "text-slate-700"
             );
-            heuristicElement.style.boxShadow = "none";
-        }, 5000);
+            // heuristicElement.style.boxShadow = "none";
+        }, 4000);
     }
     return (
         <>
