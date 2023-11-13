@@ -103,6 +103,22 @@ function PlayerSelect({ compact }) {
         );
     }
 
+    // console.log("playersUnsorted", playersData?.project?.players);
+
+    const sortedPlayers = [...playersData.project.players].sort((a, b) => {
+        const nameA = a.slug.toUpperCase(); // ignore upper and lowercase
+        const nameB = b.slug.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+            return -1;
+        }
+        if (nameA > nameB) {
+            return 1;
+        }
+
+        // names must be equal
+        return 0;
+    });
+
     return (
         <div>
             <div className="flex flex-col gap-2">
@@ -156,7 +172,7 @@ function PlayerSelect({ compact }) {
                         className="bg-white dark:bg-slate-700 flex flex-wrap max-w-4xl overflow-y-auto justify-around my-5 border-l-1 border border-y-0 border-r-0"
                         style={{ maxHeight: "calc(100vh - 100px)" }}
                     >
-                        {playersData?.project?.players?.map((player, index) => (
+                        {sortedPlayers.map((player, index) => (
                             <li
                                 className="flex-1 min-w-[140px]"
                                 key={player.slug}
