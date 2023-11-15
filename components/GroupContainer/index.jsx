@@ -145,7 +145,7 @@ function GroupContainer({ data }) {
         scoresLoading,
     } = useScoresObjContext();
     const { userType } = useCredentialsContext();
-    const { currentProject, currentPlayer, currentJourney } =
+    const { currentProject, currentPlayer, currentJourney, allJourneysData } =
         useProjectContext();
 
     const isSticky = useIsSticky(150);
@@ -225,12 +225,22 @@ function GroupContainer({ data }) {
      * ------------------------------
      */
 
-    useEffect(() => {
-        console.log("singleScore allScoresObjContext", allScoresObjContext);
-        console.log("singleScore allScoresJson", allScoresJson);
+    function isCurrentJourneyIncludedInCurrentPlayer() {
+        const currentJourneySlug = currentJourney.slug;
+        const journeysOfCurrentPlayer = allJourneysData.journeys;
 
+        return journeysOfCurrentPlayer.some(
+            (journey) => journey.slug === currentJourneySlug
+        );
+    }
+
+    useEffect(() => {
         // se não tiver scores registrados, cria novos scores zerados.
-        if (allScoresObjContext?.length === 0 && allScoresJson !== null) {
+        if (
+            allScoresObjContext?.length === 0 &&
+            allScoresJson !== null &&
+            isCurrentJourneyIncludedInCurrentPlayer()
+        ) {
             createMultipleZeroedScores();
         }
 
