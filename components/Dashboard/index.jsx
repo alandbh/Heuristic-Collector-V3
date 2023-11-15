@@ -7,7 +7,11 @@ import { useState, useEffect } from "react";
 import Donnut from "../Donnut";
 import Progress from "../Progress";
 import { SwitchMono } from "../Switch";
-import { getAllScoresApi, getAllFindingsApi } from "../../lib/utils";
+import {
+    getAllScoresApi,
+    getAllFindingsApi,
+    useIsSticky,
+} from "../../lib/utils";
 import Link from "next/link";
 import Debugg from "../../lib/Debugg";
 
@@ -328,6 +332,7 @@ function Dashboard({ auth }) {
     const [allFindings, setAllFindings] = useState([]);
     const [loadingDash, setLoadingDash] = useState(true);
     const router = useRouter();
+    const isSticky = useIsSticky(128);
 
     const {
         data: allJourneysData,
@@ -393,9 +398,13 @@ function Dashboard({ auth }) {
                     loadingDash
                         ? "opacity-0 translate-y-6"
                         : "opacity-100 translate-y-0"
-                } gap-5 max-w-6xl w-full md:min-w-full mx-auto md:grid md:grid-cols-4`}
+                }  gap-5 max-w-6xl w-full md:min-w-full mx-auto md:grid md:grid-cols-4`}
             >
-                <div className="md:col-span-4 flex flex-col gap-20">
+                <div
+                    className={`${
+                        isSticky ? "pt-32" : ""
+                    } md:col-span-4 flex flex-col gap-20`}
+                >
                     <section className="mx-3 h-screen mb-96">
                         <header className="flex justify-between mb-6 items-center px-4 gap-3">
                             <h1 className="text-xl font-bold">
