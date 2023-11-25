@@ -45,6 +45,11 @@ function Evidence({
     function moveCursorToTheEnd(target) {
         // target.selectionEnd = target.value.length;
 
+        // Removing this feature until the analysis is complete.
+        // Remove the return below
+
+        return;
+
         target.scrollTop = target.scrollHeight;
 
         setTimeout(() => {
@@ -54,6 +59,7 @@ function Evidence({
 
     function handleOnFocusText(target) {
         //Moving the cursor to the end of the textarea.
+
         moveCursorToTheEnd(target);
     }
 
