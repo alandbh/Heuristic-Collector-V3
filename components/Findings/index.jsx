@@ -125,9 +125,18 @@ function Findings({
                     <p>
                         This is a space for you to put some useful findings
                         regarding this player, that are not described in none of
-                        the heuristics above. It could be a good thing (ex: this
-                        player allows credit card scanning) or a bad one (the
-                        face recognition does not work properly).
+                        the heuristics above.
+                        <br />
+                        <br />
+                        It could be a <b>Good</b> thing (ex: this player allows
+                        credit card scanning) or a
+                        <br />
+                        <b>Bad</b> one (the face recognition does not work
+                        properly).
+                        <br />
+                        <br />
+                        Choose <b>Blocker</b> If you are blocked by something
+                        that prevents you to move forward in the UX analysis.
                     </p>
                 </div>
             </header>
