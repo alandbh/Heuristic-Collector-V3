@@ -28,7 +28,7 @@ const QUERY_ALL = gql`
             slug
             department
             scoresObject
-            finding {
+            finding(first: 10000) {
                 journey {
                     slug
                 }
