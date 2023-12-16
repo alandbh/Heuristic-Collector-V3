@@ -50,7 +50,11 @@ function HeuristicGroup({ group, allScoresJson, allScoresObj, index }) {
                 !isANotApplicableHeuristic(heuristic, router.query.player) &&
                 isPresentInThisJourney(heuristic, router.query.journey)
         )
-        .sort((a, b) => a.heuristicNumber - b.heuristicNumber);
+        .sort(
+            (a, b) =>
+                String(a.heuristicNumber).split(".")[1] -
+                String(b.heuristicNumber).split(".")[1]
+        );
 
     if (!allScoresObj) {
         return null;
