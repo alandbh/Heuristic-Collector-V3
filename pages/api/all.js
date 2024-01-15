@@ -196,20 +196,22 @@ export default async function handler(req, res) {
     if (journey && heuristic) {
         let scores_by_heuristic = [];
 
+        const selectedJourney = journey;
+        const selectedHeuristic = heuristic;
+
         newPlayerArr.map((player) => {
             const scoreChartObj = {};
             scoreChartObj.label = player.name;
+            scoreChartObj.department = player.department;
             scoreChartObj.playerSlug = player.slug;
             scoreChartObj.show_player = showPlayer === player.slug;
 
-            const selectedJourney = journey;
-
             if (!player.scores[selectedJourney]) {
-                serve({ error: "Invalid Journey" });
+                // serve({ error: "Invalid Journey" });
                 return;
             }
-            if (!player.scores[selectedJourney]["h_" + heuristic]) {
-                serve({ error: "Invalid Heuristic" });
+            if (!player.scores[selectedJourney]["h_" + selectedHeuristic]) {
+                // serve({ error: "Invalid Heuristic" });
                 return;
             }
 
@@ -224,16 +226,18 @@ export default async function handler(req, res) {
             }
 
             scoreChartObj.value = shouldConsiderThisPlayer
-                ? player.scores[selectedJourney]["h_" + heuristic]["scoreValue"]
+                ? player.scores[selectedJourney]["h_" + selectedHeuristic][
+                      "scoreValue"
+                  ]
                 : 0;
 
             scoreChartObj.valuePrev =
-                player.scores[selectedJourney]["h_" + heuristic][
+                player.scores[selectedJourney]["h_" + selectedHeuristic][
                     "scoreValuePrev"
                 ] || null;
 
             scoreChartObj.averageScoreValuePrev =
-                player.scores[selectedJourney]["h_" + heuristic][
+                player.scores[selectedJourney]["h_" + selectedHeuristic][
                     "averageScoreValuePrev"
                 ] || null;
 

@@ -625,7 +625,7 @@ function Dashboard() {
                         </div>
                     </div>
 
-                    {/* {<Debugg data={currentJourney} />} */}
+                    {<Debugg data={allJourneyScores} />}
 
                     {selectedHeuristic !== null ? (
                         <div>
