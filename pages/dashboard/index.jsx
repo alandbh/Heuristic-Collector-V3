@@ -217,12 +217,17 @@ function Dashboard() {
         if (allHeuristics && allHeuristics.length > 0) {
             const heuristicsByJourneyFiltered = allHeuristics?.filter(
                 (heuristic) => {
-                    // Filtering the heuristics by the current journey and if journey is empty.
-                    return (
-                        heuristic.journeys.filter(
-                            (journey) => journey.slug === currentJourney
-                        ).length > 0
-                    );
+                    // Filterin the heuristics which the journeys array is empty
+                    if (heuristic.journeys.length === 0) {
+                        return true;
+                    } else {
+                        // Filtering the heuristics by the current journey and if journey is empty.
+                        return (
+                            heuristic.journeys.filter(
+                                (journey) => journey.slug === currentJourney
+                            ).length > 0
+                        );
+                    }
                 }
             );
             setHeuristicsByJourney(heuristicsByJourneyFiltered);
@@ -625,7 +630,7 @@ function Dashboard() {
                         </div>
                     </div>
 
-                    {<Debugg data={allJourneyScores} />}
+                    {/* {<Debugg data={allHeuristics} />} */}
 
                     {selectedHeuristic !== null ? (
                         <div>
