@@ -26,7 +26,11 @@ const QUERY_ALL = gql`
             id
             name
             slug
-            department
+            departmentObj {
+                departmentName
+                departmentSlug
+                departmentOrder
+            }
             scoresObject
             finding(first: 10000) {
                 journey {
@@ -98,7 +102,7 @@ export default async function handler(req, res) {
             id,
             name,
             slug,
-            department,
+            departmentObj,
             scoresObject,
             finding,
             ignored_journeys,
@@ -108,7 +112,7 @@ export default async function handler(req, res) {
             playerOb.id = id;
             playerOb.name = name;
             playerOb.slug = slug;
-            playerOb.department = department;
+            playerOb.departmentObj = departmentObj;
             playerOb.scores = {};
             playerOb.ignored_journeys = [];
             playerOb.zeroed_journeys = [];
@@ -202,7 +206,10 @@ export default async function handler(req, res) {
         newPlayerArr.map((player) => {
             const scoreChartObj = {};
             scoreChartObj.label = player.name;
-            scoreChartObj.department = player.department;
+            scoreChartObj.departmentName = player.departmentObj?.departmentName;
+            scoreChartObj.departmentSlug = player.departmentObj?.departmentSlug;
+            scoreChartObj.departmentOrder =
+                player.departmentObj?.departmentOrder;
             scoreChartObj.playerSlug = player.slug;
             scoreChartObj.show_player = showPlayer === player.slug;
 
@@ -273,6 +280,28 @@ export default async function handler(req, res) {
                     }, 0) / validScoresPrev.length
             ).toFixed(2)
         );
+
+        scores_by_heuristic.sort((a, b) => {
+            if (a.playerSlug < b.playerSlug) {
+                return -1;
+            }
+            if (a.playerSlug > b.playerSlug) {
+                return 1;
+            }
+
+            return 0;
+        });
+
+        scores_by_heuristic.sort((a, b) => {
+            if (a.departmentOrder < b.departmentOrder) {
+                return -1;
+            }
+            if (a.departmentOrder > b.departmentOrder) {
+                return 1;
+            }
+
+            return 0;
+        });
 
         serve({
             journey,
