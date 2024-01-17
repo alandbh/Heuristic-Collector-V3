@@ -206,10 +206,18 @@ export default async function handler(req, res) {
         newPlayerArr.map((player) => {
             const scoreChartObj = {};
             scoreChartObj.label = player.name;
-            scoreChartObj.departmentName = player.departmentObj?.departmentName;
-            scoreChartObj.departmentSlug = player.departmentObj?.departmentSlug;
-            scoreChartObj.departmentOrder =
-                player.departmentObj?.departmentOrder;
+            if (player.departmentObj) {
+                scoreChartObj.departmentName =
+                    player.departmentObj.departmentName;
+                scoreChartObj.departmentSlug =
+                    player.departmentObj.departmentSlug;
+                scoreChartObj.departmentOrder =
+                    player.departmentObj.departmentOrder;
+            } else {
+                scoreChartObj.departmentName = null;
+                scoreChartObj.departmentSlug = null;
+                scoreChartObj.departmentOrder = null;
+            }
             scoreChartObj.playerSlug = player.slug;
             scoreChartObj.show_player = showPlayer === player.slug;
 
