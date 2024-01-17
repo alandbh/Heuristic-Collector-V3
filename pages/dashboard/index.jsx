@@ -682,13 +682,13 @@ function Dashboard() {
                                     />
 
                                     {/* Debbugging  */}
-                                    {
+                                    {/* {
                                         <Debugg
                                             data={
                                                 allJourneyScores.scores_by_heuristic
                                             }
                                         />
-                                    }
+                                    } */}
                                     <div className="mt-4 flex gap-10">
                                         <button
                                             className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
