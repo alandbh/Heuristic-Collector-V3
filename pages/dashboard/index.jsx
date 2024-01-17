@@ -13,6 +13,7 @@ import Select from "../../components/Select";
 import SearchBoxSimple from "../../components/SearchBoxSimple";
 import ChartSection from "../../components/ChartSection";
 import ScoreStatsTable from "../../components/ScoreStatsTable";
+import { sortCollection } from "../../lib/utils";
 
 const QUERY_HEURISTICS = gql`
     query GetAllHeuristics($projectSlug: String) {
@@ -42,6 +43,11 @@ const QUERY_PLAYERS = gql`
         players(first: 10000, where: { project: { slug: $projectSlug } }) {
             name
             slug
+            departmentObj {
+                departmentName
+                departmentSlug
+                departmentOrder
+            }
             previousScores
         }
     }
@@ -77,6 +83,7 @@ function Dashboard() {
             `/api/all?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}`
         ).then((data) => {
             data.json().then((result) => {
+                // const orderedResults = result
                 setAllJourneyScores(result);
             });
         });
@@ -139,7 +146,9 @@ function Dashboard() {
                     fetchPolicy: "network-only",
                 })
                 .then(({ data }) => {
-                    setAllPlayers(data.players);
+                    const orderedPlayers = sortCollection(data.players, "slug");
+
+                    setAllPlayers(orderedPlayers);
                 });
         }
     }, [router.query.project]);
@@ -629,10 +638,11 @@ function Dashboard() {
                             />
                         </div>
                     </div>
+                    {/* Debbugging  */}
+                    {/* {<Debugg data={allJourneyScores.scores_by_heuristic} />} */}
 
-                    {/* {<Debugg data={allHeuristics} />} */}
-
-                    {selectedHeuristic !== null ? (
+                    {selectedHeuristic !== null &&
+                    allJourneyScores.scores_by_heuristic ? (
                         <div>
                             <ChartSection
                                 title="Heuristic Chart"
@@ -670,6 +680,15 @@ function Dashboard() {
                                             allJourneyScores.average_score
                                         }
                                     />
+
+                                    {/* Debbugging  */}
+                                    {
+                                        <Debugg
+                                            data={
+                                                allJourneyScores.scores_by_heuristic
+                                            }
+                                        />
+                                    }
                                     <div className="mt-4 flex gap-10">
                                         <button
                                             className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
