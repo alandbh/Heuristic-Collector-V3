@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Debugg from "../../lib/Debugg";
 
 export default function BarChart({
     dataSet,
@@ -7,6 +8,8 @@ export default function BarChart({
     refDom,
 }) {
     const [chartData, setChartData] = useState([]);
+
+    // console.log({ dataSet });
 
     useEffect(() => {
         // const initialChartData = dataSet?.map((data) => {
@@ -19,7 +22,7 @@ export default function BarChart({
         // setTimeout(() => {
         //     setChartData(dataSet);
         // }, 200);
-        console.log("dataSet", dataSet);
+        console.log("dataSet", dataSet[0].departmentName);
     }, [dataSet]);
 
     if (!chartData || !dataSet) {
@@ -40,39 +43,65 @@ export default function BarChart({
         return showPlayer ? "#5383EB" : "#D9D9D9";
     }
 
-    return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="1048"
-            height="387"
-            fill="none"
-            viewBox="0 0 1048 387"
-            ref={refDom}
-            className="max-w-[800px] object-contain h-auto"
-            style={{ width: 800, transition: "0.4s" }}
-        >
-            {chartData.map((score, index) => {
-                return (
+    const isThereDepartments = chartData.some((score) => {
+        return score.departmentSlug !== null;
+    });
+
+    const sectionList = Array.from(
+        new Set(
+            chartData.map((score) => {
+                return score.departmentSlug;
+            })
+        )
+    );
+
+    console.log({ isThereDepartments });
+
+    if (isThereDepartments) {
+        return (
+            <div>
+                novo
+                <Debugg data={sectionList} />
+            </div>
+        );
+    } else {
+        return (
+            <>
+                <div>Department: {chartData[0]?.departmentName}</div>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="1048"
+                    height="387"
+                    fill="none"
+                    viewBox="0 0 1048 387"
+                    ref={refDom}
+                    className="max-w-[800px] object-contain h-auto"
+                    style={{ width: 800, transition: "0.4s" }}
+                >
+                    {chartData.map((score, index) => {
+                        return (
+                            <rect
+                                key={index}
+                                x={22 + index * 24 + index * 25}
+                                y={385 - getHeight(score.value) + 2}
+                                height={getHeight(score.value)}
+                                width="24"
+                                fill={getColor(score.show_player)}
+                                style={{ transition: "0.4s" }}
+                            />
+                        );
+                    })}
+
                     <rect
-                        key={index}
-                        x={22 + index * 24 + index * 25}
-                        y={385 - getHeight(score.value) + 2}
-                        height={getHeight(score.value)}
-                        width="24"
-                        fill={getColor(score.show_player)}
+                        x="0"
+                        y={getAveragePosition(averageLine) + 2}
+                        width="1048"
+                        height="1"
+                        fill="#ff0000"
                         style={{ transition: "0.4s" }}
                     />
-                );
-            })}
-
-            <rect
-                x="0"
-                y={getAveragePosition(averageLine) + 2}
-                width="1048"
-                height="1"
-                fill="#ff0000"
-                style={{ transition: "0.4s" }}
-            />
-        </svg>
-    );
+                </svg>
+            </>
+        );
+    }
 }
