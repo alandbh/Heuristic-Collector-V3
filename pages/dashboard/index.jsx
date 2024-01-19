@@ -330,6 +330,17 @@ function Dashboard() {
             const maximunJourneyScore = playerObj.journeyScoresArr.length * 5;
 
             // Calculating current journey score based on gerais weight
+            // console.log({ journeyTotalScore });
+
+            if (geraisArr.length === 0) {
+                // for Retail
+                playerObj.journeyTotalScore = journeyTotalScore;
+                playerObj.journeyTotalPercentage =
+                    journeyTotalScore / maximunJourneyScore;
+                playerObj.maximunScore = maximunScore;
+                playerObj.maximunJourneyScore = maximunJourneyScore;
+                return playerObj;
+            }
 
             if (playerScore.scores[currentJourney]?.zeroed_journey) {
                 playerObj.journeyTotalPercentage = 0;
@@ -351,7 +362,11 @@ function Dashboard() {
             return playerObj;
         });
 
-        setScoresByJourney(scores);
+        const filterdScores = scores?.filter(
+            (score) => score.journeyScoresArr.length > 0
+        );
+
+        setScoresByJourney(filterdScores);
     }, [allProjectScores, currentJourney]);
 
     /**
@@ -735,6 +750,16 @@ function Dashboard() {
                                             averageLine={
                                                 allJourneyScores.average_score
                                             }
+                                            height={387}
+                                            width={1048}
+                                            radius={0}
+                                            gap={25}
+                                            barWidth={24}
+                                            barColor="#D9D9D9"
+                                            highlightColor="#5383EB"
+                                            averageLineColor="red"
+                                            averageLineDash="0,0"
+                                            averageLineWidth={1}
                                         />
                                     )}
 
@@ -950,6 +975,8 @@ function Dashboard() {
                                     averageLine={averageJourneyScore}
                                     isPercentage
                                 />
+
+                                {/* <Debugg data={scoresByJourney} /> */}
                                 <div className="mt-4 flex gap-10">
                                     <button
                                         className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
