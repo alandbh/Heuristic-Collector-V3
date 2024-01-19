@@ -43,20 +43,6 @@ export default function BarChart({
         return showPlayer ? "#5383EB" : "#D9D9D9";
     }
 
-    const isThereDepartments = chartData.some((score) => {
-        return score.departmentSlug !== null;
-    });
-
-    const sectionList = Array.from(
-        new Set(
-            chartData.map((score) => {
-                return score.departmentSlug;
-            })
-        )
-    );
-
-    console.log({ isThereDepartments });
-
     return (
         <div>
             <>
