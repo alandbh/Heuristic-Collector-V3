@@ -32,7 +32,7 @@ export default function BarChart({
         // setTimeout(() => {
         //     setChartData(dataSet);
         // }, 200);
-        console.log("dataSet", dataSet[0].departmentName);
+        // console.log("dataSet", dataSet[0].departmentName);
     }, [dataSet]);
 
     if (!chartData || !dataSet) {
