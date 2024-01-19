@@ -606,16 +606,16 @@ function Dashboard() {
         }
     );
 
-    const datasetWithDepartments = [];
+    const datasetWithSeparator = [];
     departmentList.map((department, index) => {
         allJourneyScores.scores_by_heuristic
             .filter((score) => score.departmentSlug === department)
             .map((score) => {
-                datasetWithDepartments.push(score);
+                datasetWithSeparator.push(score);
             });
 
         if (index !== departmentList.length - 1) {
-            datasetWithDepartments.push({
+            datasetWithSeparator.push({
                 label: "Separator",
                 playerSlug: "separator",
                 show_player: false,
@@ -627,21 +627,6 @@ function Dashboard() {
             });
         }
     });
-
-    function path(pathParams) {
-        const { w, h, tlr, trr, brr, blr, x = 0, maxHeight = 512 } = pathParams;
-        const y = maxHeight - h;
-        return `
-            M ${x} ${tlr + y} 
-            A ${tlr} ${tlr} 0 0 1 ${tlr + x} ${y} 
-            L ${w - trr + x} ${y} 
-            A ${trr} ${trr} 0 0 1 ${w + x} ${trr + y} 
-            L ${w + x} ${h - brr}
-            A ${brr} ${brr} 0 0 1 ${w - brr + x} ${h + y} 
-            L ${blr + x} ${h + y} 
-            A ${blr} ${blr} 0 0 1 ${x} ${h - blr} 
-            Z`;
-    }
 
     return (
         <div className="bg-slate-100/70 dark:bg-slate-800/50 p-10">
@@ -722,63 +707,23 @@ function Dashboard() {
                                         }
                                     /> */}
 
-                                    <svg
-                                        width="500"
-                                        height={512}
-                                        viewBox="0 0 500 512"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d={path({
-                                                w: 40,
-                                                h: 312,
-                                                tlr: 20,
-                                                trr: 20,
-                                                brr: 0,
-                                                blr: 0,
-                                                x: 0,
-                                                maxHeight: 512,
-                                            })}
-                                            fill="red"
-                                        />
-                                        <path
-                                            d={path({
-                                                w: 40,
-                                                h: 412,
-                                                tlr: 20,
-                                                trr: 20,
-                                                brr: 0,
-                                                blr: 0,
-                                                x: 50,
-                                                maxHeight: 512,
-                                            })}
-                                            fill="red"
-                                        />
-                                        <path
-                                            d={path({
-                                                w: 40,
-                                                h: 512,
-                                                tlr: 20,
-                                                trr: 20,
-                                                brr: 0,
-                                                blr: 0,
-                                                x: 100,
-                                                maxHeight: 512,
-                                            })}
-                                            fill="red"
-                                        />
-                                    </svg>
-
                                     {isThereDepartments ? (
                                         <BarChart
                                             refDom={chartRef}
-                                            // allJourneyScores={allJourneyScores}
-                                            dataSet={datasetWithDepartments}
-                                            hasSeparator={true}
+                                            dataSet={datasetWithSeparator}
                                             averageLine={
                                                 allJourneyScores.average_score
                                             }
+                                            height={258}
+                                            width={950}
+                                            radius={5}
+                                            gap={13}
+                                            barWidth={15.4}
+                                            barColor="#a5a5a5"
+                                            highlightColor="#575757"
+                                            averageLineColor="#575757"
+                                            averageLineDash="10,5"
+                                            averageLineWidth={2}
                                         />
                                     ) : (
                                         <BarChart
@@ -794,8 +739,8 @@ function Dashboard() {
                                     )}
 
                                     {/* Debbugging  */}
-                                    {<Debugg data={departmentList} />}
-                                    {<Debugg data={datasetWithDepartments} />}
+                                    {/* {<Debugg data={departmentList} />} */}
+                                    {/* {<Debugg data={datasetWithSeparator} />} */}
                                     <div className="mt-4 flex gap-10">
                                         <button
                                             className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
