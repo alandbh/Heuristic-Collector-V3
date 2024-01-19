@@ -16,6 +16,7 @@ export default function BarChart({
     averageLineWidth = 2,
     averageLineDash = "0,0",
     averageLineColor = "red",
+    valueKey = "value",
 }) {
     const [chartData, setChartData] = useState([]);
 
@@ -85,7 +86,7 @@ export default function BarChart({
                                     key={index}
                                     d={createPath({
                                         w: barWidth,
-                                        h: getHeight(score.value),
+                                        h: getHeight(score[valueKey]),
                                         tlr: radius,
                                         trr: radius,
                                         brr: 0,
@@ -112,7 +113,7 @@ export default function BarChart({
                                 key={index}
                                 d={createPath({
                                     w: barWidth,
-                                    h: getHeight(score.value, height - 2),
+                                    h: getHeight(score[valueKey], height - 2),
                                     tlr: radius,
                                     trr: radius,
                                     brr: 0,
