@@ -57,17 +57,9 @@ export default function BarChart({
 
     console.log({ isThereDepartments });
 
-    if (isThereDepartments) {
-        return (
-            <div>
-                novo
-                <Debugg data={sectionList} />
-            </div>
-        );
-    } else {
-        return (
+    return (
+        <div>
             <>
-                <div>Department: {chartData[0]?.departmentName}</div>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="1048"
@@ -79,13 +71,27 @@ export default function BarChart({
                     style={{ width: 800, transition: "0.4s" }}
                 >
                     {chartData.map((score, index) => {
+                        if (score.playerSlug === "separator") {
+                            return (
+                                <rect
+                                    key={index}
+                                    x={10 + index * 14 + index * 15}
+                                    y={385 - getHeight(1) + 2}
+                                    height={getHeight(1)}
+                                    width="20"
+                                    // fill={getColor(score.show_player)}
+                                    fill="red"
+                                    style={{ transition: "0.4s" }}
+                                />
+                            );
+                        }
                         return (
                             <rect
                                 key={index}
-                                x={22 + index * 24 + index * 25}
+                                x={10 + index * 14 + index * 15}
                                 y={385 - getHeight(score.value) + 2}
                                 height={getHeight(score.value)}
-                                width="24"
+                                width="20"
                                 fill={getColor(score.show_player)}
                                 style={{ transition: "0.4s" }}
                             />
@@ -102,6 +108,6 @@ export default function BarChart({
                     />
                 </svg>
             </>
-        );
-    }
+        </div>
+    );
 }

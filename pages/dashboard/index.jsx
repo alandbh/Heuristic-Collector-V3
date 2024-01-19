@@ -592,6 +592,56 @@ function Dashboard() {
         return currentPlayerObj ? currentPlayerObj.previousScores : null;
     }
 
+    const departmentList = Array.from(
+        new Set(
+            allJourneyScores.scores_by_heuristic?.map((score) => {
+                return score.departmentSlug;
+            })
+        )
+    );
+
+    const isThereDepartments = allJourneyScores.scores_by_heuristic?.some(
+        (score) => {
+            return score.departmentSlug !== null;
+        }
+    );
+
+    const datasetWithDepartments = [];
+    departmentList.map((department, index) => {
+        allJourneyScores.scores_by_heuristic
+            .filter((score) => score.departmentSlug === department)
+            .map((score) => {
+                datasetWithDepartments.push(score);
+            });
+
+        if (index !== departmentList.length - 1) {
+            datasetWithDepartments.push({
+                label: "Separator",
+                playerSlug: "separator",
+                show_player: false,
+                value: 0,
+                valuePrev: null,
+                averageScoreValuePrev: null,
+                ignore_journey: false,
+                zeroed_journey: false,
+            });
+        }
+    });
+
+    function path(w, h, tlr, trr, brr, blr, x = 0, maxHeight = 512) {
+        const y = maxHeight - h;
+        return `
+            M ${x} ${tlr + y} 
+            A ${tlr} ${tlr} 0 0 1 ${tlr + x} ${y} 
+            L ${w - trr + x} ${y} 
+            A ${trr} ${trr} 0 0 1 ${w + x} ${trr + y} 
+            L ${w + x} ${h - brr}
+            A ${brr} ${brr} 0 0 1 ${w - brr + x} ${h + y} 
+            L ${blr + x} ${h + y} 
+            A ${blr} ${blr} 0 0 1 ${x} ${h - blr} 
+            Z`;
+    }
+
     return (
         <div className="bg-slate-100/70 dark:bg-slate-800/50 p-10">
             <main className="mt-10 min-h-[calc(100vh_-_126px)] flex flex-col items-center">
@@ -670,25 +720,68 @@ function Dashboard() {
                                             allJourneyScores?.scores_by_heuristic
                                         }
                                     /> */}
-                                    <BarChart
-                                        refDom={chartRef}
-                                        // allJourneyScores={allJourneyScores}
-                                        dataSet={
-                                            allJourneyScores.scores_by_heuristic
-                                        }
-                                        averageLine={
-                                            allJourneyScores.average_score
-                                        }
-                                    />
 
-                                    {/* Debbugging  */}
-                                    {/* {
-                                        <Debugg
-                                            data={
-                                                allJourneyScores.scores_by_heuristic
+                                    <svg
+                                        width="500"
+                                        height={512}
+                                        viewBox="0 0 500 512"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d={path(
+                                                40,
+                                                312,
+                                                20,
+                                                20,
+                                                0,
+                                                0,
+                                                0,
+                                                512
+                                            )}
+                                            fill="red"
+                                        />
+                                        <path
+                                            d={path(
+                                                40,
+                                                412,
+                                                20,
+                                                20,
+                                                0,
+                                                0,
+                                                50,
+                                                512
+                                            )}
+                                            fill="red"
+                                        />
+                                    </svg>
+
+                                    {isThereDepartments ? (
+                                        <BarChart
+                                            refDom={chartRef}
+                                            // allJourneyScores={allJourneyScores}
+                                            dataSet={datasetWithDepartments}
+                                            hasSeparator={true}
+                                            averageLine={
+                                                allJourneyScores.average_score
                                             }
                                         />
-                                    } */}
+                                    ) : (
+                                        <BarChart
+                                            refDom={chartRef}
+                                            // allJourneyScores={allJourneyScores}
+                                            dataSet={
+                                                allJourneyScores.scores_by_heuristic
+                                            }
+                                            averageLine={
+                                                allJourneyScores.average_score
+                                            }
+                                        />
+                                    )}
+
+                                    {/* Debbugging  */}
+                                    {<Debugg data={departmentList} />}
+                                    {<Debugg data={datasetWithDepartments} />}
                                     <div className="mt-4 flex gap-10">
                                         <button
                                             className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
