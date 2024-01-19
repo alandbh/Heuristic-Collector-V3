@@ -43,65 +43,42 @@ export default function BarChart({
         return showPlayer ? "#5383EB" : "#D9D9D9";
     }
 
-    const isThereDepartments = chartData.some((score) => {
-        return score.departmentSlug !== null;
-    });
+    return (
+        <>
+            <div>Department: {chartData[0]?.departmentName}</div>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1048"
+                height="387"
+                fill="none"
+                viewBox="0 0 1048 387"
+                ref={refDom}
+                className="max-w-[800px] object-contain h-auto"
+                style={{ width: 800, transition: "0.4s" }}
+            >
+                {chartData.map((score, index) => {
+                    return (
+                        <rect
+                            key={index}
+                            x={22 + index * 24 + index * 25}
+                            y={385 - getHeight(score.value) + 2}
+                            height={getHeight(score.value)}
+                            width="24"
+                            fill={getColor(score.show_player)}
+                            style={{ transition: "0.4s" }}
+                        />
+                    );
+                })}
 
-    const sectionList = Array.from(
-        new Set(
-            chartData.map((score) => {
-                return score.departmentSlug;
-            })
-        )
-    );
-
-    console.log({ isThereDepartments });
-
-    if (isThereDepartments) {
-        return (
-            <div>
-                novo
-                <Debugg data={sectionList} />
-            </div>
-        );
-    } else {
-        return (
-            <>
-                <div>Department: {chartData[0]?.departmentName}</div>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
+                <rect
+                    x="0"
+                    y={getAveragePosition(averageLine) + 2}
                     width="1048"
-                    height="387"
-                    fill="none"
-                    viewBox="0 0 1048 387"
-                    ref={refDom}
-                    className="max-w-[800px] object-contain h-auto"
-                    style={{ width: 800, transition: "0.4s" }}
-                >
-                    {chartData.map((score, index) => {
-                        return (
-                            <rect
-                                key={index}
-                                x={22 + index * 24 + index * 25}
-                                y={385 - getHeight(score.value) + 2}
-                                height={getHeight(score.value)}
-                                width="24"
-                                fill={getColor(score.show_player)}
-                                style={{ transition: "0.4s" }}
-                            />
-                        );
-                    })}
-
-                    <rect
-                        x="0"
-                        y={getAveragePosition(averageLine) + 2}
-                        width="1048"
-                        height="1"
-                        fill="#ff0000"
-                        style={{ transition: "0.4s" }}
-                    />
-                </svg>
-            </>
-        );
-    }
+                    height="1"
+                    fill="#ff0000"
+                    style={{ transition: "0.4s" }}
+                />
+            </svg>
+        </>
+    );
 }
