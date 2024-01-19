@@ -84,7 +84,7 @@ export default function BarChart({
                                 <path
                                     key={index}
                                     d={createPath({
-                                        w: 16,
+                                        w: barWidth,
                                         h: getHeight(score.value),
                                         tlr: radius,
                                         trr: radius,
@@ -111,7 +111,7 @@ export default function BarChart({
                                 style={{ transition: "0.4s" }}
                                 key={index}
                                 d={createPath({
-                                    w: 16,
+                                    w: barWidth,
                                     h: getHeight(score.value, height - 2),
                                     tlr: radius,
                                     trr: radius,
