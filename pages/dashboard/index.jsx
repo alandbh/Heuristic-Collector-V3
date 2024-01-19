@@ -69,6 +69,7 @@ function Dashboard() {
     const [pngSrc, setPngSrc] = useState(null);
     const inputRef = useRef(null);
     const chartRef = useRef(null);
+    const chartJourneyRef = useRef(null);
     const chartCompareRef = useRef(null);
     const journeyChartRef = useRef(null);
     const searchRef = useRef(null);
@@ -639,6 +640,7 @@ function Dashboard() {
                 averageScoreValuePrev: null,
                 ignore_journey: false,
                 zeroed_journey: false,
+                allJourneysScoreAverage: 0,
             });
         }
     });
@@ -690,7 +692,7 @@ function Dashboard() {
                         </div>
                     </div>
                     {/* Debbugging  */}
-                    {/* {<Debugg data={allJourneyScores.scores_by_heuristic} />} */}
+                    {/* {<Debugg data={datasetWithSeparator} />} */}
 
                     {selectedHeuristic !== null &&
                     allJourneyScores.scores_by_heuristic ? (
@@ -716,6 +718,9 @@ function Dashboard() {
                                     style={{ width: 864 }}
                                     className=" px-8 pt-8 pb-4"
                                 >
+                                    <h3 className="text-lg font-bold my-5">
+                                        Average (all journeys)
+                                    </h3>
                                     {/* <Debugg
                                         data={
                                             allJourneyScores?.scores_by_heuristic
@@ -726,6 +731,7 @@ function Dashboard() {
                                         <BarChart
                                             refDom={chartRef}
                                             dataSet={datasetWithSeparator}
+                                            valueKey={"allJourneysScoreAverage"}
                                             averageLine={
                                                 allJourneyScores.average_score
                                             }
@@ -788,6 +794,64 @@ function Dashboard() {
                                                         selectedHeuristic?.heuristicNumber,
                                                     playerSlug: showPlayer,
                                                 })
+                                            }
+                                        >
+                                            Export as a PNG file
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div
+                                    style={{ width: 864 }}
+                                    className="px-8 pb-8"
+                                >
+                                    <h3 className="text-lg font-bold my-5">
+                                        Score for current journey
+                                    </h3>
+
+                                    <BarChart
+                                        refDom={chartJourneyRef}
+                                        dataSet={datasetWithSeparator}
+                                        averageLine={
+                                            allJourneyScores.average_score
+                                        }
+                                        height={258}
+                                        width={950}
+                                        radius={5}
+                                        gap={13}
+                                        barWidth={15.4}
+                                        barColor="#a5a5a5"
+                                        highlightColor="#575757"
+                                        averageLineColor="#575757"
+                                        averageLineDash="10,5"
+                                        averageLineWidth={2}
+                                    />
+
+                                    <div className="mt-4 flex gap-10">
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
+                                            onClick={() =>
+                                                handleClickCopySvg(
+                                                    chartJourneyRef,
+                                                    "id1"
+                                                )
+                                            }
+                                        >
+                                            {svgCopied?.id1
+                                                ? "✅ SVG Copied"
+                                                : "Copy as SVG"}
+                                        </button>
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
+                                            onClick={() =>
+                                                handleClickCopyPng(
+                                                    chartJourneyRef,
+                                                    {
+                                                        heuristicNumber:
+                                                            selectedHeuristic?.heuristicNumber,
+                                                        playerSlug: showPlayer,
+                                                    }
+                                                )
                                             }
                                         >
                                             Export as a PNG file
