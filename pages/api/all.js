@@ -82,6 +82,10 @@ const QUERY_PROJECTS = gql`
 //         "note": "n/a"
 //       },
 
+function average(array) {
+    return array.reduce((x, y) => x + y) / array.length;
+}
+
 export default async function handler(req, res) {
     const { project, journey, heuristic, showPlayer } = req.query;
     const projectObj = await getData(QUERY_PROJECTS, { projectSlug: project });
@@ -260,6 +264,15 @@ export default async function handler(req, res) {
                 player.scores[selectedJourney].ignore_journey;
             scoreChartObj.zeroed_journey =
                 player.scores[selectedJourney].zeroed_journey;
+
+            const scoresArray = allJourneys.data.journeys.map((journey) => {
+                if (shouldConsiderThisPlayer) {
+                    return player.scores[journey.slug][
+                        "h_" + selectedHeuristic
+                    ]["scoreValue"];
+                }
+            });
+            scoreChartObj.allJourneysScoreAverage = average(scoresArray);
 
             scores_by_heuristic.push(scoreChartObj);
         });
