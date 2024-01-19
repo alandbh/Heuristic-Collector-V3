@@ -628,7 +628,8 @@ function Dashboard() {
         }
     });
 
-    function path(w, h, tlr, trr, brr, blr, x = 0, maxHeight = 512) {
+    function path(pathParams) {
+        const { w, h, tlr, trr, brr, blr, x = 0, maxHeight = 512 } = pathParams;
         const y = maxHeight - h;
         return `
             M ${x} ${tlr + y} 
@@ -729,29 +730,42 @@ function Dashboard() {
                                         xmlns="http://www.w3.org/2000/svg"
                                     >
                                         <path
-                                            d={path(
-                                                40,
-                                                312,
-                                                20,
-                                                20,
-                                                0,
-                                                0,
-                                                0,
-                                                512
-                                            )}
+                                            d={path({
+                                                w: 40,
+                                                h: 312,
+                                                tlr: 20,
+                                                trr: 20,
+                                                brr: 0,
+                                                blr: 0,
+                                                x: 0,
+                                                maxHeight: 512,
+                                            })}
                                             fill="red"
                                         />
                                         <path
-                                            d={path(
-                                                40,
-                                                412,
-                                                20,
-                                                20,
-                                                0,
-                                                0,
-                                                50,
-                                                512
-                                            )}
+                                            d={path({
+                                                w: 40,
+                                                h: 412,
+                                                tlr: 20,
+                                                trr: 20,
+                                                brr: 0,
+                                                blr: 0,
+                                                x: 50,
+                                                maxHeight: 512,
+                                            })}
+                                            fill="red"
+                                        />
+                                        <path
+                                            d={path({
+                                                w: 40,
+                                                h: 512,
+                                                tlr: 20,
+                                                trr: 20,
+                                                brr: 0,
+                                                blr: 0,
+                                                x: 100,
+                                                maxHeight: 512,
+                                            })}
                                             fill="red"
                                         />
                                     </svg>
