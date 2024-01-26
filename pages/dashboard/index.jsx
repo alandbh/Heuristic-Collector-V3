@@ -821,7 +821,7 @@ function Dashboard() {
 
                                 <div
                                     style={{ width: 864 }}
-                                    className="px-8 pb-8"
+                                    className="px-8 pb-8 hidden"
                                 >
                                     <h3 className="text-lg font-bold my-5">
                                         Score for current journey
@@ -881,7 +881,15 @@ function Dashboard() {
                                     className="px-8 pb-8"
                                 >
                                     <h3 className="text-lg font-bold my-5">
-                                        Score Stats
+                                        Score Stats (only for{" "}
+                                        {
+                                            allJourneys.find(
+                                                (journey) =>
+                                                    journey.slug ===
+                                                    currentJourney
+                                            )?.name
+                                        }
+                                        )
                                     </h3>
 
                                     <ScoreStatsTable
