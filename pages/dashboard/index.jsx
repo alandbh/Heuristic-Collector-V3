@@ -759,7 +759,7 @@ function Dashboard() {
                                             gap={13}
                                             barWidth={15.4}
                                             barColor="#a5a5a5"
-                                            highlightColor="#575757"
+                                            highlightColor="#1967d2"
                                             averageLineColor="#575757"
                                             averageLineDash="10,5"
                                             averageLineWidth={2}
@@ -780,7 +780,7 @@ function Dashboard() {
                                             gap={25}
                                             barWidth={24}
                                             barColor="#D9D9D9"
-                                            highlightColor="#5383EB"
+                                            highlightColor="#1967d2"
                                             averageLineColor="red"
                                             averageLineDash="0,0"
                                             averageLineWidth={1}
@@ -839,7 +839,7 @@ function Dashboard() {
                                         gap={13}
                                         barWidth={15.4}
                                         barColor="#a5a5a5"
-                                        highlightColor="#575757"
+                                        highlightColor="#1967d2"
                                         averageLineColor="#575757"
                                         averageLineDash="10,5"
                                         averageLineWidth={2}
