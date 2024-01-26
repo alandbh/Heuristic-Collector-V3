@@ -717,7 +717,7 @@ function Dashboard() {
                         <div>
                             <ChartSection
                                 title="Heuristic Chart"
-                                average={allJourneyScores.average_score}
+                                average={getAverageScore(datasetWithSeparator)}
                             >
                                 <div className="flex border-b px-4 min-h-[50px]">
                                     <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
