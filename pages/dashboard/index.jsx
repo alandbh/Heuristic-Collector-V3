@@ -732,20 +732,21 @@ function Dashboard() {
                                         </span>
                                     </div>
                                 </div>
-                                <div
-                                    style={{ width: 864 }}
-                                    className=" px-8 pt-8 pb-4"
-                                >
-                                    <h3 className="text-lg font-bold my-5">
-                                        Average (all journeys)
-                                    </h3>
-                                    {/* <Debugg
+
+                                {project.includes("retail") ? (
+                                    <div
+                                        style={{ width: 864 }}
+                                        className=" px-8 pt-8 pb-4"
+                                    >
+                                        <h3 className="text-lg font-bold my-5">
+                                            Average (all journeys)
+                                        </h3>
+                                        {/* <Debugg
                                         data={
                                             allJourneyScores?.scores_by_heuristic
                                         }
                                     /> */}
 
-                                    {isThereDepartments ? (
                                         <BarChart
                                             refDom={chartRef}
                                             dataSet={datasetWithSeparator}
@@ -764,7 +765,58 @@ function Dashboard() {
                                             averageLineDash="8,7"
                                             averageLineWidth={1.8}
                                         />
-                                    ) : (
+
+                                        {/* Debbugging  */}
+                                        {/* {<Debugg data={departmentList} />} */}
+                                        {/* {<Debugg data={datasetWithSeparator} />} */}
+                                        <div className="mt-4 flex gap-10">
+                                            <button
+                                                className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
+                                                onClick={() =>
+                                                    handleClickCopySvg(
+                                                        chartRef,
+                                                        "id1"
+                                                    )
+                                                }
+                                            >
+                                                {svgCopied?.id1
+                                                    ? "✅ SVG Copied"
+                                                    : "Copy as SVG"}
+                                            </button>
+                                            <button
+                                                className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
+                                                onClick={() =>
+                                                    handleClickCopyPng(
+                                                        chartRef,
+                                                        {
+                                                            heuristicNumber:
+                                                                selectedHeuristic?.heuristicNumber,
+                                                            playerSlug:
+                                                                showPlayer,
+                                                        }
+                                                    )
+                                                }
+                                            >
+                                                Export as a PNG file
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div
+                                        style={{ width: 864 }}
+                                        className="px-8 pb-8"
+                                    >
+                                        <h3 className="text-lg font-bold my-5">
+                                            Scores for{": "}
+                                            {
+                                                allJourneys.find(
+                                                    (journey) =>
+                                                        journey.slug ===
+                                                        currentJourney
+                                                )?.name
+                                            }
+                                        </h3>
+
                                         <BarChart
                                             refDom={chartRef}
                                             // allJourneyScores={allJourneyScores}
@@ -785,97 +837,41 @@ function Dashboard() {
                                             averageLineDash="8,7"
                                             averageLineWidth={1.8}
                                         />
-                                    )}
 
-                                    {/* Debbugging  */}
-                                    {/* {<Debugg data={departmentList} />} */}
-                                    {/* {<Debugg data={datasetWithSeparator} />} */}
-                                    <div className="mt-4 flex gap-10">
-                                        <button
-                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
-                                            onClick={() =>
-                                                handleClickCopySvg(
-                                                    chartRef,
-                                                    "id1"
-                                                )
-                                            }
-                                        >
-                                            {svgCopied?.id1
-                                                ? "✅ SVG Copied"
-                                                : "Copy as SVG"}
-                                        </button>
-                                        <button
-                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
-                                            onClick={() =>
-                                                handleClickCopyPng(chartRef, {
-                                                    heuristicNumber:
-                                                        selectedHeuristic?.heuristicNumber,
-                                                    playerSlug: showPlayer,
-                                                })
-                                            }
-                                        >
-                                            Export as a PNG file
-                                        </button>
+                                        <div className="mt-4 flex gap-10">
+                                            <button
+                                                className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
+                                                onClick={() =>
+                                                    handleClickCopySvg(
+                                                        chartJourneyRef,
+                                                        "id1"
+                                                    )
+                                                }
+                                            >
+                                                {svgCopied?.id1
+                                                    ? "✅ SVG Copied"
+                                                    : "Copy as SVG"}
+                                            </button>
+                                            <button
+                                                className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
+                                                onClick={() =>
+                                                    handleClickCopyPng(
+                                                        chartJourneyRef,
+                                                        {
+                                                            heuristicNumber:
+                                                                selectedHeuristic?.heuristicNumber,
+                                                            playerSlug:
+                                                                showPlayer,
+                                                        }
+                                                    )
+                                                }
+                                            >
+                                                Export as a PNG file
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                )}
 
-                                <div
-                                    style={{ width: 864 }}
-                                    className="px-8 pb-8 hidden"
-                                >
-                                    <h3 className="text-lg font-bold my-5">
-                                        Score for current journey
-                                    </h3>
-
-                                    <BarChart
-                                        refDom={chartJourneyRef}
-                                        dataSet={datasetWithSeparator}
-                                        averageLine={getAverageScore(
-                                            datasetWithSeparator
-                                        )}
-                                        height={258}
-                                        width={950}
-                                        radius={5}
-                                        gap={13}
-                                        barWidth={15.4}
-                                        barColor="#a5a5a5"
-                                        highlightColor="#1967d2"
-                                        averageLineColor="#a5a5a5"
-                                        averageLineDash="8,7"
-                                        averageLineWidth={1.8}
-                                    />
-
-                                    <div className="mt-4 flex gap-10">
-                                        <button
-                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
-                                            onClick={() =>
-                                                handleClickCopySvg(
-                                                    chartJourneyRef,
-                                                    "id1"
-                                                )
-                                            }
-                                        >
-                                            {svgCopied?.id1
-                                                ? "✅ SVG Copied"
-                                                : "Copy as SVG"}
-                                        </button>
-                                        <button
-                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
-                                            onClick={() =>
-                                                handleClickCopyPng(
-                                                    chartJourneyRef,
-                                                    {
-                                                        heuristicNumber:
-                                                            selectedHeuristic?.heuristicNumber,
-                                                        playerSlug: showPlayer,
-                                                    }
-                                                )
-                                            }
-                                        >
-                                            Export as a PNG file
-                                        </button>
-                                    </div>
-                                </div>
                                 <div
                                     style={{ width: 864 }}
                                     className="px-8 pb-8"
