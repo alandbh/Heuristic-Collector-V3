@@ -69,6 +69,7 @@ function Dashboard() {
     const [pngSrc, setPngSrc] = useState(null);
     const inputRef = useRef(null);
     const chartRef = useRef(null);
+    const chartJourneyRef = useRef(null);
     const chartCompareRef = useRef(null);
     const journeyChartRef = useRef(null);
     const searchRef = useRef(null);
@@ -330,6 +331,17 @@ function Dashboard() {
             const maximunJourneyScore = playerObj.journeyScoresArr.length * 5;
 
             // Calculating current journey score based on gerais weight
+            // console.log({ journeyTotalScore });
+
+            if (geraisArr.length === 0) {
+                // for Retail
+                playerObj.journeyTotalScore = journeyTotalScore;
+                playerObj.journeyTotalPercentage =
+                    journeyTotalScore / maximunJourneyScore;
+                playerObj.maximunScore = maximunScore;
+                playerObj.maximunJourneyScore = maximunJourneyScore;
+                return playerObj;
+            }
 
             if (playerScore.scores[currentJourney]?.zeroed_journey) {
                 playerObj.journeyTotalPercentage = 0;
@@ -351,7 +363,11 @@ function Dashboard() {
             return playerObj;
         });
 
-        setScoresByJourney(scores);
+        const filterdScores = scores?.filter(
+            (score) => score.journeyScoresArr.length > 0
+        );
+
+        setScoresByJourney(filterdScores);
     }, [allProjectScores, currentJourney]);
 
     /**
@@ -592,6 +608,43 @@ function Dashboard() {
         return currentPlayerObj ? currentPlayerObj.previousScores : null;
     }
 
+    const departmentList = Array.from(
+        new Set(
+            allJourneyScores.scores_by_heuristic?.map((score) => {
+                return score.departmentSlug;
+            })
+        )
+    );
+
+    const isThereDepartments = allJourneyScores.scores_by_heuristic?.some(
+        (score) => {
+            return score.departmentSlug !== null;
+        }
+    );
+
+    const datasetWithSeparator = [];
+    departmentList.map((department, index) => {
+        allJourneyScores.scores_by_heuristic
+            .filter((score) => score.departmentSlug === department)
+            .map((score) => {
+                datasetWithSeparator.push(score);
+            });
+
+        if (index !== departmentList.length - 1) {
+            datasetWithSeparator.push({
+                label: "Separator",
+                playerSlug: "separator",
+                show_player: false,
+                value: 0,
+                valuePrev: null,
+                averageScoreValuePrev: null,
+                ignore_journey: false,
+                zeroed_journey: false,
+                allJourneysScoreAverage: 0,
+            });
+        }
+    });
+
     return (
         <div className="bg-slate-100/70 dark:bg-slate-800/50 p-10">
             <main className="mt-10 min-h-[calc(100vh_-_126px)] flex flex-col items-center">
@@ -639,7 +692,7 @@ function Dashboard() {
                         </div>
                     </div>
                     {/* Debbugging  */}
-                    {/* {<Debugg data={allJourneyScores.scores_by_heuristic} />} */}
+                    {/* {<Debugg data={datasetWithSeparator} />} */}
 
                     {selectedHeuristic !== null &&
                     allJourneyScores.scores_by_heuristic ? (
@@ -665,30 +718,60 @@ function Dashboard() {
                                     style={{ width: 864 }}
                                     className=" px-8 pt-8 pb-4"
                                 >
+                                    <h3 className="text-lg font-bold my-5">
+                                        Average (all journeys)
+                                    </h3>
                                     {/* <Debugg
                                         data={
                                             allJourneyScores?.scores_by_heuristic
                                         }
                                     /> */}
-                                    <BarChart
-                                        refDom={chartRef}
-                                        // allJourneyScores={allJourneyScores}
-                                        dataSet={
-                                            allJourneyScores.scores_by_heuristic
-                                        }
-                                        averageLine={
-                                            allJourneyScores.average_score
-                                        }
-                                    />
 
-                                    {/* Debbugging  */}
-                                    {/* {
-                                        <Debugg
-                                            data={
+                                    {isThereDepartments ? (
+                                        <BarChart
+                                            refDom={chartRef}
+                                            dataSet={datasetWithSeparator}
+                                            valueKey={"allJourneysScoreAverage"}
+                                            averageLine={
+                                                allJourneyScores.average_score
+                                            }
+                                            height={258}
+                                            width={950}
+                                            radius={5}
+                                            gap={13}
+                                            barWidth={15.4}
+                                            barColor="#a5a5a5"
+                                            highlightColor="#575757"
+                                            averageLineColor="#575757"
+                                            averageLineDash="10,5"
+                                            averageLineWidth={2}
+                                        />
+                                    ) : (
+                                        <BarChart
+                                            refDom={chartRef}
+                                            // allJourneyScores={allJourneyScores}
+                                            dataSet={
                                                 allJourneyScores.scores_by_heuristic
                                             }
+                                            averageLine={
+                                                allJourneyScores.average_score
+                                            }
+                                            height={387}
+                                            width={1048}
+                                            radius={0}
+                                            gap={25}
+                                            barWidth={24}
+                                            barColor="#D9D9D9"
+                                            highlightColor="#5383EB"
+                                            averageLineColor="red"
+                                            averageLineDash="0,0"
+                                            averageLineWidth={1}
                                         />
-                                    } */}
+                                    )}
+
+                                    {/* Debbugging  */}
+                                    {/* {<Debugg data={departmentList} />} */}
+                                    {/* {<Debugg data={datasetWithSeparator} />} */}
                                     <div className="mt-4 flex gap-10">
                                         <button
                                             className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
@@ -711,6 +794,64 @@ function Dashboard() {
                                                         selectedHeuristic?.heuristicNumber,
                                                     playerSlug: showPlayer,
                                                 })
+                                            }
+                                        >
+                                            Export as a PNG file
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div
+                                    style={{ width: 864 }}
+                                    className="px-8 pb-8"
+                                >
+                                    <h3 className="text-lg font-bold my-5">
+                                        Score for current journey
+                                    </h3>
+
+                                    <BarChart
+                                        refDom={chartJourneyRef}
+                                        dataSet={datasetWithSeparator}
+                                        averageLine={
+                                            allJourneyScores.average_score
+                                        }
+                                        height={258}
+                                        width={950}
+                                        radius={5}
+                                        gap={13}
+                                        barWidth={15.4}
+                                        barColor="#a5a5a5"
+                                        highlightColor="#575757"
+                                        averageLineColor="#575757"
+                                        averageLineDash="10,5"
+                                        averageLineWidth={2}
+                                    />
+
+                                    <div className="mt-4 flex gap-10">
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
+                                            onClick={() =>
+                                                handleClickCopySvg(
+                                                    chartJourneyRef,
+                                                    "id1"
+                                                )
+                                            }
+                                        >
+                                            {svgCopied?.id1
+                                                ? "✅ SVG Copied"
+                                                : "Copy as SVG"}
+                                        </button>
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
+                                            onClick={() =>
+                                                handleClickCopyPng(
+                                                    chartJourneyRef,
+                                                    {
+                                                        heuristicNumber:
+                                                            selectedHeuristic?.heuristicNumber,
+                                                        playerSlug: showPlayer,
+                                                    }
+                                                )
                                             }
                                         >
                                             Export as a PNG file
@@ -898,6 +1039,8 @@ function Dashboard() {
                                     averageLine={averageJourneyScore}
                                     isPercentage
                                 />
+
+                                {/* <Debugg data={scoresByJourney} /> */}
                                 <div className="mt-4 flex gap-10">
                                     <button
                                         className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"

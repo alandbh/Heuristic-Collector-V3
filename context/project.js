@@ -29,7 +29,11 @@ const QUERY_ALL_PLAYERS = gql`
                 id
                 name
                 slug
-                department
+                departmentObj {
+                    departmentName
+                    departmentSlug
+                    departmentOrder
+                }
                 logo {
                     url
                 }
