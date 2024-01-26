@@ -769,6 +769,7 @@ function Dashboard() {
                                             averageLineColor="#a5a5a5"
                                             averageLineDash="8,7"
                                             averageLineWidth={1.8}
+                                            vOffset={2}
                                         />
 
                                         {/* Debbugging  */}

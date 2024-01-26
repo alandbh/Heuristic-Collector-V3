@@ -17,6 +17,7 @@ export default function BarChart({
     averageLineDash = "0,0",
     averageLineColor = "red",
     valueKey = "value",
+    vOffset = 2,
 }) {
     const [chartData, setChartData] = useState([]);
 
@@ -45,7 +46,7 @@ export default function BarChart({
             : (maxHeight / 5) * score;
     }
     function getAveragePosition(score, maxHeight) {
-        let amount = score !== 0 ? 1 : -2;
+        let amount = score !== 0 ? 1 : -vOffset;
 
         return isPercentage
             ? maxHeight - (maxHeight / 5) * (score * 5) + amount
@@ -92,7 +93,8 @@ export default function BarChart({
                                         brr: 0,
                                         blr: 0,
                                         x: 10 + index * barWidth + index * gap,
-                                        maxHeight: height - 2,
+                                        maxHeight: height - vOffset,
+                                        vOffset,
                                     })}
                                     fill={getColor(score.show_player)}
                                 />
@@ -113,13 +115,17 @@ export default function BarChart({
                                 key={index}
                                 d={createPath({
                                     w: barWidth,
-                                    h: getHeight(score[valueKey], height - 2),
+                                    h: getHeight(
+                                        score[valueKey],
+                                        height - vOffset
+                                    ),
                                     tlr: radius,
                                     trr: radius,
                                     brr: 0,
                                     blr: 0,
                                     x: 10 + index * barWidth + index * gap,
-                                    maxHeight: height - 2,
+                                    maxHeight: height - vOffset,
+                                    vOffset,
                                 })}
                                 fill={getColor(score.show_player)}
                             />
@@ -128,9 +134,15 @@ export default function BarChart({
 
                     <line
                         x1="0"
-                        y1={getAveragePosition(averageLine, height - 2) + 2}
+                        y1={
+                            getAveragePosition(averageLine, height - vOffset) +
+                            vOffset
+                        }
                         x2={width}
-                        y2={getAveragePosition(averageLine, height - 2) + 2}
+                        y2={
+                            getAveragePosition(averageLine, height - vOffset) +
+                            vOffset
+                        }
                         strokeWidth={averageLineWidth}
                         strokeDasharray={averageLineDash}
                         stroke={averageLineColor}
@@ -143,8 +155,18 @@ export default function BarChart({
 }
 
 function createPath(pathParams) {
-    const { w, h, tlr, trr, brr, blr, x = 0, maxHeight = 512 } = pathParams;
-    const y = maxHeight - h;
+    const {
+        w,
+        h,
+        tlr,
+        trr,
+        brr,
+        blr,
+        x = 0,
+        maxHeight = 512,
+        vOffset = 0,
+    } = pathParams;
+    const y = maxHeight - (h - vOffset);
     return `
         M ${x} ${tlr + y} 
         A ${tlr} ${tlr} 0 0 1 ${tlr + x} ${y} 
