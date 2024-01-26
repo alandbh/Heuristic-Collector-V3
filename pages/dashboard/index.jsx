@@ -636,6 +636,7 @@ function Dashboard() {
                 playerSlug: "separator",
                 show_player: false,
                 value: 0,
+                allJourneysScoreAverage: 0,
                 valuePrev: null,
                 averageScoreValuePrev: null,
                 ignore_journey: false,
@@ -645,7 +646,7 @@ function Dashboard() {
         }
     });
 
-    function getAverageScore(dataSetArray) {
+    function getAverageScore(dataSetArray, keyValue = "value") {
         const dataSetWithoutSeparator = dataSetArray.filter(
             (score) => score.playerSlug !== "separator"
         );
@@ -653,7 +654,7 @@ function Dashboard() {
         const average_score = Number(
             (
                 dataSetWithoutSeparator
-                    .map((score) => score.value)
+                    .map((score) => score[keyValue])
                     .reduce((acc, n) => {
                         return acc + n;
                     }, 0) / dataSetWithoutSeparator.length
@@ -717,7 +718,10 @@ function Dashboard() {
                         <div>
                             <ChartSection
                                 title="Heuristic Chart"
-                                average={getAverageScore(datasetWithSeparator)}
+                                average={getAverageScore(
+                                    datasetWithSeparator,
+                                    "allJourneysScoreAverage"
+                                )}
                             >
                                 <div className="flex border-b px-4 min-h-[50px]">
                                     <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
@@ -754,6 +758,7 @@ function Dashboard() {
                                             averageLine={getAverageScore(
                                                 datasetWithSeparator
                                             )}
+                                            // averageLine={3.5}
                                             height={258}
                                             width={950}
                                             radius={5}
