@@ -645,6 +645,24 @@ function Dashboard() {
         }
     });
 
+    function getAverageScore(dataSetArray) {
+        const dataSetWithoutSeparator = dataSetArray.filter(
+            (score) => score.playerSlug !== "separator"
+        );
+
+        const average_score = Number(
+            (
+                dataSetWithoutSeparator
+                    .map((score) => score.value)
+                    .reduce((acc, n) => {
+                        return acc + n;
+                    }, 0) / dataSetWithoutSeparator.length
+            ).toFixed(2)
+        );
+
+        return average_score;
+    }
+
     return (
         <div className="bg-slate-100/70 dark:bg-slate-800/50 p-10">
             <main className="mt-10 min-h-[calc(100vh_-_126px)] flex flex-col items-center">
@@ -732,9 +750,9 @@ function Dashboard() {
                                             refDom={chartRef}
                                             dataSet={datasetWithSeparator}
                                             valueKey={"allJourneysScoreAverage"}
-                                            averageLine={
-                                                allJourneyScores.average_score
-                                            }
+                                            averageLine={getAverageScore(
+                                                datasetWithSeparator
+                                            )}
                                             height={258}
                                             width={950}
                                             radius={5}
@@ -753,9 +771,9 @@ function Dashboard() {
                                             dataSet={
                                                 allJourneyScores.scores_by_heuristic
                                             }
-                                            averageLine={
-                                                allJourneyScores.average_score
-                                            }
+                                            averageLine={getAverageScore(
+                                                allJourneyScores.scores_by_heuristic
+                                            )}
                                             height={387}
                                             width={1048}
                                             radius={0}
@@ -812,9 +830,9 @@ function Dashboard() {
                                     <BarChart
                                         refDom={chartJourneyRef}
                                         dataSet={datasetWithSeparator}
-                                        averageLine={
-                                            allJourneyScores.average_score
-                                        }
+                                        averageLine={getAverageScore(
+                                            datasetWithSeparator
+                                        )}
                                         height={258}
                                         width={950}
                                         radius={5}
@@ -1036,7 +1054,9 @@ function Dashboard() {
                                     refDom={journeyChartRef}
                                     // allJourneyScores={allJourneyScores}
                                     dataSet={journeyScoresDatasetArr}
-                                    averageLine={averageJourneyScore}
+                                    averageLine={getAverageScore(
+                                        journeyScoresDatasetArr
+                                    )}
                                     isPercentage
                                 />
 
