@@ -743,7 +743,7 @@ function Dashboard() {
                                         className=" px-8 pt-8 pb-4"
                                     >
                                         <h3 className="text-lg font-bold my-5">
-                                            Average (all journeys)
+                                            Average scores for all journeys
                                         </h3>
                                         {/* <Debugg
                                         data={
@@ -761,7 +761,7 @@ function Dashboard() {
                                             // averageLine={3.5}
                                             height={258}
                                             width={950}
-                                            radius={5}
+                                            radius={4}
                                             gap={13}
                                             barWidth={15.4}
                                             barColor="#a5a5a5"
@@ -882,15 +882,15 @@ function Dashboard() {
                                     className="px-8 pb-8"
                                 >
                                     <h3 className="text-lg font-bold my-5">
-                                        Score Stats (only for{" "}
+                                        Score Stats (for{" "}
                                         {
                                             allJourneys.find(
                                                 (journey) =>
                                                     journey.slug ===
                                                     currentJourney
                                             )?.name
-                                        }
-                                        )
+                                        }{" "}
+                                        only).
                                     </h3>
 
                                     <ScoreStatsTable
