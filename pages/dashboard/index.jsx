@@ -14,6 +14,7 @@ import SearchBoxSimple from "../../components/SearchBoxSimple";
 import ChartSection from "../../components/ChartSection";
 import ScoreStatsTable from "../../components/ScoreStatsTable";
 import { sortCollection } from "../../lib/utils";
+import BarChartCompare from "../../components/BarChartCompare";
 
 const QUERY_HEURISTICS = gql`
     query GetAllHeuristics($projectSlug: String) {
@@ -942,7 +943,10 @@ function Dashboard() {
                                     </div>
                                     <div className=" px-8 pt-8 pb-4">
                                         <div className="flex flex-col items-center">
-                                            <CompareBar
+                                            <BarChartCompare
+                                                refDom={chartCompareRef}
+                                            />
+                                            {/* <CompareBar
                                                 showPlayer={showPlayer}
                                                 allJourneyScores={
                                                     allJourneyScores
@@ -962,7 +966,7 @@ function Dashboard() {
                                                     selectedHeuristic
                                                 }
                                                 refDom={chartCompareRef}
-                                            />
+                                            /> */}
                                         </div>
                                         <div className="mt-4 flex gap-10">
                                             <button
