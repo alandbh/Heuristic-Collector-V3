@@ -102,7 +102,7 @@ function SearchBoxSimple({
                         ev.key === "Escape"
                     ) {
                         setResult([]);
-                        inputRef.current.blur();
+                        inputRef.current?.blur();
                         // removeListening();
                         window.removeEventListener(
                             "click",
