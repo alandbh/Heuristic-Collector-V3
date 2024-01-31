@@ -717,10 +717,17 @@ function Dashboard() {
                         <div>
                             <ChartSection
                                 title="Heuristic Chart"
-                                average={getAverageScore(
-                                    datasetWithSeparator,
-                                    "allJourneysScoreAverage"
-                                )}
+                                average={
+                                    project.includes("retail")
+                                        ? getAverageScore(
+                                              datasetWithSeparator,
+                                              "allJourneysScoreAverage"
+                                          )
+                                        : getAverageScore(
+                                              datasetWithSeparator,
+                                              "value"
+                                          )
+                                }
                             >
                                 <div className="flex border-b px-4 min-h-[50px]">
                                     <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
@@ -755,7 +762,8 @@ function Dashboard() {
                                             dataSet={datasetWithSeparator}
                                             valueKey={"allJourneysScoreAverage"}
                                             averageLine={getAverageScore(
-                                                datasetWithSeparator
+                                                datasetWithSeparator,
+                                                "allJourneysScoreAverage"
                                             )}
                                             // averageLine={3.5}
                                             height={258}
