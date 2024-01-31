@@ -175,13 +175,13 @@ function createPath(pathParams) {
     } = pathParams;
     const y = maxHeight - (h - vOffset);
     return `
-        M ${x} ${tlr + y} 
-        A ${tlr} ${tlr} 0 0 1 ${tlr + x} ${y} 
-        L ${w - trr + x} ${y} 
-        A ${trr} ${trr} 0 0 1 ${w + x} ${trr + y} 
-        L ${w + x} ${h - brr}
-        A ${brr} ${brr} 0 0 1 ${w - brr + x} ${h + y} 
-        L ${blr + x} ${h + y} 
-        A ${blr} ${blr} 0 0 1 ${x} ${h - blr} 
-        Z`;
+            M ${x} ${tlr + y} 
+            A ${tlr} ${tlr} 0 0 1 ${tlr + x} ${y} 
+            L ${w - trr + x} ${y} 
+            A ${trr} ${trr} 0 0 1 ${w + x} ${trr + y} 
+            L ${w + x} ${h + y - brr}
+            A ${brr} ${brr} 0 0 1 ${w - brr + x} ${h + y} 
+            L ${blr + x} ${h + y} 
+            A ${blr} ${blr} 0 0 1 ${x} ${h + y - blr} 
+            Z`;
 }
