@@ -641,7 +641,6 @@ function Dashboard() {
                 averageScoreValuePrev: null,
                 ignore_journey: false,
                 zeroed_journey: false,
-                allJourneysScoreAverage: 0,
             });
         }
     });
@@ -769,6 +768,7 @@ function Dashboard() {
                                             averageLineColor="#a5a5a5"
                                             averageLineDash="8,7"
                                             averageLineWidth={1.8}
+                                            hOffset={13}
                                             vOffset={2}
                                         />
 
@@ -839,9 +839,11 @@ function Dashboard() {
                                             barWidth={24}
                                             barColor="#D9D9D9"
                                             highlightColor="#1967d2"
-                                            averageLineColor="#a5a5a5"
-                                            averageLineDash="8,7"
+                                            averageLineColor="red"
+                                            averageLineDash="0,0"
                                             averageLineWidth={1.8}
+                                            hOffset={10}
+                                            vOffset={2}
                                         />
 
                                         <div className="mt-4 flex gap-10">
@@ -1060,15 +1062,39 @@ function Dashboard() {
                             </div>
 
                             <div className=" px-8 pt-8 pb-4">
-                                <BarChart
-                                    refDom={journeyChartRef}
-                                    // allJourneyScores={allJourneyScores}
-                                    dataSet={journeyScoresDatasetArr}
-                                    averageLine={getAverageScore(
-                                        journeyScoresDatasetArr
-                                    )}
-                                    isPercentage
-                                />
+                                {project.includes("retail") ? (
+                                    <BarChart
+                                        refDom={journeyChartRef}
+                                        // allJourneyScores={allJourneyScores}
+                                        dataSet={journeyScoresDatasetArr}
+                                        averageLine={getAverageScore(
+                                            journeyScoresDatasetArr
+                                        )}
+                                        isPercentage
+                                    />
+                                ) : (
+                                    <BarChart
+                                        refDom={journeyChartRef}
+                                        // allJourneyScores={allJourneyScores}
+                                        dataSet={journeyScoresDatasetArr}
+                                        averageLine={getAverageScore(
+                                            journeyScoresDatasetArr
+                                        )}
+                                        isPercentage
+                                        height={387}
+                                        width={1048}
+                                        radius={0}
+                                        gap={25}
+                                        barWidth={24}
+                                        barColor="#D9D9D9"
+                                        highlightColor="#1967d2"
+                                        averageLineColor="red"
+                                        averageLineDash="0,0"
+                                        averageLineWidth={1.8}
+                                        hOffset={10}
+                                        vOffset={2}
+                                    />
+                                )}
 
                                 {/* <Debugg data={scoresByJourney} /> */}
                                 <div className="mt-4 flex gap-10">
