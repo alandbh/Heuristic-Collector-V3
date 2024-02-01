@@ -235,7 +235,7 @@ export default function BarChartCompare({
                     style={style.label}
                     fill="#9AA0A6"
                 >
-                    {dataSet.currentYearScores.playerScore.toFixed(1)}
+                    {dataSet.currentYearScores.playerScore?.toFixed(1)}
                 </text>
 
                 <text
@@ -251,7 +251,7 @@ export default function BarChartCompare({
                     style={style.label}
                     fill="#9AA0A6"
                 >
-                    {dataSet.currentYearScores.averageScore.toFixed(1)}
+                    {dataSet.currentYearScores.averageScore?.toFixed(1)}
                 </text>
 
                 <text

@@ -670,9 +670,13 @@ function Dashboard() {
     });
 
     function getAverageScore(dataSetArray, keyValue = "value") {
-        const dataSetWithoutSeparator = dataSetArray.filter(
+        const dataSetWithoutSeparator = dataSetArray?.filter(
             (score) => score.playerSlug !== "separator"
         );
+
+        if (!dataSetWithoutSeparator) {
+            return;
+        }
 
         const average_score = Number(
             (
@@ -688,11 +692,14 @@ function Dashboard() {
     }
 
     function getScoreFromPlayerSlug(playerSlug, scores, key) {
+        if (!scores) {
+            return;
+        }
         const playerScore = scores.find(
             (score) => score.playerSlug === playerSlug
         );
 
-        return key ? playerScore[key] : playerScore;
+        return key && playerScore ? playerScore[key] : playerScore;
     }
 
     function getCompareDataset() {
