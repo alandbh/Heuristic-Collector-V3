@@ -35,6 +35,11 @@ const QUERY_JOURNEYS = gql`
         journeys(first: 1000, where: { project: { slug: $projectSlug } }) {
             name
             slug
+            project {
+                name
+                slug
+                year
+            }
         }
     }
 `;
@@ -64,6 +69,7 @@ function Dashboard() {
     const [allJourneys, setAllJourneys] = useState(null);
     const [allPlayers, setAllPlayers] = useState(null);
     const [currentJourney, setCurrentJourney] = useState(null);
+    const [projectObj, setProjectObj] = useState(null);
     const [heuristicsByJourney, setHeuristicsByJourney] = useState(null);
     const [selectedHeuristic, setSelectedHeuristic] = useState(null);
     const [svgCopied, setSVGCopied] = useState(null);
@@ -132,6 +138,10 @@ function Dashboard() {
                 })
                 .then(({ data }) => {
                     setAllJourneys(data.journeys);
+                    const project = data.journeys.find(
+                        (journey) => journey.project.year
+                    ).project;
+                    setProjectObj(project);
                 });
         }
     }, [router.query.project]);
@@ -579,21 +589,22 @@ function Dashboard() {
 
     let hasComparison = false;
 
-    function checkHasComparison() {
-        const hasComparison = Boolean(
-            getPreviousScoresByPlayer(showPlayer)
-                ? getPreviousScoresByPlayer(showPlayer)[currentJourney]?.find(
-                      (score) =>
-                          score.id ===
-                          Number(selectedHeuristic?.heuristicNumber)
-                  )
-                : false
-        );
+    // function checkHasComparison() {
+    //     const hasComparison = Boolean(
+    //         getPreviousScoresByPlayer(showPlayer)
+    //             ? getPreviousScoresByPlayer(showPlayer)[currentJourney]?.find(
+    //                   (score) =>
+    //                       score.id ===
+    //                       Number(selectedHeuristic?.heuristicNumber)
+    //               )
+    //             : false
+    //     );
 
-        return hasComparison;
-    }
+    //     return hasComparison;
+    // }
 
-    hasComparison = checkHasComparison();
+    hasComparison = Boolean(getPreviousScoresByPlayer(showPlayer));
+    // hasComparison = checkHasComparison();
     // const hasComparison = prevScores[showPlayer][currentJourney];
     function isValidJourney(journeySlugToTest) {
         return Boolean(
@@ -615,12 +626,6 @@ function Dashboard() {
                 return score.departmentSlug;
             })
         )
-    );
-
-    const isThereDepartments = allJourneyScores.scores_by_heuristic?.some(
-        (score) => {
-            return score.departmentSlug !== null;
-        }
     );
 
     const datasetWithSeparator = [];
@@ -663,6 +668,49 @@ function Dashboard() {
 
         return average_score;
     }
+
+    function getScoreFromPlayerSlug(playerSlug, scores, key) {
+        const playerScore = scores.find(
+            (score) => score.playerSlug === playerSlug
+        );
+
+        return key ? playerScore[key] : playerScore;
+    }
+
+    function getCompareDataset() {
+        const dataset = {};
+
+        const playerScore = getScoreFromPlayerSlug(
+            showPlayer,
+            allJourneyScores.scores_by_heuristic,
+            "allJourneysScoreAverage"
+        );
+
+        const averageScore = project.includes("retail")
+            ? getAverageScore(
+                  allJourneyScores.scores_by_heuristic,
+                  "allJourneysScoreAverage"
+              )
+            : getAverageScore(allJourneyScores.scores_by_heuristic, "value");
+
+        dataset.currentYearScores = {
+            year: projectObj.year,
+            playerScore,
+            averageScore,
+        };
+
+        const { previousYearScores } = getPreviousScoresByPlayer(showPlayer);
+
+        dataset.previousYearScores = {
+            year: previousYearScores.year,
+            playerScore: previousYearScores.playerScore,
+            averageScore: previousYearScores.averageScore,
+        };
+
+        return dataset;
+    }
+
+    // console.log("aaa", getCompareDataset());
 
     return (
         <div className="bg-slate-100/70 dark:bg-slate-800/50 p-10">
@@ -943,30 +991,35 @@ function Dashboard() {
                                     </div>
                                     <div className=" px-8 pt-8 pb-4">
                                         <div className="flex flex-col items-center">
-                                            <BarChartCompare
-                                                refDom={chartCompareRef}
-                                            />
-                                            {/* <CompareBar
-                                                showPlayer={showPlayer}
-                                                allJourneyScores={
-                                                    allJourneyScores
-                                                }
-                                                prevScores={
-                                                    getPreviousScoresByPlayer(
-                                                        showPlayer
-                                                    ) &&
-                                                    getPreviousScoresByPlayer(
-                                                        showPlayer
-                                                    )[currentJourney]
-                                                }
-                                                currentJourney={
-                                                    router.query.journey
-                                                }
-                                                selectedHeuristic={
-                                                    selectedHeuristic
-                                                }
-                                                refDom={chartCompareRef}
-                                            /> */}
+                                            {project.includes("retail") && (
+                                                <BarChartCompare
+                                                    refDom={chartCompareRef}
+                                                    dataSet={getCompareDataset()}
+                                                />
+                                            )}
+                                            {!project.includes("retail") && (
+                                                <CompareBar
+                                                    showPlayer={showPlayer}
+                                                    allJourneyScores={
+                                                        allJourneyScores
+                                                    }
+                                                    prevScores={
+                                                        getPreviousScoresByPlayer(
+                                                            showPlayer
+                                                        ) &&
+                                                        getPreviousScoresByPlayer(
+                                                            showPlayer
+                                                        )[currentJourney]
+                                                    }
+                                                    currentJourney={
+                                                        router.query.journey
+                                                    }
+                                                    selectedHeuristic={
+                                                        selectedHeuristic
+                                                    }
+                                                    refDom={chartCompareRef}
+                                                />
+                                            )}
                                         </div>
                                         <div className="mt-4 flex gap-10">
                                             <button
