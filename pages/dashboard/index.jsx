@@ -15,6 +15,7 @@ import ChartSection from "../../components/ChartSection";
 import ScoreStatsTable from "../../components/ScoreStatsTable";
 import { sortCollection } from "../../lib/utils";
 import BarChartCompare from "../../components/BarChartCompare";
+import { useProject } from "../../lib/useProject";
 
 const QUERY_HEURISTICS = gql`
     query GetAllHeuristics($projectSlug: String) {
@@ -69,11 +70,9 @@ function Dashboard() {
     const [allJourneys, setAllJourneys] = useState(null);
     const [allPlayers, setAllPlayers] = useState(null);
     const [currentJourney, setCurrentJourney] = useState(null);
-    const [projectObj, setProjectObj] = useState(null);
     const [heuristicsByJourney, setHeuristicsByJourney] = useState(null);
     const [selectedHeuristic, setSelectedHeuristic] = useState(null);
     const [svgCopied, setSVGCopied] = useState(null);
-    const [pngSrc, setPngSrc] = useState(null);
     const inputRef = useRef(null);
     const chartRef = useRef(null);
     const chartJourneyRef = useRef(null);
@@ -138,10 +137,6 @@ function Dashboard() {
                 })
                 .then(({ data }) => {
                     setAllJourneys(data.journeys);
-                    const project = data.journeys.find(
-                        (journey) => journey.project.year
-                    ).project;
-                    setProjectObj(project);
                 });
         }
     }, [router.query.project]);
@@ -258,6 +253,16 @@ function Dashboard() {
             }
         }
     }, [currentJourney, allHeuristics]);
+
+    /**
+     *
+     * Getting the Project data, including the previous scores
+     *
+     */
+
+    const { projectName, projectCurrentYear } = useProject(
+        router.query.project
+    );
 
     /**
      *
@@ -528,57 +533,6 @@ function Dashboard() {
                 heuristicNumber && "-h_" + heuristicNumber
             }${playerSlug && "-" + playerSlug}.png`
         );
-        return;
-
-        /**
-         * Caso seja necessário plotar o PNG na tela
-         *
-         * Remover o return acima
-         */
-        const svgBlob = new Blob([svgText], {
-            type: "image/svg+xml;charset=utf-8",
-        });
-
-        const svgUrl = domUrl.createObjectURL(svgBlob);
-
-        // create a canvas element to pass through
-        let canvas = document.createElement("canvas");
-        // width="901" height="340"
-        canvas.width = 901;
-        canvas.height = 340;
-        let ctx = canvas.getContext("2d");
-
-        // create a new image to hold it the converted type
-        const img = new Image();
-
-        // when the image is loaded we can get it as base64 url
-        img.onload = function () {
-            // draw it to the canvas
-            ctx.drawImage(this, 0, 0);
-
-            // if it needs some styling, we need a new canvas
-            let styled = document.createElement("canvas");
-            styled.width = canvas.width;
-            styled.height = canvas.height;
-            let styledCtx = styled.getContext("2d");
-            styledCtx.save();
-            // styledCtx.fillStyle = fill;
-            styledCtx.fillRect(0, 0, canvas.width, canvas.height);
-            styledCtx.strokeRect(0, 0, canvas.width, canvas.height);
-            styledCtx.restore();
-            styledCtx.drawImage(canvas, 0, 0);
-            canvas = styled;
-
-            // we don't need the original any more
-            domUrl.revokeObjectURL(svgUrl);
-            // now we can resolve the promise, passing the base64 url
-            return canvas.toDataURL();
-        };
-
-        // load the image
-        img.src = svgUrl;
-
-        setPngSrc(svgUrl);
     }
 
     // Retrying to fectch the scores in case the api returns empty data
@@ -680,6 +634,10 @@ function Dashboard() {
     function getCompareDataset() {
         const dataset = {};
 
+        if (!project || !projectCurrentYear || !projectName) {
+            return;
+        }
+
         const playerScore = getScoreFromPlayerSlug(
             showPlayer,
             allJourneyScores.scores_by_heuristic,
@@ -694,7 +652,7 @@ function Dashboard() {
             : getAverageScore(allJourneyScores.scores_by_heuristic, "value");
 
         dataset.currentYearScores = {
-            year: projectObj.year,
+            year: projectCurrentYear,
             playerScore,
             averageScore,
         };
