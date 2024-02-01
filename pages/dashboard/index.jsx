@@ -72,6 +72,8 @@ function Dashboard() {
     const [currentJourney, setCurrentJourney] = useState(null);
     const [heuristicsByJourney, setHeuristicsByJourney] = useState(null);
     const [selectedHeuristic, setSelectedHeuristic] = useState(null);
+    const [compareDataset, setCompareDataset] = useState(null);
+    const [hasComparison, setHasComparison] = useState(false);
     const [svgCopied, setSVGCopied] = useState(null);
     const inputRef = useRef(null);
     const chartRef = useRef(null);
@@ -256,16 +258,6 @@ function Dashboard() {
 
     /**
      *
-     * Getting the Project data, including the previous scores
-     *
-     */
-
-    const { projectName, projectCurrentYear } = useProject(
-        router.query.project
-    );
-
-    /**
-     *
      * Getting the scores for the current journey
      *
      */
@@ -385,6 +377,78 @@ function Dashboard() {
 
         setScoresByJourney(filterdScores);
     }, [allProjectScores, currentJourney]);
+
+    /**
+     *
+     * Getting the Project data, including the previous scores
+     *
+     */
+
+    const {
+        projectName,
+        projectCurrentYear,
+        previousPlayerScoreAverage,
+        previousAllPlayersScoreAverage,
+    } = useProject(router.query.project, showPlayer, router.query.heuristic);
+
+    useEffect(() => {
+        if (!allJourneyScores) {
+            return;
+        }
+
+        console.log("bbb", {
+            projectName,
+            projectCurrentYear,
+            previousPlayerScoreAverage,
+            previousAllPlayersScoreAverage,
+        });
+        const dataset = {};
+
+        setHasComparison(Boolean(previousPlayerScoreAverage));
+
+        if (!project || !projectCurrentYear || !projectName) {
+            // return;
+        }
+
+        const playerScore = getScoreFromPlayerSlug(
+            showPlayer,
+            allJourneyScores?.scores_by_heuristic,
+            "allJourneysScoreAverage"
+        );
+
+        const averageScore = project.includes("retail")
+            ? getAverageScore(
+                  allJourneyScores.scores_by_heuristic,
+                  "allJourneysScoreAverage"
+              )
+            : getAverageScore(allJourneyScores.scores_by_heuristic, "value");
+
+        dataset.currentYearScores = {
+            year: projectCurrentYear,
+            playerScore,
+            averageScore,
+        };
+
+        // const { previousYearScores } = getPreviousScoresByPlayer(showPlayer);
+
+        dataset.previousYearScores = {
+            year: projectCurrentYear - 1,
+            playerScore: previousPlayerScoreAverage,
+            averageScore: previousAllPlayersScoreAverage,
+        };
+
+        console.log("aaad", dataset);
+
+        setCompareDataset(dataset);
+    }, [
+        allJourneyScores,
+        previousAllPlayersScoreAverage,
+        previousPlayerScoreAverage,
+        project,
+        projectCurrentYear,
+        projectName,
+        showPlayer,
+    ]);
 
     /**
      *
@@ -541,7 +605,7 @@ function Dashboard() {
         fetchAllJourneyScores(project, journey, heuristic, showPlayer);
     }
 
-    let hasComparison = false;
+    // let hasComparison = false;
 
     // function checkHasComparison() {
     //     const hasComparison = Boolean(
@@ -557,7 +621,7 @@ function Dashboard() {
     //     return hasComparison;
     // }
 
-    hasComparison = Boolean(getPreviousScoresByPlayer(showPlayer));
+    // hasComparison = Boolean(previousPlayerScoreAverage);
     // hasComparison = checkHasComparison();
     // const hasComparison = prevScores[showPlayer][currentJourney];
     function isValidJourney(journeySlugToTest) {
@@ -566,13 +630,13 @@ function Dashboard() {
         );
     }
 
-    function getPreviousScoresByPlayer(playerSlug = showPlayer) {
-        const currentPlayerObj = allPlayers.find(
-            (player) => player.slug === playerSlug
-        );
+    // function getPreviousScoresByPlayer(playerSlug = showPlayer) {
+    //     const currentPlayerObj = allPlayers.find(
+    //         (player) => player.slug === playerSlug
+    //     );
 
-        return currentPlayerObj ? currentPlayerObj.previousScores : null;
-    }
+    //     return currentPlayerObj ? currentPlayerObj.previousScores : null;
+    // }
 
     const departmentList = Array.from(
         new Set(
@@ -632,41 +696,9 @@ function Dashboard() {
     }
 
     function getCompareDataset() {
-        const dataset = {};
-
-        if (!project || !projectCurrentYear || !projectName) {
-            return;
-        }
-
-        const playerScore = getScoreFromPlayerSlug(
-            showPlayer,
-            allJourneyScores.scores_by_heuristic,
-            "allJourneysScoreAverage"
-        );
-
-        const averageScore = project.includes("retail")
-            ? getAverageScore(
-                  allJourneyScores.scores_by_heuristic,
-                  "allJourneysScoreAverage"
-              )
-            : getAverageScore(allJourneyScores.scores_by_heuristic, "value");
-
-        dataset.currentYearScores = {
-            year: projectCurrentYear,
-            playerScore,
-            averageScore,
-        };
-
-        const { previousYearScores } = getPreviousScoresByPlayer(showPlayer);
-
-        dataset.previousYearScores = {
-            year: previousYearScores.year,
-            playerScore: previousYearScores.playerScore,
-            averageScore: previousYearScores.averageScore,
-        };
-
-        return dataset;
+        // return dataset;
     }
+    // getCompareDataset();
 
     // console.log("aaa", getCompareDataset());
 
@@ -952,7 +984,7 @@ function Dashboard() {
                                             {project.includes("retail") && (
                                                 <BarChartCompare
                                                     refDom={chartCompareRef}
-                                                    dataSet={getCompareDataset()}
+                                                    dataSet={compareDataset}
                                                 />
                                             )}
                                             {!project.includes("retail") && (
