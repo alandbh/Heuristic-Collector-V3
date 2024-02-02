@@ -27,6 +27,7 @@ export default function BarChartCompare({
     gapBetweenCharts = 30,
     barColor = "#174EA6",
     barStrokeColor = "#9AA0A6",
+    barStrokeWidth = 1,
     xAxisColor = "#9AA0A6",
     xAxisWidth = 2,
     hOffset = 28,
@@ -82,7 +83,7 @@ export default function BarChartCompare({
                         w: barWidth,
                         h: getHeight(
                             dataSet.previousYearScores.averageScore,
-                            height - vOffset,
+                            height - vOffset - barStrokeWidth * 2,
                             false
                         ),
                         tlr: radius,
@@ -168,7 +169,7 @@ export default function BarChartCompare({
                         w: barWidth,
                         h: getHeight(
                             dataSet.currentYearScores.averageScore,
-                            height - vOffset
+                            height - vOffset - barStrokeWidth * 2
                         ),
                         tlr: radius,
                         trr: radius,
