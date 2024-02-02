@@ -8,7 +8,6 @@ import { auth } from "../../lib/firebase";
 import Debugg from "../../lib/Debugg";
 
 import BarChart from "../../components/BarChart";
-import CompareBar from "../../components/CompareBar";
 import Select from "../../components/Select";
 import SearchBoxSimple from "../../components/SearchBoxSimple";
 import ChartSection from "../../components/ChartSection";
@@ -202,6 +201,12 @@ function Dashboard() {
         }
     }, [currentJourney]);
 
+    /**
+     *
+     * Mover este useffect para um custom hook
+     * que retorna um selectedHeuristic
+     */
+
     useEffect(() => {
         if (router.query.journey !== undefined) {
             setCurrentJourney(router.query.journey);
@@ -339,7 +344,6 @@ function Dashboard() {
             const maximunJourneyScore = playerObj.journeyScoresArr.length * 5;
 
             // Calculating current journey score based on gerais weight
-            // console.log({ journeyTotalScore });
 
             if (geraisArr.length === 0) {
                 // for Retail
@@ -396,19 +400,9 @@ function Dashboard() {
             return;
         }
 
-        console.log("bbb", {
-            projectName,
-            projectCurrentYear,
-            previousPlayerScoreAverage,
-            previousAllPlayersScoreAverage,
-        });
         const dataset = {};
 
         setHasComparison(Boolean(previousPlayerScoreAverage));
-
-        if (!project || !projectCurrentYear || !projectName) {
-            // return;
-        }
 
         const playerScore = getScoreFromPlayerSlug(
             showPlayer,
@@ -429,15 +423,11 @@ function Dashboard() {
             averageScore,
         };
 
-        // const { previousYearScores } = getPreviousScoresByPlayer(showPlayer);
-
         dataset.previousYearScores = {
             year: projectCurrentYear - 1,
             playerScore: previousPlayerScoreAverage,
             averageScore: previousAllPlayersScoreAverage,
         };
-
-        console.log("aaad", dataset);
 
         setCompareDataset(dataset);
     }, [
@@ -525,8 +515,6 @@ function Dashboard() {
         return null;
     }
 
-    console.log({ user });
-
     function handleSelectJourney(ev) {
         console.log("Journey", ev.target.value);
         // setResult([]);
@@ -605,38 +593,11 @@ function Dashboard() {
         fetchAllJourneyScores(project, journey, heuristic, showPlayer);
     }
 
-    // let hasComparison = false;
-
-    // function checkHasComparison() {
-    //     const hasComparison = Boolean(
-    //         getPreviousScoresByPlayer(showPlayer)
-    //             ? getPreviousScoresByPlayer(showPlayer)[currentJourney]?.find(
-    //                   (score) =>
-    //                       score.id ===
-    //                       Number(selectedHeuristic?.heuristicNumber)
-    //               )
-    //             : false
-    //     );
-
-    //     return hasComparison;
-    // }
-
-    // hasComparison = Boolean(previousPlayerScoreAverage);
-    // hasComparison = checkHasComparison();
-    // const hasComparison = prevScores[showPlayer][currentJourney];
     function isValidJourney(journeySlugToTest) {
         return Boolean(
             allJourneys.find((journey) => journey.slug === journeySlugToTest)
         );
     }
-
-    // function getPreviousScoresByPlayer(playerSlug = showPlayer) {
-    //     const currentPlayerObj = allPlayers.find(
-    //         (player) => player.slug === playerSlug
-    //     );
-
-    //     return currentPlayerObj ? currentPlayerObj.previousScores : null;
-    // }
 
     const departmentList = Array.from(
         new Set(
@@ -701,13 +662,6 @@ function Dashboard() {
 
         return key && playerScore ? playerScore[key] : playerScore;
     }
-
-    function getCompareDataset() {
-        // return dataset;
-    }
-    // getCompareDataset();
-
-    // console.log("aaa", getCompareDataset());
 
     return (
         <div className="bg-slate-100/70 dark:bg-slate-800/50 p-10">
@@ -992,29 +946,6 @@ function Dashboard() {
                                                 <BarChartCompare
                                                     refDom={chartCompareRef}
                                                     dataSet={compareDataset}
-                                                />
-                                            )}
-                                            {!project.includes("retail") && (
-                                                <CompareBar
-                                                    showPlayer={showPlayer}
-                                                    allJourneyScores={
-                                                        allJourneyScores
-                                                    }
-                                                    prevScores={
-                                                        getPreviousScoresByPlayer(
-                                                            showPlayer
-                                                        ) &&
-                                                        getPreviousScoresByPlayer(
-                                                            showPlayer
-                                                        )[currentJourney]
-                                                    }
-                                                    currentJourney={
-                                                        router.query.journey
-                                                    }
-                                                    selectedHeuristic={
-                                                        selectedHeuristic
-                                                    }
-                                                    refDom={chartCompareRef}
                                                 />
                                             )}
                                         </div>

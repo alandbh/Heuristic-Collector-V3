@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Debugg from "../../lib/Debugg";
+import { createPath } from "../../lib/utils";
 
 export default function BarChart({
     dataSet,
@@ -25,17 +25,7 @@ export default function BarChart({
     // console.log({ dataSet });
 
     useEffect(() => {
-        // const initialChartData = dataSet?.map((data) => {
-        //     return {
-        //         value: 1,
-        //     };
-        // });
-        // setChartData(initialChartData);
         setChartData(dataSet);
-        // setTimeout(() => {
-        //     setChartData(dataSet);
-        // }, 200);
-        // console.log("dataSet", dataSet[0].departmentName);
     }, [dataSet]);
 
     if (!chartData || !dataSet) {
@@ -74,16 +64,6 @@ export default function BarChart({
                     {chartData.map((score, index) => {
                         if (score.playerSlug === "separator") {
                             return (
-                                // <rect
-                                //     key={index}
-                                //     x={10 + index * 14 + index * 15}
-                                //     y={385 - getHeight(1) + 2}
-                                //     height={getHeight(1)}
-                                //     width="20"
-                                //     // fill={getColor(score.show_player)}
-                                //     fill="red"
-                                //     style={{ transition: "0.4s" }}
-                                // />
                                 <path
                                     key={index}
                                     d={createPath({
@@ -108,15 +88,6 @@ export default function BarChart({
                             );
                         }
                         return (
-                            // <rect
-                            //     key={index}
-                            //     x={10 + index * 14 + index * 15}
-                            //     y={385 - getHeight(score.value) + 2}
-                            //     height={getHeight(score.value)}
-                            //     width="20"
-                            //     fill={getColor(score.show_player)}
-                            //     style={{ transition: "0.4s" }}
-                            // />
                             <path
                                 style={{ transition: "0.4s" }}
                                 key={index}
@@ -159,29 +130,4 @@ export default function BarChart({
             </>
         </div>
     );
-}
-
-function createPath(pathParams) {
-    const {
-        w,
-        h,
-        tlr,
-        trr,
-        brr,
-        blr,
-        x = 0,
-        maxHeight = 512,
-        vOffset = 0,
-    } = pathParams;
-    const y = maxHeight - (h - vOffset);
-    return `
-            M ${x} ${tlr + y} 
-            A ${tlr} ${tlr} 0 0 1 ${tlr + x} ${y} 
-            L ${w - trr + x} ${y} 
-            A ${trr} ${trr} 0 0 1 ${w + x} ${trr + y} 
-            L ${w + x} ${h + y - brr}
-            A ${brr} ${brr} 0 0 1 ${w - brr + x} ${h + y} 
-            L ${blr + x} ${h + y} 
-            A ${blr} ${blr} 0 0 1 ${x} ${h + y - blr} 
-            Z`;
 }
