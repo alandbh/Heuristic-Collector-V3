@@ -601,11 +601,13 @@ function Dashboard() {
 
     const departmentList = Array.from(
         new Set(
-            allJourneyScores.scores_by_heuristic?.map((score) => {
-                return score.departmentSlug;
-            })
+            allJourneyScores.scores_by_heuristic
+                ?.filter((score) => score.departmentSlug !== null)
+                .map((score) => {
+                    return score.departmentSlug;
+                })
         )
-    );
+    ).filter((dep) => dep !== null);
 
     const datasetWithSeparator = [];
     departmentList.map((department, index) => {
@@ -710,6 +712,14 @@ function Dashboard() {
                         </div>
                     </div>
                     {/* Debbugging  */}
+                    {/* {
+                        <Debugg
+                            data={allJourneyScores.scores_by_heuristic.filter(
+                                (score) => score.departmentSlug !== null
+                            )}
+                        />
+                    } */}
+                    {/* {<Debugg data={departmentList} />} */}
                     {/* {<Debugg data={datasetWithSeparator} />} */}
 
                     {selectedHeuristic !== null &&
