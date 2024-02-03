@@ -61,7 +61,8 @@ const QUERY_PLAYERS = gql`
 
 function Dashboard() {
     const router = useRouter();
-    const { project, heuristic, showPlayer, journey } = router.query;
+    const { project, heuristic, showPlayer, journey, showManyPlayers, aaa } =
+        router.query;
     const [allJourneyScores, setAllJourneyScores] = useState(null);
     const [scoresByJourney, setScoresByJourney] = useState(null);
     const [allProjectScores, setAllProjectScores] = useState(null);
@@ -81,6 +82,8 @@ function Dashboard() {
     const journeyChartRef = useRef(null);
     const searchRef = useRef(null);
     const [user, loadingUser] = useAuthState(auth);
+
+    console.log({ showManyPlayers: showManyPlayers?.split(",") });
 
     function fetchAllJourneyScores(project, journey, heuristic, showPlayer) {
         if (!project || !journey) {
@@ -610,10 +613,22 @@ function Dashboard() {
     ).filter((dep) => dep !== null);
 
     const datasetWithSeparator = [];
+    let colorNumber = 1;
     departmentList.map((department, index) => {
         allJourneyScores.scores_by_heuristic
             .filter((score) => score.departmentSlug === department)
             .map((score) => {
+                if (
+                    showManyPlayers &&
+                    showManyPlayers.includes(score.playerSlug)
+                ) {
+                    score.show_player = true;
+                    score.barColor = "color_" + colorNumber++;
+                } else {
+                    // score.barColor = "color_0";
+                    score.barColor =
+                        score.playerSlug === showPlayer ? "color_1" : "color_0";
+                }
                 datasetWithSeparator.push(score);
             });
 
@@ -781,7 +796,7 @@ function Dashboard() {
                                             radius={4}
                                             gap={13}
                                             barWidth={15.4}
-                                            barColor="#a5a5a5"
+                                            barColors="#a5a5a5, #4285F4, #174EA6, #333 "
                                             highlightColor="#1967d2"
                                             averageLineColor="#a5a5a5"
                                             averageLineDash="8,7"

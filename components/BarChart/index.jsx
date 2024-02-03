@@ -11,7 +11,7 @@ export default function BarChart({
     radius = 0,
     barWidth = 16,
     gap = 14,
-    barColor = "#D9D9D9",
+    barColors = "#a5a5a5, red, blue, green",
     highlightColor = "#5383EB",
     averageLineWidth = 2,
     averageLineDash = "0,0",
@@ -21,6 +21,13 @@ export default function BarChart({
     vOffset = 2,
 }) {
     const [chartData, setChartData] = useState([]);
+
+    const manyBarColors = {
+        color_0: barColors.split(",")[0],
+        color_1: barColors.split(",")[1],
+        color_2: barColors.split(",")[2],
+        color_3: barColors.split(",")[3],
+    };
 
     // console.log({ dataSet });
 
@@ -44,9 +51,9 @@ export default function BarChart({
             : maxHeight - (maxHeight / 5) * score + amount;
     }
 
-    function getColor(showPlayer) {
-        return showPlayer ? highlightColor : barColor;
-    }
+    // function getColor(showPlayer) {
+    //     return showPlayer ? highlightColor : barColor;
+    // }
 
     return (
         <div>
@@ -83,7 +90,7 @@ export default function BarChart({
                                         maxHeight: height - vOffset,
                                         vOffset,
                                     })}
-                                    fill={getColor(score.show_player)}
+                                    fill={manyBarColors[score.barColor]}
                                 />
                             );
                         }
@@ -105,7 +112,7 @@ export default function BarChart({
                                     maxHeight: height - vOffset,
                                     vOffset,
                                 })}
-                                fill={getColor(score.show_player)}
+                                fill={manyBarColors[score.barColor]}
                             />
                         );
                     })}
