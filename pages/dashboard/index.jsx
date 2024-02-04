@@ -83,8 +83,6 @@ function Dashboard() {
     const searchRef = useRef(null);
     const [user, loadingUser] = useAuthState(auth);
 
-    console.log({ showManyPlayers: showManyPlayers?.split(",") });
-
     function fetchAllJourneyScores(
         project,
         journey,
