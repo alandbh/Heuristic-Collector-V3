@@ -87,7 +87,8 @@ function average(array) {
 }
 
 export default async function handler(req, res) {
-    const { project, journey, heuristic, showPlayer } = req.query;
+    const { project, journey, heuristic, showPlayer, showManyPlayers } =
+        req.query;
     const projectObj = await getData(QUERY_PROJECTS, { projectSlug: project });
     const projectApiKey = projectObj.data.project.collectorsApiKey;
     if (req.headers["sec-fetch-site"] !== "same-origin") {
@@ -224,6 +225,21 @@ export default async function handler(req, res) {
             }
             scoreChartObj.playerSlug = player.slug;
             scoreChartObj.show_player = showPlayer === player.slug;
+
+            let colorNumber = 1;
+            const manyPlayersArr = showManyPlayers.split(",");
+
+            if (showManyPlayers && showManyPlayers.includes(player.slug)) {
+                scoreChartObj.show_player = true;
+                scoreChartObj.barColor =
+                    "color_" + Number(manyPlayersArr.indexOf(player.slug) + 1);
+            } else {
+                scoreChartObj.barColor =
+                    showPlayer === player.slug ? "color_1" : "color_0";
+            }
+
+            // scoreChartObj.barColor =
+            //     showPlayer === player.slug ? "color_1" : "color_0";
 
             if (!player.scores[selectedJourney]) {
                 // serve({ error: "Invalid Journey" });

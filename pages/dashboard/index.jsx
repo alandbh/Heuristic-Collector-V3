@@ -85,13 +85,19 @@ function Dashboard() {
 
     console.log({ showManyPlayers: showManyPlayers?.split(",") });
 
-    function fetchAllJourneyScores(project, journey, heuristic, showPlayer) {
+    function fetchAllJourneyScores(
+        project,
+        journey,
+        heuristic,
+        showPlayer,
+        showManyPlayers
+    ) {
         if (!project || !journey) {
             return;
         }
 
         fetch(
-            `/api/all?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}`
+            `/api/all?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}&showManyPlayers=${showManyPlayers}`
         ).then((data) => {
             data.json().then((result) => {
                 // const orderedResults = result
@@ -166,7 +172,13 @@ function Dashboard() {
 
     useEffect(() => {
         fetchAllProjectScores(project);
-        fetchAllJourneyScores(project, journey, heuristic, showPlayer);
+        fetchAllJourneyScores(
+            project,
+            journey,
+            heuristic,
+            showPlayer,
+            showManyPlayers
+        );
         getHeuristics();
         getJourneys();
         getPlayers();
@@ -174,6 +186,7 @@ function Dashboard() {
         project,
         heuristic,
         showPlayer,
+        showManyPlayers,
         journey,
         getHeuristics,
         getJourneys,
@@ -285,7 +298,7 @@ function Dashboard() {
             playerObj.playerSlug = playerScore.slug;
             playerObj.playerName = playerScore.name;
 
-            setScoresByJourney(currentJourney);
+            // setScoresByJourney(currentJourney);
 
             for (const heuristic in playerScore.scores[currentJourney]) {
                 let scoresArray = [];
@@ -308,7 +321,7 @@ function Dashboard() {
                     );
                 }
             }
-            function setScoresByJourney(journey) {}
+            // function setScoresByJourney(journey) {}
 
             const geraisArr = [];
 
@@ -452,6 +465,7 @@ function Dashboard() {
      */
 
     let journeyScoresDatasetArr = useMemo(() => {
+        let colorNumber = 1;
         if (scoresByJourney) {
             const dataset = scoresByJourney.map((player) => {
                 const playerObj = {};
@@ -461,11 +475,26 @@ function Dashboard() {
                 playerObj.maximunJourneyScore = player.maximunJourneyScore;
                 playerObj.playerSlug = player.playerSlug;
                 playerObj.show_player = player.playerSlug === showPlayer;
+                playerObj.barColor = player.barColor;
+                if (
+                    showManyPlayers &&
+                    showManyPlayers.includes(playerObj.playerSlug)
+                ) {
+                    playerObj.show_player = true;
+                    playerObj.barColor = "color_" + colorNumber++;
+                } else {
+                    // playerObj.barColor = "color_0";
+                    playerObj.barColor =
+                        playerObj.playerSlug === showPlayer
+                            ? "color_1"
+                            : "color_0";
+                }
+
                 return playerObj;
             });
             return dataset;
         }
-    }, [scoresByJourney, showPlayer]);
+    }, [scoresByJourney, showManyPlayers, showPlayer]);
 
     journeyScoresDatasetArr?.sort((a, b) => {
         return b.value - a.value;
@@ -547,7 +576,6 @@ function Dashboard() {
     }
 
     function handleClickHeuristic(item) {
-        console.log({ item });
         setSelectedHeuristic({
             heuristicNumber: item.item.heuristicNumber,
             name: item.item.name,
@@ -613,22 +641,11 @@ function Dashboard() {
     ).filter((dep) => dep !== null);
 
     const datasetWithSeparator = [];
-    let colorNumber = 1;
+
     departmentList.map((department, index) => {
         allJourneyScores.scores_by_heuristic
             .filter((score) => score.departmentSlug === department)
             .map((score) => {
-                if (
-                    showManyPlayers &&
-                    showManyPlayers.includes(score.playerSlug)
-                ) {
-                    score.show_player = true;
-                    score.barColor = "color_" + colorNumber++;
-                } else {
-                    // score.barColor = "color_0";
-                    score.barColor =
-                        score.playerSlug === showPlayer ? "color_1" : "color_0";
-                }
                 datasetWithSeparator.push(score);
             });
 
@@ -870,7 +887,7 @@ function Dashboard() {
                                             radius={0}
                                             gap={25}
                                             barWidth={24}
-                                            barColor="#D9D9D9"
+                                            barColors="#a5a5a5, #4285F4, #174EA6, #333 "
                                             highlightColor="#1967d2"
                                             averageLineColor="red"
                                             averageLineDash="0,0"
@@ -1079,12 +1096,16 @@ function Dashboard() {
                                 )}
                             </div>
 
+                            {/* <Debugg data={scoresByJourney} />
+                            <Debugg data={journeyScoresDatasetArr} /> */}
+
                             <div className=" px-8 pt-8 pb-4">
                                 {project.includes("retail") ? (
                                     <BarChart
                                         refDom={journeyChartRef}
                                         // allJourneyScores={allJourneyScores}
                                         dataSet={journeyScoresDatasetArr}
+                                        barColors="#a5a5a5, #4285F4, #174EA6, #333 "
                                         averageLine={getAverageScore(
                                             journeyScoresDatasetArr
                                         )}
@@ -1104,7 +1125,7 @@ function Dashboard() {
                                         radius={0}
                                         gap={25}
                                         barWidth={24}
-                                        barColor="#D9D9D9"
+                                        barColors="#a5a5a5, #4285F4, #174EA6, #333 "
                                         highlightColor="#1967d2"
                                         averageLineColor="red"
                                         averageLineDash="0,0"
