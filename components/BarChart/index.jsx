@@ -57,15 +57,6 @@ export default function BarChart({
     // }
 
     function getX(score, index) {
-        const widthDifferente = Math.abs(separatorWidth - gap * 2);
-        const separatorSpace = {
-            1: 0,
-            2: Math.abs(barWidth - widthDifferente),
-            3: Math.abs(barWidth - widthDifferente) * 2,
-            4: Math.abs(barWidth - widthDifferente) * 3,
-            5: Math.abs(barWidth - widthDifferente) * 4,
-            6: Math.abs(barWidth - widthDifferente) * 5,
-        };
         return (
             hOffset +
             index * barWidth +
