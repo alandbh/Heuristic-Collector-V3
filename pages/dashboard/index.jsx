@@ -647,19 +647,19 @@ function Dashboard() {
                 datasetWithSeparator.push(score);
             });
 
-        if (index !== departmentList.length - 1) {
-            datasetWithSeparator.push({
-                label: "Separator",
-                playerSlug: "separator",
-                show_player: false,
-                value: 0,
-                allJourneysScoreAverage: 0,
-                valuePrev: null,
-                averageScoreValuePrev: null,
-                ignore_journey: false,
-                zeroed_journey: false,
-            });
-        }
+        // if (index !== departmentList.length - 1) {
+        //     datasetWithSeparator.push({
+        //         label: "Separator",
+        //         playerSlug: "separator",
+        //         show_player: false,
+        //         value: 0,
+        //         allJourneysScoreAverage: 0,
+        //         valuePrev: null,
+        //         averageScoreValuePrev: null,
+        //         ignore_journey: false,
+        //         zeroed_journey: false,
+        //     });
+        // }
     });
 
     function getAverageScore(dataSetArray, keyValue = "value") {
@@ -791,11 +791,7 @@ function Dashboard() {
                                         <h3 className="text-lg font-bold my-5">
                                             Average scores for all journeys
                                         </h3>
-                                        {/* <Debugg
-                                        data={
-                                            allJourneyScores?.scores_by_heuristic
-                                        }
-                                    /> */}
+                                        {/* <Debugg data={datasetWithSeparator} /> */}
 
                                         <BarChart
                                             refDom={chartRef}
@@ -805,12 +801,12 @@ function Dashboard() {
                                                 datasetWithSeparator,
                                                 "allJourneysScoreAverage"
                                             )}
-                                            // averageLine={3.5}
                                             height={251}
-                                            width={924}
+                                            width={915}
                                             radius={4}
-                                            gap={14}
+                                            gap={12}
                                             barWidth={16}
+                                            separatorWidth={41}
                                             barColors="#a5a5a5, #4285F4, #174EA6, #333"
                                             averageLineColor="#a5a5a5"
                                             averageLineDash="8,7"

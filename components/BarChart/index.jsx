@@ -10,6 +10,7 @@ export default function BarChart({
     height = 387,
     radius = 0,
     barWidth = 16,
+    separatorWidth = 16,
     gap = 14,
     barColors = "#a5a5a5, red, blue, green",
     highlightColor = "#5383EB",
@@ -55,6 +56,24 @@ export default function BarChart({
     //     return showPlayer ? highlightColor : barColor;
     // }
 
+    function getX(score, index) {
+        const widthDifferente = Math.abs(separatorWidth - gap * 2);
+        const separatorSpace = {
+            1: 0,
+            2: Math.abs(barWidth - widthDifferente),
+            3: Math.abs(barWidth - widthDifferente) * 2,
+            4: Math.abs(barWidth - widthDifferente) * 3,
+            5: Math.abs(barWidth - widthDifferente) * 4,
+            6: Math.abs(barWidth - widthDifferente) * 5,
+        };
+        return (
+            hOffset +
+            index * barWidth +
+            index * gap +
+            (score.departmentOrder - 1) * (separatorWidth - gap)
+        );
+    }
+
     return (
         <div>
             <>
@@ -69,9 +88,10 @@ export default function BarChart({
                     style={{ width: 800, transition: "0.4s" }}
                 >
                     {chartData.map((score, index) => {
-                        if (score.playerSlug === "separator") {
+                        if (score.departmentOrder) {
                             return (
                                 <path
+                                    style={{ transition: "0.4s" }}
                                     key={index}
                                     d={createPath({
                                         w: barWidth,
@@ -83,10 +103,7 @@ export default function BarChart({
                                         trr: radius,
                                         brr: 0,
                                         blr: 0,
-                                        x:
-                                            hOffset +
-                                            index * barWidth +
-                                            index * gap,
+                                        x: getX(score, index),
                                         maxHeight: height - vOffset,
                                         vOffset,
                                     })}
