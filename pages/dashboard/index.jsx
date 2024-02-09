@@ -806,18 +806,17 @@ function Dashboard() {
                                                 "allJourneysScoreAverage"
                                             )}
                                             // averageLine={3.5}
-                                            height={258}
-                                            width={950}
+                                            height={251}
+                                            width={924}
                                             radius={4}
-                                            gap={13}
-                                            barWidth={15.4}
-                                            barColors="#a5a5a5, #4285F4, #174EA6, #333 "
-                                            highlightColor="#1967d2"
+                                            gap={14}
+                                            barWidth={16}
+                                            barColors="#a5a5a5, #4285F4, #174EA6, #333"
                                             averageLineColor="#a5a5a5"
                                             averageLineDash="8,7"
                                             averageLineWidth={1.8}
-                                            hOffset={13}
-                                            vOffset={2}
+                                            hOffset={0}
+                                            vOffset={0}
                                         />
 
                                         {/* Debbugging  */}
