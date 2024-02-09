@@ -13,7 +13,6 @@ export default function BarChart({
     separatorWidth = 16,
     gap = 14,
     barColors = "#a5a5a5, red, blue, green",
-    highlightColor = "#5383EB",
     averageLineWidth = 2,
     averageLineDash = "0,0",
     averageLineColor = "red",
