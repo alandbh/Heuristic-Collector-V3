@@ -141,6 +141,51 @@ export default function BarChart({
                         style={{ transition: "0.4s" }}
                     />
                 </svg>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={width}
+                    height={80}
+                    fill="red"
+                    viewBox={`0 0 ${width} ${80}`}
+                    className="max-w-[800px] object-contain h-auto mt-1"
+                    style={{ width: 800, transition: "0.4s" }}
+                >
+                    {chartData.map((score, index) => {
+                        return (
+                            <g
+                                key={"group_" + index}
+                                transform={`translate(${getX(
+                                    score,
+                                    index
+                                )}, 0)`}
+                            >
+                                <text
+                                    style={{
+                                        rotate: "60deg",
+                                        translate: "0px 4px",
+                                    }}
+                                    fill={manyBarColors[score.barColor]}
+                                    y={0}
+                                    x={0}
+                                    fontSize={12}
+                                >
+                                    {score.label}
+                                </text>
+                            </g>
+                        );
+                    })}
+                    {/* <g transform="translate(34, 0)">
+                        <text
+                            style={{ rotate: "60deg", translate: "0px 4px" }}
+                            fill="#333"
+                            y={0}
+                            x={0}
+                            fontSize={12}
+                        >
+                            Extra
+                        </text>
+                    </g> */}
+                </svg>
             </>
         </div>
     );
