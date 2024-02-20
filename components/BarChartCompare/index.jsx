@@ -133,14 +133,6 @@ const gapObj = {
     4: 8,
 };
 
-function getX(player, index, length) {
-    return (
-        hOffsetObj[length] +
-        index * barWidthObj[length] +
-        index * gapObj[length]
-    );
-}
-
 export default function BarChartCompare({
     dataSet = _dataset,
     width = 356,
@@ -178,6 +170,23 @@ export default function BarChartCompare({
         color_2: barColors.split(",")[2],
         color_3: barColors.split(",")[3],
     };
+
+    function getX(player, index, length, isCurrent) {
+        if (isCurrent) {
+            return (
+                width / 2 +
+                gapBetweenCharts / 2 +
+                hOffsetObj[length] +
+                index * barWidthObj[length] +
+                index * gapObj[length]
+            );
+        }
+        return (
+            hOffsetObj[length] +
+            index * barWidthObj[length] +
+            index * gapObj[length]
+        );
+    }
 
     return (
         <div>
@@ -300,7 +309,38 @@ export default function BarChartCompare({
                     *
                     *
                 */}
-                <path
+                {dataSet.currentYearScores.scores.map((player, index) => {
+                    return (
+                        <path
+                            key={player.playerSlug + index}
+                            className="barra anterior player"
+                            d={createPath({
+                                w: barWidthObj[
+                                    dataSet.currentYearScores.scores.length
+                                ],
+                                h: getHeight(
+                                    player.playerScore,
+                                    height - vOffset,
+                                    false
+                                ),
+                                tlr: radius,
+                                trr: radius,
+                                brr: 0,
+                                blr: 0,
+                                x: getX(
+                                    player,
+                                    index,
+                                    dataSet.currentYearScores.scores.length,
+                                    true
+                                ),
+                                maxHeight: height - vOffset,
+                                vOffset,
+                            })}
+                            fill={barColor}
+                        />
+                    );
+                })}
+                {/* <path
                     d={createPath({
                         w: barWidth,
                         h: getHeight(
@@ -316,9 +356,43 @@ export default function BarChartCompare({
                         vOffset,
                     })}
                     fill={barColor}
+                /> */}
+                <path
+                    style={{ transition: "0.4s" }}
+                    d={createPath({
+                        w: barWidthObj[
+                            dataSet.previousYearScores.scores.length
+                        ],
+                        h: getHeight(
+                            dataSet.previousYearScores.averageScore,
+                            height - vOffset - barStrokeWidth * 2,
+                            false
+                        ),
+                        tlr: radius,
+                        trr: radius,
+                        brr: 0,
+                        blr: 0,
+                        x:
+                            width / 2 +
+                            gapBetweenCharts / 2 +
+                            hOffsetObj[
+                                dataSet.previousYearScores.scores.length
+                            ] +
+                            barWidthObj[
+                                dataSet.previousYearScores.scores.length
+                            ] *
+                                dataSet.previousYearScores.scores.length +
+                            gapObj[dataSet.previousYearScores.scores.length] *
+                                dataSet.previousYearScores.scores.length,
+                        // x: hOffset + barWidth + gap,
+                        maxHeight: height - vOffset,
+                        vOffset,
+                    })}
+                    fill="transparent"
+                    stroke={barStrokeColor}
                 />
 
-                <path
+                {/* <path
                     style={{ transition: "0.4s" }}
                     d={createPath({
                         w: barWidth,
@@ -340,7 +414,7 @@ export default function BarChartCompare({
                     })}
                     fill="transparent"
                     stroke={barStrokeColor}
-                />
+                /> */}
 
                 <line
                     className="linha inferior ano atual"

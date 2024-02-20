@@ -1,5 +1,12 @@
 import { useRouter } from "next/router";
-import { useEffect, useState, useCallback, useRef, useMemo } from "react";
+import {
+    useEffect,
+    useState,
+    useCallback,
+    useRef,
+    useMemo,
+    useLayoutEffect,
+} from "react";
 import { gql } from "@apollo/client";
 import { saveSvgAsPng } from "save-svg-as-png";
 import client from "../../lib/apollo";
@@ -14,7 +21,7 @@ import ChartSection from "../../components/ChartSection";
 import ScoreStatsTable from "../../components/ScoreStatsTable";
 import { sortCollection } from "../../lib/utils";
 import BarChartCompare from "../../components/BarChartCompare";
-import { useProject } from "../../lib/useProject";
+import useProject from "../../lib/useProject";
 
 const QUERY_HEURISTICS = gql`
     query GetAllHeuristics($projectSlug: String) {
@@ -72,6 +79,7 @@ function Dashboard() {
     const [currentJourney, setCurrentJourney] = useState(null);
     const [heuristicsByJourney, setHeuristicsByJourney] = useState(null);
     const [selectedHeuristic, setSelectedHeuristic] = useState(null);
+    const [previousScores, setPreviousScores] = useState(null);
     const [compareDataset, setCompareDataset] = useState(null);
     const [hasComparison, setHasComparison] = useState(false);
     const [svgCopied, setSVGCopied] = useState(null);
@@ -407,7 +415,20 @@ function Dashboard() {
         projectCurrentYear,
         previousPlayerScoreAverage,
         previousDepartmentScoreAverage,
-    } = useProject(router.query.project, showPlayer, router.query.heuristic);
+        previousAllPlayersScoresFromHeuristic,
+    } = useProject(
+        router.query.project,
+        router.query.showPlayer,
+        router.query.heuristic
+    );
+
+    // useEffect(() => {
+    //     setPreviousScores(previousAllPlayersScoresFromHeuristic);
+    // }, []);
+
+    // const _previousAllPlayersScoresFromHeuristic = useMemo(() => {
+    //     return previousAllPlayersScoresFromHeuristic;
+    // }, [previousAllPlayersScoresFromHeuristic]);
 
     /**
      *
@@ -415,19 +436,18 @@ function Dashboard() {
      */
 
     useEffect(() => {
-        if (!allJourneyScores) {
+        if (!allJourneyScores || !previousAllPlayersScoresFromHeuristic) {
             return;
         }
+        setHasComparison(Boolean(previousPlayerScoreAverage));
 
         const dataset = {};
 
-        setHasComparison(Boolean(previousPlayerScoreAverage));
-
-        const playerScore = getScoreFromPlayerSlug(
-            showPlayer,
-            allJourneyScores?.scores_by_heuristic,
-            "allJourneysScoreAverage"
-        );
+        // const playerScore = getScoreFromPlayerSlug(
+        //     showPlayer,
+        //     allJourneyScores?.scores_by_heuristic,
+        //     "allJourneysScoreAverage"
+        // );
 
         // const averageScore = project.includes("retail")
         //     ? getAverageScore(
@@ -437,12 +457,14 @@ function Dashboard() {
         //     : getAverageScore(allJourneyScores.scores_by_heuristic, "value");
 
         const currentDepartment =
-            project.includes("retail") &&
-            allJourneyScores.scores_by_heuristic.find(
-                (player) => player.playerSlug === showManyPlayers?.split(",")[0]
+            router.query.project.includes("retail") &&
+            allJourneyScores?.scores_by_heuristic.find(
+                (player) =>
+                    player.playerSlug ===
+                    router.query.showManyPlayers?.split(",")[0]
             ).departmentSlug;
 
-        const departmentScores = allJourneyScores.scores_by_heuristic.filter(
+        const departmentScores = allJourneyScores?.scores_by_heuristic.filter(
             (score) => score.departmentSlug === currentDepartment
         );
 
@@ -456,30 +478,59 @@ function Dashboard() {
             ).toFixed(2)
         );
 
-        console.log("scoresby", currentDepartmentScoreAverage);
+        const currentScoresArray = [];
+
+        router.query.showManyPlayers?.split(",").map((playerSlug) => {
+            const scoreObj = {};
+
+            scoreObj.playerScore = departmentScores.find(
+                (score) => score.playerSlug === playerSlug
+            ).value;
+            scoreObj.playerSlug = playerSlug;
+            currentScoresArray.push(scoreObj);
+        });
 
         dataset.currentYearScores = {
             year: projectCurrentYear,
-            playerScore,
+            scores: currentScoresArray,
             averageScore: currentDepartmentScoreAverage,
         };
 
+        const previousScoresArray = [];
+        console.log("scoresby", previousAllPlayersScoresFromHeuristic);
+
+        router.query.showManyPlayers?.split(",").map((playerSlug) => {
+            const scoreObj = {};
+            const playerScores = previousAllPlayersScoresFromHeuristic.filter(
+                (score) => score.playerSlug === playerSlug
+            );
+
+            scoreObj.playerScore =
+                playerScores
+                    .map((score) => score.playerScore)
+                    .reduce((acc, n) => {
+                        return acc + n;
+                    }, 0) / playerScores.length;
+            scoreObj.playerSlug = playerSlug;
+
+            previousScoresArray.push(scoreObj);
+        });
+
         dataset.previousYearScores = {
             year: projectCurrentYear - 1,
-            playerScore: previousPlayerScoreAverage,
+            scores: previousScoresArray,
             averageScore: previousDepartmentScoreAverage,
         };
 
         setCompareDataset(dataset);
     }, [
         allJourneyScores,
+        // previousAllPlayersScoresFromHeuristic,
         previousDepartmentScoreAverage,
         previousPlayerScoreAverage,
-        project,
         projectCurrentYear,
-        projectName,
-        showManyPlayers,
-        showPlayer,
+        router.query.project,
+        router.query.showManyPlayers,
     ]);
 
     /**
@@ -982,6 +1033,8 @@ function Dashboard() {
                                 </div>
                             </ChartSection>
 
+                            {<Debugg data={compareDataset} />}
+
                             {showPlayer &&
                             allJourneyScores &&
                             allJourneyScores.scores_by_heuristic &&
@@ -1005,12 +1058,11 @@ function Dashboard() {
                                     </div>
                                     <div className=" px-8 pt-8 pb-4">
                                         <div className="flex flex-col items-center">
-                                            {<Debugg data={compareDataset} />}
                                             {project.includes("retail") && (
                                                 <BarChartCompare
                                                     refDom={chartCompareRef}
                                                     barColors="#a5a5a5, #4285F4, #174EA6, #333"
-                                                    // dataSet={compareDataset}
+                                                    dataSet={compareDataset}
                                                 />
                                             )}
                                         </div>
