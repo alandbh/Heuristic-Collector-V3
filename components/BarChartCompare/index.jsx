@@ -4,21 +4,145 @@ function getHeight(score, maxHeight, isPercentage = false) {
     return isPercentage ? (maxHeight / 5) * score * 5 : (maxHeight / 5) * score;
 }
 
-const _dataSet = {
+// const _dataSet = {
+//     currentYearScores: {
+//         year: 2023,
+//         playerScore: 4,
+//         averageScore: 2,
+//     },
+//     previousYearScores: {
+//         year: 2022,
+//         playerScore: 5,
+//         averageScore: 2,
+//     },
+// };
+
+const _dataset = {
     currentYearScores: {
         year: 2023,
-        playerScore: 4,
-        averageScore: 2,
+        averageScore: 3.65,
+        scores: [
+            {
+                playerName: "Casas Bahia",
+                playerSlug: "casas-bahia",
+                playerScore: 5,
+            },
+            {
+                playerName: "Extra",
+                playerSlug: "casas-bahia",
+                playerScore: 4,
+            },
+            {
+                playerName: "Ponto",
+                playerSlug: "ponto",
+                playerScore: 3,
+            },
+        ],
     },
     previousYearScores: {
         year: 2022,
-        playerScore: 5,
-        averageScore: 2,
+        averageScore: 3,
+        scores: [
+            {
+                playerName: "Casas Bahia",
+                playerSlug: "casas-bahia",
+                playerScore: 4,
+            },
+            {
+                playerName: "Extra",
+                playerSlug: "casas-bahia",
+                playerScore: 3,
+            },
+            {
+                playerName: "Ponto",
+                playerSlug: "ponto",
+                playerScore: 5,
+            },
+        ],
     },
 };
 
+// const _dataSet = [
+//     {
+//         playerName: "Casas Bahia",
+//         playerSlug: "casas-bahia",
+//         scores: {
+//             currentYearScores: {
+//                 year: 2023,
+//                 playerScore: 5,
+//                 averageScore: 3.65,
+//             },
+//             previousYearScores: {
+//                 year: 2022,
+//                 playerScore: 4.5,
+//                 averageScore: 3,
+//             },
+//         },
+//     },
+//     {
+//         playerName: "Extra",
+//         playerSlug: "extra",
+//         scores: {
+//             currentYearScores: {
+//                 year: 2023,
+//                 playerScore: 4,
+//                 averageScore: 3.5,
+//             },
+//             previousYearScores: {
+//                 year: 2022,
+//                 playerScore: 4,
+//                 averageScore: 3,
+//             },
+//         },
+//     },
+//     {
+//         playerName: "Ponto",
+//         playerSlug: "ponto-frio",
+//         scores: {
+//             currentYearScores: {
+//                 year: 2023,
+//                 playerScore: 3,
+//                 averageScore: 2.5,
+//             },
+//             previousYearScores: {
+//                 year: 2022,
+//                 playerScore: 3,
+//                 averageScore: 3,
+//             },
+//         },
+//     },
+// ];
+
+const barWidthObj = {
+    1: 28,
+    2: 22,
+    3: 16,
+    4: 8,
+};
+
+const hOffsetObj = {
+    1: 28,
+    2: 22,
+    3: 16,
+    4: 8,
+};
+const gapObj = {
+    1: 50,
+    2: 22,
+    3: 16,
+    4: 8,
+};
+
+function getX(player, index, length) {
+    return (
+        hOffsetObj[length] +
+        index * barWidthObj[length] +
+        index * gapObj[length]
+    );
+}
+
 export default function BarChartCompare({
-    dataSet = _dataSet,
+    dataSet = _dataset,
     width = 356,
     height = 246,
     radius = 6,
@@ -57,30 +181,43 @@ export default function BarChartCompare({
                 xmlns="http://www.w3.org/2000/svg"
                 ref={refDom}
             >
-                <path
-                    className="barra anterior player"
-                    d={createPath({
-                        w: barWidth,
-                        h: getHeight(
-                            dataSet.previousYearScores.playerScore,
-                            height - vOffset,
-                            false
-                        ),
-                        tlr: radius,
-                        trr: radius,
-                        brr: 0,
-                        blr: 0,
-                        x: hOffset,
-                        maxHeight: height - vOffset,
-                        vOffset,
-                    })}
-                    fill={barColor}
-                />
+                {dataSet.previousYearScores.scores.map((player, index) => {
+                    return (
+                        <path
+                            key={player.playerSlug + index}
+                            className="barra anterior player"
+                            d={createPath({
+                                w: barWidthObj[
+                                    dataSet.previousYearScores.scores.length
+                                ],
+                                h: getHeight(
+                                    player.playerScore,
+                                    height - vOffset,
+                                    false
+                                ),
+                                tlr: radius,
+                                trr: radius,
+                                brr: 0,
+                                blr: 0,
+                                x: getX(
+                                    player,
+                                    index,
+                                    dataSet.previousYearScores.scores.length
+                                ),
+                                maxHeight: height - vOffset,
+                                vOffset,
+                            })}
+                            fill={barColor}
+                        />
+                    );
+                })}
 
                 <path
                     style={{ transition: "0.4s" }}
                     d={createPath({
-                        w: barWidth,
+                        w: barWidthObj[
+                            dataSet.previousYearScores.scores.length
+                        ],
                         h: getHeight(
                             dataSet.previousYearScores.averageScore,
                             height - vOffset - barStrokeWidth * 2,
@@ -90,7 +227,17 @@ export default function BarChartCompare({
                         trr: radius,
                         brr: 0,
                         blr: 0,
-                        x: hOffset + barWidth + gap,
+                        x:
+                            hOffsetObj[
+                                dataSet.previousYearScores.scores.length
+                            ] +
+                            barWidthObj[
+                                dataSet.previousYearScores.scores.length
+                            ] *
+                                dataSet.previousYearScores.scores.length +
+                            gapObj[dataSet.previousYearScores.scores.length] *
+                                dataSet.previousYearScores.scores.length,
+                        // x: hOffset + barWidth + gap,
                         maxHeight: height - vOffset,
                         vOffset,
                     })}

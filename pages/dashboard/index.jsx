@@ -409,6 +409,11 @@ function Dashboard() {
         previousAllPlayersScoreAverage,
     } = useProject(router.query.project, showPlayer, router.query.heuristic);
 
+    /**
+     *
+     * Setting comparison data
+     */
+
     useEffect(() => {
         if (!allJourneyScores) {
             return;
@@ -977,10 +982,11 @@ function Dashboard() {
                                     </div>
                                     <div className=" px-8 pt-8 pb-4">
                                         <div className="flex flex-col items-center">
+                                            {<Debugg data={compareDataset} />}
                                             {project.includes("retail") && (
                                                 <BarChartCompare
                                                     refDom={chartCompareRef}
-                                                    dataSet={compareDataset}
+                                                    // dataSet={compareDataset}
                                                 />
                                             )}
                                         </div>
