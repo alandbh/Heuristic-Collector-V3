@@ -150,6 +150,7 @@ export default function BarChartCompare({
     gap = 50,
     gapBetweenCharts = 30,
     barColor = "#174EA6",
+    barColors = "#a5a5a5, red, blue, green",
     barStrokeColor = "#9AA0A6",
     barStrokeWidth = 1,
     xAxisColor = "#9AA0A6",
@@ -169,6 +170,13 @@ export default function BarChartCompare({
             fontWeight: "normal",
             fontSize: 16,
         },
+    };
+
+    const manyBarColors = {
+        color_0: barColors.split(",")[0],
+        color_1: barColors.split(",")[1],
+        color_2: barColors.split(",")[2],
+        color_3: barColors.split(",")[3],
     };
 
     return (

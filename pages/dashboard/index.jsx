@@ -61,7 +61,7 @@ const QUERY_PLAYERS = gql`
 
 function Dashboard() {
     const router = useRouter();
-    const { project, heuristic, showPlayer, journey, showManyPlayers, aaa } =
+    const { project, heuristic, showPlayer, journey, showManyPlayers } =
         router.query;
     const [allJourneyScores, setAllJourneyScores] = useState(null);
     const [scoresByJourney, setScoresByJourney] = useState(null);
@@ -406,7 +406,7 @@ function Dashboard() {
         projectName,
         projectCurrentYear,
         previousPlayerScoreAverage,
-        previousAllPlayersScoreAverage,
+        previousDepartmentScoreAverage,
     } = useProject(router.query.project, showPlayer, router.query.heuristic);
 
     /**
@@ -429,33 +429,56 @@ function Dashboard() {
             "allJourneysScoreAverage"
         );
 
-        const averageScore = project.includes("retail")
-            ? getAverageScore(
-                  allJourneyScores.scores_by_heuristic,
-                  "allJourneysScoreAverage"
-              )
-            : getAverageScore(allJourneyScores.scores_by_heuristic, "value");
+        // const averageScore = project.includes("retail")
+        //     ? getAverageScore(
+        //           allJourneyScores.scores_by_heuristic,
+        //           "allJourneysScoreAverage"
+        //       )
+        //     : getAverageScore(allJourneyScores.scores_by_heuristic, "value");
+
+        const currentDepartment =
+            project.includes("retail") &&
+            allJourneyScores.scores_by_heuristic.find(
+                (player) => player.playerSlug === showManyPlayers?.split(",")[0]
+            ).departmentSlug;
+
+        const departmentScores = allJourneyScores.scores_by_heuristic.filter(
+            (score) => score.departmentSlug === currentDepartment
+        );
+
+        const currentDepartmentScoreAverage = Number(
+            (
+                departmentScores
+                    .map((score) => score.allJourneysScoreAverage)
+                    .reduce((acc, n) => {
+                        return acc + n;
+                    }, 0) / departmentScores.length
+            ).toFixed(2)
+        );
+
+        console.log("scoresby", currentDepartmentScoreAverage);
 
         dataset.currentYearScores = {
             year: projectCurrentYear,
             playerScore,
-            averageScore,
+            averageScore: currentDepartmentScoreAverage,
         };
 
         dataset.previousYearScores = {
             year: projectCurrentYear - 1,
             playerScore: previousPlayerScoreAverage,
-            averageScore: previousAllPlayersScoreAverage,
+            averageScore: previousDepartmentScoreAverage,
         };
 
         setCompareDataset(dataset);
     }, [
         allJourneyScores,
-        previousAllPlayersScoreAverage,
+        previousDepartmentScoreAverage,
         previousPlayerScoreAverage,
         project,
         projectCurrentYear,
         projectName,
+        showManyPlayers,
         showPlayer,
     ]);
 
@@ -478,7 +501,7 @@ function Dashboard() {
                 playerObj.maximunJourneyScore = player.maximunJourneyScore;
                 playerObj.playerSlug = player.playerSlug;
                 playerObj.show_player = player.playerSlug === showPlayer;
-                playerObj.barColor = player.barColor;
+                // playerObj.barColor = player.barColor;
                 if (
                     showManyPlayers &&
                     showManyPlayers.includes(playerObj.playerSlug)
@@ -986,6 +1009,7 @@ function Dashboard() {
                                             {project.includes("retail") && (
                                                 <BarChartCompare
                                                     refDom={chartCompareRef}
+                                                    barColors="#a5a5a5, #4285F4, #174EA6, #333"
                                                     // dataSet={compareDataset}
                                                 />
                                             )}
