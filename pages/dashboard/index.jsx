@@ -402,6 +402,18 @@ function Dashboard() {
      *
      */
 
+    const departmentList = Array.from(
+        new Set(
+            allJourneyScores?.scores_by_heuristic
+                ?.filter((score) => score.departmentSlug !== null)
+                .map((score) => {
+                    return score.departmentSlug;
+                })
+        )
+    ).filter((dep) => dep !== null);
+
+    // const currentDepartment = departmentList.find()
+
     const {
         projectName,
         projectCurrentYear,
@@ -424,9 +436,30 @@ function Dashboard() {
             "allJourneysScoreAverage"
         );
 
+        const currentPlayerObj = allJourneyScores?.scores_by_heuristic.find(
+            (score) => score.playerSlug === router.query.showPlayer
+        );
+
+        console.log("playerScore", currentPlayerObj);
+
+        // console.log(
+        //     "allJourneyScores.scores_by_heuristic",
+        //     allJourneyScores.scores_by_heuristic.filter((score) =>
+        //         departmentList.includes(currentPlayerObj.departmentSlug)
+        //     )
+        // );
+
+        const currentDepartmentScores =
+            allJourneyScores.scores_by_heuristic.filter(
+                (score) =>
+                    score.departmentSlug === currentPlayerObj?.departmentSlug
+            );
+
+        // console.log("currentDepartmentScores", currentDepartmentScores);
+
         const averageScore = project.includes("retail")
             ? getAverageScore(
-                  allJourneyScores.scores_by_heuristic,
+                  currentDepartmentScores,
                   "allJourneysScoreAverage"
               )
             : getAverageScore(allJourneyScores.scores_by_heuristic, "value");
@@ -628,16 +661,6 @@ function Dashboard() {
         );
     }
 
-    const departmentList = Array.from(
-        new Set(
-            allJourneyScores.scores_by_heuristic
-                ?.filter((score) => score.departmentSlug !== null)
-                .map((score) => {
-                    return score.departmentSlug;
-                })
-        )
-    ).filter((dep) => dep !== null);
-
     const datasetWithSeparator = [];
 
     departmentList.map((department, index) => {
@@ -680,6 +703,8 @@ function Dashboard() {
                     }, 0) / dataSetWithoutSeparator.length
             ).toFixed(2)
         );
+
+        console.log("dataSetWithoutSeparator", dataSetWithoutSeparator);
 
         return average_score;
     }
