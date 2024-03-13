@@ -109,22 +109,28 @@ export default function BarChartCompare({
                 />
                 <text
                     x={hOffset + barWidth / 2}
-                    y={height + bottomOffset}
+                    y={height + bottomOffset - 2}
                     textAnchor="middle"
                     style={style.label}
                     fill="#9AA0A6"
                 >
-                    {dataSet.previousYearScores.playerScore?.toFixed(1)}
+                    {dataSet.previousYearScores.playerScore
+                        ?.toFixed(1)
+                        .toString()
+                        .replace(".", ",")}
                 </text>
 
                 <text
                     x={hOffset + barWidth + gap + barWidth / 2}
-                    y={height + bottomOffset}
+                    y={height + bottomOffset - 2}
                     textAnchor="middle"
                     style={style.label}
                     fill="#9AA0A6"
                 >
-                    {dataSet.previousYearScores.averageScore?.toFixed(1)}
+                    {dataSet.previousYearScores.averageScore
+                        ?.toFixed(1)
+                        .toString()
+                        .replace(".", ",")}
                 </text>
 
                 <text
@@ -205,12 +211,15 @@ export default function BarChartCompare({
                         gapBetweenCharts +
                         barWidth / 2
                     }
-                    y={height + bottomOffset}
+                    y={height + bottomOffset - 2}
                     textAnchor="middle"
                     style={style.label}
                     fill="#9AA0A6"
                 >
-                    {dataSet.currentYearScores.playerScore?.toFixed(1)}
+                    {dataSet.currentYearScores.playerScore
+                        ?.toFixed(1)
+                        .toString()
+                        .replace(".", ",")}
                 </text>
 
                 <text
@@ -221,12 +230,15 @@ export default function BarChartCompare({
                         gapBetweenCharts +
                         barWidth / 2
                     }
-                    y={height + bottomOffset}
+                    y={height + bottomOffset - 2}
                     textAnchor="middle"
                     style={style.label}
                     fill="#9AA0A6"
                 >
-                    {dataSet.currentYearScores.averageScore?.toFixed(1)}
+                    {dataSet.currentYearScores.averageScore
+                        ?.toFixed(1)
+                        .toString()
+                        .replace(".", ",")}
                 </text>
 
                 <text
