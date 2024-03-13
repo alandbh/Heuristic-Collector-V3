@@ -458,15 +458,21 @@ function Dashboard() {
 
         const currentDepartment =
             router.query.project.includes("retail") &&
-            allJourneyScores?.scores_by_heuristic.find(
-                (player) =>
-                    player.playerSlug ===
-                    router.query.showManyPlayers?.split(",")[0]
-            ).departmentSlug;
+            allJourneyScores?.scores_by_heuristic.find((player) => {
+                if (router.query.showManyPlayers) {
+                    return (
+                        player.playerSlug ===
+                        router.query.showManyPlayers?.split(",")[0]
+                    );
+                }
+                return player.playerSlug === router.query.showPlayer;
+            }).departmentSlug;
 
         const departmentScores = allJourneyScores?.scores_by_heuristic.filter(
             (score) => score.departmentSlug === currentDepartment
         );
+
+        // console.log("departmentScores", departmentScores);
 
         const currentDepartmentScoreAverage = Number(
             (
@@ -480,15 +486,25 @@ function Dashboard() {
 
         const currentScoresArray = [];
 
-        router.query.showManyPlayers?.split(",").map((playerSlug) => {
+        if (router.query.showManyPlayers) {
+            router.query.showManyPlayers?.split(",").map((playerSlug) => {
+                const scoreObj = {};
+
+                scoreObj.playerScore = departmentScores.find(
+                    (score) => score.playerSlug === playerSlug
+                ).value;
+                scoreObj.playerSlug = playerSlug;
+                currentScoresArray.push(scoreObj);
+            });
+        } else {
             const scoreObj = {};
 
             scoreObj.playerScore = departmentScores.find(
-                (score) => score.playerSlug === playerSlug
+                (score) => score.playerSlug === router.query.showPlayer
             ).value;
-            scoreObj.playerSlug = playerSlug;
+            scoreObj.playerSlug = router.query.showPlayer;
             currentScoresArray.push(scoreObj);
-        });
+        }
 
         dataset.currentYearScores = {
             year: projectCurrentYear,
@@ -499,10 +515,28 @@ function Dashboard() {
         const previousScoresArray = [];
         console.log("scoresby", previousAllPlayersScoresFromHeuristic);
 
-        router.query.showManyPlayers?.split(",").map((playerSlug) => {
+        if (router.query.showManyPlayers) {
+            router.query.showManyPlayers?.split(",").map((playerSlug) => {
+                const scoreObj = {};
+                const playerScores =
+                    previousAllPlayersScoresFromHeuristic.filter(
+                        (score) => score.playerSlug === playerSlug
+                    );
+
+                scoreObj.playerScore =
+                    playerScores
+                        .map((score) => score.playerScore)
+                        .reduce((acc, n) => {
+                            return acc + n;
+                        }, 0) / playerScores.length;
+                scoreObj.playerSlug = playerSlug;
+
+                previousScoresArray.push(scoreObj);
+            });
+        } else {
             const scoreObj = {};
             const playerScores = previousAllPlayersScoresFromHeuristic.filter(
-                (score) => score.playerSlug === playerSlug
+                (score) => score.playerSlug === router.query.showPlayer
             );
 
             scoreObj.playerScore =
@@ -511,10 +545,10 @@ function Dashboard() {
                     .reduce((acc, n) => {
                         return acc + n;
                     }, 0) / playerScores.length;
-            scoreObj.playerSlug = playerSlug;
+            scoreObj.playerSlug = router.query.showPlayer;
 
             previousScoresArray.push(scoreObj);
-        });
+        }
 
         dataset.previousYearScores = {
             year: projectCurrentYear - 1,
