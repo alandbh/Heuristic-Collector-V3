@@ -637,10 +637,6 @@ function Dashboard() {
             playerSlug: "",
         }
     ) {
-        let domUrl = window.URL || window.webkitURL || window;
-
-        const svgText = ref.current.outerHTML;
-
         saveSvgAsPng(
             ref.current,
             `chart-${currentJourney}${
