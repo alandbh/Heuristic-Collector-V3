@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url(google-sans.css);
+
 html,
 body {
     padding: 0;

@@ -37,13 +37,15 @@ export default function BarChartCompare({
 }) {
     const style = {
         year: {
-            fontFamily: "Helvetica, Arial, sans-serif",
-            fontSize: 14,
+            // fontFamily: "Helvetica, Arial, sans-serif",
+            fontFamily: "Product Sans Regular",
+            fontSize: 16,
         },
         label: {
-            fontFamily: "Helvetica, Arial, sans-serif",
+            // fontFamily: "Helvetica, Arial, sans-serif",
+            fontFamily: "Product Sans Bold",
             fontWeight: "normal",
-            fontSize: 16,
+            fontSize: 18,
         },
     };
 
