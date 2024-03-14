@@ -419,6 +419,7 @@ function Dashboard() {
         projectCurrentYear,
         previousPlayerScoreAverage,
         previousAllPlayersScoreAverage,
+        previousDepartmentPlayersScoreAverage,
     } = useProject(router.query.project, showPlayer, router.query.heuristic);
 
     useEffect(() => {
@@ -436,11 +437,11 @@ function Dashboard() {
             "allJourneysScoreAverage"
         );
 
-        const currentPlayerObj = allJourneyScores?.scores_by_heuristic.find(
+        const currentPlayerObj = allJourneyScores?.scores_by_heuristic?.find(
             (score) => score.playerSlug === router.query.showPlayer
         );
 
-        console.log("playerScore", currentPlayerObj);
+        // console.log("playerScore", currentPlayerObj);
 
         // console.log(
         //     "allJourneyScores.scores_by_heuristic",
@@ -450,7 +451,7 @@ function Dashboard() {
         // );
 
         const currentDepartmentScores =
-            allJourneyScores.scores_by_heuristic.filter(
+            allJourneyScores.scores_by_heuristic?.filter(
                 (score) =>
                     score.departmentSlug === currentPlayerObj?.departmentSlug
             );
@@ -473,7 +474,8 @@ function Dashboard() {
         dataset.previousYearScores = {
             year: projectCurrentYear - 1,
             playerScore: previousPlayerScoreAverage,
-            averageScore: previousAllPlayersScoreAverage,
+            // averageScore: previousAllPlayersScoreAverage,
+            averageScore: previousDepartmentPlayersScoreAverage,
         };
 
         setCompareDataset(dataset);
@@ -541,7 +543,7 @@ function Dashboard() {
                 return acc + current;
             }, 0);
 
-            console.log("sum", sumScores / scoresArr.length);
+            // console.log("sum", sumScores / scoresArr.length);
 
             return sumScores / scoresArr.length;
         }
@@ -579,7 +581,7 @@ function Dashboard() {
     }
 
     function handleSelectJourney(ev) {
-        console.log("Journey", ev.target.value);
+        // console.log("Journey", ev.target.value);
         // setResult([]);
         setSelectedHeuristic(null);
 
@@ -700,7 +702,7 @@ function Dashboard() {
             ).toFixed(2)
         );
 
-        console.log("dataSetWithoutSeparator", dataSetWithoutSeparator);
+        // console.log("dataSetWithoutSeparator", dataSetWithoutSeparator);
 
         return average_score;
     }
