@@ -9,7 +9,7 @@ import Logo from "../components/Logo";
 import LoggedUser from "../components/LoggedUser";
 import Link from "next/link";
 import Head from "next/head";
-import { isUserAuthorized } from "../lib/utils";
+import { isUserAuthorized, sortCollection } from "../lib/utils";
 
 const QUERY_PROJECTS = gql`
     query {
@@ -81,7 +81,7 @@ function Projects(props) {
 
     // console.log(data.projects);
 
-    const projectsToMap = data?.projects.filter((project) => {
+    const projectsToMapUnsorted = data?.projects.filter((project) => {
         if (!isUserAuthorized(user)) {
             return project.public === true;
         }
@@ -90,6 +90,10 @@ function Projects(props) {
 
         // return true;
     });
+
+    const projectsToMap = sortCollection(projectsToMapUnsorted, "id").reverse();
+
+    console.log("projectsToMap", projectsToMap);
 
     // console.log("projectsMap", projectsToMap);
     if (projectsToMap === undefined) {
