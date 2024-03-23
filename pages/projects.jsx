@@ -47,7 +47,6 @@ const QUERY_USER = gql`
 
 function Projects(props) {
     const { data, loading, error } = useQuery(QUERY_PROJECTS);
-    console.log(data?.projects);
     const [user, loadingUser] = useAuthState(auth);
     const router = useRouter();
     const { data: rgaUsersRetrieved } = useQuery(QUERY_USER, {
@@ -61,7 +60,6 @@ function Projects(props) {
         const projectsWhereThisUserIsPresent = rgaUsersRetrieved?.rgaUsers.map(
             (user) => user.project.slug
         );
-        console.log({ projectSlug });
         return projectsWhereThisUserIsPresent?.includes(projectSlug);
     }
 
@@ -91,9 +89,9 @@ function Projects(props) {
         // return true;
     });
 
-    const projectsToMap = sortCollection(projectsToMapUnsorted, "id").reverse();
-
-    console.log("projectsToMap", projectsToMap);
+    const projectsToMap =
+        projectsToMapUnsorted &&
+        sortCollection(projectsToMapUnsorted, "id").reverse();
 
     // console.log("projectsMap", projectsToMap);
     if (projectsToMap === undefined) {
