@@ -549,11 +549,22 @@ function Dashboard() {
         }
     }, [scoresByJourney, journeyScoresDatasetArr]);
 
-    if (!user && !loadingUser) {
-        router.push(
-            `/login?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}&page=dashboard`
-        );
-        return;
+    let allowedExternalUser = false;
+    const apikey = "20rga24";
+
+    if (router.query.apikey) {
+        if (!apikey === router.query.apikey) {
+            return;
+        }
+        console.log("apikey", router.query.apikey);
+        allowedExternalUser = true;
+    } else {
+        if (!user && !loadingUser) {
+            router.push(
+                `/login?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}&page=dashboard`
+            );
+            return;
+        }
     }
 
     /**
@@ -567,17 +578,19 @@ function Dashboard() {
      *
      */
 
-    if (
-        allJourneyScores === null ||
-        allProjectScores === null ||
-        allHeuristics === null ||
-        allJourneys === null ||
-        allPlayers === null ||
-        !journeyScoresDatasetArr ||
-        heuristicsByJourney === null ||
-        !user
-    ) {
-        return null;
+    if (!allowedExternalUser) {
+        if (
+            allJourneyScores === null ||
+            allProjectScores === null ||
+            allHeuristics === null ||
+            allJourneys === null ||
+            allPlayers === null ||
+            !journeyScoresDatasetArr ||
+            heuristicsByJourney === null ||
+            !user
+        ) {
+            return null;
+        }
     }
 
     function handleSelectJourney(ev) {
