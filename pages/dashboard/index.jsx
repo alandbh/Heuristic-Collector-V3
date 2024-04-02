@@ -549,22 +549,26 @@ function Dashboard() {
         }
     }, [scoresByJourney, journeyScoresDatasetArr]);
 
-    let allowedExternalUser = false;
     const apikey = "20rga24";
+    let allowedExternalUser = apikey === router.query.apikey;
 
-    if (router.query.apikey) {
-        if (!apikey === router.query.apikey) {
-            return;
-        }
-        console.log("apikey", router.query.apikey);
-        allowedExternalUser = true;
-    } else {
-        if (!user && !loadingUser) {
-            router.push(
-                `/login?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}&page=dashboard`
-            );
-            return;
-        }
+    // if (router.query.apikey) {
+    //     if (apikey !== router.query.apikey) {
+    //         router.push(
+    //             `/login?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}&page=dashboard`
+    //         );
+    //         return;
+    //     }
+    //     console.log("apikey", router.query.apikey);
+    //     allowedExternalUser = true;
+    // } else {
+    // }
+
+    if (!user && !loadingUser && !allowedExternalUser) {
+        router.push(
+            `/login?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}&page=dashboard`
+        );
+        return;
     }
 
     /**
@@ -578,19 +582,19 @@ function Dashboard() {
      *
      */
 
-    if (!allowedExternalUser) {
-        if (
-            allJourneyScores === null ||
-            allProjectScores === null ||
-            allHeuristics === null ||
-            allJourneys === null ||
-            allPlayers === null ||
-            !journeyScoresDatasetArr ||
-            heuristicsByJourney === null ||
-            !user
-        ) {
-            return null;
-        }
+    // if (!allowedExternalUser) {
+    // }
+    if (
+        allJourneyScores === null ||
+        allProjectScores === null ||
+        allHeuristics === null ||
+        allJourneys === null ||
+        allPlayers === null ||
+        !journeyScoresDatasetArr ||
+        heuristicsByJourney === null
+        // || !user
+    ) {
+        return null;
     }
 
     function handleSelectJourney(ev) {
