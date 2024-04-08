@@ -226,7 +226,7 @@ export default async function handler(req, res) {
             scoreChartObj.playerSlug = player.slug;
             scoreChartObj.show_player = showPlayer === player.slug;
 
-            const manyPlayersArr = showManyPlayers.split(",");
+            const manyPlayersArr = showManyPlayers?.split(",");
 
             if (showManyPlayers && showManyPlayers.includes(player.slug)) {
                 scoreChartObj.show_player = true;
