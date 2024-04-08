@@ -228,12 +228,12 @@ function getPlayerPercentage(params) {
     //     (player) => player.playerSlug === playerSlug
     // );
 
-    console.log("scoresByPlayer percentage", {
-        scoresByPlayerByJourney,
-        total: totalAmountOfScores,
-        done: totalDone,
-        percentage,
-    });
+    // console.log("scoresByPlayer percentage", {
+    //     scoresByPlayerByJourney,
+    //     total: totalAmountOfScores,
+    //     done: totalDone,
+    //     percentage,
+    // });
 
     return {
         total: totalAmountOfScores,
@@ -354,7 +354,7 @@ function Dashboard({ auth }) {
                 // setTotalOfScores(getAllScoresApi(result).length);
                 setAllScores(getAllScoresApi(result));
                 setAllFindings(getAllFindingsApi(result));
-                console.log("allScores", result);
+                // console.log("allScores", result);
                 setLoadingDash(false);
             });
         });
