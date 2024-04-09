@@ -313,6 +313,15 @@ export default async function handler(req, res) {
                     }, 0) / nonZeroedScores.length
             ).toFixed(2)
         );
+        const average_score_with_zeroed = Number(
+            (
+                scores_by_heuristic
+                    .map((score) => score.value)
+                    .reduce((acc, n) => {
+                        return acc + n;
+                    }, 0) / scores_by_heuristic.length
+            ).toFixed(2)
+        );
         const average_score_prev = Number(
             (
                 validScoresPrev
@@ -349,6 +358,7 @@ export default async function handler(req, res) {
             journey,
             heuristic,
             average_score,
+            average_score_with_zeroed,
             average_score_prev,
             scores_by_heuristic,
         });
