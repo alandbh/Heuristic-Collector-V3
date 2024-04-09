@@ -15,6 +15,7 @@ import ScoreStatsTable from "../../components/ScoreStatsTable";
 import { sortCollection } from "../../lib/utils";
 import BarChartCompare from "../../components/BarChartCompare";
 import { useProject } from "../../lib/useProject";
+import { useProjectFinance } from "../../lib/useProjectFinance";
 
 const QUERY_HEURISTICS = gql`
     query GetAllHeuristics($projectSlug: String) {
@@ -417,6 +418,7 @@ function Dashboard() {
     const {
         projectName,
         projectCurrentYear,
+        previousProjectSlug,
         previousPlayerScoreAverage,
         previousAllPlayersScoreAverage,
         previousDepartmentPlayersScoreAverage,
@@ -487,6 +489,57 @@ function Dashboard() {
         projectCurrentYear,
         projectName,
         showPlayer,
+    ]);
+
+    /**
+     *
+     * Prepares the dataset for comparison v4
+     */
+
+    const {
+        _projectCurrentYear,
+        _playerScore,
+        _previousPlayerScore,
+        _previousAllPlayersScoreAverage,
+        _allPlayersScoreAverageWithZeroed,
+    } = useProjectFinance(
+        router.query.project,
+        showPlayer,
+        router.query.journey,
+        router.query.heuristic
+    );
+
+    useEffect(() => {
+        if (!router.query.project) {
+            return;
+        }
+        const dataset = {};
+
+        setHasComparison(Boolean(_previousPlayerScore));
+
+        dataset.currentYearScores = {
+            year: _projectCurrentYear,
+            playerScore: _playerScore,
+            averageScore: _allPlayersScoreAverageWithZeroed,
+        };
+
+        dataset.previousYearScores = {
+            year: _projectCurrentYear - 1,
+            playerScore: _previousPlayerScore,
+            // averageScore: previousAllPlayersScoreAverage,
+            averageScore: _previousAllPlayersScoreAverage,
+        };
+
+        if (router.query.project.includes("finance")) {
+            setCompareDataset(dataset);
+        }
+    }, [
+        _allPlayersScoreAverageWithZeroed,
+        _playerScore,
+        _previousAllPlayersScoreAverage,
+        _previousPlayerScore,
+        _projectCurrentYear,
+        router.query.project,
     ]);
 
     /**
@@ -994,6 +1047,8 @@ function Dashboard() {
                                 </div>
                             </ChartSection>
 
+                            {/* <Debugg data={compareDataset}></Debugg> */}
+
                             {showPlayer &&
                             allJourneyScores &&
                             allJourneyScores.scores_by_heuristic &&
@@ -1017,12 +1072,10 @@ function Dashboard() {
                                     </div>
                                     <div className=" px-8 pt-8 pb-4">
                                         <div className="flex flex-col items-center">
-                                            {project.includes("retail") && (
-                                                <BarChartCompare
-                                                    refDom={chartCompareRef}
-                                                    dataSet={compareDataset}
-                                                />
-                                            )}
+                                            <BarChartCompare
+                                                refDom={chartCompareRef}
+                                                dataSet={compareDataset}
+                                            />
                                         </div>
                                         <div className="mt-4 flex gap-10">
                                             <button
