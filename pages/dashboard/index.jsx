@@ -431,8 +431,6 @@ function Dashboard() {
 
         const dataset = {};
 
-        setHasComparison(Boolean(previousPlayerScoreAverage));
-
         const playerScore = getScoreFromPlayerSlug(
             showPlayer,
             allJourneyScores?.scores_by_heuristic,
@@ -479,8 +477,10 @@ function Dashboard() {
             // averageScore: previousAllPlayersScoreAverage,
             averageScore: previousDepartmentPlayersScoreAverage,
         };
-
-        setCompareDataset(dataset);
+        if (router.query.project.includes("retail")) {
+            setCompareDataset(dataset);
+            setHasComparison(Boolean(previousPlayerScoreAverage));
+        }
     }, [
         allJourneyScores,
         previousAllPlayersScoreAverage,
@@ -515,8 +515,6 @@ function Dashboard() {
         }
         const dataset = {};
 
-        setHasComparison(Boolean(_previousPlayerScore));
-
         dataset.currentYearScores = {
             year: _projectCurrentYear,
             playerScore: _playerScore,
@@ -532,6 +530,7 @@ function Dashboard() {
 
         if (router.query.project.includes("finance")) {
             setCompareDataset(dataset);
+            setHasComparison(Boolean(_previousPlayerScore));
         }
     }, [
         _allPlayersScoreAverageWithZeroed,
@@ -1048,6 +1047,7 @@ function Dashboard() {
                             </ChartSection>
 
                             {/* <Debugg data={compareDataset}></Debugg> */}
+                            {/* <Debugg data={hasComparison}></Debugg> */}
 
                             {showPlayer &&
                             allJourneyScores &&
