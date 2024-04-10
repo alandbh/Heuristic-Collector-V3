@@ -980,8 +980,9 @@ function Dashboard() {
                                             height={387}
                                             width={1048}
                                             radius={0}
-                                            gap={25}
-                                            barWidth={24}
+                                            gap={36}
+                                            barWidth={36}
+                                            separatorWidth={36}
                                             barColors="#a5a5a5, #4285F4, #174EA6, #333 "
                                             highlightColor="#1967d2"
                                             averageLineColor="red"
