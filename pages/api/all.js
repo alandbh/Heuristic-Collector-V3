@@ -351,16 +351,16 @@ export default async function handler(req, res) {
             return 0;
         });
 
-        scores_by_heuristic.sort((a, b) => {
-            if (a.departmentOrder < b.departmentOrder) {
-                return -1;
-            }
-            if (a.departmentOrder > b.departmentOrder) {
-                return 1;
-            }
+        // scores_by_heuristic.sort((a, b) => {
+        //     if (a.departmentOrder < b.departmentOrder) {
+        //         return -1;
+        //     }
+        //     if (a.departmentOrder > b.departmentOrder) {
+        //         return 1;
+        //     }
 
-            return 0;
-        });
+        //     return 0;
+        // });
 
         serve({
             journey,
