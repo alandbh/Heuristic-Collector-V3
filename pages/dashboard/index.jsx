@@ -50,6 +50,7 @@ const QUERY_PLAYERS = gql`
         players(first: 10000, where: { project: { slug: $projectSlug } }) {
             name
             slug
+            showInChart
             departmentObj {
                 departmentName
                 departmentSlug
@@ -162,7 +163,16 @@ function Dashboard() {
                     fetchPolicy: "network-only",
                 })
                 .then(({ data }) => {
-                    const orderedPlayers = sortCollection(data.players, "slug");
+                    const filteredPlayers = data.players.filter(
+                        (player) =>
+                            player.showInChart === null ||
+                            player.showInChart === true
+                    );
+
+                    const orderedPlayers = sortCollection(
+                        filteredPlayers,
+                        "slug"
+                    );
 
                     setAllPlayers(orderedPlayers);
                 });

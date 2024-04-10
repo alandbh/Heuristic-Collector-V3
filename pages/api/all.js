@@ -26,6 +26,7 @@ const QUERY_ALL = gql`
             id
             name
             slug
+            showInChart
             departmentObj {
                 departmentName
                 departmentSlug
@@ -107,6 +108,7 @@ export default async function handler(req, res) {
             id,
             name,
             slug,
+            showInChart,
             departmentObj,
             scoresObject,
             finding,
@@ -117,6 +119,7 @@ export default async function handler(req, res) {
             playerOb.id = id;
             playerOb.name = name;
             playerOb.slug = slug;
+            playerOb.showInChart = showInChart;
             playerOb.departmentObj = departmentObj;
             playerOb.scores = {};
             playerOb.ignored_journeys = [];
@@ -211,6 +214,9 @@ export default async function handler(req, res) {
         newPlayerArr.map((player) => {
             const scoreChartObj = {};
             scoreChartObj.label = player.name;
+            if (player.showInChart !== null && player.showInChart !== true) {
+                return;
+            }
             if (player.departmentObj) {
                 scoreChartObj.departmentName =
                     player.departmentObj.departmentName;
@@ -224,6 +230,8 @@ export default async function handler(req, res) {
                 scoreChartObj.departmentOrder = null;
             }
             scoreChartObj.playerSlug = player.slug;
+            scoreChartObj.showInChart =
+                player.showInChart === null ? true : player.showInChart;
             scoreChartObj.show_player = showPlayer === player.slug;
 
             const manyPlayersArr = showManyPlayers?.split(",");
