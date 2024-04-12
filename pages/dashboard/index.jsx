@@ -296,7 +296,10 @@ function Dashboard() {
         // Filtering all zeroed or ignored players
 
         const filteredSllProjectScores = allProjectScores?.filter((player) => {
-            return !player.scores[currentJourney]?.ignore_journey;
+            return (
+                !player.scores[currentJourney]?.ignore_journey &&
+                (player.showInChart === null || player.showInChart === true)
+            );
         });
 
         const scores = filteredSllProjectScores?.map((playerScore) => {
@@ -355,13 +358,14 @@ function Dashboard() {
             const geraisTotalScore = geraisArr.reduce((acc, current) => {
                 return acc + current;
             }, 0);
+            const geraisMaximumScore = geraisArr.length * 5;
 
             // Jornada	Peso de Gerais
 
             const geraisWeight = {
-                "open-finance": 0.2380952381,
-                cartao: 0.619047619,
-                abertura: 0.6666666667,
+                "open-finance": 0.25,
+                cartao: 0.625,
+                abertura: 0.5416666667,
                 gerais: 0,
             };
 
@@ -369,6 +373,13 @@ function Dashboard() {
             const maximunJourneyScore = playerObj.journeyScoresArr.length * 5;
 
             // Calculating current journey score based on gerais weight
+
+            if (playerScore.slug === "banco-do-brasil") {
+                console.log(
+                    "aaa",
+                    geraisMaximumScore * geraisWeight[currentJourney]
+                );
+            }
 
             if (geraisArr.length === 0) {
                 // for Retail
@@ -387,7 +398,7 @@ function Dashboard() {
                 playerObj.journeyTotalPercentage =
                     (geraisTotalScore * geraisWeight[currentJourney] +
                         journeyTotalScore) /
-                    (maximunScore * geraisWeight[currentJourney] +
+                    (geraisMaximumScore * geraisWeight[currentJourney] +
                         maximunJourneyScore);
                 playerObj.journeyTotalScore = journeyTotalScore;
             }
@@ -604,6 +615,7 @@ function Dashboard() {
             const sumScores = scoresArr.reduce((acc, current) => {
                 return acc + current;
             }, 0);
+            console.log("bbb", scoresArr);
 
             // console.log("sum", sumScores / scoresArr.length);
 
@@ -981,8 +993,8 @@ function Dashboard() {
                                             width={1048}
                                             radius={0}
                                             gap={36}
-                                            barWidth={36}
-                                            separatorWidth={36}
+                                            barWidth={35}
+                                            separatorWidth={35}
                                             barColors="#a5a5a5, #4285F4, #174EA6, #333 "
                                             highlightColor="#1967d2"
                                             averageLineColor="red"
@@ -1220,8 +1232,9 @@ function Dashboard() {
                                         height={387}
                                         width={1048}
                                         radius={0}
-                                        gap={25}
-                                        barWidth={24}
+                                        gap={36}
+                                        barWidth={35}
+                                        separatorWidth={35}
                                         barColors="#a5a5a5, #4285F4, #174EA6, #333 "
                                         highlightColor="#1967d2"
                                         averageLineColor="red"
