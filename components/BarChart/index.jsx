@@ -200,7 +200,7 @@ export default function BarChart({
                                     fontSize={12}
                                 >
                                     {isPercentage
-                                        ? (score[valueKey] * 100).toFixed(0) +
+                                        ? (score[valueKey] * 100).toFixed(2) +
                                           "%"
                                         : score[valueKey]}
                                 </text>
