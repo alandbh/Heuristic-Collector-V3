@@ -590,6 +590,7 @@ function Dashboard({ auth }) {
                                                 journey,
                                             }).map((player) => {
                                                 let playerColor;
+                                                let playerHasBlocker = false;
 
                                                 if (
                                                     hasBlocker({
@@ -599,6 +600,7 @@ function Dashboard({ auth }) {
                                                     })
                                                 ) {
                                                     playerColor = "#ff0000";
+                                                    playerHasBlocker = true;
                                                 } else if (
                                                     getPlayerPercentage({
                                                         scores: allScores,
@@ -626,7 +628,11 @@ function Dashboard({ auth }) {
                                                     >
                                                         <a>
                                                             <li
-                                                                className={`col-span-1 flex gap-1 items-center  py-3 px-2 border border-slate-300 hover:border-blue-300 rounded-md hover:bg-blue-100/30`}
+                                                                className={`col-span-1 flex gap-1 items-center  py-3 px-2 border rounded-md ${
+                                                                    playerHasBlocker
+                                                                        ? "border-red-500 bg-red-100/30 hover:border-red-700 hover:bg-red-100/50"
+                                                                        : "border-slate-300 hover:border-blue-300  hover:bg-blue-100/30"
+                                                                }  `}
                                                             >
                                                                 <div className="flex-1 mr-2">
                                                                     <Progress
