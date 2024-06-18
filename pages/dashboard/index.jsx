@@ -374,12 +374,12 @@ function Dashboard() {
 
             // Calculating current journey score based on gerais weight
 
-            if (playerScore.slug === "banco-do-brasil") {
-                console.log(
-                    "aaa",
-                    geraisMaximumScore * geraisWeight[currentJourney]
-                );
-            }
+            // if (playerScore.slug === "banco-do-brasil") {
+            //     console.log(
+            //         "aaa",
+            //         geraisMaximumScore * geraisWeight[currentJourney]
+            //     );
+            // }
 
             if (geraisArr.length === 0) {
                 // for Retail
@@ -432,7 +432,9 @@ function Dashboard() {
                     return score.departmentSlug;
                 })
         )
-    ).filter((dep) => dep !== null);
+    )
+        .filter((dep) => dep !== null)
+        .sort();
 
     // const currentDepartment = departmentList.find()
 
@@ -615,7 +617,7 @@ function Dashboard() {
             const sumScores = scoresArr.reduce((acc, current) => {
                 return acc + current;
             }, 0);
-            console.log("bbb", scoresArr);
+            // console.log("bbb", scoresArr);
 
             // console.log("sum", sumScores / scoresArr.length);
 
@@ -751,9 +753,13 @@ function Dashboard() {
     }
 
     const datasetWithSeparator = [];
-
+    // console.log("departmentList", departmentList);
     departmentList.map((department, index) => {
-        allJourneyScores.scores_by_heuristic
+        const sortedCollection = sortCollection(
+            allJourneyScores.scores_by_heuristic,
+            "departmentOrder"
+        );
+        sortedCollection
             .filter((score) => score.departmentSlug === department)
             .map((score) => {
                 datasetWithSeparator.push(score);
@@ -982,26 +988,23 @@ function Dashboard() {
 
                                         <BarChart
                                             refDom={chartRef}
-                                            // allJourneyScores={allJourneyScores}
-                                            dataSet={
-                                                allJourneyScores.scores_by_heuristic
-                                            }
+                                            dataSet={datasetWithSeparator}
+                                            // valueKey={"allJourneysScoreAverage"}
                                             averageLine={getAverageScore(
-                                                allJourneyScores.scores_by_heuristic
+                                                datasetWithSeparator
                                             )}
-                                            height={387}
-                                            width={1048}
-                                            radius={0}
-                                            gap={36}
-                                            barWidth={35}
-                                            separatorWidth={35}
-                                            barColors="#a5a5a5, #4285F4, #174EA6, #333 "
-                                            highlightColor="#1967d2"
-                                            averageLineColor="red"
-                                            averageLineDash="0,0"
+                                            height={251}
+                                            width={915}
+                                            radius={4}
+                                            gap={26}
+                                            barWidth={26}
+                                            separatorWidth={100}
+                                            barColors="#a5a5a5, #4285F4, #174EA6, #333"
+                                            averageLineColor="#a5a5a5"
+                                            averageLineDash="8,7"
                                             averageLineWidth={1.8}
-                                            hOffset={10}
-                                            vOffset={2}
+                                            hOffset={0}
+                                            vOffset={0}
                                         />
 
                                         <div className="mt-4 flex gap-10">
@@ -1009,7 +1012,7 @@ function Dashboard() {
                                                 className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
                                                 onClick={() =>
                                                     handleClickCopySvg(
-                                                        chartJourneyRef,
+                                                        chartRef,
                                                         "id1"
                                                     )
                                                 }
@@ -1022,7 +1025,7 @@ function Dashboard() {
                                                 className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
                                                 onClick={() =>
                                                     handleClickCopyPng(
-                                                        chartJourneyRef,
+                                                        chartRef,
                                                         {
                                                             heuristicNumber:
                                                                 selectedHeuristic?.heuristicNumber,
