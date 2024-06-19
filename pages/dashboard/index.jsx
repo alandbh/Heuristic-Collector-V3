@@ -993,17 +993,17 @@ function Dashboard() {
                                             averageLine={getAverageScore(
                                                 datasetWithSeparator
                                             )}
-                                            height={251}
-                                            width={915}
-                                            radius={4}
-                                            gap={26}
-                                            barWidth={26}
-                                            separatorWidth={100}
-                                            barColors="#a5a5a5, #4285F4, #174EA6, #333"
-                                            averageLineColor="#a5a5a5"
-                                            averageLineDash="8,7"
-                                            averageLineWidth={1.8}
-                                            hOffset={0}
+                                            height={287}
+                                            width={804}
+                                            radius={0}
+                                            gap={32}
+                                            barWidth={18}
+                                            separatorWidth={62}
+                                            barColors="#BDC1C6, #4285f4, #174EA6, #333"
+                                            averageLineColor="#EA4335"
+                                            averageLineDash="0,0"
+                                            averageLineWidth={1}
+                                            hOffset={28}
                                             vOffset={0}
                                         />
 
