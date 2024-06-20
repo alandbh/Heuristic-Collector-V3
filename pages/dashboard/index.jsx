@@ -1107,6 +1107,7 @@ function Dashboard() {
                                                 gapBetweenCharts={38}
                                                 height={169}
                                                 width={367}
+                                                barColor="#4285F4"
                                                 // hideBaseLine={true}
                                                 // hideBaseText={true}
                                                 // hideYears={true}
