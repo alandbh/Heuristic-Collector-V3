@@ -23,6 +23,7 @@ export default function BarChartCompare({
     height = 246,
     radius = 6,
     barWidth = 28,
+    barMaxHeight = 192,
     gap = 50,
     gapBetweenCharts = 30,
     barColor = "#174EA6",
@@ -56,8 +57,8 @@ export default function BarChartCompare({
         <div>
             <svg
                 width={width}
-                height={height + bottomOffset}
-                viewBox={`0 0 ${width} ${height + bottomOffset}`}
+                height={height}
+                viewBox={`0 0 ${width} ${height}`}
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 ref={refDom}
@@ -68,7 +69,7 @@ export default function BarChartCompare({
                         w: barWidth,
                         h: getHeight(
                             dataSet.previousYearScores.playerScore,
-                            height - vOffset,
+                            barMaxHeight,
                             false
                         ),
                         tlr: radius,
@@ -76,8 +77,8 @@ export default function BarChartCompare({
                         brr: 0,
                         blr: 0,
                         x: hOffset,
-                        maxHeight: height - vOffset,
-                        vOffset,
+                        maxHeight: barMaxHeight,
+                        vOffset: bottomOffset + xAxisWidth + 2,
                     })}
                     fill={barColor}
                 />
@@ -88,7 +89,7 @@ export default function BarChartCompare({
                         w: barWidth,
                         h: getHeight(
                             dataSet.previousYearScores.averageScore,
-                            height - vOffset - barStrokeWidth * 2,
+                            barMaxHeight,
                             false
                         ),
                         tlr: radius,
@@ -96,8 +97,8 @@ export default function BarChartCompare({
                         brr: 0,
                         blr: 0,
                         x: hOffset + barWidth + gap,
-                        maxHeight: height - vOffset,
-                        vOffset,
+                        maxHeight: barMaxHeight,
+                        vOffset: bottomOffset + xAxisWidth + 2,
                     })}
                     fill="transparent"
                     stroke={barStrokeColor}
@@ -107,9 +108,9 @@ export default function BarChartCompare({
                     <line
                         className="linha inferior ano anterior"
                         x1="0"
-                        y1={height}
+                        y1={height - bottomOffset}
                         x2={(width - gapBetweenCharts) / 2}
-                        y2={height}
+                        y2={height - bottomOffset}
                         stroke={xAxisColor}
                         strokeWidth={xAxisWidth}
                     />
@@ -119,7 +120,13 @@ export default function BarChartCompare({
                     <g>
                         <text
                             x={hOffset + barWidth / 2}
-                            y={height + bottomOffset - 2}
+                            y={
+                                height -
+                                bottomOffset +
+                                style.label.fontSize +
+                                2 +
+                                xAxisWidth
+                            }
                             textAnchor="middle"
                             style={style.label}
                             fill="#9AA0A6"
@@ -131,7 +138,13 @@ export default function BarChartCompare({
                         </text>
                         <text
                             x={hOffset + barWidth + gap + barWidth / 2}
-                            y={height + bottomOffset - 2}
+                            y={
+                                height -
+                                bottomOffset +
+                                style.label.fontSize +
+                                2 +
+                                xAxisWidth
+                            }
                             textAnchor="middle"
                             style={style.label}
                             fill="#9AA0A6"
@@ -169,7 +182,7 @@ export default function BarChartCompare({
                         w: barWidth,
                         h: getHeight(
                             dataSet.currentYearScores.playerScore,
-                            height - vOffset
+                            barMaxHeight
                         ),
                         tlr: radius,
                         trr: radius,
@@ -180,8 +193,8 @@ export default function BarChartCompare({
                             (width - gapBetweenCharts) / 2 +
                             gapBetweenCharts +
                             hOffset,
-                        maxHeight: height - vOffset,
-                        vOffset,
+                        maxHeight: barMaxHeight,
+                        vOffset: bottomOffset + xAxisWidth + 2,
                     })}
                     fill={barColor}
                 />
@@ -192,7 +205,7 @@ export default function BarChartCompare({
                         w: barWidth,
                         h: getHeight(
                             dataSet.currentYearScores.averageScore,
-                            height - vOffset - barStrokeWidth * 2
+                            barMaxHeight
                         ),
                         tlr: radius,
                         trr: radius,
@@ -209,8 +222,8 @@ export default function BarChartCompare({
                             hOffset +
                             barWidth +
                             gap,
-                        maxHeight: height - vOffset,
-                        vOffset,
+                        maxHeight: barMaxHeight,
+                        vOffset: bottomOffset + xAxisWidth + 2,
                     })}
                     fill="transparent"
                     stroke={barStrokeColor}
@@ -220,9 +233,9 @@ export default function BarChartCompare({
                     <line
                         className="linha inferior ano atual"
                         x1={width / 2 + gapBetweenCharts / 2}
-                        y1={height}
+                        y1={height - bottomOffset}
                         x2={width}
-                        y2={height}
+                        y2={height - bottomOffset}
                         stroke={xAxisColor}
                         strokeWidth={xAxisWidth}
                     />
@@ -239,7 +252,13 @@ export default function BarChartCompare({
                                 gapBetweenCharts +
                                 barWidth / 2
                             }
-                            y={height + bottomOffset - 2}
+                            y={
+                                height -
+                                bottomOffset +
+                                style.label.fontSize +
+                                2 +
+                                xAxisWidth
+                            }
                             textAnchor="middle"
                             style={style.label}
                             fill="#9AA0A6"
@@ -258,7 +277,13 @@ export default function BarChartCompare({
                                 gapBetweenCharts +
                                 barWidth / 2
                             }
-                            y={height + bottomOffset - 2}
+                            y={
+                                height -
+                                bottomOffset +
+                                style.label.fontSize +
+                                2 +
+                                xAxisWidth
+                            }
                             textAnchor="middle"
                             style={style.label}
                             fill="#9AA0A6"

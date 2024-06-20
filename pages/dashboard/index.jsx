@@ -1105,9 +1105,11 @@ function Dashboard() {
                                                 barWidth={29}
                                                 gap={50}
                                                 gapBetweenCharts={38}
-                                                height={169}
+                                                height={224}
+                                                barMaxHeight={169}
                                                 width={367}
                                                 barColor="#4285F4"
+                                                bottomOffset={25}
                                                 // hideBaseLine={true}
                                                 // hideBaseText={true}
                                                 // hideYears={true}
