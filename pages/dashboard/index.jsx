@@ -736,7 +736,8 @@ function Dashboard() {
             ref.current,
             `chart-${currentJourney}${
                 heuristicNumber && "-h_" + heuristicNumber
-            }${playerSlug && "-" + playerSlug}.png`
+            }${playerSlug && "-" + playerSlug}.png`,
+            { scale: 2 }
         );
     }
 
