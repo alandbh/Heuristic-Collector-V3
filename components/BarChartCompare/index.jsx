@@ -33,6 +33,9 @@ export default function BarChartCompare({
     hOffset = 28,
     vOffset = 32,
     bottomOffset = 26,
+    hideBaseLine = false,
+    hideBaseText = false,
+    hideYears = false,
     refDom,
 }) {
     const style = {
@@ -100,51 +103,59 @@ export default function BarChartCompare({
                     stroke={barStrokeColor}
                 />
 
-                <line
-                    className="linha inferior ano anterior"
-                    x1="0"
-                    y1={height}
-                    x2={(width - gapBetweenCharts) / 2}
-                    y2={height}
-                    stroke={xAxisColor}
-                    strokeWidth={xAxisWidth}
-                />
-                <text
-                    x={hOffset + barWidth / 2}
-                    y={height + bottomOffset - 2}
-                    textAnchor="middle"
-                    style={style.label}
-                    fill="#9AA0A6"
-                >
-                    {dataSet.previousYearScores.playerScore
-                        ?.toFixed(1)
-                        .toString()
-                        .replace(".", ",")}
-                </text>
+                {!hideBaseLine && (
+                    <line
+                        className="linha inferior ano anterior"
+                        x1="0"
+                        y1={height}
+                        x2={(width - gapBetweenCharts) / 2}
+                        y2={height}
+                        stroke={xAxisColor}
+                        strokeWidth={xAxisWidth}
+                    />
+                )}
 
-                <text
-                    x={hOffset + barWidth + gap + barWidth / 2}
-                    y={height + bottomOffset - 2}
-                    textAnchor="middle"
-                    style={style.label}
-                    fill="#9AA0A6"
-                >
-                    {dataSet.previousYearScores.averageScore
-                        ?.toFixed(1)
-                        .toString()
-                        .replace(".", ",")}
-                </text>
+                {!hideBaseText && (
+                    <g>
+                        <text
+                            x={hOffset + barWidth / 2}
+                            y={height + bottomOffset - 2}
+                            textAnchor="middle"
+                            style={style.label}
+                            fill="#9AA0A6"
+                        >
+                            {dataSet.previousYearScores.playerScore
+                                ?.toFixed(1)
+                                .toString()
+                                .replace(".", ",")}
+                        </text>
+                        <text
+                            x={hOffset + barWidth + gap + barWidth / 2}
+                            y={height + bottomOffset - 2}
+                            textAnchor="middle"
+                            style={style.label}
+                            fill="#9AA0A6"
+                        >
+                            {dataSet.previousYearScores.averageScore
+                                ?.toFixed(1)
+                                .toString()
+                                .replace(".", ",")}
+                        </text>
+                    </g>
+                )}
 
-                <text
-                    x={(width - gapBetweenCharts) / 4}
-                    y={style.year.fontSize}
-                    textAnchor="middle"
-                    style={style.year}
-                    fill="#9AA0A6"
-                    className="anoA-anterior"
-                >
-                    {dataSet.previousYearScores.year}
-                </text>
+                {!hideYears && (
+                    <text
+                        x={(width - gapBetweenCharts) / 4}
+                        y={style.year.fontSize}
+                        textAnchor="middle"
+                        style={style.year}
+                        fill="#9AA0A6"
+                        className="anoA-anterior"
+                    >
+                        {dataSet.previousYearScores.year}
+                    </text>
+                )}
 
                 {/*
                     *
@@ -164,7 +175,11 @@ export default function BarChartCompare({
                         trr: radius,
                         brr: 0,
                         blr: 0,
-                        x: hOffset * 3 + barWidth * 2 + gap + gapBetweenCharts,
+                        // x: hOffset * 3 + barWidth * 2 + gap + gapBetweenCharts,
+                        x:
+                            (width - gapBetweenCharts) / 2 +
+                            gapBetweenCharts +
+                            hOffset,
                         maxHeight: height - vOffset,
                         vOffset,
                     })}
@@ -183,11 +198,17 @@ export default function BarChartCompare({
                         trr: radius,
                         brr: 0,
                         blr: 0,
+                        // x:
+                        //     hOffset * 3 +
+                        //     barWidth * 3 +
+                        //     gap * 2 +
+                        //     gapBetweenCharts,
                         x:
-                            hOffset * 3 +
-                            barWidth * 3 +
-                            gap * 2 +
-                            gapBetweenCharts,
+                            (width - gapBetweenCharts) / 2 +
+                            gapBetweenCharts +
+                            hOffset +
+                            barWidth +
+                            gap,
                         maxHeight: height - vOffset,
                         vOffset,
                     })}
@@ -195,70 +216,79 @@ export default function BarChartCompare({
                     stroke={barStrokeColor}
                 />
 
-                <line
-                    className="linha inferior ano atual"
-                    x1={width / 2 + gapBetweenCharts / 2}
-                    y1={height}
-                    x2={width}
-                    y2={height}
-                    stroke={xAxisColor}
-                    strokeWidth={xAxisWidth}
-                />
-                <text
-                    // x={width / 2 + gapBetweenCharts / 2 + hOffset}
-                    x={
-                        hOffset * 3 +
-                        barWidth * 2 +
-                        gap +
-                        gapBetweenCharts +
-                        barWidth / 2
-                    }
-                    y={height + bottomOffset - 2}
-                    textAnchor="middle"
-                    style={style.label}
-                    fill="#9AA0A6"
-                >
-                    {dataSet.currentYearScores.playerScore
-                        ?.toFixed(1)
-                        .toString()
-                        .replace(".", ",")}
-                </text>
+                {!hideBaseLine && (
+                    <line
+                        className="linha inferior ano atual"
+                        x1={width / 2 + gapBetweenCharts / 2}
+                        y1={height}
+                        x2={width}
+                        y2={height}
+                        stroke={xAxisColor}
+                        strokeWidth={xAxisWidth}
+                    />
+                )}
 
-                <text
-                    x={
-                        hOffset * 3 +
-                        barWidth * 3 +
-                        gap * 2 +
-                        gapBetweenCharts +
-                        barWidth / 2
-                    }
-                    y={height + bottomOffset - 2}
-                    textAnchor="middle"
-                    style={style.label}
-                    fill="#9AA0A6"
-                >
-                    {dataSet.currentYearScores.averageScore
-                        ?.toFixed(1)
-                        .toString()
-                        .replace(".", ",")}
-                </text>
+                {!hideBaseText && (
+                    <g>
+                        <text
+                            // x={width / 2 + gapBetweenCharts / 2 + hOffset}
+                            x={
+                                hOffset * 3 +
+                                barWidth * 2 +
+                                gap +
+                                gapBetweenCharts +
+                                barWidth / 2
+                            }
+                            y={height + bottomOffset - 2}
+                            textAnchor="middle"
+                            style={style.label}
+                            fill="#9AA0A6"
+                        >
+                            {dataSet.currentYearScores.playerScore
+                                ?.toFixed(1)
+                                .toString()
+                                .replace(".", ",")}
+                        </text>
 
-                <text
-                    x={
-                        hOffset * 3 +
-                        barWidth * 3 +
-                        gap +
-                        gapBetweenCharts +
-                        gap / 2
-                    }
-                    y={style.year.fontSize}
-                    textAnchor="middle"
-                    style={style.year}
-                    fill="#333"
-                    className="anoA-anterior ano atual"
-                >
-                    {dataSet.currentYearScores.year}
-                </text>
+                        <text
+                            x={
+                                hOffset * 3 +
+                                barWidth * 3 +
+                                gap * 2 +
+                                gapBetweenCharts +
+                                barWidth / 2
+                            }
+                            y={height + bottomOffset - 2}
+                            textAnchor="middle"
+                            style={style.label}
+                            fill="#9AA0A6"
+                        >
+                            {dataSet.currentYearScores.averageScore
+                                ?.toFixed(1)
+                                .toString()
+                                .replace(".", ",")}
+                        </text>
+                    </g>
+                )}
+
+                {!hideYears && (
+                    <text
+                        x={
+                            hOffset * 3 +
+                            barWidth * 3 +
+                            gap +
+                            gapBetweenCharts +
+                            gap / 2
+                        }
+                        y={style.year.fontSize}
+                        textAnchor="middle"
+                        style={style.year}
+                        fill="#333"
+                        className="anoA-anterior ano atual"
+                    >
+                        {dataSet.currentYearScores.year}
+                    </text>
+                )}
             </svg>
             {/* <Debugg data={dataSet} /> */}
         </div>

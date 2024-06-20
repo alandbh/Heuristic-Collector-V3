@@ -1101,6 +1101,15 @@ function Dashboard() {
                                             <BarChartCompare
                                                 refDom={chartCompareRef}
                                                 dataSet={compareDataset}
+                                                hOffset={29}
+                                                barWidth={29}
+                                                gap={50}
+                                                gapBetweenCharts={38}
+                                                height={169}
+                                                width={367}
+                                                // hideBaseLine={true}
+                                                // hideBaseText={true}
+                                                // hideYears={true}
                                             />
                                         </div>
                                         <div className="mt-4 flex gap-10">
