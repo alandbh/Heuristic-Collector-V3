@@ -4,6 +4,29 @@ import { useRouter } from "next/router";
 import client from "../lib/apollo";
 import clientFast from "../lib/apollo-fast";
 
+const QUERY_PREVIOUS_PROJECT_SLUG = gql`
+    query GetPreviousProjectSlug($currentProjectSlug: String) {
+        project(where: { slug: $currentProjectSlug }) {
+            previousProjectSlug
+        }
+    }
+`;
+const QUERY_PREVIOUS_PROJECT_PLAYER_SCORES = gql`
+    query GetPreviousProjectPlayerScores(
+        $previousProjectSlug: String
+        $playerSlug: String
+    ) {
+        players(
+            where: {
+                project: { slug: $previousProjectSlug }
+                slug: $playerSlug
+            }
+        ) {
+            scoresObject
+        }
+    }
+`;
+
 const QUERY_ALL_JOURNEYS = gql`
     query GetGroups($playerSlug: String, $projectSlug: String) {
         journeys(
@@ -88,7 +111,7 @@ async function doTheQuery(queryString, variables, setStateFunction) {
     const result = await clientFast.query({
         query: queryString,
         variables,
-        fetchPolicy: "network-only",
+        fetchPolicy: "no-cache",
     });
 
     const data = result.data,
@@ -105,6 +128,9 @@ export function ProjectWrapper({ children, data }) {
     const [_allJourneysData, setAllJourneysData] = useState(null);
     const [currentPlayerData, setCurrentPlayerData] = useState(null);
     const [currentJourneyData, setCurrentJourneyData] = useState(null);
+    const [previousProject, setPreviousProject] = useState(null);
+    const [previousProjectPlayerScores, setPreviousProjectPlayerScores] =
+        useState(null);
     const router = useRouter();
 
     const { slug, tab, player, journey } = router.query || "";
@@ -172,11 +198,41 @@ export function ProjectWrapper({ children, data }) {
         }
     }, [journey, slug]);
 
+    useEffect(() => {
+        if (slug) {
+            doTheQuery(
+                QUERY_PREVIOUS_PROJECT_SLUG,
+                {
+                    currentProjectSlug: slug,
+                },
+                setPreviousProject
+            );
+        }
+    }, []);
+    console.log("previous", previousProject);
+
+    useEffect(() => {
+        if (previousProject) {
+            if (previousProject.data.project.previousProjectSlug && player) {
+                doTheQuery(
+                    QUERY_PREVIOUS_PROJECT_PLAYER_SCORES,
+                    {
+                        previousProjectSlug:
+                            previousProject.data.project.previousProjectSlug,
+                        playerSlug: player,
+                    },
+                    setPreviousProjectPlayerScores
+                );
+            }
+        }
+    }, [player, previousProject]);
+
     if (
         _allPlayersData === null ||
         _allJourneysData === null ||
         currentPlayerData === null ||
         currentJourneyData === null
+        // || previousProjectPlayerScores === null
     ) {
         return null;
     }
@@ -215,11 +271,16 @@ export function ProjectWrapper({ children, data }) {
     // console.log("url", router.asPath.split("#").pop());
     // console.log("currentPlayer", currentPlayer.players[0]);
     // console.log("currentJourney", currentJourney.journeys[0]);
+    console.log("previousProjectPlayerScores", previousProjectPlayerScores);
 
     return (
         <ProjectContext.Provider
             value={{
                 currentProject: data.project,
+                previousProjectPlayerScores:
+                    previousProjectPlayerScores?.data.players[0]?.scoresObject[
+                        journey
+                    ],
                 allPlayersData,
                 allJourneysData,
                 currentPlayer: currentPlayer.players[0],

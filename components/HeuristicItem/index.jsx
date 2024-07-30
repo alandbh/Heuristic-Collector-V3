@@ -28,7 +28,7 @@ function HeuristicItem({
     allScoresObj,
     className,
 }) {
-    const { currentPlayer } = useProjectContext();
+    const { currentPlayer, previousProjectPlayerScores } = useProjectContext();
     const [scoreValue, setScoreValue] = useState(0);
     const [empty, setEmpty] = useState(false);
     const [text, setText] = useState(currentScore?.note || "");
@@ -47,6 +47,11 @@ function HeuristicItem({
         (someScore) =>
             someScore.heuristic.heuristicNumber === heuristic.heuristicNumber
     );
+
+    const previousScore = previousProjectPlayerScores?.find(
+        (score) => score.heuristic.heuristicNumber === heuristic.heuristicNumber
+    );
+    console.log("contextoPrevious", previousScore);
 
     // 25/04/2023
     // OBSERVAR WATCH se este useEffect abaixo vai causar algum problema depois de comentado.
@@ -479,6 +484,19 @@ function HeuristicItem({
                             >
                                 {scoreDescription[scoreValue].text}
                             </small>
+
+                            {previousScore &&
+                            previousScore?.scoreValue !== scoreValue ? (
+                                <p className="flex w-full gap-2">
+                                    <b className="text-red-500">
+                                        ⚠️ Watch out:{" "}
+                                    </b>{" "}
+                                    <span>
+                                        On last study this player scored:
+                                    </span>{" "}
+                                    <b> {previousScore?.scoreValue}</b>
+                                </p>
+                            ) : null}
                         </div>
                         <div className="flex justify-between">
                             <button
