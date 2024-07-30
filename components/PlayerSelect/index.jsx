@@ -129,10 +129,10 @@ function PlayerSelect({ compact }) {
                     Select a Player
                 </label>
                 <div className="flex gap-2 items-center content-center">
-                    <picture className="h-6 block dark:brightness-[0] dark:invert dark:grayscale dark:opacity-70">
+                    <picture className="h-10 block dark:brightness-[0] dark:invert dark:grayscale dark:opacity-70">
                         <source srcSet={selected?.logo.url} type="image/webp" />
                         <img
-                            className="object-cover max-h-5"
+                            className="object-cover max-h-9"
                             src={selected?.logo.url}
                             alt=""
                         />
@@ -184,13 +184,13 @@ function PlayerSelect({ compact }) {
                                     onClick={() => handleSelectPlayer(player)}
                                     id={player.slug}
                                 >
-                                    <picture className="h-6 block dark:grayscale dark:brightness-[0] dark:invert">
+                                    <picture className="h-full block dark:grayscale dark:brightness-[0] dark:invert">
                                         <source
                                             srcSet={player.logo.url}
                                             type="image/webp"
                                         />
                                         <img
-                                            className="object-cover max-h-6"
+                                            className="object-contain h-full"
                                             src={player.logo.url}
                                             alt=""
                                         />
