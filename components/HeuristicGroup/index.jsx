@@ -80,6 +80,10 @@ function HeuristicGroup({ group, allScoresJson, allScoresObj, index }) {
         return "";
     }
 
+    if (heuristicsToMap.length === 0) {
+        return null;
+    }
+
     return (
         <section
             ref={containerRef}
