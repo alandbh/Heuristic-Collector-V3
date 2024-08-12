@@ -481,12 +481,16 @@ function Dashboard() {
 
         // console.log("currentDepartmentScores", currentDepartmentScores);
 
-        const averageScore = project.includes("retail")
-            ? getAverageScore(
-                  currentDepartmentScores,
-                  "allJourneysScoreAverage"
-              )
-            : getAverageScore(allJourneyScores.scores_by_heuristic, "value");
+        const averageScore =
+            project.includes("retail") || project.includes("latam")
+                ? getAverageScore(
+                      currentDepartmentScores,
+                      "allJourneysScoreAverage"
+                  )
+                : getAverageScore(
+                      allJourneyScores.scores_by_heuristic,
+                      "value"
+                  );
 
         dataset.currentYearScores = {
             year: projectCurrentYear,
@@ -500,7 +504,10 @@ function Dashboard() {
             // averageScore: previousAllPlayersScoreAverage,
             averageScore: previousDepartmentPlayersScoreAverage,
         };
-        if (router.query.project.includes("retail")) {
+        if (
+            router.query.project.includes("retail") ||
+            router.query.project.includes("latam")
+        ) {
             setCompareDataset(dataset);
             setHasComparison(Boolean(previousPlayerScoreAverage));
         }
@@ -879,7 +886,8 @@ function Dashboard() {
                             <ChartSection
                                 title="Heuristic Chart"
                                 average={
-                                    project.includes("retail")
+                                    project.includes("retail") ||
+                                    project.includes("latam")
                                         ? getAverageScore(
                                               datasetWithSeparator,
                                               "allJourneysScoreAverage"
@@ -904,7 +912,8 @@ function Dashboard() {
                                     </div>
                                 </div>
 
-                                {project.includes("retail") ? (
+                                {project.includes("retail") ||
+                                project.includes("latam") ? (
                                     <div
                                         style={{ width: 864 }}
                                         className=" px-8 pt-8 pb-4"
@@ -1225,7 +1234,8 @@ function Dashboard() {
                             <Debugg data={journeyScoresDatasetArr} /> */}
 
                             <div className=" px-8 pt-8 pb-4">
-                                {project.includes("retail") ? (
+                                {project.includes("retail") ||
+                                project.includes("latam") ? (
                                     <BarChart
                                         refDom={journeyChartRef}
                                         // allJourneyScores={allJourneyScores}
