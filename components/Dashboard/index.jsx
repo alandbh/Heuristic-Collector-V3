@@ -387,6 +387,8 @@ function Dashboard({ auth }) {
         return null;
     }
 
+    console.log("ola", allScores);
+
     return (
         <>
             {/* <h1 className={`${loadingDash ? "opacity-100" : "opacity-0"}`}>

@@ -7,6 +7,15 @@
     "name": "R/GA's Heuristic Collector",
     "short_name": "Heuristic Collector",
     "description": "An app for collecting heuristics",
+    "share_target": {
+        "action": "/api/upload",
+        "method": "POST",
+        "params": {
+            "title": "title",
+            "text": "text",
+            "files": "files"
+        }
+    },
     "icons": [
         {
             "src": "icons/icon-192x192.png",
