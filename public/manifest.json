@@ -5,10 +5,10 @@
     "scope": "/",
     "start_url": "/",
     "name": "R/GA's Heuristic Collector",
-    "short_name": "Heuristic Collector",
+    "short_name": "Heuristic Collector a1",
     "description": "An app for collecting heuristics",
     "share_target": {
-        "action": "/api/upload",
+        "action": "/api/upload/",
         "method": "POST",
         "params": {
             "title": "title",
