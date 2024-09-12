@@ -1,12 +1,12 @@
 {
-    "id": "4",
+    "id": "5",
     "theme_color": "#dd0000",
     "background_color": "#dd0000",
     "display": "browser",
     "scope": "/",
     "start_url": "/",
     "name": "R/GA's Heuristic Collector",
-    "short_name": "Heuristic Collector b1",
+    "short_name": "Heuristic Collector b5",
     "description": "An app for collecting heuristics",
     "share_target": {
         "action": "/api/upload/",
