@@ -57,6 +57,11 @@ function Header({ routes, className, auth }) {
 
     const LINK_CLASSES = `border flex gap-2 align-middle items-center py-1 px-4 md:px-5 rounded-full transition-all text-xs md:text-sm `;
 
+    const headerColor =
+        process.env.NEXT_PUBLIC_ENV === "production"
+            ? { main: "bg-primary ", sticky: "bg-white" }
+            : { main: "bg-orange-500 ", sticky: "bg-orange-300" };
+
     return (
         <ScoresObjWrapper>
             <header
@@ -65,7 +70,7 @@ function Header({ routes, className, auth }) {
                 className={`z-10`}
             >
                 <div
-                    className={`bg-primary flex justify-between px-5 items-center h-12`}
+                    className={`${headerColor.main} flex justify-between px-5 items-center h-12`}
                 >
                     <div className="flex gap-4">
                         <Link href={`/projects`}>
@@ -196,7 +201,7 @@ function Header({ routes, className, auth }) {
                 className="z-10 fixed w-full top-0 -translate-y-20 opacity-0"
             >
                 <div
-                    className={`bg-white dark:bg-slate-800 shadow-md px-5 py-3 md:py-1`}
+                    className={`${headerColor.sticky} dark:bg-slate-800 shadow-md px-5 py-3 md:py-1`}
                 >
                     <div className="flex items-center gap-8 justify-between sm:justify-start">
                         <b className="hidden sm:inline">
