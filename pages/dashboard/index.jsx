@@ -852,6 +852,7 @@ function Dashboard() {
                                 onItemClick={handleClickHeuristic}
                                 collection={heuristicsByJourney}
                                 srOnlyIconText="Search for heuristics"
+                                placeholder="type the number or the name of the heuristic"
                                 filterBy={["name", "heuristicNumber"]}
                             />
                         </div>
@@ -936,7 +937,7 @@ function Dashboard() {
                                             radius={4}
                                             gap={12}
                                             barWidth={16}
-                                            separatorWidth={41}
+                                            separatorWidth={69}
                                             barColors="#a5a5a5, #4285F4, #174EA6, #333"
                                             averageLineColor="#a5a5a5"
                                             averageLineDash="8,7"
@@ -1188,121 +1189,122 @@ function Dashboard() {
                             </div>
                         )
                     )}
-
-                    {currentJourney && isValidJourney(currentJourney) ? (
-                        <ChartSection
-                            title="Journey Chart"
-                            average={(averageJourneyScore * 100).toFixed(2)}
-                        >
-                            <div className="flex border-b px-4 min-h-[50px]">
-                                <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
-                                    <p>Selected Journey:</p>
+                    <div className="hidden">
+                        {currentJourney && isValidJourney(currentJourney) ? (
+                            <ChartSection
+                                title="Journey Chart"
+                                average={(averageJourneyScore * 100).toFixed(2)}
+                            >
+                                <div className="flex border-b px-4 min-h-[50px]">
+                                    <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
+                                        <p>Selected Journey:</p>
+                                    </div>
+                                    <div className="flex gap-2 text-sm pt-4 pb-4">
+                                        <b className="max-w-lg text-slate-700">
+                                            {
+                                                allJourneys.find(
+                                                    (journey) =>
+                                                        journey.slug ===
+                                                        currentJourney
+                                                )?.name
+                                            }
+                                        </b>
+                                    </div>
+                                    {showPlayer && (
+                                        <>
+                                            <div className="ml-auto flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
+                                                <p>Player Score:</p>
+                                            </div>
+                                            <div className="flex gap-2 text-sm pt-4 pb-4">
+                                                <b className="max-w-lg text-slate-700">
+                                                    {(
+                                                        journeyScoresDatasetArr.find(
+                                                            (player) =>
+                                                                player.playerSlug ===
+                                                                showPlayer
+                                                        )?.value * 100
+                                                    ).toFixed(2)}
+                                                    %
+                                                </b>
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
-                                <div className="flex gap-2 text-sm pt-4 pb-4">
-                                    <b className="max-w-lg text-slate-700">
-                                        {
-                                            allJourneys.find(
-                                                (journey) =>
-                                                    journey.slug ===
-                                                    currentJourney
-                                            )?.name
-                                        }
-                                    </b>
-                                </div>
-                                {showPlayer && (
-                                    <>
-                                        <div className="ml-auto flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
-                                            <p>Player Score:</p>
-                                        </div>
-                                        <div className="flex gap-2 text-sm pt-4 pb-4">
-                                            <b className="max-w-lg text-slate-700">
-                                                {(
-                                                    journeyScoresDatasetArr.find(
-                                                        (player) =>
-                                                            player.playerSlug ===
-                                                            showPlayer
-                                                    )?.value * 100
-                                                ).toFixed(2)}
-                                                %
-                                            </b>
-                                        </div>
-                                    </>
-                                )}
-                            </div>
 
-                            {/* <Debugg data={scoresByJourney} />
+                                {/* <Debugg data={scoresByJourney} />
                             <Debugg data={journeyScoresDatasetArr} /> */}
 
-                            <div className=" px-8 pt-8 pb-4">
-                                {project.includes("retail") ||
-                                project.includes("latam") ? (
-                                    <BarChart
-                                        refDom={journeyChartRef}
-                                        // allJourneyScores={allJourneyScores}
-                                        dataSet={journeyScoresDatasetArr}
-                                        barColors="#a5a5a5, #4285F4, #174EA6, #333 "
-                                        averageLine={getAverageScore(
-                                            journeyScoresDatasetArr
-                                        )}
-                                        isPercentage
-                                    />
-                                ) : (
-                                    <BarChart
-                                        refDom={journeyChartRef}
-                                        // allJourneyScores={allJourneyScores}
-                                        dataSet={journeyScoresDatasetArr}
-                                        averageLine={getAverageScore(
-                                            journeyScoresDatasetArr
-                                        )}
-                                        isPercentage
-                                        height={387}
-                                        width={1048}
-                                        radius={0}
-                                        gap={36}
-                                        barWidth={35}
-                                        separatorWidth={35}
-                                        barColors="#a5a5a5, #4285F4, #174EA6, #333 "
-                                        highlightColor="#1967d2"
-                                        averageLineColor="red"
-                                        averageLineDash="0,0"
-                                        averageLineWidth={1.8}
-                                        hOffset={10}
-                                        vOffset={2}
-                                    />
-                                )}
+                                <div className=" px-8 pt-8 pb-4">
+                                    {project.includes("retail") ||
+                                    project.includes("latam") ? (
+                                        <BarChart
+                                            refDom={journeyChartRef}
+                                            // allJourneyScores={allJourneyScores}
+                                            dataSet={journeyScoresDatasetArr}
+                                            barColors="#a5a5a5, #4285F4, #174EA6, #333 "
+                                            averageLine={getAverageScore(
+                                                journeyScoresDatasetArr
+                                            )}
+                                            isPercentage
+                                        />
+                                    ) : (
+                                        <BarChart
+                                            refDom={journeyChartRef}
+                                            // allJourneyScores={allJourneyScores}
+                                            dataSet={journeyScoresDatasetArr}
+                                            averageLine={getAverageScore(
+                                                journeyScoresDatasetArr
+                                            )}
+                                            isPercentage
+                                            height={387}
+                                            width={1048}
+                                            radius={0}
+                                            gap={36}
+                                            barWidth={35}
+                                            separatorWidth={35}
+                                            barColors="#a5a5a5, #4285F4, #174EA6, #333 "
+                                            highlightColor="#1967d2"
+                                            averageLineColor="red"
+                                            averageLineDash="0,0"
+                                            averageLineWidth={1.8}
+                                            hOffset={10}
+                                            vOffset={2}
+                                        />
+                                    )}
 
-                                {/* <Debugg data={scoresByJourney} /> */}
-                                <div className="mt-4 flex gap-10">
-                                    <button
-                                        className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
-                                        onClick={() =>
-                                            handleClickCopySvg(
-                                                journeyChartRef,
-                                                "id3"
-                                            )
-                                        }
-                                    >
-                                        {svgCopied?.id3
-                                            ? "✅ SVG Copied"
-                                            : "Copy as SVG"}
-                                    </button>
-                                    <button
-                                        className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
-                                        onClick={() =>
-                                            handleClickCopyPng(
-                                                journeyChartRef,
-                                                {
-                                                    playerSlug: showPlayer,
-                                                }
-                                            )
-                                        }
-                                    >
-                                        Export as a PNG file
-                                    </button>
+                                    {/* <Debugg data={scoresByJourney} /> */}
+                                    <div className="mt-4 flex gap-10">
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
+                                            onClick={() =>
+                                                handleClickCopySvg(
+                                                    journeyChartRef,
+                                                    "id3"
+                                                )
+                                            }
+                                        >
+                                            {svgCopied?.id3
+                                                ? "✅ SVG Copied"
+                                                : "Copy as SVG"}
+                                        </button>
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
+                                            onClick={() =>
+                                                handleClickCopyPng(
+                                                    journeyChartRef,
+                                                    {
+                                                        playerSlug: showPlayer,
+                                                    }
+                                                )
+                                            }
+                                        >
+                                            Export as a PNG file
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </ChartSection>
-                    ) : null}
+                            </ChartSection>
+                        ) : null}
+                    </div>
                 </div>
             </main>
         </div>
