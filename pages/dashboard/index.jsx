@@ -1373,17 +1373,18 @@ function Dashboard() {
                                             averageLine={getAverageScore(
                                                 finalScoresDataset
                                             )}
+                                            plotValues
                                             height={251}
-                                            width={915}
+                                            width={1031}
                                             radius={4}
-                                            gap={12}
+                                            gap={18}
                                             barWidth={16}
-                                            separatorWidth={69}
+                                            separatorWidth={55}
                                             barColors="#a5a5a5, #4285F4, #174EA6, #333"
                                             averageLineColor="#a5a5a5"
                                             averageLineDash="8,7"
                                             averageLineWidth={0}
-                                            hOffset={0}
+                                            hOffset={10}
                                             vOffset={0}
                                         />
                                     ) : (
@@ -1397,11 +1398,11 @@ function Dashboard() {
                                             onClick={() =>
                                                 handleClickCopySvg(
                                                     finalChartRef,
-                                                    "id3"
+                                                    "id4"
                                                 )
                                             }
                                         >
-                                            {svgCopied?.id3
+                                            {svgCopied?.id4
                                                 ? "✅ SVG Copied"
                                                 : "Copy as SVG"}
                                         </button>
