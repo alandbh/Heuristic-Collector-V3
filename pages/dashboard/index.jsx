@@ -16,6 +16,7 @@ import { sortCollection } from "../../lib/utils";
 import BarChartCompare from "../../components/BarChartCompare";
 import { useProject } from "../../lib/useProject";
 import { useProjectFinance } from "../../lib/useProjectFinance";
+import useFinalScoresDataset from "../../lib/useFinalScores";
 
 const QUERY_HEURISTICS = gql`
     query GetAllHeuristics($projectSlug: String) {
@@ -82,6 +83,7 @@ function Dashboard() {
     const chartJourneyRef = useRef(null);
     const chartCompareRef = useRef(null);
     const journeyChartRef = useRef(null);
+    const finalChartRef = useRef(null);
     const searchRef = useRef(null);
     const [user, loadingUser] = useAuthState(auth);
 
@@ -294,15 +296,16 @@ function Dashboard() {
 
     useEffect(() => {
         // Filtering all zeroed or ignored players
+        // console.log("allJourneys", allJourneys);
 
-        const filteredSllProjectScores = allProjectScores?.filter((player) => {
+        const filteredAllProjectScores = allProjectScores?.filter((player) => {
             return (
                 !player.scores[currentJourney]?.ignore_journey &&
                 (player.showInChart === null || player.showInChart === true)
             );
         });
 
-        const scores = filteredSllProjectScores?.map((playerScore) => {
+        const scores = filteredAllProjectScores?.map((playerScore) => {
             const playerObj = {};
             playerObj.journeyScores = {};
             playerObj.journeyScoresArr = [];
@@ -635,17 +638,22 @@ function Dashboard() {
     const apikey = "20rga24";
     let allowedExternalUser = apikey === router.query.apikey;
 
-    // if (router.query.apikey) {
-    //     if (apikey !== router.query.apikey) {
-    //         router.push(
-    //             `/login?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}&page=dashboard`
-    //         );
-    //         return;
-    //     }
-    //     console.log("apikey", router.query.apikey);
-    //     allowedExternalUser = true;
-    // } else {
-    // }
+    /**
+     *
+     * ----------------------------------------------------------------
+     * GETTING FINAL SCORES DATASET
+     * ----------------------------------------------------------------
+     *
+     *
+     */
+
+    const finalScoresDataset = useFinalScoresDataset(
+        allProjectScores,
+        allJourneys,
+        showPlayer
+    );
+
+    // console.log("finalScoresDataset", finalScoresDataset);
 
     if (!user && !loadingUser && !allowedExternalUser) {
         router.push(
@@ -1250,25 +1258,23 @@ function Dashboard() {
                                     ) : (
                                         <BarChart
                                             refDom={journeyChartRef}
-                                            // allJourneyScores={allJourneyScores}
+                                            isPercentage
                                             dataSet={journeyScoresDatasetArr}
                                             averageLine={getAverageScore(
                                                 journeyScoresDatasetArr
                                             )}
-                                            isPercentage
-                                            height={387}
-                                            width={1048}
-                                            radius={0}
-                                            gap={36}
-                                            barWidth={35}
-                                            separatorWidth={35}
-                                            barColors="#a5a5a5, #4285F4, #174EA6, #333 "
-                                            highlightColor="#1967d2"
-                                            averageLineColor="red"
-                                            averageLineDash="0,0"
+                                            height={251}
+                                            width={915}
+                                            radius={4}
+                                            gap={12}
+                                            barWidth={16}
+                                            separatorWidth={69}
+                                            barColors="#a5a5a5, #4285F4, #174EA6, #333"
+                                            averageLineColor="#a5a5a5"
+                                            averageLineDash="8,7"
                                             averageLineWidth={1.8}
-                                            hOffset={10}
-                                            vOffset={2}
+                                            hOffset={0}
+                                            vOffset={0}
                                         />
                                     )}
 
@@ -1292,6 +1298,118 @@ function Dashboard() {
                                             onClick={() =>
                                                 handleClickCopyPng(
                                                     journeyChartRef,
+                                                    {
+                                                        playerSlug: showPlayer,
+                                                    }
+                                                )
+                                            }
+                                        >
+                                            Export as a PNG file
+                                        </button>
+                                    </div>
+                                </div>
+                            </ChartSection>
+                        ) : null}
+                    </div>
+
+                    {/* 
+                    ----------------------------------------------------------------
+                    Final Scores Chart
+                    ----------------------------------------------------------------
+                     */}
+
+                    <div className="">
+                        {currentJourney && isValidJourney(currentJourney) ? (
+                            <ChartSection
+                                title="Final Scores Chart"
+                                average={(averageJourneyScore * 100).toFixed(2)}
+                            >
+                                <div className="flex border-b px-4 min-h-[50px]">
+                                    {/* <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
+                                        <p>Selected Journey:</p>
+                                    </div>
+                                    <div className="flex gap-2 text-sm pt-4 pb-4">
+                                        <b className="max-w-lg text-slate-700">
+                                            {
+                                                allJourneys.find(
+                                                    (journey) =>
+                                                        journey.slug ===
+                                                        currentJourney
+                                                )?.name
+                                            }
+                                        </b>
+                                    </div> */}
+                                    {showPlayer && (
+                                        <>
+                                            <div className="ml-auto flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
+                                                <p>Player Score:</p>
+                                            </div>
+                                            <div className="flex gap-2 text-sm pt-4 pb-4">
+                                                <b className="max-w-lg text-slate-700">
+                                                    {(
+                                                        finalScoresDataset.find(
+                                                            (player) =>
+                                                                player.playerSlug ===
+                                                                showPlayer
+                                                        )?.value * 100
+                                                    ).toFixed(2)}
+                                                    %
+                                                </b>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+
+                                {/* <Debugg data={scoresByJourney} />
+                            <Debugg data={journeyScoresDatasetArr} /> */}
+
+                                <div className=" px-8 pt-8 pb-4">
+                                    {project.includes("retail") ||
+                                    project.includes("latam") ? (
+                                        <BarChart
+                                            refDom={finalChartRef}
+                                            isPercentage={true}
+                                            dataSet={finalScoresDataset}
+                                            averageLine={getAverageScore(
+                                                finalScoresDataset
+                                            )}
+                                            height={251}
+                                            width={915}
+                                            radius={4}
+                                            gap={12}
+                                            barWidth={16}
+                                            separatorWidth={69}
+                                            barColors="#a5a5a5, #4285F4, #174EA6, #333"
+                                            averageLineColor="#a5a5a5"
+                                            averageLineDash="8,7"
+                                            averageLineWidth={0}
+                                            hOffset={0}
+                                            vOffset={0}
+                                        />
+                                    ) : (
+                                        <div>Nope</div>
+                                    )}
+
+                                    {/* <Debugg data={scoresByJourney} /> */}
+                                    <div className="mt-4 flex gap-10">
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
+                                            onClick={() =>
+                                                handleClickCopySvg(
+                                                    finalChartRef,
+                                                    "id3"
+                                                )
+                                            }
+                                        >
+                                            {svgCopied?.id3
+                                                ? "✅ SVG Copied"
+                                                : "Copy as SVG"}
+                                        </button>
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
+                                            onClick={() =>
+                                                handleClickCopyPng(
+                                                    finalChartRef,
                                                     {
                                                         playerSlug: showPlayer,
                                                     }

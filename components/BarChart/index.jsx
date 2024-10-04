@@ -4,7 +4,7 @@ import { createPath } from "../../lib/utils";
 export default function BarChart({
     dataSet,
     averageLine,
-    isPercentage,
+    isPercentage = false,
     refDom,
     width = 1048,
     height = 387,
@@ -97,7 +97,11 @@ export default function BarChart({
                                         maxHeight: height - vOffset,
                                         vOffset,
                                     })}
-                                    fill={manyBarColors[score.barColor]}
+                                    fill={
+                                        score.barColor
+                                            ? manyBarColors[score.barColor]
+                                            : "#dddddd"
+                                    }
                                 />
                             );
                         }
@@ -144,9 +148,9 @@ export default function BarChart({
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width={width}
-                    height={110}
+                    height={150}
                     fill="red"
-                    viewBox={`0 0 ${width} ${80}`}
+                    viewBox={`0 0 ${width} ${150}`}
                     className="max-w-[800px] object-contain h-auto mt-1"
                     style={{ width: 800, transition: "0.4s" }}
                 >
@@ -166,19 +170,41 @@ export default function BarChart({
                                         x={0}
                                         fontSize={10}
                                         width={barWidth}
-                                        style={{ display: "block" }}
+                                        style={
+                                            isPercentage
+                                                ? {
+                                                      rotate: "60deg",
+                                                      translate: "0px 2px",
+                                                      display: "block",
+                                                  }
+                                                : {
+                                                      translate: "0px 12px",
+                                                      display: "block",
+                                                  }
+                                        }
                                     >
-                                        {score[valueKey]}
+                                        {isPercentage
+                                            ? (
+                                                  Number(score[valueKey]) * 100
+                                              ).toFixed(2) + "%"
+                                            : score[valueKey]}
                                     </text>
                                     <text
-                                        style={{
-                                            rotate: "60deg",
-                                            translate: "0px 12px",
-                                        }}
+                                        style={
+                                            isPercentage
+                                                ? {
+                                                      rotate: "80deg",
+                                                      translate: "3px 28px",
+                                                  }
+                                                : {
+                                                      rotate: "80deg",
+                                                      translate: "0px 20px",
+                                                  }
+                                        }
                                         fill={manyBarColors[score.barColor]}
                                         y={0}
                                         x={0}
-                                        fontSize={13}
+                                        fontSize={10}
                                     >
                                         {score.label}
                                     </text>
@@ -195,13 +221,22 @@ export default function BarChart({
                             >
                                 <text
                                     fill={manyBarColors[score.barColor]}
+                                    style={
+                                        isPercentage
+                                            ? {
+                                                  rotate: "60deg",
+                                                  translate: "0px 12px",
+                                              }
+                                            : ""
+                                    }
                                     y={0}
                                     x={0}
                                     fontSize={12}
                                 >
                                     {isPercentage
-                                        ? (score[valueKey] * 100).toFixed(2) +
-                                          "%"
+                                        ? (
+                                              Number(score[valueKey]) * 100
+                                          ).toFixed(2) + "%"
                                         : score[valueKey]}
                                 </text>
                                 <text
