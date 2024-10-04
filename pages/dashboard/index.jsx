@@ -12,7 +12,7 @@ import Select from "../../components/Select";
 import SearchBoxSimple from "../../components/SearchBoxSimple";
 import ChartSection from "../../components/ChartSection";
 import ScoreStatsTable from "../../components/ScoreStatsTable";
-import { sortCollection } from "../../lib/utils";
+import { getAverage, sortCollection } from "../../lib/utils";
 import BarChartCompare from "../../components/BarChartCompare";
 import { useProject } from "../../lib/useProject";
 import { useProjectFinance } from "../../lib/useProjectFinance";
@@ -1313,16 +1313,26 @@ function Dashboard() {
                     </div>
 
                     {/* 
+                    *
+                    *
+                    * 
+                    * 
                     ----------------------------------------------------------------
                     Final Scores Chart
                     ----------------------------------------------------------------
+                    *
+                    *
+                    * 
+                    * 
                      */}
 
                     <div className="">
                         {currentJourney && isValidJourney(currentJourney) ? (
                             <ChartSection
                                 title="Final Scores Chart"
-                                average={(averageJourneyScore * 100).toFixed(2)}
+                                average={(
+                                    getAverage(finalScoresDataset) * 100
+                                ).toFixed(2)}
                             >
                                 <div className="flex border-b px-4 min-h-[50px]">
                                     {/* <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
