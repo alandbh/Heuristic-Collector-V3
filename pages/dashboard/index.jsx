@@ -752,7 +752,7 @@ function Dashboard() {
             `chart-${currentJourney}${
                 heuristicNumber && "-h_" + heuristicNumber
             }${playerSlug && "-" + playerSlug}.png`,
-            { scale: 2 }
+            { scale: 3 }
         );
     }
 
