@@ -188,10 +188,13 @@ export default function BarChart({
                                         width={barWidth}
                                     >
                                         {isPercentage
-                                            ? (
-                                                  Number(score[valueKey]) * 100
-                                              ).toFixed(1) + "%"
-                                            : score[valueKey]}
+                                            ? (Number(score[valueKey]) * 100)
+                                                  .toFixed(1)
+                                                  .toString()
+                                                  .replace(".", ",") + "%"
+                                            : score[valueKey]
+                                                  .toString()
+                                                  .replace(".", ",")}
                                     </text>
                                 );
                             }

@@ -745,14 +745,15 @@ function Dashboard() {
         { heuristicNumber = "", playerSlug = "" } = {
             heuristicNumber: "",
             playerSlug: "",
-        }
+        },
+        scale = 2
     ) {
         saveSvgAsPng(
             ref.current,
             `chart-${currentJourney}${
                 heuristicNumber && "-h_" + heuristicNumber
             }${playerSlug && "-" + playerSlug}.png`,
-            { scale: 3 }
+            { scale }
         );
     }
 
@@ -1423,7 +1424,8 @@ function Dashboard() {
                                                     finalChartRef,
                                                     {
                                                         playerSlug: showPlayer,
-                                                    }
+                                                    },
+                                                    4
                                                 )
                                             }
                                         >
