@@ -14,6 +14,7 @@ import {
 } from "../../lib/utils";
 import Link from "next/link";
 import Debugg from "../../lib/Debugg";
+import useCollect from "../../lib/useCollect";
 
 const QUERY_ALL_JOURNEYS = gql`
     query getAllJourneys($projectSlug: String) {
@@ -335,6 +336,17 @@ function Dashboard({ auth }) {
     const isSticky = useIsSticky(128);
 
     const {
+        allCollects,
+        collectsByDate,
+        people,
+        collectsByPerson,
+        dateArray,
+        newestDate,
+    } = useCollect(router.query.slug);
+
+    console.log("collect", newestDate);
+
+    const {
         data: allJourneysData,
         loading: allJourneysLoading,
         error: allJourneysError,
@@ -350,7 +362,7 @@ function Dashboard({ auth }) {
         fetch(`/api/all?project=${router.query.slug}`).then((data) => {
             data.json().then((result) => {
                 // setApiResult(result);
-
+                // console.log("allscoresapi", getAllScoresApi(result));
                 // setTotalOfScores(getAllScoresApi(result).length);
                 setAllScores(getAllScoresApi(result));
                 setAllFindings(getAllFindingsApi(result));
@@ -387,7 +399,7 @@ function Dashboard({ auth }) {
         return null;
     }
 
-    console.log("ola", allScores);
+    // console.log("ola", allScores);
 
     return (
         <>
