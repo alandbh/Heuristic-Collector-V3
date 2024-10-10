@@ -11,6 +11,8 @@ import {
     getAllScoresApi,
     getAllFindingsApi,
     useIsSticky,
+    timestampToDateString,
+    dateStringToUTCDate,
 } from "../../lib/utils";
 import Link from "next/link";
 import Debugg from "../../lib/Debugg";
@@ -335,16 +337,54 @@ function Dashboard({ auth }) {
     const router = useRouter();
     const isSticky = useIsSticky(128);
 
+    /**
+     *
+     *
+     * ------------------------------------
+     * Getting the current collect data
+     * ------------------------------------
+     *
+     *
+     */
     const {
         allCollects,
         collectsByDate,
         people,
         collectsByPerson,
+        amountByPerson,
         dateArray,
         newestDate,
+        yesterDay,
     } = useCollect(router.query.slug);
 
-    console.log("collect", newestDate);
+    const todayString = timestampToDateString(Date.now());
+
+    function getCollectsByDate(date = newestDate, person = people[0].name) {
+        if (!collectsByDate || !collectsByDate[date]) {
+            return null;
+        }
+        return {
+            personsDayCollection: collectsByDate[date].filter(
+                (collect) => collect.user.name === person
+            ),
+            peoplesDayCollection: collectsByDate[date],
+        };
+    }
+    console.log("collect", yesterDay);
+    // console.log("collect", getCollectsByDate(newestDate, "Marco Gross"));
+
+    let newestTitle = "";
+    let dayBeforeTitle = "";
+
+    newestTitle =
+        newestDate === todayString
+            ? "Today's Collections:"
+            : "Latest Collection:";
+
+    dayBeforeTitle =
+        newestDate === todayString
+            ? "Yesterday's Collections:"
+            : "Previous day's Collections:";
 
     const {
         data: allJourneysData,
@@ -592,7 +632,7 @@ function Dashboard({ auth }) {
 
                                  */}
 
-                                <div className="grid grid-cols-3 mt-10 mb-40">
+                                <div className="grid grid-cols-3 mt-10 mb-10">
                                     <div className="col-span-3">
                                         <h3 className="font-bold text-2xl text-center mt-20">
                                             Progress by Player
@@ -694,6 +734,388 @@ function Dashboard({ auth }) {
                                 </div>
                             </li>
                         </ul>
+
+                        {/*
+                        *
+                        *
+                        * 
+                        *  
+                                
+                        ----------------------------------------------------------------
+                        Progress By Person 
+                        ----------------------------
+                        *
+                        *
+                        * 
+                        * 
+                        * 
+
+                        */}
+
+                        {collectsByDate && (
+                            <div className="bg-white dark:bg-slate-800 pb-1 px-3 md:px-5 lg:px-8 rounded-lg shadow-lg">
+                                <div className="grid grid-cols-3 mb-40">
+                                    <div className="col-span-3">
+                                        <h3 className="font-bold text-2xl text-center mb-10">
+                                            Progress by Person{" "}
+                                            {allCollects?.length}
+                                        </h3>
+                                        {/* 
+                                            *
+                                            *
+                                            * 
+                                            ------------------------------------------------
+                                            Today's Collections 
+                                            ------------------------------------------------
+                                            *
+                                            *
+                                            * 
+    
+                                        */}
+                                        <div>
+                                            <h4 className="font-bold text-lg mb-0">
+                                                {newestTitle}{" "}
+                                                {
+                                                    collectsByDate[newestDate]
+                                                        .length
+                                                }
+                                            </h4>
+                                            <div className="mb-8 text-slate-500">
+                                                <small>
+                                                    At:{" "}
+                                                    {dateStringToUTCDate(
+                                                        newestDate
+                                                    )}
+                                                </small>
+                                            </div>
+
+                                            <div className="flex flex-col w-full gap-3">
+                                                {people?.map((person) => (
+                                                    <div
+                                                        key={person.name}
+                                                        className="flex gap-2 items-center w-full"
+                                                    >
+                                                        <div className="w-20 text-xs text-slate-500">
+                                                            {person.name.split(
+                                                                " "
+                                                            )[0] +
+                                                                " " +
+                                                                person.name.split(
+                                                                    " "
+                                                                )[1][0]}
+                                                            .
+                                                        </div>
+                                                        <div className="flex flex-1 items-center pr-10">
+                                                            <div className="h-2 w-full">
+                                                                {getCollectsByDate(
+                                                                    newestDate,
+                                                                    person.name
+                                                                ) && (
+                                                                    <div
+                                                                        className="bg-primary h-2 text-right flex items-center rounded-full"
+                                                                        style={{
+                                                                            width: `${
+                                                                                (getCollectsByDate(
+                                                                                    newestDate,
+                                                                                    person.name
+                                                                                )[
+                                                                                    "personsDayCollection"
+                                                                                ]
+                                                                                    .length /
+                                                                                    getCollectsByDate(
+                                                                                        newestDate,
+                                                                                        person.name
+                                                                                    )[
+                                                                                        "peoplesDayCollection"
+                                                                                    ]
+                                                                                        .length) *
+                                                                                100
+                                                                            }%`,
+                                                                        }}
+                                                                    >
+                                                                        <div className="ml-[100%] pl-1 text-[9px] text-slate-500">
+                                                                            {
+                                                                                getCollectsByDate(
+                                                                                    newestDate,
+                                                                                    person.name
+                                                                                )[
+                                                                                    "personsDayCollection"
+                                                                                ]
+                                                                                    .length
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            {/* 
+                                            *
+                                            *
+                                            * 
+                                            ------------------------------------------------
+                                            Yesterday's Collections 
+                                            ------------------------------------------------
+                                            *
+                                            *
+                                            * 
+    
+                                        */}
+
+                                            <h4 className="font-bold text-lg mb-0 mt-10">
+                                                {dayBeforeTitle}{" "}
+                                                {
+                                                    collectsByDate[yesterDay]
+                                                        .length
+                                                }
+                                            </h4>
+                                            <div className="mb-8 text-slate-500">
+                                                <small>
+                                                    At:{" "}
+                                                    {dateStringToUTCDate(
+                                                        yesterDay
+                                                    )}
+                                                </small>
+                                            </div>
+                                            <div className="flex flex-col w-full gap-3">
+                                                {people?.map((person) => (
+                                                    <div
+                                                        key={person.name}
+                                                        className="flex gap-2 items-center w-full"
+                                                    >
+                                                        <div className="w-20 text-sm">
+                                                            {person.name.split(
+                                                                " "
+                                                            )[0] +
+                                                                " " +
+                                                                person.name.split(
+                                                                    " "
+                                                                )[1][0]}
+                                                            .
+                                                        </div>
+                                                        <div className="flex flex-1 items-center pr-10">
+                                                            <div className="h-2 w-full">
+                                                                {getCollectsByDate(
+                                                                    yesterDay,
+                                                                    person.name
+                                                                ) && (
+                                                                    <div
+                                                                        className="bg-primary h-2 text-right flex items-center rounded-full"
+                                                                        style={{
+                                                                            width: `${
+                                                                                (getCollectsByDate(
+                                                                                    yesterDay,
+                                                                                    person.name
+                                                                                )[
+                                                                                    "personsDayCollection"
+                                                                                ]
+                                                                                    .length /
+                                                                                    getCollectsByDate(
+                                                                                        yesterDay,
+                                                                                        person.name
+                                                                                    )[
+                                                                                        "peoplesDayCollection"
+                                                                                    ]
+                                                                                        .length) *
+                                                                                100
+                                                                            }%`,
+                                                                        }}
+                                                                    >
+                                                                        <div className="ml-[100%] pl-1 text-xs">
+                                                                            {
+                                                                                getCollectsByDate(
+                                                                                    yesterDay,
+                                                                                    person.name
+                                                                                )[
+                                                                                    "personsDayCollection"
+                                                                                ]
+                                                                                    .length
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            {/* 
+                                            *
+                                            *
+                                            * 
+                                            ------------------------------------------------
+                                            Collections so far
+                                            ------------------------------------------------
+                                            *
+                                            *
+                                            * 
+    
+                                        */}
+
+                                            <h4 className="font-bold text-lg mb-5 mt-8">
+                                                Collections So Far:{" "}
+                                                {allCollects?.length}
+                                            </h4>
+                                            <div className="flex flex-col w-full gap-3">
+                                                {people?.map((person) => (
+                                                    <div
+                                                        key={person.name}
+                                                        className="flex gap-2 items-center w-full"
+                                                    >
+                                                        <div className="w-20 text-sm">
+                                                            {person.name.split(
+                                                                " "
+                                                            )[0] +
+                                                                " " +
+                                                                person.name.split(
+                                                                    " "
+                                                                )[1][0]}
+                                                            .
+                                                        </div>
+                                                        <div className="flex flex-1 items-center pr-10">
+                                                            <div className="h-2 w-full">
+                                                                <div
+                                                                    className="bg-primary h-2 text-right flex items-center rounded-full"
+                                                                    style={{
+                                                                        width: `${
+                                                                            (amountByPerson[
+                                                                                person
+                                                                                    .name
+                                                                            ] /
+                                                                                allCollects?.length) *
+                                                                            100
+                                                                        }%`,
+                                                                    }}
+                                                                >
+                                                                    <div className="ml-[100%] pl-1 text-xs">
+                                                                        {
+                                                                            amountByPerson[
+                                                                                person
+                                                                                    .name
+                                                                            ]
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <h4 className="font-bold text-lg mb-5 mt-8">
+                                                Collections So Far:{" "}
+                                                {allCollects?.length}
+                                            </h4>
+                                            <div className="flex flex-col w-full gap-3">
+                                                <div className="flex gap-2 items-center w-full">
+                                                    <div className="w-20 text-sm">
+                                                        Martyne
+                                                    </div>
+                                                    <div className="flex">
+                                                        <div className="h-40 w-full flex items-end justify-end pt-10">
+                                                            <div className="w-4 h-full flex flex-col justify-end items-center relative">
+                                                                <div
+                                                                    style={{
+                                                                        marginBottom:
+                                                                            "-16px",
+                                                                        position:
+                                                                            "absolute",
+                                                                        bottom: 0,
+                                                                    }}
+                                                                    className="pb-1 text-[9px] -ml-[11px] rotate-[60deg]"
+                                                                >
+                                                                    13/10
+                                                                </div>
+                                                                <div
+                                                                    className="bg-primary/60 w-1 flex flex-col rounded-full mb-3"
+                                                                    style={{
+                                                                        height: `${
+                                                                            (15 /
+                                                                                30) *
+                                                                            100
+                                                                        }%`,
+                                                                    }}
+                                                                >
+                                                                    <div
+                                                                        style={{
+                                                                            marginTop:
+                                                                                "-20px",
+                                                                        }}
+                                                                        className="pb-1 text-[9px] -ml-[2px]"
+                                                                    >
+                                                                        13
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="w-4 h-full flex flex-col justify-end items-center relative">
+                                                                <div
+                                                                    style={{
+                                                                        marginBottom:
+                                                                            "-16px",
+                                                                        position:
+                                                                            "absolute",
+                                                                        bottom: 0,
+                                                                    }}
+                                                                    className="pb-1 text-[9px] -ml-[11px] rotate-[60deg]"
+                                                                >
+                                                                    13/10
+                                                                </div>
+                                                                <div
+                                                                    className="bg-primary/60 w-1 flex flex-col rounded-full mb-3"
+                                                                    style={{
+                                                                        height: `${
+                                                                            (15 /
+                                                                                30) *
+                                                                            100
+                                                                        }%`,
+                                                                    }}
+                                                                >
+                                                                    <div
+                                                                        style={{
+                                                                            marginTop:
+                                                                                "-20px",
+                                                                        }}
+                                                                        className="pb-1 text-[9px] -ml-[2px]"
+                                                                    >
+                                                                        13
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex gap-2 items-center w-full">
+                                                    <div className="w-20 text-sm">
+                                                        Leo
+                                                    </div>
+                                                    <div className="flex flex-1 items-center pr-10">
+                                                        <div className="h-2 w-full">
+                                                            <div
+                                                                className="bg-primary/60 h-2 text-right flex items-center rounded-full"
+                                                                style={{
+                                                                    width: `${
+                                                                        (150 /
+                                                                            allCollects?.length) *
+                                                                        100
+                                                                    }%`,
+                                                                }}
+                                                            >
+                                                                <div className="ml-[100%] pl-1 text-xs">
+                                                                    150
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </section>
                 </div>
             </div>
