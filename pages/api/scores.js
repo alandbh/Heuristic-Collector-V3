@@ -25,11 +25,6 @@ const QUERY_ALL = gql`
             id
             name
             slug
-            departmentObj {
-                departmentName
-                departmentSlug
-                departmentOrder
-            }
             scoresObject
         }
     }
