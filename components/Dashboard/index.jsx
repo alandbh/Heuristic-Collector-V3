@@ -370,7 +370,7 @@ function Dashboard({ auth }) {
             peoplesDayCollection: collectsByDate[date],
         };
     }
-    console.log("collect", yesterDay);
+    console.log("collect", collectsByPerson);
     // console.log("collect", getCollectsByDate(newestDate, "Marco Gross"));
 
     let newestTitle = "";
@@ -1006,110 +1006,103 @@ function Dashboard({ auth }) {
                                                 ))}
                                             </div>
                                             <h4 className="font-bold text-lg mb-5 mt-8">
-                                                Collections So Far:{" "}
-                                                {allCollects?.length}
+                                                Collections History:{" "}
                                             </h4>
                                             <div className="flex flex-col w-full gap-3">
-                                                <div className="flex gap-2 items-center w-full">
-                                                    <div className="w-20 text-sm">
-                                                        Martyne
-                                                    </div>
-                                                    <div className="flex">
-                                                        <div className="h-40 w-full flex items-end justify-end pt-10">
-                                                            <div className="w-4 h-full flex flex-col justify-end items-center relative">
-                                                                <div
-                                                                    style={{
-                                                                        marginBottom:
-                                                                            "-16px",
-                                                                        position:
-                                                                            "absolute",
-                                                                        bottom: 0,
-                                                                    }}
-                                                                    className="pb-1 text-[9px] -ml-[11px] rotate-[60deg]"
-                                                                >
-                                                                    13/10
-                                                                </div>
-                                                                <div
-                                                                    className="bg-primary/60 w-1 flex flex-col rounded-full mb-3"
-                                                                    style={{
-                                                                        height: `${
-                                                                            (15 /
-                                                                                30) *
-                                                                            100
-                                                                        }%`,
-                                                                    }}
-                                                                >
-                                                                    <div
-                                                                        style={{
-                                                                            marginTop:
-                                                                                "-20px",
-                                                                        }}
-                                                                        className="pb-1 text-[9px] -ml-[2px]"
-                                                                    >
-                                                                        13
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="w-4 h-full flex flex-col justify-end items-center relative">
-                                                                <div
-                                                                    style={{
-                                                                        marginBottom:
-                                                                            "-16px",
-                                                                        position:
-                                                                            "absolute",
-                                                                        bottom: 0,
-                                                                    }}
-                                                                    className="pb-1 text-[9px] -ml-[11px] rotate-[60deg]"
-                                                                >
-                                                                    13/10
-                                                                </div>
-                                                                <div
-                                                                    className="bg-primary/60 w-1 flex flex-col rounded-full mb-3"
-                                                                    style={{
-                                                                        height: `${
-                                                                            (15 /
-                                                                                30) *
-                                                                            100
-                                                                        }%`,
-                                                                    }}
-                                                                >
-                                                                    <div
-                                                                        style={{
-                                                                            marginTop:
-                                                                                "-20px",
-                                                                        }}
-                                                                        className="pb-1 text-[9px] -ml-[2px]"
-                                                                    >
-                                                                        13
-                                                                    </div>
-                                                                </div>
+                                                {/* 
+                                                ----------------------------------------------------------------
+                                                Series 
+                                                ----------------------------------------------------------------
+                                                */}
+                                                {Object.keys(
+                                                    collectsByPerson
+                                                ).map((personName) => (
+                                                    <div
+                                                        key={personName}
+                                                        className="flex gap-2  w-full border pr-4 relative"
+                                                    >
+                                                        <div className="w-28 text-xs p-3 border-r">
+                                                            {personName.split(
+                                                                " "
+                                                            )[0] +
+                                                                " " +
+                                                                personName.split(
+                                                                    " "
+                                                                )[1][0]}
+                                                            .
+                                                        </div>
+                                                        <div className="overflow-x-auto flex pr-3">
+                                                            <div className="h-40 w-auto flex pt-10">
+                                                                {/* Serie */}
+                                                                {Object.keys(
+                                                                    collectsByPerson[
+                                                                        personName
+                                                                    ]
+                                                                ).map(
+                                                                    (
+                                                                        date,
+                                                                        index
+                                                                    ) =>
+                                                                        index <
+                                                                            30 && (
+                                                                            <div
+                                                                                key={
+                                                                                    date
+                                                                                }
+                                                                                className="w-5 h-full flex flex-col justify-end items-center relative pb-10"
+                                                                            >
+                                                                                <div
+                                                                                    style={{
+                                                                                        position:
+                                                                                            "absolute",
+                                                                                        bottom: 24,
+                                                                                    }}
+                                                                                    className="pb-1 text-[8px] -ml-[1px] rotate-[60deg]"
+                                                                                >
+                                                                                    {dateStringToUTCDate(
+                                                                                        date,
+                                                                                        false
+                                                                                    )}
+                                                                                </div>
+                                                                                <div
+                                                                                    className="bg-primary/60 w-1 flex flex-col rounded-full mb-3"
+                                                                                    style={{
+                                                                                        height: `${
+                                                                                            (collectsByPerson[
+                                                                                                personName
+                                                                                            ][
+                                                                                                date
+                                                                                            ]
+                                                                                                .length /
+                                                                                                100) *
+                                                                                            100
+                                                                                        }%`,
+                                                                                    }}
+                                                                                >
+                                                                                    <div
+                                                                                        style={{
+                                                                                            marginTop:
+                                                                                                "-14px",
+                                                                                        }}
+                                                                                        className="pb-1 text-[8px] -ml-[2px] text-slate-500"
+                                                                                    >
+                                                                                        {
+                                                                                            collectsByPerson[
+                                                                                                personName
+                                                                                            ][
+                                                                                                date
+                                                                                            ]
+                                                                                                .length
+                                                                                        }
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        )
+                                                                )}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className="flex gap-2 items-center w-full">
-                                                    <div className="w-20 text-sm">
-                                                        Leo
-                                                    </div>
-                                                    <div className="flex flex-1 items-center pr-10">
-                                                        <div className="h-2 w-full">
-                                                            <div
-                                                                className="bg-primary/60 h-2 text-right flex items-center rounded-full"
-                                                                style={{
-                                                                    width: `${
-                                                                        (150 /
-                                                                            allCollects?.length) *
-                                                                        100
-                                                                    }%`,
-                                                                }}
-                                                            >
-                                                                <div className="ml-[100%] pl-1 text-xs">
-                                                                    150
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
