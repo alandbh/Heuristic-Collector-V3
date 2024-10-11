@@ -1,11 +1,13 @@
 import { dateStringToUTCDate } from "../../lib/utils";
 
-function ProgressChartDaily({ collectsByPerson, personName, date, key = 999 }) {
+function ProgressChartDaily({
+    collectsByPerson,
+    personName,
+    date,
+    maxAmount = 80,
+}) {
     return (
-        <div
-            key={key}
-            className="w-5 h-full flex flex-col justify-end items-center relative pb-10"
-        >
+        <div className="w-5 h-full flex flex-col justify-end items-center relative pb-10">
             <div
                 style={{
                     position: "absolute",
@@ -19,7 +21,9 @@ function ProgressChartDaily({ collectsByPerson, personName, date, key = 999 }) {
                 className="bg-primary/80 w-1 flex flex-col rounded-full mb-3"
                 style={{
                     height: `${
-                        (collectsByPerson[personName][date].length / 100) * 100
+                        (collectsByPerson[personName][date].length /
+                            maxAmount) *
+                        100
                     }%`,
                 }}
             >

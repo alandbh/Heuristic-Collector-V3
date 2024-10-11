@@ -354,6 +354,8 @@ function Dashboard({ auth }) {
         people,
         collectsByPerson,
         amountByPerson,
+        maxDateAmount,
+        maxAmountForAPerson,
         dateArray,
         newestDate,
         yesterDay,
@@ -918,6 +920,9 @@ function Dashboard({ auth }) {
                                                                                 }
                                                                                 key={
                                                                                     date
+                                                                                }
+                                                                                maxAmount={
+                                                                                    maxAmountForAPerson
                                                                                 }
                                                                             />
                                                                         )
