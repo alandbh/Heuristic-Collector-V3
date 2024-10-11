@@ -31,7 +31,7 @@ function ProgressChartDaily({
                     style={{
                         marginTop: "-14px",
                     }}
-                    className="pb-1 text-[8px] -ml-[2px] text-slate-500"
+                    className="w-5 pb-1 text-[8px] -ml-[8px] text-center text-slate-500"
                 >
                     {collectsByPerson[personName][date].length}
                 </div>
