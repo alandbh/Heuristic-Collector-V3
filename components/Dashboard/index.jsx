@@ -758,7 +758,9 @@ function Dashboard({ auth }) {
                                     <div className="col-span-3">
                                         <h3 className="font-bold text-2xl text-center mb-10">
                                             Progress by Person{" "}
-                                            {allCollects?.length}
+                                            <small className="text-xs text-slate-500">
+                                                beta
+                                            </small>
                                         </h3>
                                         {/* 
                                             *
@@ -903,7 +905,7 @@ function Dashboard({ auth }) {
                                                                     person.name
                                                                 ) && (
                                                                     <div
-                                                                        className="bg-primary h-2 text-right flex items-center rounded-full"
+                                                                        className="bg-green-500 h-2 text-right flex items-center rounded-full"
                                                                         style={{
                                                                             width: `${
                                                                                 (getCollectsByDate(
@@ -979,7 +981,7 @@ function Dashboard({ auth }) {
                                                         <div className="flex flex-1 items-center pr-10">
                                                             <div className="h-2 w-full">
                                                                 <div
-                                                                    className="bg-primary h-2 text-right flex items-center rounded-full"
+                                                                    className="bg-green-500 h-2 text-right flex items-center rounded-full"
                                                                     style={{
                                                                         width: `${
                                                                             (amountByPerson[
@@ -1011,7 +1013,7 @@ function Dashboard({ auth }) {
                                             <div className="flex flex-col w-full gap-3">
                                                 {/* 
                                                 ----------------------------------------------------------------
-                                                Series 
+                                                Person's series
                                                 ----------------------------------------------------------------
                                                 */}
                                                 {Object.keys(
@@ -1033,7 +1035,11 @@ function Dashboard({ auth }) {
                                                         </div>
                                                         <div className="overflow-x-auto flex pr-3">
                                                             <div className="h-40 w-auto flex pt-10">
-                                                                {/* Serie */}
+                                                                {/* 
+                                                                ----------------------
+                                                                Serie 
+                                                                ----------------------
+                                                                */}
                                                                 {Object.keys(
                                                                     collectsByPerson[
                                                                         personName
@@ -1057,7 +1063,7 @@ function Dashboard({ auth }) {
                                                                                             "absolute",
                                                                                         bottom: 24,
                                                                                     }}
-                                                                                    className="pb-1 text-[8px] -ml-[1px] rotate-[60deg]"
+                                                                                    className="pb-1 text-[8px] -ml-[0px] rotate-[60deg] text-slate-500"
                                                                                 >
                                                                                     {dateStringToUTCDate(
                                                                                         date,
