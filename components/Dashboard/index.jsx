@@ -17,6 +17,8 @@ import {
 import Link from "next/link";
 import Debugg from "../../lib/Debugg";
 import useCollect from "../../lib/useCollect";
+import ProgressChart from "../ProgressChart";
+import ProgressChartDaily from "../ProgressChartDaily";
 
 const QUERY_ALL_JOURNEYS = gql`
     query getAllJourneys($projectSlug: String) {
@@ -791,68 +793,14 @@ function Dashboard({ auth }) {
                                                 </small>
                                             </div>
 
-                                            <div className="flex flex-col w-full gap-3">
-                                                {people?.map((person) => (
-                                                    <div
-                                                        key={person.name}
-                                                        className="flex gap-2 items-center w-full"
-                                                    >
-                                                        <div className="w-20 text-xs text-slate-500">
-                                                            {person.name.split(
-                                                                " "
-                                                            )[0] +
-                                                                " " +
-                                                                person.name.split(
-                                                                    " "
-                                                                )[1][0]}
-                                                            .
-                                                        </div>
-                                                        <div className="flex flex-1 items-center pr-10">
-                                                            <div className="h-2 w-full">
-                                                                {getCollectsByDate(
-                                                                    newestDate,
-                                                                    person.name
-                                                                ) && (
-                                                                    <div
-                                                                        className="bg-primary h-2 text-right flex items-center rounded-full"
-                                                                        style={{
-                                                                            width: `${
-                                                                                (getCollectsByDate(
-                                                                                    newestDate,
-                                                                                    person.name
-                                                                                )[
-                                                                                    "personsDayCollection"
-                                                                                ]
-                                                                                    .length /
-                                                                                    getCollectsByDate(
-                                                                                        newestDate,
-                                                                                        person.name
-                                                                                    )[
-                                                                                        "peoplesDayCollection"
-                                                                                    ]
-                                                                                        .length) *
-                                                                                100
-                                                                            }%`,
-                                                                        }}
-                                                                    >
-                                                                        <div className="ml-[100%] pl-1 text-[9px] text-slate-500">
-                                                                            {
-                                                                                getCollectsByDate(
-                                                                                    newestDate,
-                                                                                    person.name
-                                                                                )[
-                                                                                    "personsDayCollection"
-                                                                                ]
-                                                                                    .length
-                                                                            }
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
+                                            <ProgressChart
+                                                people={people}
+                                                currentDate={newestDate}
+                                                getCollectsByDate={
+                                                    getCollectsByDate
+                                                }
+                                                barColorClass="bg-blue-300"
+                                            />
 
                                             {/* 
                                             *
@@ -882,68 +830,14 @@ function Dashboard({ auth }) {
                                                     )}
                                                 </small>
                                             </div>
-                                            <div className="flex flex-col w-full gap-3">
-                                                {people?.map((person) => (
-                                                    <div
-                                                        key={person.name}
-                                                        className="flex gap-2 items-center w-full"
-                                                    >
-                                                        <div className="w-20 text-sm">
-                                                            {person.name.split(
-                                                                " "
-                                                            )[0] +
-                                                                " " +
-                                                                person.name.split(
-                                                                    " "
-                                                                )[1][0]}
-                                                            .
-                                                        </div>
-                                                        <div className="flex flex-1 items-center pr-10">
-                                                            <div className="h-2 w-full">
-                                                                {getCollectsByDate(
-                                                                    yesterDay,
-                                                                    person.name
-                                                                ) && (
-                                                                    <div
-                                                                        className="bg-green-500 h-2 text-right flex items-center rounded-full"
-                                                                        style={{
-                                                                            width: `${
-                                                                                (getCollectsByDate(
-                                                                                    yesterDay,
-                                                                                    person.name
-                                                                                )[
-                                                                                    "personsDayCollection"
-                                                                                ]
-                                                                                    .length /
-                                                                                    getCollectsByDate(
-                                                                                        yesterDay,
-                                                                                        person.name
-                                                                                    )[
-                                                                                        "peoplesDayCollection"
-                                                                                    ]
-                                                                                        .length) *
-                                                                                100
-                                                                            }%`,
-                                                                        }}
-                                                                    >
-                                                                        <div className="ml-[100%] pl-1 text-xs">
-                                                                            {
-                                                                                getCollectsByDate(
-                                                                                    yesterDay,
-                                                                                    person.name
-                                                                                )[
-                                                                                    "personsDayCollection"
-                                                                                ]
-                                                                                    .length
-                                                                            }
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
+                                            <ProgressChart
+                                                people={people}
+                                                currentDate={yesterDay}
+                                                getCollectsByDate={
+                                                    getCollectsByDate
+                                                }
+                                                barColorClass="bg-green-300"
+                                            />
 
                                             {/* 
                                             *
@@ -962,51 +856,12 @@ function Dashboard({ auth }) {
                                                 Collections So Far:{" "}
                                                 {allCollects?.length}
                                             </h4>
-                                            <div className="flex flex-col w-full gap-3">
-                                                {people?.map((person) => (
-                                                    <div
-                                                        key={person.name}
-                                                        className="flex gap-2 items-center w-full"
-                                                    >
-                                                        <div className="w-20 text-sm">
-                                                            {person.name.split(
-                                                                " "
-                                                            )[0] +
-                                                                " " +
-                                                                person.name.split(
-                                                                    " "
-                                                                )[1][0]}
-                                                            .
-                                                        </div>
-                                                        <div className="flex flex-1 items-center pr-10">
-                                                            <div className="h-2 w-full">
-                                                                <div
-                                                                    className="bg-green-500 h-2 text-right flex items-center rounded-full"
-                                                                    style={{
-                                                                        width: `${
-                                                                            (amountByPerson[
-                                                                                person
-                                                                                    .name
-                                                                            ] /
-                                                                                allCollects?.length) *
-                                                                            100
-                                                                        }%`,
-                                                                    }}
-                                                                >
-                                                                    <div className="ml-[100%] pl-1 text-xs">
-                                                                        {
-                                                                            amountByPerson[
-                                                                                person
-                                                                                    .name
-                                                                            ]
-                                                                        }
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
+                                            <ProgressChart
+                                                people={people}
+                                                amountByPerson={amountByPerson}
+                                                allCollects={allCollects}
+                                            />
+
                                             <h4 className="font-bold text-lg mb-5 mt-8">
                                                 Collections History:{" "}
                                             </h4>
@@ -1051,58 +906,20 @@ function Dashboard({ auth }) {
                                                                     ) =>
                                                                         index <
                                                                             30 && (
-                                                                            <div
+                                                                            <ProgressChartDaily
+                                                                                collectsByPerson={
+                                                                                    collectsByPerson
+                                                                                }
+                                                                                personName={
+                                                                                    personName
+                                                                                }
+                                                                                date={
+                                                                                    date
+                                                                                }
                                                                                 key={
                                                                                     date
                                                                                 }
-                                                                                className="w-5 h-full flex flex-col justify-end items-center relative pb-10"
-                                                                            >
-                                                                                <div
-                                                                                    style={{
-                                                                                        position:
-                                                                                            "absolute",
-                                                                                        bottom: 24,
-                                                                                    }}
-                                                                                    className="pb-1 text-[8px] -ml-[0px] rotate-[60deg] text-slate-500"
-                                                                                >
-                                                                                    {dateStringToUTCDate(
-                                                                                        date,
-                                                                                        false
-                                                                                    )}
-                                                                                </div>
-                                                                                <div
-                                                                                    className="bg-primary/60 w-1 flex flex-col rounded-full mb-3"
-                                                                                    style={{
-                                                                                        height: `${
-                                                                                            (collectsByPerson[
-                                                                                                personName
-                                                                                            ][
-                                                                                                date
-                                                                                            ]
-                                                                                                .length /
-                                                                                                100) *
-                                                                                            100
-                                                                                        }%`,
-                                                                                    }}
-                                                                                >
-                                                                                    <div
-                                                                                        style={{
-                                                                                            marginTop:
-                                                                                                "-14px",
-                                                                                        }}
-                                                                                        className="pb-1 text-[8px] -ml-[2px] text-slate-500"
-                                                                                    >
-                                                                                        {
-                                                                                            collectsByPerson[
-                                                                                                personName
-                                                                                            ][
-                                                                                                date
-                                                                                            ]
-                                                                                                .length
-                                                                                        }
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
+                                                                            />
                                                                         )
                                                                 )}
                                                             </div>
