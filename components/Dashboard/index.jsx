@@ -374,7 +374,7 @@ function Dashboard({ auth }) {
             peoplesDayCollection: collectsByDate[date],
         };
     }
-    console.log("collect", collectsByPerson);
+    console.log("collect", maxDateAmount);
     // console.log("collect", getCollectsByDate(newestDate, "Marco Gross"));
 
     let newestTitle = "";
