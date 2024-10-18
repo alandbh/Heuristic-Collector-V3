@@ -19,6 +19,7 @@ import Debugg from "../../lib/Debugg";
 import useCollect from "../../lib/useCollect";
 import ProgressChart from "../ProgressChart";
 import ProgressChartDaily from "../ProgressChartDaily";
+import BurnDownChart from "../BurnDownChart";
 
 const QUERY_ALL_JOURNEYS = gql`
     query getAllJourneys($projectSlug: String) {
@@ -356,9 +357,11 @@ function Dashboard({ auth }) {
         amountByPerson,
         maxDateAmount,
         maxAmountForAPerson,
+        totalHeuristics,
         dateArray,
         newestDate,
         yesterDay,
+        burnDownDays,
     } = useCollect(router.query.slug, allScores.length);
 
     const todayString = timestampToDateString(Date.now());
@@ -931,6 +934,70 @@ function Dashboard({ auth }) {
                                                         </div>
                                                     </div>
                                                 ))}
+                                            </div>
+
+                                            {/* 
+                                            *
+                                            *
+                                            * 
+                                            ------------------------------------------------
+                                            Collections so far
+                                            ------------------------------------------------
+                                            *
+                                            *
+                                            * 
+    
+                                        */}
+
+                                            <h4 className="font-bold text-lg mb-5 mt-8">
+                                                Collections Burndown:{" "}
+                                            </h4>
+                                            <div className="flex w-full gap-0 overflow-auto relative">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width={24 * 20}
+                                                    height={230}
+                                                    fill="none"
+                                                    viewBox={`0 0 ${
+                                                        24 * 20
+                                                    } 230`}
+                                                    className="max-w-[800px] object-contain h-auto absolute"
+                                                    style={{
+                                                        translate: "10px 40px",
+                                                    }}
+                                                >
+                                                    <line
+                                                        x1="0"
+                                                        y1={0}
+                                                        x2={24 * 20}
+                                                        y2={230}
+                                                        strokeWidth={1}
+                                                        stroke="red"
+                                                        style={{
+                                                            transition: "0.4s",
+                                                        }}
+                                                    />
+                                                </svg>
+                                                {burnDownDays.pastAndRemainingDays.map(
+                                                    (day, index) => (
+                                                        <BurnDownChart
+                                                            key={
+                                                                "burndown_" +
+                                                                index +
+                                                                "_" +
+                                                                day.amount
+                                                            }
+                                                            maxAmount={
+                                                                totalHeuristics
+                                                            }
+                                                            amountByDay={
+                                                                day.amount
+                                                            }
+                                                            index={index}
+                                                            color={day.color}
+                                                        />
+                                                    )
+                                                )}
                                             </div>
                                         </div>
                                     </div>
