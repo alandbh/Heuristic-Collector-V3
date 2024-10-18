@@ -332,7 +332,7 @@ function getUnique(arr, key = null, subkey = null) {
 
 let _pagination;
 
-function Dashboard({ auth }) {
+function Dashboard({ auth, projectData }) {
     const [journey, setJourney] = useState();
     const [allScores, setAllScores] = useState([]);
     const [allFindings, setAllFindings] = useState([]);
@@ -363,7 +363,7 @@ function Dashboard({ auth }) {
         yesterDay,
         burnDownDays,
         estimatedDaysToFinish,
-    } = useCollect(router.query.slug, allScores.length);
+    } = useCollect(router.query.slug, allScores.length, projectData);
 
     const todayString = timestampToDateString(Date.now());
 

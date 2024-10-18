@@ -22,6 +22,8 @@ const QUERY_PROJECTS = gql`
             name
             id
             public
+            startDate
+            estimatedDaysToFinish
         }
     }
 `;
@@ -205,7 +207,11 @@ function Project() {
                         auth={{ user, loadingUser, auth }}
                     />
                     <main className="mt-10 min-h-[calc(100vh_-_126px)] flex flex-col items-center">
-                        {tab === "progress" ? <Dashboard /> : <Evaluation />}
+                        {tab === "progress" ? (
+                            <Dashboard projectData={projectData.data.project} />
+                        ) : (
+                            <Evaluation />
+                        )}
                     </main>
                     <footer className="py-10">{/* FOOTER */}</footer>
                     <Gototop />
