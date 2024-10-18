@@ -1,14 +1,28 @@
 function BurnDownChart({ series, maxAmount, estimatedDaysToFinish }) {
     const barColor = { 1: "bg-primary", 2: "bg-primary/30" };
+    const gapObj = {
+        0: {
+            class: "gap-0",
+            pixels: 20,
+        },
+        1: {
+            class: "gap-1",
+            pixels: 24,
+        },
+    };
+
+    const gap = gapObj[1]; // Set the gap between series
 
     return (
-        <div className="flex w-full gap-0 overflow-auto relative -mt-8">
+        <div
+            className={`flex w-full ${gap.class} overflow-auto relative -mt-8`}
+        >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width={estimatedDaysToFinish * 20}
+                width={estimatedDaysToFinish * gap.pixels}
                 height={228}
                 fill="none"
-                viewBox={`0 0 ${estimatedDaysToFinish * 20} 228`}
+                viewBox={`0 0 ${estimatedDaysToFinish * gap.pixels} 228`}
                 className="max-w-[800px] object-contain h-auto absolute"
                 style={{
                     translate: "10px 40px",
@@ -17,7 +31,7 @@ function BurnDownChart({ series, maxAmount, estimatedDaysToFinish }) {
                 <line
                     x1="0"
                     y1={0}
-                    x2={estimatedDaysToFinish * 20}
+                    x2={estimatedDaysToFinish * gap.pixels}
                     y2={228}
                     strokeWidth={1}
                     stroke="red"
