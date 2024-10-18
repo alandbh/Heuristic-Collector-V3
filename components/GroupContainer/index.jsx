@@ -502,7 +502,7 @@ function GroupContainer({ data }) {
                                 </ul>
 
                                 <h1 className="text-lg font-bold mt-10 text-center mb-5">
-                                    Total Scored by {currentPlayer.name}
+                                    Total Scored by {currentPlayer?.name}
                                 </h1>
 
                                 <div className="flex justify-center items-center flex-col">
