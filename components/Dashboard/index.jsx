@@ -359,7 +359,7 @@ function Dashboard({ auth }) {
         dateArray,
         newestDate,
         yesterDay,
-    } = useCollect(router.query.slug);
+    } = useCollect(router.query.slug, allScores.length);
 
     const todayString = timestampToDateString(Date.now());
 
