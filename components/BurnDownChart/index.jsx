@@ -11,7 +11,7 @@ function BurnDownChart({ series, maxAmount, estimatedDaysToFinish }) {
         },
     };
 
-    const gap = gapObj[1]; // Set the gap between series
+    const gap = series.length > 31 ? gapObj[0] : gapObj[1]; // Set the gap between series
 
     return (
         <div
