@@ -15,7 +15,7 @@ function BurnDownChart({ series, maxAmount, estimatedDaysToFinish }) {
 
     return (
         <div
-            className={`flex w-full ${gap.class} overflow-auto relative -mt-8`}
+            className={`flex w-full ${gap.class} overflow-auto relative -mt-3`}
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -65,9 +65,9 @@ function BurnDownChart({ series, maxAmount, estimatedDaysToFinish }) {
                         >
                             <div
                                 style={{
-                                    marginTop: "-14px",
+                                    marginTop: "-20px",
                                 }}
-                                className="w-5 pb-1 text-[8px] -ml-[8px] text-center text-slate-500"
+                                className="w-5 pb-1 text-[8px] -ml-[8px] text-center text-slate-500 rotate-[-60deg]"
                             >
                                 {day.amount}
                             </div>
