@@ -42,6 +42,10 @@ function HeuristicItem({
     const [scoreHasChanged, setScoreHasChanged] = useState(false);
     const [enable, setEnable] = useState(false);
     const [toast, setToast] = useState({ open: false, text: "" });
+    const [scoreAlert, setScoreAlert] = useState(null);
+    const [currentJourney, setCurrentJourney] = useState(null);
+    const [showScoreAlert, setShowScoreAlert] = useState(false);
+    const [showPreviousScoreAlert, setShowPreviousScoreAlert] = useState(true);
 
     const currentScore = allScoresObj?.find(
         (someScore) =>
@@ -90,6 +94,10 @@ function HeuristicItem({
         };
         singleScore.scoreValue = 0;
         singleScore.evidenceUrl = "";
+        singleScore.showScoreAlert = false;
+        singleScore.showPreviousScoreAlert = false;
+
+        // console.log("singleScore", singleScore);
 
         // console.log("singleScore", singleScore);
 
@@ -113,15 +121,39 @@ function HeuristicItem({
     ]);
 
     useEffect(() => {
+        setCurrentJourney(router.query.journey);
+    }, [location.search]);
+
+    useEffect(() => {
+        // if (previousScore?.scoreValue !== scoreValue) {
+        //     setShowPreviousScoreAlert(true);
+        // }
+        // setScoreAlert(null)
         // debugger;
         if (currentScore) {
             setScoreValue(currentScore.scoreValue);
+            setShowScoreAlert(
+                currentScore.showScoreAlert !== undefined
+                    ? currentScore.showScoreAlert
+                    : false
+            );
+            setShowPreviousScoreAlert(
+                currentScore.showPreviousScoreAlert !== undefined
+                    ? currentScore.showPreviousScoreAlert
+                    : false
+            );
             setText(currentScore.note);
             setEvidenceUrl(currentScore.evidenceUrl);
             if (currentScore.note.length > 0 || currentScore.scoreValue > 0) {
                 setEnable(true);
+
+                makeScoreAlert(
+                    currentScore.scoreValue,
+                    currentScore.showScoreAlert
+                );
             }
             setEmpty(false);
+            console.log("currentScore", currentScore);
         } else {
             setEmpty(true);
 
@@ -195,10 +227,23 @@ function HeuristicItem({
      * ------------------------
      */
 
+    function handleHideScoreAlert(show) {
+        setShowScoreAlert(show);
+        setScoreHasChanged(true);
+        setStatus("loading");
+    }
+
+    function handleHidePreviousScoreAlert(show) {
+        setShowPreviousScoreAlert(show);
+        setScoreHasChanged(true);
+        setStatus("loading");
+    }
+
     useEffect(() => {
         if (empty || currentScore === undefined || !scoreHasChanged) {
             return;
         }
+
         // return;
         let allScoresObjJson = JSON.stringify(allScoresJson);
         let allScoresObjJsonClone = JSON.parse(allScoresObjJson);
@@ -207,6 +252,8 @@ function HeuristicItem({
                 const updateObj = {
                     dateTime: new Date().getTime(),
                     user: { name: user.displayName, email: user.email },
+                    showScoreAlert,
+                    showPreviousScoreAlert,
                     scoreObj: {
                         scoreValue,
                         note: text,
@@ -221,6 +268,8 @@ function HeuristicItem({
                         {
                             dateTime: new Date().getTime(),
                             user: { name: user.displayName, email: user.email },
+                            showScoreAlert,
+                            showPreviousScoreAlert,
                             scoreObj: {
                                 scoreValue,
                                 note: text,
@@ -232,6 +281,8 @@ function HeuristicItem({
                 item.scoreValue = scoreValue;
                 item.note = text;
                 item.evidenceUrl = evidenceUrl;
+                item.showScoreAlert = showScoreAlert;
+                item.showPreviousScoreAlert = showPreviousScoreAlert;
             }
 
             return item;
@@ -243,7 +294,7 @@ function HeuristicItem({
         doTheChangeInScoreObj(allScoresObjJsonClone, null, () => {
             // setStatus("loading");
         });
-    }, [scoreValue, scoreHasChanged]);
+    }, [scoreValue, scoreHasChanged, showScoreAlert, showPreviousScoreAlert]);
 
     /**
      *
@@ -269,13 +320,12 @@ function HeuristicItem({
             setScoreHasChanged(true);
         }, 400);
     }
-    async function handleChangeScore(scoreValue) {
+    async function handleChangeScore(_scoreValue) {
         // const newScoreValue = Number(ev.target.value);
-        setScoreValue(Number(scoreValue));
+        setScoreValue(Number(_scoreValue));
 
-        // await delayv2(400);
-
-        // const newScoresJson = await getNewScoresJson();
+        makeScoreAlert(_scoreValue, true);
+        setShowPreviousScoreAlert(true);
 
         // setScoreHasChanged(true);
 
@@ -325,6 +375,8 @@ function HeuristicItem({
                 const updateObj = {
                     dateTime: new Date().getTime(),
                     user: { name: user.displayName, email: user.email },
+                    showScoreAlert,
+                    showPreviousScoreAlert,
                     scoreObj: {
                         scoreValue,
                         note: text,
@@ -339,6 +391,8 @@ function HeuristicItem({
                         {
                             dateTime: new Date().getTime(),
                             user: { name: user.displayName, email: user.email },
+                            showScoreAlert,
+                            showPreviousScoreAlert,
                             scoreObj: {
                                 scoreValue,
                                 note: text,
@@ -363,6 +417,8 @@ function HeuristicItem({
                 item.note = scoreTextWithTesterName;
                 item.evidenceUrl = evidenceUrl;
                 item.scoreValue = scoreValue;
+                item.showScoreAlert = showScoreAlert;
+                item.showPreviousScoreAlert = showPreviousScoreAlert;
             }
 
             return item;
@@ -419,8 +475,59 @@ function HeuristicItem({
         }
     }, [currentScore?.evidenceUrl]);
 
+    useEffect(() => {
+        if (status == "loading") {
+            setStatus("saved");
+        }
+    }, [currentScore?.showScoreAlert]);
+
+    useEffect(() => {
+        if (status == "loading") {
+            setStatus("saved");
+        }
+    }, [currentScore?.showPreviousScoreAlert]);
+
     if (empty) {
         return <div>Empty</div>;
+    }
+
+    async function makeScoreAlert(_scoreValue, show = false) {
+        console.log("newScoresJson score", Number(_scoreValue));
+        console.log("newScoresJson score state", scoreValue);
+
+        // await delayv2(400);
+
+        const newScoresJson = await getNewScoresJson();
+        // console.log("newScoresJson", Object.keys(newScoresJson));
+        console.log("newScoresJson", currentScore);
+
+        Object.keys(newScoresJson).map((journey) => {
+            if (journey !== currentJourney) {
+                const otherScore = newScoresJson[journey].find(
+                    (scoreObj) =>
+                        scoreObj.heuristic.heuristicNumber ===
+                        currentScore.heuristic.heuristicNumber
+                );
+                console.log("newScoresJson", otherScore);
+                if (
+                    otherScore &&
+                    otherScore.scoreValue > 0 &&
+                    otherScore.scoreValue !== Number(_scoreValue)
+                ) {
+                    console.log("newScoresJson score 2", Number(_scoreValue));
+                    console.log("newScoresJson Other", otherScore.scoreValue);
+                    setScoreAlert({
+                        alertText: `In ${journey} the score is: `,
+                        scoreValue: otherScore.scoreValue,
+                    });
+                    setShowScoreAlert(show);
+                } else {
+                    setScoreAlert(null);
+                }
+            }
+        });
+        console.log("newScoresJson", scoreAlert);
+        // console.log("newScoresJson", currentScore);
     }
 
     const isMobile =
@@ -454,6 +561,46 @@ function HeuristicItem({
                     {/* <p>
                         <Debug data={currentScore.scoreValue} />
                     </p> */}
+                    {scoreAlert && showScoreAlert && (
+                        <div className=" mt-4 flex items-center gap-3 border-dashed border-red-500 border-2 rounded-lg px-3 py-3">
+                            <p className="flex gap-2">
+                                <b className="text-red-500">⚠️ Attention: </b>{" "}
+                                <span className="text-slate-500">
+                                    <span>{scoreAlert.alertText}</span>
+                                    <b> {scoreAlert.scoreValue}</b>
+                                </span>
+                            </p>
+                            <button
+                                onClick={() => handleHideScoreAlert(false)}
+                                className="border px-3 rounded-full h-7 text-blur-500 border-blue-500 hover:bg-blue-700/10 text-xs text-blue-500"
+                            >
+                                Understood
+                            </button>
+                        </div>
+                    )}
+                    {previousScore &&
+                        showPreviousScoreAlert &&
+                        previousScore?.scoreValue !== scoreValue && (
+                            <div className=" mt-4 flex items-center gap-3 border-dashed border-red-500 border-2 rounded-lg px-3 py-3">
+                                <p className="flex gap-2 w-full">
+                                    <b className="text-red-500">
+                                        ⚠️ Watch out:{" "}
+                                    </b>{" "}
+                                    <span>
+                                        On last study this player scored:
+                                    </span>{" "}
+                                    <b>{previousScore?.scoreValue}</b>
+                                </p>
+                                <button
+                                    onClick={() =>
+                                        handleHidePreviousScoreAlert(false)
+                                    }
+                                    className="border px-3 rounded-full h-7 text-blur-500 border-blue-500 hover:bg-blue-700/10 text-xs text-blue-500"
+                                >
+                                    Understood
+                                </button>
+                            </div>
+                        )}
 
                     <div className="flex flex-col gap-3 justify-between mt-2">
                         <div className="max-w-sm">
@@ -484,19 +631,6 @@ function HeuristicItem({
                             >
                                 {scoreDescription[scoreValue].text}
                             </small>
-
-                            {previousScore &&
-                            previousScore?.scoreValue !== scoreValue ? (
-                                <p className="flex w-full gap-2">
-                                    <b className="text-red-500">
-                                        ⚠️ Watch out:{" "}
-                                    </b>{" "}
-                                    <span>
-                                        On last study this player scored:
-                                    </span>{" "}
-                                    <b> {previousScore?.scoreValue}</b>
-                                </p>
-                            ) : null}
                         </div>
                         <div className="flex justify-between">
                             <button
