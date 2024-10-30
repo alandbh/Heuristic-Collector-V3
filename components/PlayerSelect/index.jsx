@@ -129,7 +129,7 @@ function PlayerSelect({ compact }) {
                     Select a Player
                 </label>
                 <div className="flex gap-2 items-center content-center">
-                    <picture className="h-10 block dark:brightness-[0] dark:invert dark:grayscale dark:opacity-70">
+                    <picture className="flex items-center dark:brightness-[0] dark:invert dark:grayscale dark:opacity-70">
                         <source srcSet={selected?.logo.url} type="image/webp" />
                         <img
                             className="object-cover max-h-9"
