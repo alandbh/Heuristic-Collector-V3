@@ -581,15 +581,15 @@ function HeuristicItem({
                     {previousScore &&
                         showPreviousScoreAlert &&
                         previousScore?.scoreValue !== scoreValue && (
-                            <div className=" mt-4 flex items-center gap-3 border-dashed border-red-500 border-2 rounded-lg px-3 py-3">
+                            <div className=" mt-4 md:flex items-center gap-3 border-dashed border-red-500 border-2 rounded-lg px-3 py-3">
                                 <p className="flex gap-2 w-full">
-                                    <b className="text-red-500">
+                                    <b className="text-red-500 whitespace-nowrap">
                                         ⚠️ Watch out:{" "}
                                     </b>{" "}
                                     <span>
-                                        On last study this player scored:
+                                        On last study this player scored:{" "}
+                                        <b>{previousScore?.scoreValue}</b>
                                     </span>{" "}
-                                    <b>{previousScore?.scoreValue}</b>
                                 </p>
                                 <button
                                     onClick={() =>
