@@ -187,7 +187,7 @@ function Projects(props) {
                         </h1>
                     </div>
                 )}
-                <div className=" px-4 mx-auto md:mt-10 flex flex-wrap gap-6 md:gap-10 sm:justify-center md:justify-items-start">
+                <div className=" px-4 mx-auto md:mt-10 grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 sm:justify-center md:justify-items-start">
                     {projectsToMap?.map((proj) => (
                         <Card key={proj.id} data={proj} />
                     ))}
