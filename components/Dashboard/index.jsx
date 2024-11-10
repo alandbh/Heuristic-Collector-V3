@@ -434,6 +434,11 @@ function Dashboard({ auth, projectData }) {
 
     function onChangeJourney(journey) {
         let selectedJourney = journey !== "overall" ? journey : "";
+
+        if (journey === "overall") {
+            setJourney("");
+            return;
+        }
         setJourney(
             allJourneysData?.journeys.find(
                 (journey) => journey.name === selectedJourney
