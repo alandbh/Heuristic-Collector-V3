@@ -26,9 +26,13 @@ function ProgressChart({
         if (allCollects) {
             return amountByPerson[personName];
         }
-        return getCollectsByDate(currentDate, personName)[
-            "personsDayCollection"
-        ].length;
+        if (getCollectsByDate(currentDate, personName)) {
+            return getCollectsByDate(currentDate, personName)[
+                "personsDayCollection"
+            ].length;
+        }
+
+        return 0;
     }, []);
 
     const totalByPersonInDay = people.map((person) => {

@@ -785,10 +785,10 @@ function Dashboard({ auth, projectData }) {
                                         <div>
                                             <h4 className="font-bold text-lg mb-0">
                                                 {newestTitle}{" "}
-                                                {
-                                                    collectsByDate[newestDate]
-                                                        .length
-                                                }
+                                                {collectsByDate[newestDate]
+                                                    ? collectsByDate[newestDate]
+                                                          .length
+                                                    : 0}
                                             </h4>
                                             <div className="mb-8 text-slate-500">
                                                 <small>
@@ -823,10 +823,10 @@ function Dashboard({ auth, projectData }) {
 
                                             <h4 className="font-bold text-lg mb-0 mt-10">
                                                 {dayBeforeTitle}{" "}
-                                                {
-                                                    collectsByDate[yesterDay]
-                                                        .length
-                                                }
+                                                {collectsByDate[yesterDay]
+                                                    ? collectsByDate[yesterDay]
+                                                          .length
+                                                    : 0}
                                             </h4>
                                             <div className="mb-8 text-slate-500">
                                                 <small>
