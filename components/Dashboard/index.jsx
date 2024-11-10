@@ -434,11 +434,18 @@ function Dashboard({ auth, projectData }) {
 
     function onChangeJourney(journey) {
         let selectedJourney = journey !== "overall" ? journey : "";
-        setJourney(selectedJourney);
+        setJourney(
+            allJourneysData?.journeys.find(
+                (journey) => journey.name === selectedJourney
+            ).slug
+        );
     }
 
     const allJourneysSlug = allJourneysData?.journeys.map(
         (journey) => journey.slug
+    );
+    const allJourneysName = allJourneysData?.journeys.map(
+        (journey) => journey.name
     );
 
     // console.log("allJourneysSlug", allJourneysData);
@@ -501,7 +508,7 @@ function Dashboard({ auth, projectData }) {
                                     <SwitchMono
                                         options={[
                                             "overall",
-                                            ...allJourneysSlug,
+                                            ...allJourneysName,
                                         ]}
                                         onChange={(journey) =>
                                             onChangeJourney(journey)
