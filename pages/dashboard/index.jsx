@@ -87,26 +87,43 @@ function Dashboard() {
     const searchRef = useRef(null);
     const [user, loadingUser] = useAuthState(auth);
 
-    function fetchAllJourneyScores(
-        project,
-        journey,
-        heuristic,
-        showPlayer,
-        showManyPlayers
-    ) {
-        if (!project || !journey) {
-            return;
-        }
+    const fetchAllJourneyScores = useCallback(
+        (project, journey, heuristic, showPlayer, showManyPlayers) => {
+            if (!project || !journey) {
+                return;
+            }
 
-        fetch(
-            `/api/all?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}&showManyPlayers=${showManyPlayers}`
-        ).then((data) => {
-            data.json().then((result) => {
-                // const orderedResults = result
-                setAllJourneyScores(result);
+            fetch(
+                `/api/all?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}&showManyPlayers=${showManyPlayers}`
+            ).then((data) => {
+                data.json().then((result) => {
+                    // const orderedResults = result
+                    setAllJourneyScores(result);
+                });
             });
-        });
-    }
+        }
+    );
+
+    // function fetchAllJourneyScores(
+    //     project,
+    //     journey,
+    //     heuristic,
+    //     showPlayer,
+    //     showManyPlayers
+    // ) {
+    //     if (!project || !journey) {
+    //         return;
+    //     }
+
+    //     fetch(
+    //         `/api/all?project=${project}&journey=${journey}&heuristic=${heuristic}&showPlayer=${showPlayer}&showManyPlayers=${showManyPlayers}`
+    //     ).then((data) => {
+    //         data.json().then((result) => {
+    //             // const orderedResults = result
+    //             setAllJourneyScores(result);
+    //         });
+    //     });
+    // }
     function fetchAllProjectScores(project) {
         if (!project) {
             return;
@@ -199,9 +216,9 @@ function Dashboard() {
         showPlayer,
         showManyPlayers,
         journey,
-        getHeuristics,
-        getJourneys,
-        getPlayers,
+        // getHeuristics,
+        // getJourneys,
+        // getPlayers,
     ]);
 
     useEffect(() => {
@@ -769,33 +786,20 @@ function Dashboard() {
         );
     }
 
-    const datasetWithSeparator = [];
+    const datasetWithSeparatorUnsorted = [];
     // console.log("departmentList", departmentList);
     departmentList.map((department, index) => {
-        const sortedCollection = sortCollection(
-            allJourneyScores.scores_by_heuristic,
-            "departmentOrder"
-        );
-        sortedCollection
+        allJourneyScores.scores_by_heuristic
             .filter((score) => score.departmentSlug === department)
             .map((score) => {
-                datasetWithSeparator.push(score);
+                datasetWithSeparatorUnsorted.push(score);
             });
-
-        // if (index !== departmentList.length - 1) {
-        //     datasetWithSeparator.push({
-        //         label: "Separator",
-        //         playerSlug: "separator",
-        //         show_player: false,
-        //         value: 0,
-        //         allJourneysScoreAverage: 0,
-        //         valuePrev: null,
-        //         averageScoreValuePrev: null,
-        //         ignore_journey: false,
-        //         zeroed_journey: false,
-        //     });
-        // }
     });
+
+    const datasetWithSeparator = sortCollection(
+        datasetWithSeparatorUnsorted,
+        "departmentOrder"
+    );
 
     function getAverageScore(dataSetArray, keyValue = "value") {
         const dataSetWithoutSeparator = dataSetArray?.filter(
