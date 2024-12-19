@@ -5,6 +5,9 @@ import Sidenav from "../../components/Dash2/Sidenav";
 import useAllProjectScores from "../../lib/dash2/useAllProjectScores";
 
 import Header from "../../components/Dash2/Header";
+import ChartSection from "../../components/ChartSection";
+import Debugg from "../../lib/Debugg";
+import getHeuristicAverage from "../../lib/dash2/getHeuristicAverage";
 
 /**
  *
@@ -24,7 +27,19 @@ function dash2() {
 
     const { currentProjectObj, heuristics, previousProjectObj } =
         useAllProjectScores(project);
-    console.log("allProjectScores", currentProjectObj, heuristics);
+    // console.log("allProjectScores", currentProjectObj, heuristics);
+
+    useEffect(() => {
+        if (router.query.heuristic && heuristics) {
+            setSelectedHeuristic({
+                heuristicNumber: router.query.heuristic,
+                name: heuristics.find(
+                    (heuristic) =>
+                        heuristic.heuristicNumber === router.query.heuristic
+                ).name,
+            });
+        }
+    }, [router.query.heuristic, heuristics]);
 
     function handleClickHeuristic(item) {
         setSelectedHeuristic({
@@ -49,6 +64,14 @@ function dash2() {
         });
     }
 
+    const heuristicDataset = getHeuristicAverage(
+        currentProjectObj,
+        null,
+        selectedHeuristic.heuristicNumber
+    );
+
+    console.log("heuristicAverage", heuristicDataset);
+
     if (!heuristics || !currentProjectObj) {
         return null;
     }
@@ -66,6 +89,13 @@ function dash2() {
                         handleSelectPlayer={handleSelectPlayer}
                         router={router}
                     />
+                    <div className="w-[864px] mx-auto flex flex-col mt-10">
+                        <ChartSection title="Heuristic Chart">
+                            <Debugg data={selectedHeuristic}></Debugg>
+                            <Debugg data={heuristics}></Debugg>
+                            {/* <Debugg data={currentProjectObj.players}></Debugg> */}
+                        </ChartSection>
+                    </div>
                 </main>
             </div>
         </div>

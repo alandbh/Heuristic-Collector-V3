@@ -180,10 +180,10 @@ function SearchBoxSimple({
             <div className="flex items-end content-end  relative">
                 {result?.length > 0 ? (
                     <div
-                        className="absolute flex flex-col top-[0px] left-1/2 -ml-[300px] w-[600px]  bg-white shadow-2xl h-[400px] overflow-y-auto z-1"
+                        className="absolute flex flex-col top-[0px] left-1/2 -ml-[300px] w-[600px]  bg-white shadow-2xl max-h-[400px] overflow-y-auto z-1"
                         ref={resultRef}
                     >
-                        <ul className="shadow-inner h-[400px] overflow-y-auto z-1">
+                        <ul className="shadow-inner max-h-[400px] overflow-y-auto z-1">
                             {result.map((item, index) => {
                                 return (
                                     <li className="w-full" key={index}>
