@@ -4,11 +4,11 @@ import React from "react";
 
 function Sidenav() {
     return (
-        <div className="sidenav flex w-16 bg-blue-500 h-screen flex-col items-center pt-5 px-1 gap-6">
+        <div className="sidenav flex w-16 bg-slate-700 h-screen flex-col items-center pt-5 px-1 gap-6">
             <div className="logo w-7 h-7 bg-red-500"></div>
 
             <nav>
-                <button className="text-white flex flex-col items-center justify-center gap-1 w-14 h-12 hover:bg-blue-600 cursor-pointer rounded">
+                <button className="text-white flex flex-col items-center justify-center gap-1 w-14 h-12 hover:bg-slate-800 cursor-pointer rounded">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"

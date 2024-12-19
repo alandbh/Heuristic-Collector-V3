@@ -49,13 +49,17 @@ function SearchBoxSimple({
         distance: 2000,
     };
 
-    const fuse = new Fuse(collection, options);
+    let fuse;
+
+    if (collection) {
+        fuse = new Fuse(collection, options);
+    }
 
     function handleSearch(ev) {
         setResult(fuse.search(ev.target.value));
     }
 
-    const fullResult = collection.map((heuristic) => {
+    const fullResult = collection?.map((heuristic) => {
         return {
             item: heuristic,
         };
@@ -63,7 +67,8 @@ function SearchBoxSimple({
 
     function handleFocusSearch() {
         // fuse.setCollection(collection);
-        setResult(fullResult.slice(0, 5));
+        // setResult(fullResult.slice(0, 5));
+        setResult(fullResult);
         inputRef.current.value = "";
     }
 
@@ -132,7 +137,9 @@ function SearchBoxSimple({
     return (
         <div ref={searchContainerRef}>
             <div className="flex flex-col gap-1 flex-1 opacity-100">
-                <label className="text-slate-500 font-bold">{label}</label>
+                <label htmlFor={id} className="text-slate-500 font-bold">
+                    {label}
+                </label>
 
                 <div
                     className={`rounded flex items-center gap-2 pl-2 border-slate-300 border text-slate-500 w-full bg-white dark:bg-transparent `}
@@ -172,30 +179,34 @@ function SearchBoxSimple({
 
             <div className="flex items-end content-end  relative">
                 {result?.length > 0 ? (
-                    <ul
-                        className="absolute flex flex-col top-[0px] left-1/2 -ml-[300px] w-[600px]  bg-white shadow-2xl "
+                    <div
+                        className="absolute flex flex-col top-[0px] left-1/2 -ml-[300px] w-[600px]  bg-white shadow-2xl h-[400px] overflow-y-auto z-1"
                         ref={resultRef}
                     >
-                        {result.map((item, index) => {
-                            return (
-                                <li className="w-full" key={index}>
-                                    <button
-                                        onClick={() => handleItemClic(item)}
-                                        className="flex flex-1 w-full gap-2 text-left py-4 px-4 bg-white focus:bg-blue-50 focus:outline-blue-200"
-                                        tabIndex={0}
-                                    >
-                                        <b className="block w-12 ">
-                                            {item.item.heuristicNumber}
-                                        </b>
-                                        <span className="text-slate-500 flex-1">
-                                            {item.item.name.substring(0, 130) +
-                                                "..."}
-                                        </span>
-                                    </button>
-                                </li>
-                            );
-                        })}
-                    </ul>
+                        <ul className="shadow-inner h-[400px] overflow-y-auto z-1">
+                            {result.map((item, index) => {
+                                return (
+                                    <li className="w-full" key={index}>
+                                        <button
+                                            onClick={() => handleItemClic(item)}
+                                            className="flex flex-1 w-full gap-2 text-left py-4 px-4 bg-white focus:bg-blue-50 focus:outline-blue-200"
+                                            tabIndex={0}
+                                        >
+                                            <b className="block w-12 ">
+                                                {item.item.heuristicNumber}
+                                            </b>
+                                            <span className="text-slate-500 flex-1">
+                                                {item.item.name.substring(
+                                                    0,
+                                                    130
+                                                ) + "..."}
+                                            </span>
+                                        </button>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
                 ) : (
                     ""
                 )}
