@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 
 import Sidenav from "../../components/Dash2/Sidenav";
@@ -8,6 +8,7 @@ import Header from "../../components/Dash2/Header";
 import ChartSection from "../../components/ChartSection";
 import Debugg from "../../lib/Debugg";
 import getHeuristicAverage from "../../lib/dash2/getHeuristicAverage";
+import BarChart from "../../components/BarChart";
 
 /**
  *
@@ -22,6 +23,7 @@ function dash2() {
         heuristicNumber: "",
         name: "",
     });
+    const chartRef = useRef(null);
     const router = useRouter();
     const { project } = router.query;
 
@@ -66,8 +68,8 @@ function dash2() {
 
     const heuristicDataset = getHeuristicAverage(
         currentProjectObj,
-        null,
-        selectedHeuristic.heuristicNumber
+        selectedHeuristic.heuristicNumber,
+        router.query.showPlayer
     );
 
     console.log("heuristicAverage", heuristicDataset);
@@ -91,6 +93,24 @@ function dash2() {
                     />
                     <div className="w-[864px] mx-auto flex flex-col mt-10">
                         <ChartSection title="Heuristic Chart">
+                            <BarChart
+                                refDom={chartRef}
+                                dataSet={heuristicDataset.dataset}
+                                valueKey={"value"}
+                                averageLine={heuristicDataset.allPlayersAverage}
+                                height={251}
+                                width={915}
+                                radius={4}
+                                gap={12}
+                                barWidth={13}
+                                separatorWidth={50}
+                                barColors="#a5a5a5, #4285F4, #174EA6, #333"
+                                averageLineColor="#a5a5a5"
+                                averageLineDash="8,7"
+                                averageLineWidth={1.8}
+                                hOffset={0}
+                                vOffset={0}
+                            />
                             <Debugg data={selectedHeuristic}></Debugg>
                             <Debugg data={heuristics}></Debugg>
                             {/* <Debugg data={currentProjectObj.players}></Debugg> */}
