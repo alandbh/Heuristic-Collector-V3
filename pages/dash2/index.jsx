@@ -18,7 +18,7 @@ import BarChart from "../../components/BarChart";
  *
  * This is the dashboard v2.
  */
-function dash2() {
+function Dash2() {
     const [selectedHeuristic, setSelectedHeuristic] = useState({
         heuristicNumber: "",
         name: "",
@@ -122,4 +122,4 @@ function dash2() {
     );
 }
 
-export default dash2;
+export default Dash2;
