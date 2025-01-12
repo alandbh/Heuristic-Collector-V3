@@ -41,7 +41,7 @@ function Header({
                             id="search"
                             autoComplete="off"
                             accessKey="s"
-                            disabled={!collection}
+                            disabled={!collection.length > 0}
                             onItemClick={handleClickHeuristic}
                             collection={collection}
                             srOnlyIconText="Search for heuristics"
