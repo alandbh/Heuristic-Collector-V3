@@ -66,13 +66,25 @@ function Dash2() {
         });
     }
 
+    function handleSelectJourney(ev) {
+        router.replace({
+            query: {
+                ...router.query,
+                journey: ev.target.value,
+            },
+        });
+    }
+
     const heuristicDataset = getHeuristicAverage(
         currentProjectObj,
+        router.query.journey,
         selectedHeuristic.heuristicNumber,
         router.query.showPlayer
     );
 
     console.log("heuristicAverage", heuristicDataset);
+
+    const isRetail = () => currentProjectObj.slug.includes("retail");
 
     if (!heuristics || !currentProjectObj) {
         return null;
@@ -89,30 +101,50 @@ function Dash2() {
                         heuristics={heuristics}
                         handleClickHeuristic={handleClickHeuristic}
                         handleSelectPlayer={handleSelectPlayer}
+                        handleSelectJourney={handleSelectJourney}
                         router={router}
+                        isRetail={isRetail()}
                     />
                     <div className="w-[864px] mx-auto flex flex-col mt-10">
-                        <ChartSection title="Heuristic Chart">
-                            <BarChart
-                                refDom={chartRef}
-                                dataSet={heuristicDataset.dataset}
-                                valueKey={"value"}
-                                averageLine={heuristicDataset.allPlayersAverage}
-                                height={251}
-                                width={915}
-                                radius={4}
-                                gap={12}
-                                barWidth={13}
-                                separatorWidth={50}
-                                barColors="#a5a5a5, #4285F4, #174EA6, #333"
-                                averageLineColor="#a5a5a5"
-                                averageLineDash="8,7"
-                                averageLineWidth={1.8}
-                                hOffset={0}
-                                vOffset={0}
-                            />
-                            <Debugg data={selectedHeuristic}></Debugg>
+                        <ChartSection title="Heuristic Chart" average={13}>
+                            <div className="flex border-b px-4 min-h-[50px]">
+                                <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
+                                    <p>Selected Heuristic:</p>
+                                </div>
+                                <div className="flex gap-2 text-sm pt-4 pb-4">
+                                    <b>{selectedHeuristic?.heuristicNumber}</b>
+                                    <span className="max-w-lg text-slate-700">
+                                        {selectedHeuristic?.name}
+                                    </span>
+                                </div>
+                            </div>
+                            {/* <Debugg data={heuristicDataset}></Debugg> */}
+                            {heuristicDataset && (
+                                <BarChart
+                                    refDom={chartRef}
+                                    dataSet={heuristicDataset.dataset}
+                                    valueKey={"value"}
+                                    averageLine={
+                                        heuristicDataset.allPlayersAverage
+                                    }
+                                    height={251}
+                                    width={915}
+                                    radius={4}
+                                    gap={12}
+                                    barWidth={13}
+                                    separatorWidth={50}
+                                    barColors="#a5a5a5, #4285F4, #174EA6, #333"
+                                    averageLineColor="#a5a5a5"
+                                    averageLineDash="8,7"
+                                    averageLineWidth={1.8}
+                                    hOffset={0}
+                                    vOffset={0}
+                                />
+                            )}
+
+                            <Debugg data={router.query.journey}></Debugg>
                             <Debugg data={heuristics}></Debugg>
+                            <Debugg data={heuristicDataset}></Debugg>
                             {/* <Debugg data={currentProjectObj.players}></Debugg> */}
                         </ChartSection>
                     </div>

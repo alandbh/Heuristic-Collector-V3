@@ -6,7 +6,9 @@ function Header({
     heuristics,
     handleClickHeuristic,
     handleSelectPlayer,
+    handleSelectJourney,
     router,
+    isRetail,
 }) {
     return (
         <>
@@ -33,7 +35,18 @@ function Header({
                             filterBy={["name", "heuristicNumber"]}
                         />
                     </div>
-
+                    {!isRetail && (
+                        <div>
+                            <Select
+                                label="Select a journey"
+                                disabled={false}
+                                onChange={(ev) => handleSelectJourney(ev)}
+                                defaultValue={router.query.journey}
+                                options={currentProjectObj.journeys}
+                                id="journeySelect"
+                            />
+                        </div>
+                    )}
                     <div>
                         <Select
                             label="Select a player to highlight it"
