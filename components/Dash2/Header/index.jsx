@@ -1,8 +1,10 @@
+import Debugg from "../../../lib/Debugg";
 import SearchBoxSimple from "../../SearchBoxSimple";
 import Select from "../../Select";
 
 function Header({
     currentProjectObj,
+    currentJourney,
     heuristics,
     handleClickHeuristic,
     handleSelectPlayer,
@@ -10,6 +12,18 @@ function Header({
     router,
     isRetail,
 }) {
+    let collection;
+
+    if (!isRetail) {
+        collection = heuristics.filter((heuristic) =>
+            heuristic.journeys.some(
+                (journey) => journey.slug === currentJourney
+            )
+        );
+    } else {
+        collection = heuristics;
+    }
+
     return (
         <>
             <div className="w-[864px] mx-auto flex flex-col">
@@ -27,9 +41,9 @@ function Header({
                             id="search"
                             autoComplete="off"
                             accessKey="s"
-                            disabled={!heuristics}
+                            disabled={!collection}
                             onItemClick={handleClickHeuristic}
-                            collection={heuristics}
+                            collection={collection}
                             srOnlyIconText="Search for heuristics"
                             placeholder="type the number or the name of the heuristic"
                             filterBy={["name", "heuristicNumber"]}

@@ -98,6 +98,7 @@ function Dash2() {
                 <main className="pt-5 px-8 min-h-[calc(100vh_-_126px)] flex flex-col items-center">
                     <Header
                         currentProjectObj={currentProjectObj}
+                        currentJourney={router.query.journey}
                         heuristics={heuristics}
                         handleClickHeuristic={handleClickHeuristic}
                         handleSelectPlayer={handleSelectPlayer}
@@ -106,7 +107,10 @@ function Dash2() {
                         isRetail={isRetail()}
                     />
                     <div className="w-[864px] mx-auto flex flex-col mt-10">
-                        <ChartSection title="Heuristic Chart" average={13}>
+                        <ChartSection
+                            title="Heuristic Chart"
+                            average={heuristicDataset.allPlayersAverage}
+                        >
                             <div className="flex border-b px-4 min-h-[50px]">
                                 <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
                                     <p>Selected Heuristic:</p>
