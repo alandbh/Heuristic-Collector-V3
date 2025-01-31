@@ -15,6 +15,7 @@ function SearchBoxSimple({
     srOnlyIconText,
     collection,
     filterBy,
+    dark,
 }) {
     /**
      * 
@@ -137,14 +138,28 @@ function SearchBoxSimple({
     return (
         <div ref={searchContainerRef}>
             <div className="flex flex-col gap-1 flex-1 opacity-100">
-                <label htmlFor={id} className="text-slate-500 font-bold">
+                <label
+                    htmlFor={id}
+                    className={`${
+                        dark ? "text-slate-200" : "text-slate-500"
+                    } font-bold`}
+                >
                     {label}
                 </label>
 
                 <div
-                    className={`rounded flex items-center gap-2 pl-2 border-slate-300 border text-slate-500 w-full bg-white dark:bg-transparent `}
+                    className={`rounded flex items-center gap-2 pl-2 ${
+                        dark ? "border-slate-500" : "border-slate-300"
+                    } border ${
+                        dark ? "text-slate-200" : "text-slate-500"
+                    } w-full ${
+                        dark ? "bg-slate-800" : "bg-white"
+                    } dark:bg-transparent `}
                 >
-                    <label htmlFor="search">
+                    <label
+                        htmlFor="search"
+                        className={dark ? "text-slate-200" : "text-slate-500"}
+                    >
                         <svg
                             width="24"
                             height="24"
@@ -162,7 +177,11 @@ function SearchBoxSimple({
                         <span className="sr-only">{srOnlyIconText}</span>
                     </label>
                     <input
-                        className="h-10 p-2 rounded-md bg-transparent text-slate-500 w-full"
+                        className={`h-10 p-2 rounded-md bg-transparent ${
+                            dark
+                                ? "text-slate-200 placeholder:text-slate-200 bg-slate-800"
+                                : "text-slate-500"
+                        }  w-full`}
                         type={type}
                         name={name}
                         id={id}

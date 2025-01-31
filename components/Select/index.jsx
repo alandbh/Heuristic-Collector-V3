@@ -1,11 +1,26 @@
-function Select({ label, onChange, defaultValue, options, disabled, id }) {
+function Select({
+    label,
+    onChange,
+    defaultValue,
+    options,
+    disabled,
+    id,
+    dark,
+}) {
     return (
         <div className="flex flex-col gap-1 flex-1">
-            <label htmlFor={id} className="text-slate-500 font-bold">
+            <label
+                htmlFor={id}
+                className={`${
+                    dark ? "text-slate-200" : "text-slate-500"
+                } font-bold`}
+            >
                 {label}
             </label>
             <select
-                className="border border-slate-300  block h-10 px-4 rounded-sm"
+                className={`border  block h-10 px-4 rounded-sm ${
+                    dark ? "border-slate-500 bg-slate-800" : "border-slate-300"
+                }`}
                 onChange={onChange}
                 defaultValue={defaultValue}
                 disabled={disabled}

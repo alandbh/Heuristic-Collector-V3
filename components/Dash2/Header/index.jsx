@@ -47,6 +47,7 @@ function Header({
                             srOnlyIconText="Search for heuristics"
                             placeholder="type the number or the name of the heuristic"
                             filterBy={["name", "heuristicNumber"]}
+                            dark={true}
                         />
                     </div>
                     {!isRetail && (
@@ -58,6 +59,7 @@ function Header({
                                 defaultValue={router.query.journey}
                                 options={currentProjectObj.journeys}
                                 id="journeySelect"
+                                dark={true}
                             />
                         </div>
                     )}
@@ -69,6 +71,7 @@ function Header({
                             defaultValue={router.query.showPlayer}
                             options={currentProjectObj.players}
                             id="playerSelect"
+                            dark={true}
                         />
                     </div>
                 </div>

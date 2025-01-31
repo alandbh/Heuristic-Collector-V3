@@ -1,15 +1,21 @@
-function ChartSection({ title, average, children }) {
+function ChartSection({ title, average, children, dark }) {
     return (
         <section className="heuristic-chart">
-            <header className="flex justify-between mb-6 items-center px-4 gap-3">
-                <h1 className="text-xl font-bold">
+            <header className="flex justify-between mb-6 items-center px-4 gap-">
+                <h1 className="text-xl font-bold ">
                     <div className="h-[5px] bg-primary w-10 mb-1"></div>
                     {title}
                 </h1>
                 {average && (
                     <div className="text-lg flex items-center gap-1 whitespace-nowrap">
                         <b>Average: </b>
-                        <span className=" text-slate-500">{average}</span>
+                        <span
+                            className={
+                                dark ? "text-slate-200" : "text-slate-500"
+                            }
+                        >
+                            {average}
+                        </span>
                     </div>
                 )}
             </header>

@@ -91,7 +91,7 @@ function Dash2() {
     }
 
     return (
-        <div className="bg-slate-100/70 dark:bg-slate-800/50 h-screen">
+        <div className="bg-slate-700 dark:bg-slate-800/50 h-screen text-slate-200">
             <div className="flex">
                 <Sidenav />
 
@@ -110,6 +110,7 @@ function Dash2() {
                         <ChartSection
                             title="Heuristic Chart"
                             average={heuristicDataset.allPlayersAverage}
+                            dark={true}
                         >
                             <div className="flex border-b px-4 min-h-[50px]">
                                 <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
