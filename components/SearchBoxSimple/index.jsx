@@ -179,7 +179,7 @@ function SearchBoxSimple({
                     <input
                         className={`h-10 p-2 rounded-md bg-transparent ${
                             dark
-                                ? "text-slate-200 placeholder:text-slate-200 bg-slate-800"
+                                ? "text-slate-200 placeholder:text-slate-600 bg-slate-800"
                                 : "text-slate-500"
                         }  w-full`}
                         type={type}

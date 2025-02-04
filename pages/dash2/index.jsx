@@ -112,8 +112,8 @@ function Dash2() {
                             average={heuristicDataset.allPlayersAverage}
                             dark={true}
                         >
-                            <div className="flex border-b px-4 min-h-[50px]">
-                                <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
+                            <div className="flex border-b px-4 min-h-[50px]  text-slate-500">
+                                <div className="flex gap-1 pr-4 border-r mr-4  text-sm pt-4">
                                     <p>Selected Heuristic:</p>
                                 </div>
                                 <div className="flex gap-2 text-sm pt-4 pb-4">

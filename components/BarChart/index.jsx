@@ -79,46 +79,19 @@ export default function BarChart({
     };
 
     return (
-        <div>
-            <>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={width}
-                    height={height}
-                    fill="none"
-                    viewBox={`0 0 ${width} ${height}`}
-                    ref={refDom}
-                    className="max-w-[800px] object-contain h-auto"
-                    style={{ width: 800, transition: "0.4s" }}
-                >
-                    {chartData.map((score, index) => {
-                        if (score.departmentOrder) {
-                            return (
-                                <path
-                                    style={{ transition: "0.4s" }}
-                                    key={index}
-                                    d={createPath({
-                                        w: barWidth,
-                                        h: getHeight(
-                                            score[valueKey],
-                                            height - customVOffset
-                                        ),
-                                        tlr: radius,
-                                        trr: radius,
-                                        brr: 0,
-                                        blr: 0,
-                                        x: getX(score, index),
-                                        maxHeight: height - customVOffset,
-                                        customVOffset,
-                                    })}
-                                    fill={
-                                        score.barColor
-                                            ? manyBarColors[score.barColor]
-                                            : "#dddddd"
-                                    }
-                                />
-                            );
-                        }
+        <div className="flex flex-col items-center justify-center pt-8">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={width}
+                height={height}
+                fill="none"
+                viewBox={`0 0 ${width} ${height}`}
+                ref={refDom}
+                className="max-w-[800px] object-contain h-auto"
+                style={{ width: 800, transition: "0.4s" }}
+            >
+                {chartData.map((score, index) => {
+                    if (score.departmentOrder) {
                         return (
                             <path
                                 style={{ transition: "0.4s" }}
@@ -133,192 +106,215 @@ export default function BarChart({
                                     trr: radius,
                                     brr: 0,
                                     blr: 0,
-                                    x: hOffset + index * barWidth + index * gap,
+                                    x: getX(score, index),
                                     maxHeight: height - customVOffset,
                                     customVOffset,
                                 })}
-                                fill={manyBarColors[score.barColor]}
+                                fill={
+                                    score.barColor
+                                        ? manyBarColors[score.barColor]
+                                        : "#dddddd"
+                                }
                             />
                         );
-                    })}
+                    }
+                    return (
+                        <path
+                            style={{ transition: "0.4s" }}
+                            key={index}
+                            d={createPath({
+                                w: barWidth,
+                                h: getHeight(
+                                    score[valueKey],
+                                    height - customVOffset
+                                ),
+                                tlr: radius,
+                                trr: radius,
+                                brr: 0,
+                                blr: 0,
+                                x: hOffset + index * barWidth + index * gap,
+                                maxHeight: height - customVOffset,
+                                customVOffset,
+                            })}
+                            fill={manyBarColors[score.barColor]}
+                        />
+                    );
+                })}
 
-                    <line
-                        x1="0"
-                        y1={
-                            getAveragePosition(
-                                averageLine,
-                                height - customVOffset
-                            ) + customVOffset
-                        }
-                        x2={width}
-                        y2={
-                            getAveragePosition(
-                                averageLine,
-                                height - customVOffset
-                            ) + customVOffset
-                        }
-                        strokeWidth={averageLineWidth}
-                        strokeDasharray={averageLineDash}
-                        stroke={averageLineColor}
-                        style={{ transition: "0.4s" }}
-                    />
+                <line
+                    x1="0"
+                    y1={
+                        getAveragePosition(
+                            averageLine,
+                            height - customVOffset
+                        ) + customVOffset
+                    }
+                    x2={width}
+                    y2={
+                        getAveragePosition(
+                            averageLine,
+                            height - customVOffset
+                        ) + customVOffset
+                    }
+                    strokeWidth={averageLineWidth}
+                    strokeDasharray={averageLineDash}
+                    stroke={averageLineColor}
+                    style={{ transition: "0.4s" }}
+                />
 
-                    <line
-                        x1={hOffset}
-                        y1={height - customVOffset}
-                        x2={width - hOffset}
-                        y2={height - customVOffset}
-                        strokeWidth={1}
-                        stroke={customBaseLineColor}
-                        style={{ transition: "0.4s" }}
-                    />
-                    {}
+                <line
+                    x1={hOffset}
+                    y1={height - customVOffset}
+                    x2={width - hOffset}
+                    y2={height - customVOffset}
+                    strokeWidth={1}
+                    stroke={customBaseLineColor}
+                    style={{ transition: "0.4s" }}
+                />
+                {}
 
-                    {plotValues &&
-                        chartData.map((score, index) => {
-                            if (score.departmentOrder) {
-                                return (
-                                    <text
-                                        key={"group_" + index}
-                                        fill={manyBarColors[score.barColor]}
-                                        x={getX(score, index) - 4}
-                                        y={height - 7}
-                                        fontSize={8.8}
-                                        fontFamily="Product Sans Bold"
-                                        width={barWidth}
-                                    >
-                                        {isPercentage
-                                            ? (Number(score[valueKey]) * 100)
-                                                  .toFixed(1)
-                                                  .toString()
-                                                  .replace(".", ",") + "%"
-                                            : score[valueKey]
-                                                  .toString()
-                                                  .replace(".", ",")}
-                                    </text>
-                                );
-                            }
-                        })}
-                </svg>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={width}
-                    height={150}
-                    fill="red"
-                    viewBox={`0 0 ${width} ${150}`}
-                    className="max-w-[800px] object-contain h-auto mt-1"
-                    style={{ width: 800, transition: "0.4s" }}
-                >
-                    {chartData.map((score, index) => {
+                {plotValues &&
+                    chartData.map((score, index) => {
                         if (score.departmentOrder) {
                             return (
-                                <g
+                                <text
                                     key={"group_" + index}
-                                    transform={`translate(${getX(
-                                        score,
-                                        index
-                                    )}, 0)`}
+                                    fill={manyBarColors[score.barColor]}
+                                    x={getX(score, index) - 4}
+                                    y={height - 7}
+                                    fontSize={8.8}
+                                    fontFamily="Product Sans Bold"
+                                    width={barWidth}
                                 >
-                                    {!plotValues && (
-                                        <text
-                                            fill={manyBarColors[score.barColor]}
-                                            y={0}
-                                            x={0}
-                                            fontSize={8.8}
-                                            width={barWidth}
-                                            style={
-                                                isPercentage
-                                                    ? {
-                                                          rotate: "0deg",
-                                                          translate:
-                                                              "-5px 10px",
-                                                          display: "block",
-                                                          fontFamily:
-                                                              "Product Sans Bold",
-                                                          fontSize: 8.8,
-                                                      }
-                                                    : {
-                                                          translate: "0px 12px",
-                                                          display: "block",
-                                                      }
-                                            }
-                                        >
-                                            {isPercentage
-                                                ? (
-                                                      Number(score[valueKey]) *
-                                                      100
-                                                  ).toFixed(1) + "%"
-                                                : score[valueKey]}
-                                        </text>
-                                    )}
-
-                                    <text
-                                        style={
-                                            isPercentage
-                                                ? {
-                                                      rotate: "80deg",
-                                                      translate: "3px 28px",
-                                                  }
-                                                : {
-                                                      rotate: "80deg",
-                                                      translate: "0px 20px",
-                                                  }
-                                        }
-                                        fill={manyBarColors[score.barColor]}
-                                        y={0}
-                                        x={0}
-                                        fontSize={10}
-                                    >
-                                        {score.label}
-                                    </text>
-                                </g>
+                                    {isPercentage
+                                        ? (Number(score[valueKey]) * 100)
+                                              .toFixed(1)
+                                              .toString()
+                                              .replace(".", ",") + "%"
+                                        : score[valueKey]
+                                              .toString()
+                                              .replace(".", ",")}
+                                </text>
                             );
                         }
-
+                    })}
+            </svg>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={width}
+                height={150}
+                fill="red"
+                viewBox={`0 0 ${width} ${150}`}
+                className="max-w-[800px] object-contain h-auto mt-1"
+                style={{ width: 800, transition: "0.4s" }}
+            >
+                {chartData.map((score, index) => {
+                    if (score.departmentOrder) {
                         return (
                             <g
                                 key={"group_" + index}
-                                transform={`translate(${
-                                    hOffset + index * barWidth + index * gap
-                                }, 0)`}
+                                transform={`translate(${getX(
+                                    score,
+                                    index
+                                )}, 0)`}
                             >
+                                {!plotValues && (
+                                    <text
+                                        fill={manyBarColors[score.barColor]}
+                                        y={0}
+                                        x={0}
+                                        fontSize={8.8}
+                                        width={barWidth}
+                                        style={
+                                            isPercentage
+                                                ? {
+                                                      rotate: "0deg",
+                                                      translate: "-5px 10px",
+                                                      display: "block",
+                                                      fontFamily:
+                                                          "Product Sans Bold",
+                                                      fontSize: 8.8,
+                                                  }
+                                                : {
+                                                      translate: "0px 12px",
+                                                      display: "block",
+                                                  }
+                                        }
+                                    >
+                                        {isPercentage
+                                            ? (
+                                                  Number(score[valueKey]) * 100
+                                              ).toFixed(1) + "%"
+                                            : score[valueKey]}
+                                    </text>
+                                )}
+
                                 <text
-                                    fill={manyBarColors[score.barColor]}
                                     style={
                                         isPercentage
                                             ? {
-                                                  rotate: "60deg",
-                                                  translate: "0px 12px",
+                                                  rotate: "80deg",
+                                                  translate: "3px 28px",
                                               }
-                                            : ""
+                                            : {
+                                                  rotate: "80deg",
+                                                  translate: "0px 20px",
+                                              }
                                     }
-                                    y={0}
-                                    x={0}
-                                    fontSize={12}
-                                >
-                                    {isPercentage
-                                        ? (
-                                              Number(score[valueKey]) * 100
-                                          ).toFixed(2) + "%"
-                                        : score[valueKey]}
-                                </text>
-                                <text
-                                    style={{
-                                        rotate: "60deg",
-                                        translate: "0px 12px",
-                                    }}
                                     fill={manyBarColors[score.barColor]}
                                     y={0}
                                     x={0}
-                                    fontSize={13}
+                                    fontSize={10}
                                 >
                                     {score.label}
                                 </text>
                             </g>
                         );
-                    })}
-                </svg>
-            </>
+                    }
+
+                    return (
+                        <g
+                            key={"group_" + index}
+                            transform={`translate(${
+                                hOffset + index * barWidth + index * gap
+                            }, 0)`}
+                        >
+                            <text
+                                fill={manyBarColors[score.barColor]}
+                                style={
+                                    isPercentage
+                                        ? {
+                                              rotate: "60deg",
+                                              translate: "0px 12px",
+                                          }
+                                        : ""
+                                }
+                                y={0}
+                                x={0}
+                                fontSize={12}
+                            >
+                                {isPercentage
+                                    ? (Number(score[valueKey]) * 100).toFixed(
+                                          2
+                                      ) + "%"
+                                    : score[valueKey]}
+                            </text>
+                            <text
+                                style={{
+                                    rotate: "60deg",
+                                    translate: "0px 12px",
+                                }}
+                                fill={manyBarColors[score.barColor]}
+                                y={0}
+                                x={0}
+                                fontSize={13}
+                            >
+                                {score.label}
+                            </text>
+                        </g>
+                    );
+                })}
+            </svg>
         </div>
     );
 }
