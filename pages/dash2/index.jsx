@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
+import { saveSvgAsPng } from "save-svg-as-png";
 
 import Sidenav from "../../components/Dash2/Sidenav";
 import useAllProjectScores from "../../lib/dash2/useAllProjectScores";
@@ -23,6 +24,7 @@ function Dash2() {
         heuristicNumber: "",
         name: "",
     });
+    const [svgCopied, setSVGCopied] = useState(null);
     const chartRef = useRef(null);
     const router = useRouter();
     const { project } = router.query;
@@ -84,7 +86,35 @@ function Dash2() {
 
     console.log("heuristicAverage", heuristicDataset);
 
-    const isRetail = () => currentProjectObj.slug.includes("retail");
+    function handleClickCopySvg(ref, id) {
+        navigator.clipboard.writeText(ref.current.outerHTML);
+        setSVGCopied({ [id]: true });
+
+        setTimeout(() => {
+            setSVGCopied(null);
+        }, 6000);
+    }
+
+    function handleClickCopyPng(
+        ref,
+        { heuristicNumber = "", playerSlug = "" } = {
+            heuristicNumber: "",
+            playerSlug: "",
+        },
+        scale = 2
+    ) {
+        saveSvgAsPng(
+            ref.current,
+            `chart-${router.query.journey}${
+                heuristicNumber && "-h_" + heuristicNumber
+            }${playerSlug && "-" + playerSlug}.png`,
+            { scale }
+        );
+    }
+
+    const isRetail = () =>
+        currentProjectObj.slug.includes("retail") ||
+        !currentProjectObj.slug.includes("latam");
 
     if (!heuristics || !currentProjectObj) {
         return null;
@@ -125,31 +155,83 @@ function Dash2() {
                             </div>
                             {/* <Debugg data={heuristicDataset}></Debugg> */}
                             {heuristicDataset && (
-                                <BarChart
-                                    refDom={chartRef}
-                                    dataSet={heuristicDataset.dataset}
-                                    valueKey={"value"}
-                                    averageLine={
-                                        heuristicDataset.allPlayersAverage
-                                    }
-                                    height={251}
-                                    width={915}
-                                    radius={4}
-                                    gap={12}
-                                    barWidth={13}
-                                    separatorWidth={50}
-                                    barColors="#a5a5a5, #4285F4, #174EA6, #333"
-                                    averageLineColor="#a5a5a5"
-                                    averageLineDash="8,7"
-                                    averageLineWidth={1.8}
-                                    hOffset={0}
-                                    vOffset={0}
-                                />
+                                <div>
+                                    {/* <BarChart
+                                        refDom={chartRef}
+                                        dataSet={heuristicDataset.dataset}
+                                        valueKey={"value"}
+                                        averageLine={
+                                            heuristicDataset.allPlayersAverage
+                                        }
+                                        height={251}
+                                        width={915}
+                                        radius={4}
+                                        gap={12}
+                                        barWidth={13}
+                                        separatorWidth={50}
+                                        barColors="#a5a5a5, #4285F4, #174EA6, #333"
+                                        averageLineColor="#a5a5a5"
+                                        averageLineDash="8,7"
+                                        averageLineWidth={1.8}
+                                        hOffset={0}
+                                        vOffset={0}
+                                    /> */}
+
+                                    <BarChart
+                                        refDom={chartRef}
+                                        dataSet={heuristicDataset.dataset}
+                                        valueKey={"value"}
+                                        averageLine={
+                                            heuristicDataset.allPlayersAverage
+                                        }
+                                        height={251}
+                                        width={915}
+                                        radius={4}
+                                        gap={12}
+                                        barWidth={16}
+                                        separatorWidth={69}
+                                        barColors="#a5a5a5, #4285F4, #174EA6, #333"
+                                        averageLineColor="#a5a5a5"
+                                        averageLineDash="8,7"
+                                        averageLineWidth={1.8}
+                                        hOffset={0}
+                                        vOffset={0}
+                                    />
+
+                                    <div className="mt-4 flex gap-10">
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
+                                            onClick={() =>
+                                                handleClickCopySvg(
+                                                    chartRef,
+                                                    "id1"
+                                                )
+                                            }
+                                        >
+                                            {svgCopied?.id1
+                                                ? "✅ SVG Copied"
+                                                : "Copy as SVG"}
+                                        </button>
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
+                                            onClick={() =>
+                                                handleClickCopyPng(chartRef, {
+                                                    heuristicNumber:
+                                                        selectedHeuristic?.heuristicNumber,
+                                                    playerSlug:
+                                                        router.query.showPlayer,
+                                                })
+                                            }
+                                        >
+                                            Export as a PNG file
+                                        </button>
+                                    </div>
+                                </div>
                             )}
 
-                            <Debugg data={router.query.journey}></Debugg>
+                            {/* <Debugg data={router.query.journey}></Debugg>
                             <Debugg data={heuristics}></Debugg>
-                            <Debugg data={heuristicDataset}></Debugg>
+                            <Debugg data={heuristicDataset}></Debugg> */}
                             {/* <Debugg data={currentProjectObj.players}></Debugg> */}
                         </ChartSection>
                     </div>

@@ -28,7 +28,8 @@ function Header({
         <>
             <div className="w-[864px] mx-auto flex flex-col">
                 <h1>
-                    Dashboard v2: <b>{currentProjectObj?.name}</b>
+                    Dashboard v2:{" "}
+                    <b>{"(Only For The Golden Alecrin: Alkosto 🍁)"}</b>
                 </h1>
             </div>
             <div className="w-[864px] mx-auto flex flex-col">
