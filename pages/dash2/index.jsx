@@ -33,7 +33,7 @@ function Dash2() {
 
     const { currentProjectObj, heuristics, previousProjectObj } =
         useAllProjectScores(project);
-    // console.log("allProjectScores", currentProjectObj, heuristics);
+    console.log("allProjectScores", currentProjectObj);
 
     useEffect(() => {
         if (router.query.heuristic && heuristics) {
@@ -60,6 +60,8 @@ function Dash2() {
         selectedHeuristic.heuristicNumber,
         router.query.showPlayer
     );
+
+    console.log("heuristicDataset", heuristicDataset);
 
     /**
      *
@@ -250,6 +252,19 @@ function Dash2() {
                                             Export as a PNG file
                                         </button>
                                     </div>
+
+                                    <dir className="flex pl-5 text-slate-500 border-t border-slate-200 pt-3">
+                                        <div>Department Average:</div>
+                                        <div className="pl-3 font-bold">
+                                            {
+                                                heuristicDataset.dataset.find(
+                                                    (player) =>
+                                                        player.playerSlug ===
+                                                        router.query.showPlayer
+                                                )?.departmentAverage
+                                            }
+                                        </div>
+                                    </dir>
                                 </div>
                             )}
 
