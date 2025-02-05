@@ -4,7 +4,7 @@ import React from "react";
 
 function Sidenav() {
     return (
-        <div className="sidenav flex w-16 bg-slate-800 h-screen flex-col items-center pt-5 px-1 gap-6">
+        <div className="sidenav flex w-16 bg-slate-800 flex-col items-center pt-5 px-1 gap-6">
             <div className="logo w-7 h-7 bg-red-500"></div>
 
             <nav>

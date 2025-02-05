@@ -10,6 +10,7 @@ import ChartSection from "../../components/ChartSection";
 import Debugg from "../../lib/Debugg";
 import getHeuristicAverage from "../../lib/dash2/getHeuristicAverage";
 import BarChart from "../../components/BarChart";
+import getPlayersFinalScore from "../../lib/dash2/getPlayersFinalScore";
 
 /**
  *
@@ -26,6 +27,7 @@ function Dash2() {
     });
     const [svgCopied, setSVGCopied] = useState(null);
     const chartRef = useRef(null);
+    const finalChartRef = useRef(null);
     const router = useRouter();
     const { project } = router.query;
 
@@ -44,6 +46,35 @@ function Dash2() {
             });
         }
     }, [router.query.heuristic, heuristics]);
+
+    /**
+     *
+     * Here is where we get the data for the heuristic chart
+     *
+     * --------------------------
+     */
+
+    const heuristicDataset = getHeuristicAverage(
+        currentProjectObj,
+        router.query.journey,
+        selectedHeuristic.heuristicNumber,
+        router.query.showPlayer
+    );
+
+    /**
+     *
+     * Here is where we get the data for the overall chart
+     *
+     * --------------------------
+     *
+     */
+
+    const overallDataset = getPlayersFinalScore(
+        currentProjectObj,
+        router.query.showPlayer
+    );
+
+    console.log("overallDataset", overallDataset);
 
     function handleClickHeuristic(item) {
         setSelectedHeuristic({
@@ -77,15 +108,6 @@ function Dash2() {
         });
     }
 
-    const heuristicDataset = getHeuristicAverage(
-        currentProjectObj,
-        router.query.journey,
-        selectedHeuristic.heuristicNumber,
-        router.query.showPlayer
-    );
-
-    console.log("heuristicAverage", heuristicDataset);
-
     function handleClickCopySvg(ref, id) {
         navigator.clipboard.writeText(ref.current.outerHTML);
         setSVGCopied({ [id]: true });
@@ -112,6 +134,8 @@ function Dash2() {
         );
     }
 
+    console.log("heuristicAverage", heuristicDataset);
+
     const isRetail = () =>
         currentProjectObj.slug.includes("retail") ||
         !currentProjectObj.slug.includes("latam");
@@ -121,7 +145,7 @@ function Dash2() {
     }
 
     return (
-        <div className="bg-slate-700 dark:bg-slate-800/50 h-screen text-slate-200">
+        <div className="bg-slate-700 dark:bg-slate-800/50  text-slate-200">
             <div className="flex">
                 <Sidenav />
 
@@ -233,6 +257,37 @@ function Dash2() {
                             <Debugg data={heuristics}></Debugg>
                             <Debugg data={heuristicDataset}></Debugg> */}
                             {/* <Debugg data={currentProjectObj.players}></Debugg> */}
+                        </ChartSection>
+
+                        <ChartSection
+                            title="Overall Chart"
+                            average={overallDataset.allPlayersPercentage}
+                            dark={true}
+                        >
+                            <div>
+                                <BarChart
+                                    refDom={finalChartRef}
+                                    isPercentage={true}
+                                    dataSet={overallDataset.dataset}
+                                    averageLine={
+                                        overallDataset.allPlayersPercentage
+                                    }
+                                    valueKey={"percentage"}
+                                    plotValues
+                                    height={251}
+                                    width={1031}
+                                    radius={4}
+                                    gap={18}
+                                    barWidth={16}
+                                    separatorWidth={55}
+                                    barColors="#a5a5a5, #4285F4, #174EA6, #333"
+                                    averageLineColor="#a5a5a5"
+                                    averageLineDash="8,7"
+                                    averageLineWidth={0}
+                                    hOffset={10}
+                                    vOffset={0}
+                                />
+                            </div>
                         </ChartSection>
                     </div>
                 </main>
