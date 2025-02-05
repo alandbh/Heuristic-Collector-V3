@@ -261,7 +261,7 @@ function Dash2() {
 
                         <ChartSection
                             title="Overall Chart"
-                            average={overallDataset.allPlayersPercentage}
+                            average={overallDataset.allPlayersPercentage * 100}
                             dark={true}
                         >
                             <div>
@@ -270,7 +270,8 @@ function Dash2() {
                                     isPercentage={true}
                                     dataSet={overallDataset.dataset}
                                     averageLine={
-                                        overallDataset.allPlayersPercentage
+                                        overallDataset.allPlayersPercentage *
+                                        100
                                     }
                                     valueKey={"percentage"}
                                     plotValues
