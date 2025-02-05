@@ -55,7 +55,7 @@ function Header({
                         <div>
                             <Select
                                 label="Select a journey"
-                                disabled={false}
+                                disabled={true}
                                 onChange={(ev) => handleSelectJourney(ev)}
                                 defaultValue={router.query.journey}
                                 options={currentProjectObj.journeys}

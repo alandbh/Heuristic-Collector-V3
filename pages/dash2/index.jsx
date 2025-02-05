@@ -138,7 +138,7 @@ function Dash2() {
 
     const isRetail = () =>
         currentProjectObj.slug.includes("retail") ||
-        !currentProjectObj.slug.includes("latam");
+        currentProjectObj.slug.includes("latam");
 
     if (!heuristics || !currentProjectObj) {
         return null;
@@ -222,7 +222,7 @@ function Dash2() {
                                         vOffset={0}
                                     />
 
-                                    <div className="mt-4 flex gap-10">
+                                    <div className="mt-4 flex gap-10 ml-8 mb-5">
                                         <button
                                             className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
                                             onClick={() =>
@@ -291,6 +291,33 @@ function Dash2() {
                                     hOffset={10}
                                     vOffset={0}
                                 />
+                            </div>
+                            <div className="mt-4 flex gap-10 ml-8 mb-5">
+                                <button
+                                    className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 whitespace-nowrap text-sm"
+                                    onClick={() =>
+                                        handleClickCopySvg(finalChartRef, "id4")
+                                    }
+                                >
+                                    {svgCopied?.id4
+                                        ? "✅ SVG Copied"
+                                        : "Copy as SVG"}
+                                </button>
+                                <button
+                                    className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400  whitespace-nowrap text-sm"
+                                    onClick={() =>
+                                        handleClickCopyPng(
+                                            finalChartRef,
+                                            {
+                                                playerSlug:
+                                                    router.query.showPlayer,
+                                            },
+                                            4
+                                        )
+                                    }
+                                >
+                                    Export as a PNG file
+                                </button>
                             </div>
                         </ChartSection>
                     </div>
