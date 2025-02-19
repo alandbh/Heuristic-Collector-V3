@@ -196,11 +196,11 @@ function SwitchMono({ onChange, options, selected, disable = false }) {
                                     disabled={disable}
                                 />
                                 <span
-                                    className={
+                                    className={`truncate w-full text-center px-2 ${
                                         option === options[index]
                                             ? `text-blue-500`
                                             : `text-blue-500 dark:text-blue-100`
-                                    }
+                                    }`}
                                 >
                                     {options[index]}
                                 </span>
