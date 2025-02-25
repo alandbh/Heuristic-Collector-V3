@@ -52,6 +52,8 @@ function HeuristicItem({
             someScore.heuristic.heuristicNumber === heuristic.heuristicNumber
     );
 
+    // console.log("allScoresObj", allScoresObj);
+
     const previousScore = previousProjectPlayerScores?.find(
         (score) => score.heuristic.heuristicNumber === heuristic.heuristicNumber
     );
@@ -66,6 +68,8 @@ function HeuristicItem({
 
     const createSingleZeroedScore = useCallback(() => {
         // console.log("criando novo - avulso");
+
+        console.log("createSingleZeroedScore");
 
         const allScoresObjJson = JSON.stringify(allScoresJson);
         const allScoresObjJsonClone = JSON.parse(allScoresObjJson);
@@ -94,8 +98,6 @@ function HeuristicItem({
         };
         singleScore.scoreValue = 0;
         singleScore.evidenceUrl = "";
-        singleScore.showScoreAlert = false;
-        singleScore.showPreviousScoreAlert = false;
 
         // console.log("singleScore", singleScore);
 
@@ -157,9 +159,11 @@ function HeuristicItem({
         } else {
             setEmpty(true);
 
-            if (allScoresObj?.length > 0) {
-                // Suspeita de estar criando scores duplicados
-                // createSingleZeroedScore();
+            if (allScoresObj) {
+                if (allScoresObj[0].id) {
+                    // Suspeita de estar criando scores duplicados
+                    createSingleZeroedScore();
+                }
             }
         }
     }, [
