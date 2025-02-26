@@ -11,6 +11,7 @@ function Header({
     handleSelectJourney,
     router,
     isRetail,
+    dark,
 }) {
     let collection;
 
@@ -27,9 +28,9 @@ function Header({
     return (
         <>
             <div className="w-[864px] mx-auto flex flex-col">
-                <h1>
+                <h1 className={dark ? "text-slate-200" : "text-slate-500"}>
                     Dashboard v2:{" "}
-                    <b>{"(Only For The Golden Alecrin: Alkosto 🍁)"}</b>
+                    {/* <b>{"(Only For The Golden Alecrin: Alkosto 🍁)"}</b> */}
                 </h1>
             </div>
             <div className="w-[864px] mx-auto flex flex-col">
@@ -48,7 +49,7 @@ function Header({
                             srOnlyIconText="Search for heuristics"
                             placeholder="type the number or the name of the heuristic"
                             filterBy={["name", "heuristicNumber"]}
-                            dark={true}
+                            dark={dark}
                         />
                     </div>
                     {!isRetail && (
@@ -60,7 +61,7 @@ function Header({
                                 defaultValue={router.query.journey}
                                 options={currentProjectObj.journeys}
                                 id="journeySelect"
-                                dark={true}
+                                dark={dark}
                             />
                         </div>
                     )}
@@ -72,7 +73,7 @@ function Header({
                             defaultValue={router.query.showPlayer}
                             options={currentProjectObj.players}
                             id="playerSelect"
-                            dark={true}
+                            dark={dark}
                         />
                     </div>
                 </div>

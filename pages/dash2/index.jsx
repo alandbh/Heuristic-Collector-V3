@@ -31,6 +31,8 @@ function Dash2() {
     const router = useRouter();
     const { project } = router.query;
 
+    const isDark = false;
+
     const { currentProjectObj, heuristics, previousProjectObj } =
         useAllProjectScores(project);
     console.log("allProjectScores", currentProjectObj);
@@ -147,7 +149,7 @@ function Dash2() {
     }
 
     return (
-        <div className="bg-slate-700 dark:bg-slate-800/50  text-slate-200">
+        <div className="bg-slate-100 dark:bg-slate-800/50  text-slate-200">
             <div className="flex">
                 <Sidenav />
 
@@ -161,12 +163,13 @@ function Dash2() {
                         handleSelectJourney={handleSelectJourney}
                         router={router}
                         isRetail={isRetail()}
+                        dark={isDark}
                     />
                     <div className="w-[864px] mx-auto flex flex-col mt-10">
                         <ChartSection
                             title="Heuristic Chart"
                             average={heuristicDataset.allPlayersAverage}
-                            dark={true}
+                            dark={isDark}
                         >
                             <div className="flex border-b px-4 min-h-[50px]  text-slate-500">
                                 <div className="flex gap-1 pr-4 border-r mr-4  text-sm pt-4">
@@ -214,8 +217,8 @@ function Dash2() {
                                         width={915}
                                         radius={4}
                                         gap={12}
-                                        barWidth={16}
-                                        separatorWidth={69}
+                                        barWidth={13}
+                                        separatorWidth={48}
                                         barColors="#a5a5a5, #4285F4, #174EA6, #333"
                                         averageLineColor="#a5a5a5"
                                         averageLineDash="8,7"
@@ -275,13 +278,13 @@ function Dash2() {
                         </ChartSection>
 
                         <ChartSection
-                            title="Overall Chart (Desktop Only)"
+                            title="Overall Chart"
                             average={
                                 (
                                     overallDataset.allPlayersPercentage * 100
                                 ).toFixed(2) + "%"
                             }
-                            dark={true}
+                            dark={isDark}
                         >
                             <div>
                                 <BarChart
@@ -296,9 +299,9 @@ function Dash2() {
                                     height={251}
                                     width={1031}
                                     radius={4}
-                                    gap={18}
-                                    barWidth={16}
-                                    separatorWidth={55}
+                                    gap={14}
+                                    barWidth={15}
+                                    separatorWidth={45}
                                     barColors="#a5a5a5, #4285F4, #174EA6, #333"
                                     averageLineColor="#a5a5a5"
                                     averageLineDash="8,7"

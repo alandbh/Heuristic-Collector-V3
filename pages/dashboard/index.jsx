@@ -1416,7 +1416,7 @@ function Dashboard() {
                                             vOffset={0}
                                         />
                                     ) : (
-                                        <div>Nope</div>
+                                        <div>Not Retail or Latam</div>
                                     )}
 
                                     {/* <Debugg data={scoresByJourney} /> */}
