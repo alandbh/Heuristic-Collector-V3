@@ -1342,10 +1342,15 @@ function Dashboard() {
                         {currentJourney && isValidJourney(currentJourney) ? (
                             <ChartSection
                                 title="Final Scores Chart"
-                                average={49.16} // REMOVER DELETAR HARDCODED HARD CODED NUMBER
-                                // average={(
-                                //     getAverage(finalScoresDataset) * 100
-                                // ).toFixed(2)}
+                                // average={49.16} // REMOVER DELETAR HARDCODED HARD CODED NUMBER
+                                average={
+                                    project.includes("latam")
+                                        ? 49.16
+                                        : (
+                                              getAverage(finalScoresDataset) *
+                                              100
+                                          ).toFixed(2)
+                                }
                             >
                                 <div className="flex border-b px-4 min-h-[50px]">
                                     {/* <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
