@@ -8,12 +8,17 @@ const withPWA = require("next-pwa")({
     // disable: prod ? false : true,
     skipWaiting: true,
 });
+// https://sa-east-1.graphassets.com/AqOBjEm30Q4qkB2iS7dgQz/XhYEQG9KR8adWj0TIGn2
 
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     images: {
-        domains: ["media.graphassets.com", "lh3.googleusercontent.com"],
+        domains: [
+            "sa-east-1.graphassets.com",
+            "media.graphassets.com",
+            "lh3.googleusercontent.com",
+        ],
     },
     experimental: {
         workerThreads: false,
