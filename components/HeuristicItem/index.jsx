@@ -162,7 +162,7 @@ function HeuristicItem({
             if (allScoresObj) {
                 if (allScoresObj[0].id) {
                     // Suspeita de estar criando scores duplicados
-                    createSingleZeroedScore();
+                    // createSingleZeroedScore();
                 }
             }
         }
