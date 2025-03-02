@@ -140,13 +140,13 @@ function Dash2() {
 
     console.log("heuristicAverage", heuristicDataset);
 
-    const isRetail = () =>
-        currentProjectObj.slug.includes("retail") ||
-        currentProjectObj.slug.includes("latam");
-
     if (!heuristics || !currentProjectObj) {
         return null;
     }
+
+    const isRetail =
+        currentProjectObj.slug.includes("retail") ||
+        currentProjectObj.slug.includes("latam");
 
     return (
         <div className="bg-slate-100 dark:bg-slate-800/50  text-slate-200">
@@ -162,7 +162,7 @@ function Dash2() {
                         handleSelectPlayer={handleSelectPlayer}
                         handleSelectJourney={handleSelectJourney}
                         router={router}
-                        isRetail={isRetail()}
+                        isRetail={isRetail}
                         dark={isDark}
                     />
                     <div className="w-[864px] mx-auto flex flex-col mt-10">

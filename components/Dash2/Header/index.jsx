@@ -35,6 +35,19 @@ function Header({
             </div>
             <div className="w-[864px] mx-auto flex flex-col">
                 <div className="flex w-full gap-10 mt-10">
+                    {!isRetail && (
+                        <div>
+                            <Select
+                                label="Select a journey"
+                                disabled={isRetail}
+                                onChange={(ev) => handleSelectJourney(ev)}
+                                defaultValue={router.query.journey}
+                                options={currentProjectObj.journeys}
+                                id="journeySelect"
+                                dark={dark}
+                            />
+                        </div>
+                    )}
                     <div className="flex-1">
                         <SearchBoxSimple
                             label="Find the heuristic"
@@ -52,19 +65,7 @@ function Header({
                             dark={dark}
                         />
                     </div>
-                    {!isRetail && (
-                        <div>
-                            <Select
-                                label="Select a journey"
-                                disabled={true}
-                                onChange={(ev) => handleSelectJourney(ev)}
-                                defaultValue={router.query.journey}
-                                options={currentProjectObj.journeys}
-                                id="journeySelect"
-                                dark={dark}
-                            />
-                        </div>
-                    )}
+
                     <div>
                         <Select
                             label="Select a player to highlight it"
