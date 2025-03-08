@@ -38,6 +38,7 @@ export default function BarChartCompare({
     hideBaseText = false,
     hideYears = false,
     refDom,
+    id = "chart-" + String(Math.random()).split(".")[1],
 }) {
     const style = {
         year: {
@@ -54,7 +55,7 @@ export default function BarChartCompare({
     };
 
     return (
-        <div>
+        <div id={id}>
             <svg
                 width={width}
                 height={height}

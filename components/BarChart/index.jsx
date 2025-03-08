@@ -21,6 +21,7 @@ export default function BarChart({
     valueKey = "value",
     hOffset = 10,
     vOffset = 2,
+    id = "chart-" + String(Math.random()).split(".")[1],
 }) {
     const [chartData, setChartData] = useState([]);
 
@@ -79,7 +80,7 @@ export default function BarChart({
     };
 
     return (
-        <div className="flex flex-col items-center justify-center pt-8">
+        <div className="flex flex-col items-center justify-center pt-8" id={id}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={width}

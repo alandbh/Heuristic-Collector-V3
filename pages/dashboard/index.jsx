@@ -957,6 +957,7 @@ function Dashboard() {
                                             averageLineWidth={1.8}
                                             hOffset={0}
                                             vOffset={0}
+                                            id="heuristic-chart"
                                         />
 
                                         {/* Debbugging  */}
@@ -1029,6 +1030,7 @@ function Dashboard() {
                                             averageLineWidth={1}
                                             hOffset={28}
                                             vOffset={0}
+                                            id="heuristic-chart"
                                         />
 
                                         <div className="mt-4 flex gap-10">
@@ -1134,6 +1136,7 @@ function Dashboard() {
                                                 width={367}
                                                 barColor="#4285F4"
                                                 bottomOffset={25}
+                                                id="compare-chart"
                                                 // hideBaseLine={true}
                                                 // hideBaseText={true}
                                                 // hideYears={true}
@@ -1259,6 +1262,7 @@ function Dashboard() {
                                                 journeyScoresDatasetArr
                                             )}
                                             isPercentage
+                                            id="journey-chart"
                                         />
                                     ) : (
                                         <BarChart
@@ -1280,6 +1284,7 @@ function Dashboard() {
                                             averageLineWidth={1.8}
                                             hOffset={0}
                                             vOffset={0}
+                                            id="journey-chart"
                                         />
                                     )}
 
@@ -1414,6 +1419,7 @@ function Dashboard() {
                                             averageLineWidth={0}
                                             hOffset={10}
                                             vOffset={0}
+                                            id="finalscores-chart"
                                         />
                                     ) : (
                                         <div>Not Retail or Latam</div>
