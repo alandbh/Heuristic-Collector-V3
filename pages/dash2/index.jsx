@@ -225,6 +225,7 @@ function Dash2() {
                                         averageLineWidth={1.8}
                                         hOffset={0}
                                         vOffset={0}
+                                        id="heuristic-chart"
                                     />
 
                                     <div className="mt-4 flex gap-10 ml-8 mb-5">
@@ -308,6 +309,7 @@ function Dash2() {
                                     averageLineWidth={0}
                                     hOffset={10}
                                     vOffset={0}
+                                    id="overall-chart"
                                 />
                             </div>
                             <div className="mt-4 flex gap-10 ml-8 mb-5">
