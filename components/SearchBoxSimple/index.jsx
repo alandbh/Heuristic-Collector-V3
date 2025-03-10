@@ -211,7 +211,7 @@ function SearchBoxSimple({
                                             className="flex flex-1 w-full gap-2 text-left py-4 px-4 bg-white focus:bg-blue-50 focus:outline-blue-200"
                                             tabIndex={0}
                                         >
-                                            <b className="block w-12 ">
+                                            <b className="block w-12 text-slate-500">
                                                 {item.item.heuristicNumber}
                                             </b>
                                             <span className="text-slate-500 flex-1">

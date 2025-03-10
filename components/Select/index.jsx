@@ -19,7 +19,9 @@ function Select({
             </label>
             <select
                 className={`border  block h-10 px-4 rounded-sm ${
-                    dark ? "border-slate-500 bg-slate-800" : "border-slate-300"
+                    dark
+                        ? "border-slate-500 bg-slate-800"
+                        : "border-slate-300 text-slate-500"
                 }`}
                 onChange={onChange}
                 defaultValue={defaultValue}
