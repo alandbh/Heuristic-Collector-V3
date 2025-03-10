@@ -97,6 +97,8 @@ function Dash2() {
         router.query.showPlayer
     );
 
+    console.log("comparisonDataset", comparisonDataset);
+
     function handleClickHeuristic(item) {
         setSelectedHeuristic({
             heuristicNumber: item.item.heuristicNumber,
