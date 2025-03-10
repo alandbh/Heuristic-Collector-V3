@@ -11,6 +11,7 @@ import Debugg from "../../lib/Debugg";
 import getHeuristicAverage from "../../lib/dash2/getHeuristicAverage";
 import BarChart from "../../components/BarChart";
 import getPlayersFinalScore from "../../lib/dash2/getPlayersFinalScore";
+import getComparisonDataset from "../../lib/dash2/getComparisonDataset";
 
 /**
  *
@@ -79,6 +80,22 @@ function Dash2() {
     );
 
     console.log("overallDataset", overallDataset);
+
+    /**
+     *
+     * Here is where we get the data for the comparison chart
+     *
+     * --------------------------
+     *
+     */
+
+    const comparisonDataset = getComparisonDataset(
+        currentProjectObj,
+        previousProjectObj,
+        router.query.journey,
+        selectedHeuristic.heuristicNumber,
+        router.query.showPlayer
+    );
 
     function handleClickHeuristic(item) {
         setSelectedHeuristic({
@@ -276,6 +293,84 @@ function Dash2() {
                             <Debugg data={heuristics}></Debugg>
                             <Debugg data={heuristicDataset}></Debugg> */}
                             {/* <Debugg data={currentProjectObj.players}></Debugg> */}
+                        </ChartSection>
+
+                        <ChartSection title="Comparisson Chart" dark={isDark}>
+                            <div className="flex border-b px-4 min-h-[50px]">
+                                <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
+                                    <p>Selected Heuristic:</p>
+                                </div>
+                                <div className="flex gap-2 text-sm pt-4 pb-4">
+                                    <b>{selectedHeuristic?.heuristicNumber}</b>
+                                    <span className="max-w-lg text-slate-700">
+                                        {selectedHeuristic?.name}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className=" px-8 pt-8 pb-4">
+                                <div className="flex flex-col items-center">
+                                    {/* {
+                                    "currentYearScores": {
+                                        "year": 2023,
+                                        "playerScore": 3.5,
+                                        "averageScore": 3.28
+                                    },
+                                    "previousYearScores": {
+                                        "year": 2022,
+                                        "playerScore": 3,
+                                        "averageScore": 2.63
+                                    }
+                                } */}
+                                    {/* <BarChartCompare
+                                        refDom={chartCompareRef}
+                                        dataSet={compareDataset}
+                                        hOffset={29}
+                                        barWidth={29}
+                                        gap={50}
+                                        gapBetweenCharts={38}
+                                        height={224}
+                                        barMaxHeight={169}
+                                        width={367}
+                                        barColor="#4285F4"
+                                        bottomOffset={25}
+                                        id="compare-chart"
+                                        // hideBaseLine={true}
+                                        // hideBaseText={true}
+                                        // hideYears={true}
+                                    /> */}
+                                </div>
+                                <div className="mt-4 flex gap-10">
+                                    <button
+                                        className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 text-sm"
+                                        onClick={() =>
+                                            handleClickCopySvg(
+                                                chartCompareRef,
+                                                "id2"
+                                            )
+                                        }
+                                    >
+                                        {svgCopied?.id2
+                                            ? "✅ SVG Copied"
+                                            : "Copy as SVG"}
+                                    </button>
+                                    <button
+                                        className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 text-sm"
+                                        onClick={() =>
+                                            handleClickCopyPng(
+                                                chartCompareRef,
+                                                {
+                                                    heuristicNumber:
+                                                        selectedHeuristic?.heuristicNumber,
+                                                    playerSlug:
+                                                        showPlayer + "_comp",
+                                                }
+                                            )
+                                        }
+                                    >
+                                        Export as a PNG file
+                                    </button>
+                                </div>
+                            </div>
                         </ChartSection>
 
                         <ChartSection

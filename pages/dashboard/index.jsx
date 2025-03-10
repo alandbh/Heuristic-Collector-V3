@@ -1098,7 +1098,7 @@ function Dashboard() {
                                 </div>
                             </ChartSection>
 
-                            {/* <Debugg data={compareDataset}></Debugg> */}
+                            <Debugg data={compareDataset}></Debugg>
                             {/* <Debugg data={hasComparison}></Debugg> */}
 
                             {showPlayer &&
