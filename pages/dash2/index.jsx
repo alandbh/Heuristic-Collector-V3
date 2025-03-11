@@ -12,6 +12,7 @@ import getHeuristicAverage from "../../lib/dash2/getHeuristicAverage";
 import BarChart from "../../components/BarChart";
 import getPlayersFinalScore from "../../lib/dash2/getPlayersFinalScore";
 import getComparisonDataset from "../../lib/dash2/getComparisonDataset";
+import BarChartCompare from "../../components/BarChartCompare";
 
 /**
  *
@@ -28,6 +29,7 @@ function Dash2() {
     });
     const [svgCopied, setSVGCopied] = useState(null);
     const chartRef = useRef(null);
+    const chartCompareRef = useRef(null);
     const finalChartRef = useRef(null);
     const router = useRouter();
     const { project } = router.query;
@@ -297,7 +299,7 @@ function Dash2() {
                             {/* <Debugg data={currentProjectObj.players}></Debugg> */}
                         </ChartSection>
 
-                        <ChartSection title="Comparisson Chart" dark={isDark}>
+                        <ChartSection title="Comparison Chart" dark={isDark}>
                             <div className="flex border-b px-4 min-h-[50px]">
                                 <div className="flex gap-1 pr-4 border-r mr-4 text-slate-500 text-sm pt-4">
                                     <p>Selected Heuristic:</p>
@@ -323,55 +325,65 @@ function Dash2() {
                                         "averageScore": 2.63
                                     }
                                 } */}
-                                    {/* <BarChartCompare
-                                        refDom={chartCompareRef}
-                                        dataSet={compareDataset}
-                                        hOffset={29}
-                                        barWidth={29}
-                                        gap={50}
-                                        gapBetweenCharts={38}
-                                        height={224}
-                                        barMaxHeight={169}
-                                        width={367}
-                                        barColor="#4285F4"
-                                        bottomOffset={25}
-                                        id="compare-chart"
-                                        // hideBaseLine={true}
-                                        // hideBaseText={true}
-                                        // hideYears={true}
-                                    /> */}
+                                    {comparisonDataset ? (
+                                        <BarChartCompare
+                                            refDom={chartCompareRef}
+                                            dataSet={comparisonDataset}
+                                            hOffset={29}
+                                            barWidth={29}
+                                            gap={50}
+                                            gapBetweenCharts={38}
+                                            height={224}
+                                            barMaxHeight={169}
+                                            width={367}
+                                            barColor="#4285F4"
+                                            bottomOffset={25}
+                                            id="compare-chart"
+                                            // hideBaseLine={true}
+                                            // hideBaseText={true}
+                                            // hideYears={true}
+                                        />
+                                    ) : (
+                                        <div className="pb-6">
+                                            🙄 There's no comparison data for
+                                            this player or heuristic.
+                                        </div>
+                                    )}
                                 </div>
-                                <div className="mt-4 flex gap-10">
-                                    <button
-                                        className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 text-sm"
-                                        onClick={() =>
-                                            handleClickCopySvg(
-                                                chartCompareRef,
-                                                "id2"
-                                            )
-                                        }
-                                    >
-                                        {svgCopied?.id2
-                                            ? "✅ SVG Copied"
-                                            : "Copy as SVG"}
-                                    </button>
-                                    <button
-                                        className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 text-sm"
-                                        onClick={() =>
-                                            handleClickCopyPng(
-                                                chartCompareRef,
-                                                {
-                                                    heuristicNumber:
-                                                        selectedHeuristic?.heuristicNumber,
-                                                    playerSlug:
-                                                        showPlayer + "_comp",
-                                                }
-                                            )
-                                        }
-                                    >
-                                        Export as a PNG file
-                                    </button>
-                                </div>
+                                {comparisonDataset && (
+                                    <div className="mt-4 flex gap-10">
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 text-sm"
+                                            onClick={() =>
+                                                handleClickCopySvg(
+                                                    chartCompareRef,
+                                                    "id2"
+                                                )
+                                            }
+                                        >
+                                            {svgCopied?.id2
+                                                ? "✅ SVG Copied"
+                                                : "Copy as SVG"}
+                                        </button>
+                                        <button
+                                            className="border border-blue-300 h-8 rounded px-6 hover:bg-blue-100 hover:text-blue-600 text-blue-400 text-sm"
+                                            onClick={() =>
+                                                handleClickCopyPng(
+                                                    chartCompareRef,
+                                                    {
+                                                        heuristicNumber:
+                                                            selectedHeuristic?.heuristicNumber,
+                                                        playerSlug:
+                                                            showPlayer +
+                                                            "_comp",
+                                                    }
+                                                )
+                                            }
+                                        >
+                                            Export as a PNG file
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </ChartSection>
 
