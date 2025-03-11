@@ -374,8 +374,8 @@ function Dash2() {
                                                         heuristicNumber:
                                                             selectedHeuristic?.heuristicNumber,
                                                         playerSlug:
-                                                            showPlayer +
-                                                            "_comp",
+                                                            router.query
+                                                                .showPlayer,
                                                     }
                                                 )
                                             }
