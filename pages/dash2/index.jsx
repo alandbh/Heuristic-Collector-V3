@@ -66,7 +66,7 @@ function Dash2() {
         router.query.showPlayer
     );
 
-    console.log("heuristicDataset", heuristicDataset);
+    // console.log("heuristicDataset", heuristicDataset);
 
     /**
      *
@@ -81,7 +81,7 @@ function Dash2() {
         router.query.showPlayer
     );
 
-    console.log("overallDataset", overallDataset);
+    // console.log("overallDataset", overallDataset);
 
     /**
      *
@@ -99,7 +99,7 @@ function Dash2() {
         router.query.showPlayer
     );
 
-    console.log("comparisonDataset", comparisonDataset);
+    // console.log("comparisonDataset", comparisonDataset);
 
     function handleClickHeuristic(item) {
         setSelectedHeuristic({
@@ -159,8 +159,6 @@ function Dash2() {
         );
     }
 
-    console.log("heuristicAverage", heuristicDataset);
-
     if (!heuristics || !currentProjectObj) {
         return null;
     }
@@ -174,7 +172,7 @@ function Dash2() {
             <div className="flex">
                 <Sidenav />
 
-                <main className="pt-5 px-8 min-h-[calc(100vh_-_126px)] flex flex-col items-center">
+                <main className="pt-5 px-8 min-h-[calc(100vh_-_126px)] w-full flex flex-col items-center">
                     <Header
                         currentProjectObj={currentProjectObj}
                         currentJourney={router.query.journey}
@@ -313,18 +311,6 @@ function Dash2() {
                             </div>
                             <div className=" px-8 pt-8 pb-4">
                                 <div className="flex flex-col items-center">
-                                    {/* {
-                                    "currentYearScores": {
-                                        "year": 2023,
-                                        "playerScore": 3.5,
-                                        "averageScore": 3.28
-                                    },
-                                    "previousYearScores": {
-                                        "year": 2022,
-                                        "playerScore": 3,
-                                        "averageScore": 2.63
-                                    }
-                                } */}
                                     {comparisonDataset ? (
                                         <BarChartCompare
                                             refDom={chartCompareRef}
