@@ -40,6 +40,23 @@ function Dash2() {
         useAllProjectScores(project);
     console.log("allProjectScores", currentProjectObj);
 
+    const {
+        height,
+        width,
+        radius,
+        gap,
+        barWidth,
+        separatorWidth,
+        barColors,
+        averageLineColor,
+        averageLineDash,
+        averageLineWidth,
+        hOffset,
+        vOffset,
+    } = currentProjectObj?.chartStyle ? currentProjectObj?.chartStyle : {};
+
+    console.log("separatorWidth", separatorWidth);
+
     useEffect(() => {
         if (router.query.heuristic && heuristics) {
             setSelectedHeuristic({
@@ -232,18 +249,18 @@ function Dash2() {
                                         averageLine={
                                             heuristicDataset.allPlayersAverage
                                         }
-                                        height={251}
-                                        width={915}
-                                        radius={4}
-                                        gap={12}
-                                        barWidth={13}
-                                        separatorWidth={48}
-                                        barColors="#a5a5a5, #4285F4, #174EA6, #333"
-                                        averageLineColor="#a5a5a5"
-                                        averageLineDash="8,7"
-                                        averageLineWidth={1.8}
-                                        hOffset={0}
-                                        vOffset={0}
+                                        height={height}
+                                        width={width}
+                                        radius={radius}
+                                        gap={gap}
+                                        barWidth={barWidth}
+                                        separatorWidth={separatorWidth}
+                                        barColors={barColors}
+                                        averageLineColor={averageLineColor}
+                                        averageLineDash={averageLineDash}
+                                        averageLineWidth={averageLineWidth}
+                                        hOffset={hOffset}
+                                        vOffset={vOffset}
                                         id="heuristic-chart"
                                     />
 
