@@ -348,8 +348,8 @@ function Dash2() {
                                         />
                                     ) : (
                                         <div className="pb-6">
-                                            🙄 There's no comparison data for
-                                            this player or heuristic.
+                                            🙄 There&apos;s no comparison data
+                                            for this player or heuristic.
                                         </div>
                                     )}
                                 </div>
