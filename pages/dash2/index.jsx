@@ -341,7 +341,7 @@ function Dash2() {
                                             width={367}
                                             barColor="#4285F4"
                                             bottomOffset={25}
-                                            id="compare-chart"
+                                            id="comparison-chart"
                                             // hideBaseLine={true}
                                             // hideBaseText={true}
                                             // hideYears={true}
