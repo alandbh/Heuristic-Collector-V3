@@ -13,6 +13,7 @@ import BarChart from "../../components/BarChart";
 import getPlayersFinalScore from "../../lib/dash2/getPlayersFinalScore";
 import getComparisonDataset from "../../lib/dash2/getComparisonDataset";
 import BarChartCompare from "../../components/BarChartCompare";
+import getHeuristicGroupDataset from "../../lib/dash2/getHeuristicGroupDataset";
 
 /**
  *
@@ -55,7 +56,7 @@ function Dash2() {
         vOffset,
     } = currentProjectObj?.chartStyle ? currentProjectObj?.chartStyle : {};
 
-    console.log("separatorWidth", separatorWidth);
+    // console.log("currentProjectObj", currentProjectObj);
 
     useEffect(() => {
         if (router.query.heuristic && heuristics) {
@@ -113,6 +114,20 @@ function Dash2() {
         previousProjectObj,
         router.query.journey,
         selectedHeuristic.heuristicNumber,
+        router.query.showPlayer
+    );
+
+    /**
+     *
+     * Here is where we get the data for the Heuristic Group chart
+     *
+     * --------------------------
+     *
+     */
+
+    const heuristicGroupDataset = getHeuristicGroupDataset(
+        currentProjectObj,
+        heuristics,
         router.query.showPlayer
     );
 
@@ -221,27 +236,6 @@ function Dash2() {
                             {/* <Debugg data={heuristicDataset}></Debugg> */}
                             {heuristicDataset && (
                                 <div>
-                                    {/* <BarChart
-                                        refDom={chartRef}
-                                        dataSet={heuristicDataset.dataset}
-                                        valueKey={"value"}
-                                        averageLine={
-                                            heuristicDataset.allPlayersAverage
-                                        }
-                                        height={251}
-                                        width={915}
-                                        radius={4}
-                                        gap={12}
-                                        barWidth={13}
-                                        separatorWidth={50}
-                                        barColors="#a5a5a5, #4285F4, #174EA6, #333"
-                                        averageLineColor="#a5a5a5"
-                                        averageLineDash="8,7"
-                                        averageLineWidth={1.8}
-                                        hOffset={0}
-                                        vOffset={0}
-                                    /> */}
-
                                     <BarChart
                                         refDom={chartRef}
                                         dataSet={heuristicDataset.dataset}
