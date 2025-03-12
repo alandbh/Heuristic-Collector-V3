@@ -163,6 +163,11 @@ function Dash2() {
                 journey: ev.target.value,
             },
         });
+
+        setSelectedHeuristic({
+            heuristicNumber: "",
+            name: "",
+        });
     }
 
     function handleClickCopySvg(ref, id) {
