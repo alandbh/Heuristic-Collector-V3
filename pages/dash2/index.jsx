@@ -307,8 +307,11 @@ function Dash2() {
                                                     Score By Journey
                                                 </div>
                                                 {currentProjectObj?.journeys.map(
-                                                    (journey, index) => (
-                                                        <div className="pl-3">
+                                                    (journey) => (
+                                                        <div
+                                                            key={journey.slug}
+                                                            className="pl-3"
+                                                        >
                                                             {journey.name +
                                                                 ": "}
                                                             <b>
@@ -339,7 +342,10 @@ function Dash2() {
                                                 </div>
                                                 {currentProjectObj?.journeys.map(
                                                     (journey) => (
-                                                        <div className="pl-3">
+                                                        <div
+                                                            key={journey.slug}
+                                                            className="pl-3"
+                                                        >
                                                             {heuristicDataset.dataset.find(
                                                                 (player) =>
                                                                     player.playerSlug ===
@@ -396,6 +402,26 @@ function Dash2() {
                                                 </div>
                                             </dir>
                                         </>
+                                    )}
+
+                                    {!isRetail && (
+                                        <dir className="flex pl-5 text-slate-500 border-t border-slate-200 pt-3">
+                                            <div className="">
+                                                Department Average:
+                                            </div>
+                                            <div className="pl-3">
+                                                <b>
+                                                    {
+                                                        heuristicDataset.dataset.find(
+                                                            (player) =>
+                                                                player.playerSlug ===
+                                                                router.query
+                                                                    .showPlayer
+                                                        )?.departmentAverage
+                                                    }
+                                                </b>
+                                            </div>
+                                        </dir>
                                     )}
                                 </div>
                             )}
