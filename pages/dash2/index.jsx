@@ -294,7 +294,7 @@ function Dash2() {
                                     {isRetail && router.query.showPlayer && (
                                         <>
                                             <dir className="flex flex-col pl-5 text-slate-500 border-t border-slate-200 pt-3">
-                                                <div className="font-bold">
+                                                <div className="font-bold mb-2">
                                                     {
                                                         heuristicDataset.dataset.find(
                                                             (player) =>
@@ -336,9 +336,18 @@ function Dash2() {
                                             </dir>
 
                                             <dir className="flex flex-col pl-5 text-slate-500 border-t border-slate-200 pt-3">
-                                                <div className="mb-4 font-bold">
+                                                <div className="mb-2 font-bold">
                                                     Department Average by
-                                                    Journey
+                                                    Journey (
+                                                    {
+                                                        heuristicDataset.dataset.find(
+                                                            (player) =>
+                                                                player.playerSlug ===
+                                                                router.query
+                                                                    .showPlayer
+                                                        )["departmentName"]
+                                                    }
+                                                    )
                                                 </div>
                                                 {currentProjectObj?.journeys.map(
                                                     (journey) => (
@@ -346,14 +355,6 @@ function Dash2() {
                                                             key={journey.slug}
                                                             className="pl-3"
                                                         >
-                                                            {heuristicDataset.dataset.find(
-                                                                (player) =>
-                                                                    player.playerSlug ===
-                                                                    router.query
-                                                                        .showPlayer
-                                                            )[
-                                                                "departmentName"
-                                                            ] + " "}
                                                             {journey.name +
                                                                 ": "}
                                                             <b>
@@ -378,9 +379,18 @@ function Dash2() {
                                                 )}
                                             </dir>
                                             <dir className="flex flex-col pl-5 text-slate-500 border-t border-slate-200 pt-3">
-                                                <div className="font-bold">
-                                                    Department Average (all
-                                                    journeys):
+                                                <div className="font-bold mb-2">
+                                                    Department Average for all
+                                                    journeys (
+                                                    {
+                                                        heuristicDataset.dataset.find(
+                                                            (player) =>
+                                                                player.playerSlug ===
+                                                                router.query
+                                                                    .showPlayer
+                                                        )["departmentName"]
+                                                    }
+                                                    )
                                                 </div>
                                                 <div className="pl-3">
                                                     {currentProjectObj?.journeys
