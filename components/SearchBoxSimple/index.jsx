@@ -154,7 +154,9 @@ function SearchBoxSimple({
                         dark ? "text-slate-200" : "text-slate-500"
                     } w-full ${
                         dark ? "bg-slate-800" : "bg-white"
-                    } dark:bg-transparent `}
+                    } dark:bg-transparent ${
+                        disabled ? "opacity-50" : "opacity-100"
+                    }`}
                 >
                     <label
                         htmlFor="search"
@@ -181,7 +183,7 @@ function SearchBoxSimple({
                             dark
                                 ? "text-slate-200 placeholder:text-slate-600 bg-slate-800"
                                 : "text-slate-500"
-                        }  w-full`}
+                        }   w-full`}
                         type={type}
                         name={name}
                         id={id}
