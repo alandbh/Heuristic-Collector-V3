@@ -189,7 +189,7 @@ function Dash2() {
     ) {
         saveSvgAsPng(
             ref.current,
-            `chart-${router.query.journey}${
+            `chart-${router.query.journey || ""}${
                 heuristicNumber && "-h_" + heuristicNumber
             }${playerSlug && "-" + playerSlug}.png`,
             { scale }
@@ -495,6 +495,7 @@ function Dash2() {
                                                     chartCompareRef,
                                                     {
                                                         heuristicNumber:
+                                                            "comparative_" +
                                                             selectedHeuristic?.heuristicNumber,
                                                         playerSlug:
                                                             router.query
@@ -537,8 +538,8 @@ function Dash2() {
                                     separatorWidth={45}
                                     barColors="#a5a5a5, #4285F4, #174EA6, #333"
                                     averageLineColor="#a5a5a5"
-                                    averageLineDash="8,7"
-                                    averageLineWidth={1.8}
+                                    averageLineDash="5,5"
+                                    averageLineWidth={1.3}
                                     hOffset={10}
                                     vOffset={0}
                                     id="overall-chart"
@@ -561,6 +562,7 @@ function Dash2() {
                                         handleClickCopyPng(
                                             finalChartRef,
                                             {
+                                                heuristicNumber: "overall",
                                                 playerSlug:
                                                     router.query.showPlayer,
                                             },
