@@ -291,7 +291,7 @@ function Dash2() {
                                             Export as a PNG file
                                         </button>
                                     </div>
-                                    {isRetail && (
+                                    {isRetail && router.query.showPlayer && (
                                         <>
                                             <dir className="flex flex-col pl-5 text-slate-500 border-t border-slate-200 pt-3">
                                                 <div className="font-bold">
