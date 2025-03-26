@@ -71,7 +71,7 @@ function Dash2() {
                 heuristicToselect.name = heuristics.find(
                     (heuristic) =>
                         heuristic.heuristicNumber === router.query.heuristic
-                );
+                ).name;
             } else {
                 heuristicToselect.name = heuristics.find(
                     (heuristic) =>
@@ -255,7 +255,6 @@ function Dash2() {
                                     </span>
                                 </div>
                             </div>
-                            {/* <Debugg data={heuristicDataset}></Debugg> */}
                             {heuristicDataset && (
                                 <div>
                                     <BarChart
