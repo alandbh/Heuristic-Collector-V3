@@ -39,7 +39,7 @@ function Dash2() {
 
     const { currentProjectObj, heuristics, previousProjectObj } =
         useAllProjectScores(project);
-    console.log("allProjectScores", currentProjectObj);
+    console.log("allProjectScores", heuristics);
 
     const {
         height,
@@ -56,17 +56,34 @@ function Dash2() {
         vOffset,
     } = currentProjectObj?.chartStyle ? currentProjectObj?.chartStyle : {};
 
-    console.log("currentProjectObj", currentProjectObj);
+    // console.log("currentProjectObj", currentProjectObj);
 
     useEffect(() => {
-        if (router.query.heuristic && heuristics) {
-            setSelectedHeuristic({
+        if (router.query.heuristic && router.query.project && heuristics) {
+            let heuristicToselect = {
                 heuristicNumber: router.query.heuristic,
-                name: heuristics.find(
+            };
+
+            if (
+                router.query.project.includes("retail") ||
+                router.query.project.includes("latam")
+            ) {
+                heuristicToselect.name = heuristics.find(
                     (heuristic) =>
                         heuristic.heuristicNumber === router.query.heuristic
-                ).name,
-            });
+                );
+            } else {
+                heuristicToselect.name = heuristics.find(
+                    (heuristic) =>
+                        heuristic.heuristicNumber === router.query.heuristic &&
+                        heuristic.journeys.some(
+                            (journey) => journey.slug === router.query.journey
+                        )
+                ).name;
+
+                // console.log({ heuri });
+            }
+            setSelectedHeuristic(heuristicToselect);
         }
     }, [router.query.heuristic, heuristics]);
 
