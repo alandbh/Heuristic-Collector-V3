@@ -10,6 +10,8 @@ import Spinner from "../Spinner";
  */
 
 function getButtonClass(isActive = false) {
+    const base =
+        "p-4 items-center h-full border box-border border-l-0 font-bold text-slate-500 w-full flex justify-center transition-all";
     let color = isActive ? "grayscale-0 text-primary" : "grayscale";
     let opacity = isActive ? "opacity-100" : "opacity-70";
     let border = isActive
@@ -18,7 +20,7 @@ function getButtonClass(isActive = false) {
     let hover = isActive
         ? ""
         : "hover:text-primary hover:shadow-primary hover:grayscale-0 hover:opacity-100";
-    return `${color} items-center h-full border box-border border-l-0  ${border} font-bold text-slate-500 ${hover} p-6 w-full flex justify-center  ${opacity}  transition-all`;
+    return `${base} ${color}   ${border} ${hover}  ${opacity}`;
 }
 
 function PlayerSelect({ compact }) {
@@ -120,7 +122,7 @@ function PlayerSelect({ compact }) {
     });
 
     return (
-        <div>
+        <div className="flex flex-col flex-1">
             <div className="flex flex-col gap-2">
                 <label
                     className={`text-gray-400 text-xs ${compact && "hidden"}`}
@@ -132,7 +134,7 @@ function PlayerSelect({ compact }) {
                     <picture className="flex items-center dark:brightness-[0] dark:invert dark:grayscale dark:opacity-70">
                         <source srcSet={selected?.logo.url} type="image/webp" />
                         <img
-                            className="object-cover max-h-9"
+                            className="object-cover max-h-7 max-w-[100ox]"
                             src={selected?.logo.url}
                             alt=""
                         />
@@ -174,7 +176,7 @@ function PlayerSelect({ compact }) {
                     >
                         {sortedPlayers.map((player, index) => (
                             <li
-                                className="flex-1 min-w-[140px]"
+                                className="flex-1 min-w-[110px]"
                                 key={player.slug}
                             >
                                 <button
@@ -190,7 +192,7 @@ function PlayerSelect({ compact }) {
                                             type="image/webp"
                                         />
                                         <img
-                                            className="object-contain h-full"
+                                            className="object-contain h-full max-h-4"
                                             src={player.logo.url}
                                             alt=""
                                         />

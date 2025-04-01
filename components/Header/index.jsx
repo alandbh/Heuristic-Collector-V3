@@ -160,7 +160,7 @@ function Header({ routes, className, auth }) {
                     </div>
                 </div>
                 <div
-                    className={`bg-white dark:bg-slate-800 shadow-md px-5 py-3`}
+                    className={`bg-white dark:bg-slate-800 shadow-md px-2 md:px-5 py-2 md:py-3`}
                 >
                     <div className="flex items-center gap-8 justify-between sm:justify-start">
                         <b className="hidden sm:inline">
@@ -184,10 +184,10 @@ function Header({ routes, className, auth }) {
                         </svg>
 
                         {!isProgress ? (
-                            <>
+                            <div className="flex gap-4 flex-1">
                                 <PlayerSelect compact={scrollY > 200} />
                                 <JourneySelect compact={scrollY > 200} />
-                            </>
+                            </div>
                         ) : (
                             <h2 className="text-2xl font-bold">Progress</h2>
                         )}
@@ -225,10 +225,10 @@ function Header({ routes, className, auth }) {
                         </svg>
 
                         {!isProgress ? (
-                            <>
+                            <div className="flex gap-4">
                                 <PlayerSelect compact={true} />
                                 <JourneySelect compact={true} />
-                            </>
+                            </div>
                         ) : (
                             <h2 className="text-2xl font-bold">Progress</h2>
                         )}
