@@ -586,7 +586,7 @@ function HeuristicItem({
                         showPreviousScoreAlert &&
                         previousScore?.scoreValue !== scoreValue && (
                             <div className=" mt-4 md:flex items-center gap-3 border-dashed border-red-500 border-2 rounded-lg px-3 py-3">
-                                <p className="flex gap-2 w-full">
+                                <p className="flex gap-2 w-full flex-col md:flex-row mb-5">
                                     <b className="text-red-500 whitespace-nowrap">
                                         ⚠️ Watch out:{" "}
                                     </b>{" "}

@@ -122,7 +122,7 @@ function PlayerSelect({ compact }) {
     });
 
     return (
-        <div className="flex flex-col flex-1">
+        <div className="">
             <div className="flex flex-col gap-2">
                 <label
                     className={`text-gray-400 text-xs ${compact && "hidden"}`}

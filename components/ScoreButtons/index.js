@@ -177,7 +177,7 @@ export default function ScoreButtons({
             <div
                 onMouseOver={(ev) => handleMouseOver(ev)}
                 onMouseOut={(ev) => handleMouseOver(ev)}
-                className="flex gap-5"
+                className="flex gap-3 md:gap-5 scale-75 md:scale-100"
                 id={id}
             >
                 {buttonsArray.map((item, index) => (

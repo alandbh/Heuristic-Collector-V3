@@ -87,7 +87,7 @@ function Header({ routes, className, auth }) {
                             </a>
                         </Link>
                     </div>
-                    <div className="flex gap-3 md:gap-5 items-center ">
+                    <div className="flex gap-3 md:gap-5 items-center scale-[80%] md:scale-100 ">
                         <nav className="border-white/50 border rounded-full flex font-bold text-white">
                             {/* <Link href={`/project/${routes.slug}`}> */}
                             {/* <a href={`/project/${routes.slug}`}> */}
@@ -184,7 +184,7 @@ function Header({ routes, className, auth }) {
                         </svg>
 
                         {!isProgress ? (
-                            <div className="flex gap-4 flex-1">
+                            <div className="flex gap-8 flex-1">
                                 <PlayerSelect compact={scrollY > 200} />
                                 <JourneySelect compact={scrollY > 200} />
                             </div>

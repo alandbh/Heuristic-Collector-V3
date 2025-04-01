@@ -123,7 +123,7 @@ function JourneySelect({ compact = false }) {
     }
 
     return (
-        <div className="flex flex-col flex-1">
+        <div className="">
             <div className="flex flex-col gap-2">
                 <label
                     className={`text-gray-400 text-xs ${compact && "hidden"}`}
@@ -133,7 +133,7 @@ function JourneySelect({ compact = false }) {
                 </label>
                 <div className="flex gap-2 items-center content-center">
                     <h2
-                        className={`text-sm md:text-lg h-6 block max-w-[160px] font-bold leading-relaxed truncate ${
+                        className={`text-sm md:text-lg h-6 block max-w-[160px] md:max-w-full font-bold leading-relaxed truncate ${
                             getIncompleteScores(currentJourney.slug) === 0
                                 ? "text-green-500"
                                 : ""
