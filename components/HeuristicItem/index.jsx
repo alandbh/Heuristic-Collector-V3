@@ -159,12 +159,13 @@ function HeuristicItem({
         } else {
             setEmpty(true);
 
-            if (allScoresObj) {
-                if (allScoresObj[0].id) {
-                    // Suspeita de estar criando scores duplicados
-                    // createSingleZeroedScore();
-                }
-            }
+            // Suspeita de estar criando scores duplicados
+            // if (allScoresObj) {
+            //     if (allScoresObj[0].id) {
+            //
+            //         // createSingleZeroedScore();
+            //     }
+            // }
         }
     }, [
         currentScore,
