@@ -259,13 +259,15 @@ export default async function handler(req, res) {
 
             let shouldConsiderThisPlayer = true;
 
-            if (
-                player.scores[selectedJourney].ignore_journey ||
-                player.scores[selectedJourney].zeroed_journey
-            ) {
-                shouldConsiderThisPlayer = false;
-                // return;
-            }
+            // Comentando para não considerar os players que tiveram a jornada ignorada
+
+            // if (
+            //     player.scores[selectedJourney].ignore_journey ||
+            //     player.scores[selectedJourney].zeroed_journey
+            // ) {
+            //     shouldConsiderThisPlayer = false;
+            //     // return;
+            // }
 
             scoreChartObj.value = shouldConsiderThisPlayer
                 ? player.scores[selectedJourney]["h_" + selectedHeuristic][
