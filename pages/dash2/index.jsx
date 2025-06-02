@@ -54,9 +54,24 @@ function Dash2() {
         averageLineWidth,
         hOffset,
         vOffset,
+        compareHeight,
+        compareWidth,
+        compareRadius,
+        compareBarMaxHeight,
+        compareGap,
+        compareBarColor,
+        compareBarWidth,
+        compareGapBetweenCharts,
+        compareBottomOffset,
+        compareBarStrokeColor,
+        compareXAxisColor,
+        compareXAxisWidth,
+        compareHOffset,
+        compareVOffset,
+        compareHideBaseLine,
+        compareHideBaseText,
+        compareHideYears,
     } = currentProjectObj?.chartStyle ? currentProjectObj?.chartStyle : {};
-
-    // console.log("currentProjectObj", currentProjectObj);
 
     useEffect(() => {
         if (router.query.heuristic && router.query.project && heuristics) {
@@ -478,19 +493,28 @@ function Dash2() {
                                         <BarChartCompare
                                             refDom={chartCompareRef}
                                             dataSet={comparisonDataset}
-                                            hOffset={29}
-                                            barWidth={29}
-                                            gap={50}
-                                            gapBetweenCharts={38}
-                                            height={224}
-                                            barMaxHeight={169}
-                                            width={367}
-                                            barColor="#4285F4"
-                                            bottomOffset={25}
+                                            hOffset={compareHOffset}
+                                            barWidth={compareBarWidth}
+                                            gap={compareGap}
+                                            gapBetweenCharts={
+                                                compareGapBetweenCharts
+                                            }
+                                            height={compareHeight}
+                                            barMaxHeight={compareBarMaxHeight}
+                                            width={compareWidth}
+                                            barColor={compareBarColor}
+                                            bottomOffset={compareBottomOffset}
+                                            radius={compareRadius}
+                                            barStrokeColor={
+                                                compareBarStrokeColor
+                                            }
+                                            xAxisColor={compareXAxisColor}
+                                            xAxisWidth={compareXAxisWidth}
+                                            vOffset={compareVOffset}
+                                            hideBaseLine={compareHideBaseLine}
+                                            hideBaseText={compareHideBaseText}
+                                            hideYears={compareHideYears}
                                             id="comparison-chart"
-                                            // hideBaseLine={true}
-                                            // hideBaseText={true}
-                                            // hideYears={true}
                                         />
                                     ) : (
                                         <div className="pb-6">
@@ -556,18 +580,18 @@ function Dash2() {
                                     }
                                     valueKey={"percentage"}
                                     plotValues
-                                    height={251}
-                                    width={1031}
-                                    radius={4}
-                                    gap={14}
-                                    barWidth={15}
-                                    separatorWidth={45}
-                                    barColors="#a5a5a5, #4285F4, #174EA6, #333"
-                                    averageLineColor="#a5a5a5"
-                                    averageLineDash="5,5"
-                                    averageLineWidth={1.3}
-                                    hOffset={10}
-                                    vOffset={0}
+                                    height={height}
+                                    width={width}
+                                    radius={radius}
+                                    gap={gap}
+                                    barWidth={barWidth}
+                                    separatorWidth={separatorWidth}
+                                    barColors={barColors}
+                                    averageLineColor={averageLineColor}
+                                    averageLineDash={averageLineDash}
+                                    averageLineWidth={averageLineWidth}
+                                    hOffset={hOffset}
+                                    vOffset={vOffset}
                                     id="overall-chart"
                                 />
                             </div>

@@ -23,7 +23,7 @@ export default function BarChartCompare({
     height = 246,
     radius = 6,
     barWidth = 28,
-    barMaxHeight = 192,
+    barMaxHeight = 169,
     gap = 50,
     gapBetweenCharts = 30,
     barColor = "#174EA6",
@@ -54,6 +54,12 @@ export default function BarChartCompare({
         },
     };
 
+    const setWidth = barWidth * 2 + gap;
+    const subchartWidth = (width - gapBetweenCharts) / 2;
+    const chartOneStart = 0;
+    const chartTwoStart = width / 2 + gapBetweenCharts / 2;
+    const subchartPadding = (subchartWidth - setWidth) / 2;
+
     return (
         <div id={id}>
             <svg
@@ -77,7 +83,8 @@ export default function BarChartCompare({
                         trr: radius,
                         brr: 0,
                         blr: 0,
-                        x: hOffset,
+                        // x: hOffset,
+                        x: (subchartWidth - setWidth) / 2,
                         maxHeight: barMaxHeight,
                         vOffset: bottomOffset + xAxisWidth + 2,
                     })}
@@ -97,7 +104,9 @@ export default function BarChartCompare({
                         trr: radius,
                         brr: 0,
                         blr: 0,
-                        x: hOffset + barWidth + gap,
+                        // x: hOffset + barWidth + gap,
+
+                        x: (subchartWidth - setWidth) / 2 + gap + barWidth,
                         maxHeight: barMaxHeight,
                         vOffset: bottomOffset + xAxisWidth + 2,
                     })}
@@ -120,7 +129,13 @@ export default function BarChartCompare({
                 {!hideBaseText && (
                     <g>
                         <text
-                            x={hOffset + barWidth / 2}
+                            // x={hOffset + barWidth / 2}
+                            x={
+                                ((width - gapBetweenCharts) / 2 -
+                                    (gap + barWidth * 2)) /
+                                    2 +
+                                barWidth / 2
+                            }
                             y={
                                 height -
                                 bottomOffset +
@@ -138,7 +153,14 @@ export default function BarChartCompare({
                                 .replace(".", ",")}
                         </text>
                         <text
-                            x={hOffset + barWidth + gap + barWidth / 2}
+                            // x={hOffset + barWidth + gap + barWidth / 2}
+
+                            x={
+                                (subchartWidth - setWidth) / 2 +
+                                gap +
+                                barWidth +
+                                barWidth / 2
+                            }
                             y={
                                 height -
                                 bottomOffset +
@@ -160,7 +182,16 @@ export default function BarChartCompare({
 
                 {!hideYears && (
                     <text
-                        x={(width - gapBetweenCharts) / 4}
+                        // x={(width - gapBetweenCharts) / 4}
+                        // x={width / 4 - gapBetweenCharts / 2}
+                        // x={
+                        //     ((width - gapBetweenCharts) / 2 -
+                        //         (gap + barWidth * 2)) /
+                        //         2 +
+                        //     barWidth / 2 +
+                        //     gap
+                        // }
+                        x={chartOneStart + subchartWidth / 2}
                         y={style.year.fontSize}
                         textAnchor="middle"
                         style={style.year}
@@ -178,6 +209,13 @@ export default function BarChartCompare({
                     *
                     *
                 */}
+                {/* <rect
+                    x={chartTwoStart + subchartPadding}
+                    y={200}
+                    fill="#ff000066"
+                    width={barWidth * 2 + gap}
+                    height={100}
+                ></rect> */}
                 <path
                     d={createPath({
                         w: barWidth,
@@ -190,10 +228,12 @@ export default function BarChartCompare({
                         brr: 0,
                         blr: 0,
                         // x: hOffset * 3 + barWidth * 2 + gap + gapBetweenCharts,
-                        x:
-                            (width - gapBetweenCharts) / 2 +
-                            gapBetweenCharts +
-                            hOffset,
+                        // x:
+                        //     (width - gapBetweenCharts) / 2 +
+                        //     gapBetweenCharts +
+                        //     hOffset,
+                        x: chartTwoStart + subchartPadding,
+                        //+ (width / 2 + gapBetweenCharts / 2)
                         maxHeight: barMaxHeight,
                         vOffset: bottomOffset + xAxisWidth + 2,
                     })}
@@ -217,12 +257,7 @@ export default function BarChartCompare({
                         //     barWidth * 3 +
                         //     gap * 2 +
                         //     gapBetweenCharts,
-                        x:
-                            (width - gapBetweenCharts) / 2 +
-                            gapBetweenCharts +
-                            hOffset +
-                            barWidth +
-                            gap,
+                        x: chartTwoStart + subchartPadding + barWidth + gap,
                         maxHeight: barMaxHeight,
                         vOffset: bottomOffset + xAxisWidth + 2,
                     })}
@@ -246,13 +281,14 @@ export default function BarChartCompare({
                     <g>
                         <text
                             // x={width / 2 + gapBetweenCharts / 2 + hOffset}
-                            x={
-                                hOffset * 3 +
-                                barWidth * 2 +
-                                gap +
-                                gapBetweenCharts +
-                                barWidth / 2
-                            }
+                            // x={
+                            //     hOffset * 3 +
+                            //     barWidth * 2 +
+                            //     gap +
+                            //     gapBetweenCharts +
+                            //     barWidth / 2
+                            // }
+                            x={chartTwoStart + subchartPadding + barWidth / 2}
                             y={
                                 height -
                                 bottomOffset +
@@ -272,10 +308,10 @@ export default function BarChartCompare({
 
                         <text
                             x={
-                                hOffset * 3 +
-                                barWidth * 3 +
-                                gap * 2 +
-                                gapBetweenCharts +
+                                chartTwoStart +
+                                subchartPadding +
+                                barWidth +
+                                gap +
                                 barWidth / 2
                             }
                             y={
@@ -299,13 +335,15 @@ export default function BarChartCompare({
 
                 {!hideYears && (
                     <text
-                        x={
-                            hOffset * 3 +
-                            barWidth * 3 +
-                            gap +
-                            gapBetweenCharts +
-                            gap / 2
-                        }
+                        // x={
+                        //     hOffset * 3 +
+                        //     barWidth * 3 +
+                        //     gap +
+                        //     gapBetweenCharts +
+                        //     gap / 2
+                        // }
+                        // x={(width / 4) * 3 + gapBetweenCharts / 2}
+                        x={chartTwoStart + subchartWidth / 2}
                         y={style.year.fontSize}
                         textAnchor="middle"
                         style={style.year}
