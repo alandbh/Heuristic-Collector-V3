@@ -54,6 +54,7 @@ function Dash2() {
         averageLineWidth,
         hOffset,
         vOffset,
+        labelSize,
         compareHeight,
         compareWidth,
         compareRadius,
@@ -579,7 +580,7 @@ function Dash2() {
                                         overallDataset.allPlayersPercentage
                                     }
                                     valueKey={"percentage"}
-                                    plotValues
+                                    plotValues={true}
                                     height={height}
                                     width={width}
                                     radius={radius}
@@ -592,6 +593,7 @@ function Dash2() {
                                     averageLineWidth={averageLineWidth}
                                     hOffset={hOffset}
                                     vOffset={vOffset}
+                                    labelSize={labelSize}
                                     id="overall-chart"
                                 />
                             </div>

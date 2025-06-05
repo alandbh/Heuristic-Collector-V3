@@ -21,6 +21,7 @@ export default function BarChart({
     valueKey = "value",
     hOffset = 10,
     vOffset = 2,
+    labelSize = 9,
     id = "chart-" + String(Math.random()).split(".")[1],
 }) {
     const [chartData, setChartData] = useState([]);
@@ -144,19 +145,9 @@ export default function BarChart({
 
                 <line
                     x1="0"
-                    y1={
-                        getAveragePosition(
-                            averageLine,
-                            height - customVOffset
-                        ) + customVOffset
-                    }
+                    y1={getAveragePosition(averageLine, height - customVOffset)}
                     x2={width}
-                    y2={
-                        getAveragePosition(
-                            averageLine,
-                            height - customVOffset
-                        ) + customVOffset
-                    }
+                    y2={getAveragePosition(averageLine, height - customVOffset)}
                     strokeWidth={averageLineWidth}
                     strokeDasharray={averageLineDash}
                     stroke={averageLineColor}
@@ -181,17 +172,29 @@ export default function BarChart({
                                 <text
                                     key={"group_" + index}
                                     fill={manyBarColors[score.barColor]}
-                                    x={getX(score, index) - 4}
+                                    // x={getX(score, index) - 4}
+                                    x={getX(score, index) - 0}
                                     y={height - 7}
-                                    fontSize={8.8}
+                                    fontSize={labelSize}
                                     fontFamily="Product Sans Bold"
                                     width={barWidth}
                                 >
-                                    {isPercentage
+                                    {/* {
+                                        isPercentage
                                         ? (Number(score[valueKey]) * 100)
                                               .toFixed(1)
                                               .toString()
                                               .replace(".", ",") + "%"
+                                        : score[valueKey]
+                                              .toString()
+                                              .replace(".", ",")
+                                              
+                                    } */}
+                                    {isPercentage
+                                        ? (Number(score[valueKey]) * 100)
+                                              .toFixed(1)
+                                              .toString()
+                                              .replace(".", ",")
                                         : score[valueKey]
                                               .toString()
                                               .replace(".", ",")}
