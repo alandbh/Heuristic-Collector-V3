@@ -176,7 +176,7 @@ function PlayerSelect({ compact }) {
                     >
                         {sortedPlayers.map((player, index) => (
                             <li
-                                className="flex-1 min-w-[110px]"
+                                className="flex-1 min-w-[120px]"
                                 key={player.slug}
                             >
                                 <button
@@ -192,7 +192,7 @@ function PlayerSelect({ compact }) {
                                             type="image/webp"
                                         />
                                         <img
-                                            className="object-contain h-full max-h-4"
+                                            className="object-contain h-full max-h-7"
                                             src={player.logo.url}
                                             alt=""
                                         />
