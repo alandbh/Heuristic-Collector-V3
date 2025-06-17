@@ -11,11 +11,12 @@ function Header({
     handleSelectJourney,
     router,
     isRetail,
+    isOverlapJourneys,
     dark,
 }) {
     let collection;
 
-    if (!isRetail) {
+    if (!isOverlapJourneys) {
         collection = heuristics.filter((heuristic) =>
             heuristic.journeys.some(
                 (journey) => journey.slug === currentJourney
@@ -35,11 +36,11 @@ function Header({
             </div>
             <div className="w-[864px] mx-auto flex flex-col">
                 <div className="flex w-full gap-10 mt-10">
-                    {!isRetail && (
+                    {!isOverlapJourneys && (
                         <div>
                             <Select
                                 label="Select a journey"
-                                disabled={isRetail}
+                                disabled={isOverlapJourneys}
                                 onChange={(ev) => handleSelectJourney(ev)}
                                 defaultValue={router.query.journey}
                                 options={currentProjectObj.journeys}

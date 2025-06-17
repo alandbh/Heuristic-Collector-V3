@@ -39,7 +39,16 @@ function Dash2() {
 
     const { currentProjectObj, heuristics, previousProjectObj } =
         useAllProjectScores(project);
-    console.log("allProjectScores", heuristics);
+    // console.log("currentProjectObj", currentProjectObj);
+
+    const isRetail =
+        currentProjectObj?.slug.includes("retail") ||
+        currentProjectObj?.slug.includes("latam");
+
+    const isOverlapJourneys =
+        currentProjectObj?.isOverlapJourneys !== null
+            ? currentProjectObj?.isOverlapJourneys
+            : isRetail;
 
     const {
         height,
@@ -75,15 +84,18 @@ function Dash2() {
     } = currentProjectObj?.chartStyle ? currentProjectObj?.chartStyle : {};
 
     useEffect(() => {
-        if (router.query.heuristic && router.query.project && heuristics) {
+        if (
+            router.query.heuristic &&
+            router.query.project &&
+            heuristics &&
+            currentProjectObj
+        ) {
             let heuristicToselect = {
                 heuristicNumber: router.query.heuristic,
             };
 
-            if (
-                router.query.project.includes("retail") ||
-                router.query.project.includes("latam")
-            ) {
+            // if (router.query.project.includes("retail") || router.query.project.includes("latam")) {
+            if (isOverlapJourneys) {
                 heuristicToselect.name = heuristics.find(
                     (heuristic) =>
                         heuristic.heuristicNumber === router.query.heuristic
@@ -101,7 +113,7 @@ function Dash2() {
             }
             setSelectedHeuristic(heuristicToselect);
         }
-    }, [router.query.heuristic, heuristics]);
+    }, [router.query.heuristic, heuristics, isOverlapJourneys]);
 
     /**
      *
@@ -233,10 +245,6 @@ function Dash2() {
         return null;
     }
 
-    const isRetail =
-        currentProjectObj.slug.includes("retail") ||
-        currentProjectObj.slug.includes("latam");
-
     return (
         <div className="bg-slate-100 dark:bg-slate-800/50  text-slate-200">
             <div className="flex">
@@ -251,7 +259,8 @@ function Dash2() {
                         handleSelectPlayer={handleSelectPlayer}
                         handleSelectJourney={handleSelectJourney}
                         router={router}
-                        isRetail={isRetail}
+                        // isRetail={isRetail}
+                        isOverlapJourneys={isOverlapJourneys}
                         dark={isDark}
                     />
                     <div className="w-[864px] mx-auto flex flex-col mt-10">
@@ -323,71 +332,128 @@ function Dash2() {
                                             Export as a PNG file
                                         </button>
                                     </div>
-                                    {isRetail && router.query.showPlayer && (
-                                        <>
-                                            <dir className="flex flex-col pl-5 text-slate-500 border-t border-slate-200 pt-3">
-                                                <div className="font-bold mb-2">
-                                                    {
-                                                        heuristicDataset.dataset.find(
-                                                            (player) =>
-                                                                player.playerSlug ===
-                                                                router.query
-                                                                    .showPlayer
-                                                        )["label"]
-                                                    }
-                                                    {"'s "}
-                                                    Score By Journey
-                                                </div>
-                                                {currentProjectObj?.journeys.map(
-                                                    (journey) => (
-                                                        <div
-                                                            key={journey.slug}
-                                                            className="pl-3"
-                                                        >
-                                                            {journey.name +
-                                                                ": "}
-                                                            <b>
-                                                                {
-                                                                    heuristicDataset.dataset.find(
-                                                                        (
-                                                                            player
-                                                                        ) =>
-                                                                            player.playerSlug ===
-                                                                            router
-                                                                                .query
-                                                                                .showPlayer
-                                                                    )[
-                                                                        "score_" +
-                                                                            journey.slug
-                                                                    ]
-                                                                }
-                                                            </b>
+                                    {
+                                        //isRetail && router.query.showPlayer && (
+                                        isOverlapJourneys &&
+                                            router.query.showPlayer && (
+                                                <>
+                                                    <dir className="flex flex-col pl-5 text-slate-500 border-t border-slate-200 pt-3">
+                                                        <div className="font-bold mb-2">
+                                                            {
+                                                                heuristicDataset.dataset.find(
+                                                                    (player) =>
+                                                                        player.playerSlug ===
+                                                                        router
+                                                                            .query
+                                                                            .showPlayer
+                                                                )["label"]
+                                                            }
+                                                            {"'s "}
+                                                            Score By Journey
                                                         </div>
-                                                    )
-                                                )}
-                                            </dir>
+                                                        {currentProjectObj?.journeys.map(
+                                                            (journey) => (
+                                                                <div
+                                                                    key={
+                                                                        journey.slug
+                                                                    }
+                                                                    className="pl-3"
+                                                                >
+                                                                    {journey.name +
+                                                                        ": "}
+                                                                    <b>
+                                                                        {
+                                                                            heuristicDataset.dataset.find(
+                                                                                (
+                                                                                    player
+                                                                                ) =>
+                                                                                    player.playerSlug ===
+                                                                                    router
+                                                                                        .query
+                                                                                        .showPlayer
+                                                                            )[
+                                                                                "score_" +
+                                                                                    journey.slug
+                                                                            ]
+                                                                        }
+                                                                    </b>
+                                                                </div>
+                                                            )
+                                                        )}
+                                                    </dir>
 
-                                            <dir className="flex flex-col pl-5 text-slate-500 border-t border-slate-200 pt-3">
-                                                <div className="mb-2 font-bold">
-                                                    Department Average by
-                                                    Journey (
-                                                    {
-                                                        heuristicDataset.dataset.find(
-                                                            (player) =>
-                                                                player.playerSlug ===
-                                                                router.query
-                                                                    .showPlayer
-                                                        )["departmentName"]
-                                                    }
-                                                    )
-                                                </div>
-                                                {currentProjectObj?.journeys.map(
-                                                    (journey) => (
-                                                        <div
-                                                            key={journey.slug}
-                                                            className="pl-3"
-                                                        >
-                                                            {journey.name +
+                                                    <dir className="flex flex-col pl-5 text-slate-500 border-t border-slate-200 pt-3">
+                                                        <div className="mb-2 font-bold">
+                                                            Department Average
+                                                            by Journey (
+                                                            {
+                                                                heuristicDataset.dataset.find(
+                                                                    (player) =>
+                                                                        player.playerSlug ===
+                                                                        router
+                                                                            .query
+                                                                            .showPlayer
+                                                                )[
+                                                                    "departmentName"
+                                                                ]
+                                                            }
+                                                            )
+                                                        </div>
+                                                        {currentProjectObj?.journeys.map(
+                                                            (journey) => (
+                                                                <div
+                                                                    key={
+                                                                        journey.slug
+                                                                    }
+                                                                    className="pl-3"
+                                                                >
+                                                                    {journey.name +
+                                                                        ": "}
+                                                                    <b>
+                                                                        {
+                                                                            heuristicDataset.dataset.find(
+                                                                                (
+                                                                                    player
+                                                                                ) =>
+                                                                                    player.playerSlug ===
+                                                                                    router
+                                                                                        .query
+                                                                                        .showPlayer
+                                                                            )
+                                                                                .departmentAverageByJourney[
+                                                                                journey
+                                                                                    .slug
+                                                                            ]
+                                                                        }
+                                                                    </b>
+                                                                </div>
+                                                            )
+                                                        )}
+                                                    </dir>
+                                                    <dir className="flex flex-col pl-5 text-slate-500 border-t border-slate-200 pt-3">
+                                                        <div className="font-bold mb-2">
+                                                            Department Average
+                                                            for all journeys (
+                                                            {
+                                                                heuristicDataset.dataset.find(
+                                                                    (player) =>
+                                                                        player.playerSlug ===
+                                                                        router
+                                                                            .query
+                                                                            .showPlayer
+                                                                )[
+                                                                    "departmentName"
+                                                                ]
+                                                            }
+                                                            )
+                                                        </div>
+                                                        <div className="pl-3">
+                                                            {currentProjectObj?.journeys
+                                                                .map(
+                                                                    (journey) =>
+                                                                        journey.name
+                                                                )
+                                                                .join(" and ") +
                                                                 ": "}
                                                             <b>
                                                                 {
@@ -400,37 +466,23 @@ function Dash2() {
                                                                                 .query
                                                                                 .showPlayer
                                                                     )
-                                                                        .departmentAverageByJourney[
-                                                                        journey
-                                                                            .slug
-                                                                    ]
+                                                                        ?.departmentAverage
                                                                 }
                                                             </b>
                                                         </div>
-                                                    )
-                                                )}
-                                            </dir>
-                                            <dir className="flex flex-col pl-5 text-slate-500 border-t border-slate-200 pt-3">
-                                                <div className="font-bold mb-2">
-                                                    Department Average for all
-                                                    journeys (
-                                                    {
-                                                        heuristicDataset.dataset.find(
-                                                            (player) =>
-                                                                player.playerSlug ===
-                                                                router.query
-                                                                    .showPlayer
-                                                        )["departmentName"]
-                                                    }
-                                                    )
+                                                    </dir>
+                                                </>
+                                            )
+                                    }
+
+                                    {
+                                        //!isRetail && (
+                                        !isOverlapJourneys && (
+                                            <dir className="flex pl-5 text-slate-500 border-t border-slate-200 pt-3">
+                                                <div className="">
+                                                    Department Average:
                                                 </div>
                                                 <div className="pl-3">
-                                                    {currentProjectObj?.journeys
-                                                        .map(
-                                                            (journey) =>
-                                                                journey.name
-                                                        )
-                                                        .join(" and ") + ": "}
                                                     <b>
                                                         {
                                                             heuristicDataset.dataset.find(
@@ -443,28 +495,8 @@ function Dash2() {
                                                     </b>
                                                 </div>
                                             </dir>
-                                        </>
-                                    )}
-
-                                    {!isRetail && (
-                                        <dir className="flex pl-5 text-slate-500 border-t border-slate-200 pt-3">
-                                            <div className="">
-                                                Department Average:
-                                            </div>
-                                            <div className="pl-3">
-                                                <b>
-                                                    {
-                                                        heuristicDataset.dataset.find(
-                                                            (player) =>
-                                                                player.playerSlug ===
-                                                                router.query
-                                                                    .showPlayer
-                                                        )?.departmentAverage
-                                                    }
-                                                </b>
-                                            </div>
-                                        </dir>
-                                    )}
+                                        )
+                                    }
                                 </div>
                             )}
 
