@@ -129,7 +129,7 @@ function Dash2() {
         router.query.showPlayer
     );
 
-    // console.log("heuristicDataset", heuristicDataset);
+    console.log("currentProjectObj", currentProjectObj);
 
     /**
      *
