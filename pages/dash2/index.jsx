@@ -142,7 +142,8 @@ function Dash2() {
 
     const overallDataset = getPlayersFinalScore(
         currentProjectObj,
-        router.query.showPlayer
+        router.query.showPlayer,
+        router.query.showCross
     );
 
     // console.log("overallDataset", overallDataset);
@@ -632,7 +633,11 @@ function Dash2() {
                                     barColors={barColors}
                                     averageLineColor={averageLineColor}
                                     averageLineDash={averageLineDash}
-                                    averageLineWidth={averageLineWidth}
+                                    averageLineWidth={
+                                        router.query.showCross
+                                            ? 0
+                                            : averageLineWidth
+                                    }
                                     hOffset={hOffset}
                                     vOffset={vOffset}
                                     labelSize={labelSize}
