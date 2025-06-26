@@ -126,7 +126,8 @@ function Dash2() {
         currentProjectObj,
         router.query.journey,
         selectedHeuristic.heuristicNumber,
-        router.query.showPlayer
+        router.query.showPlayer,
+        router.query.showCross
     );
 
     // console.log("heuristicDataset", heuristicDataset);
@@ -170,11 +171,11 @@ function Dash2() {
      *
      */
 
-    const heuristicGroupDataset = getHeuristicGroupDataset(
-        currentProjectObj,
-        heuristics,
-        router.query.showPlayer
-    );
+    // const heuristicGroupDataset = getHeuristicGroupDataset(
+    //     currentProjectObj,
+    //     heuristics,
+    //     router.query.showPlayer
+    // );
 
     // console.log("comparisonDataset", comparisonDataset);
 
@@ -335,7 +336,12 @@ function Dash2() {
                                     {
                                         //isRetail && router.query.showPlayer && (
                                         isOverlapJourneys &&
-                                            router.query.showPlayer && (
+                                            router.query.showPlayer &&
+                                            heuristicDataset.dataset.find(
+                                                (player) =>
+                                                    player.playerSlug ===
+                                                    router.query.showPlayer
+                                            ) && (
                                                 <>
                                                     <dir className="flex flex-col pl-5 text-slate-500 border-t border-slate-200 pt-3">
                                                         <div className="font-bold mb-2">
