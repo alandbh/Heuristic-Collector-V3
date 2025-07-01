@@ -70,113 +70,189 @@ export default function BarChartCompare({
                 xmlns="http://www.w3.org/2000/svg"
                 ref={refDom}
             >
-                <path
-                    className="barra anterior player"
-                    d={createPath({
-                        w: barWidth,
-                        h: getHeight(
-                            dataSet.previousYearScores.playerScore,
-                            barMaxHeight,
-                            false
-                        ),
-                        tlr: radius,
-                        trr: radius,
-                        brr: 0,
-                        blr: 0,
-                        // x: hOffset,
-                        x: (subchartWidth - setWidth) / 2,
-                        maxHeight: barMaxHeight,
-                        vOffset: bottomOffset + xAxisWidth + 2,
-                    })}
-                    fill={barColor}
-                />
+                {dataSet.previousYearScores.playerScore ? (
+                    <path
+                        className="barra anterior player"
+                        d={createPath({
+                            w: barWidth,
+                            h: getHeight(
+                                dataSet.previousYearScores.playerScore,
+                                barMaxHeight,
+                                false
+                            ),
+                            tlr: radius,
+                            trr: radius,
+                            brr: 0,
+                            blr: 0,
+                            // x: hOffset,
+                            x: (subchartWidth - setWidth) / 2,
+                            maxHeight: barMaxHeight,
+                            vOffset: bottomOffset + xAxisWidth + 2,
+                        })}
+                        fill={barColor}
+                    />
+                ) : (
+                    <path
+                        className="barra anterior player"
+                        d={createPath({
+                            w: barWidth,
+                            h: getHeight(0.5, barMaxHeight, false),
+                            tlr: radius,
+                            trr: radius,
+                            brr: 0,
+                            blr: 0,
+                            // x: hOffset,
+                            x: (subchartWidth - setWidth) / 2,
+                            maxHeight: barMaxHeight,
+                            vOffset: bottomOffset + xAxisWidth + 2,
+                        })}
+                        fill="#dddddd"
+                    />
+                )}
 
-                <path
-                    style={{ transition: "0.4s" }}
-                    d={createPath({
-                        w: barWidth,
-                        h: getHeight(
-                            dataSet.previousYearScores.averageScore,
-                            barMaxHeight,
-                            false
-                        ),
-                        tlr: radius,
-                        trr: radius,
-                        brr: 0,
-                        blr: 0,
-                        // x: hOffset + barWidth + gap,
+                {dataSet.previousYearScores.averageScore ? (
+                    <path
+                        className="barra anterior media"
+                        style={{ transition: "0.4s" }}
+                        d={createPath({
+                            w: barWidth,
+                            h: getHeight(
+                                dataSet.previousYearScores.averageScore,
+                                barMaxHeight,
+                                false
+                            ),
+                            tlr: radius,
+                            trr: radius,
+                            brr: 0,
+                            blr: 0,
+                            // x: hOffset + barWidth + gap,
 
-                        x: (subchartWidth - setWidth) / 2 + gap + barWidth,
-                        maxHeight: barMaxHeight,
-                        vOffset: bottomOffset + xAxisWidth + 2,
-                    })}
-                    fill="transparent"
-                    stroke={barStrokeColor}
-                />
+                            x: (subchartWidth - setWidth) / 2 + gap + barWidth,
+                            maxHeight: barMaxHeight,
+                            vOffset: bottomOffset + xAxisWidth + 2,
+                        })}
+                        fill="transparent"
+                        stroke={barStrokeColor}
+                    />
+                ) : (
+                    <path
+                        className="barra anterior media"
+                        style={{ transition: "0.4s" }}
+                        d={createPath({
+                            w: barWidth,
+                            h: getHeight(0.5, barMaxHeight, false),
+                            tlr: radius,
+                            trr: radius,
+                            brr: 0,
+                            blr: 0,
+                            // x: hOffset + barWidth + gap,
+
+                            x: (subchartWidth - setWidth) / 2 + gap + barWidth,
+                            maxHeight: barMaxHeight,
+                            vOffset: bottomOffset + xAxisWidth + 2,
+                        })}
+                        fill="#dddddd"
+                    />
+                )}
 
                 {!hideBaseLine && (
-                    <line
-                        className="linha inferior ano anterior"
-                        x1="0"
-                        y1={height - bottomOffset}
-                        x2={(width - gapBetweenCharts) / 2}
-                        y2={height - bottomOffset}
-                        stroke={xAxisColor}
-                        strokeWidth={xAxisWidth}
-                    />
+                    <>
+                        {dataSet.previousYearScores.averageScore ? (
+                            <line
+                                className="linha inferior ano anterior"
+                                x1="0"
+                                y1={height - bottomOffset}
+                                x2={(width - gapBetweenCharts) / 2}
+                                y2={height - bottomOffset}
+                                stroke={xAxisColor}
+                                strokeWidth={xAxisWidth}
+                            />
+                        ) : (
+                            <line
+                                className="linha inferior ano anterior"
+                                x1="0"
+                                y1={height - bottomOffset}
+                                x2={(width - gapBetweenCharts) / 2}
+                                y2={height - bottomOffset}
+                                stroke="#dddddd"
+                                strokeWidth={xAxisWidth}
+                            />
+                        )}
+                    </>
                 )}
 
                 {!hideBaseText && (
                     <g>
-                        <text
-                            // x={hOffset + barWidth / 2}
-                            x={
-                                ((width - gapBetweenCharts) / 2 -
-                                    (gap + barWidth * 2)) /
-                                    2 +
-                                barWidth / 2
-                            }
-                            y={
-                                height -
-                                bottomOffset +
-                                style.label.fontSize +
-                                2 +
-                                xAxisWidth
-                            }
-                            textAnchor="middle"
-                            style={style.label}
-                            fill="#9AA0A6"
-                        >
-                            {dataSet.previousYearScores.playerScore
-                                ?.toFixed(1)
-                                .toString()
-                                .replace(".", ",")}
-                        </text>
-                        <text
-                            // x={hOffset + barWidth + gap + barWidth / 2}
+                        {dataSet.previousYearScores.averageScore ? (
+                            <>
+                                <text
+                                    // x={hOffset + barWidth / 2}
+                                    x={
+                                        ((width - gapBetweenCharts) / 2 -
+                                            (gap + barWidth * 2)) /
+                                            2 +
+                                        barWidth / 2
+                                    }
+                                    y={
+                                        height -
+                                        bottomOffset +
+                                        style.label.fontSize +
+                                        2 +
+                                        xAxisWidth
+                                    }
+                                    textAnchor="middle"
+                                    style={style.label}
+                                    fill="#9AA0A6"
+                                >
+                                    {dataSet.previousYearScores.playerScore
+                                        ?.toFixed(1)
+                                        .toString()
+                                        .replace(".", ",")}
+                                </text>
+                                <text
+                                    // x={hOffset + barWidth + gap + barWidth / 2}
 
-                            x={
-                                (subchartWidth - setWidth) / 2 +
-                                gap +
-                                barWidth +
-                                barWidth / 2
-                            }
-                            y={
-                                height -
-                                bottomOffset +
-                                style.label.fontSize +
-                                2 +
-                                xAxisWidth
-                            }
-                            textAnchor="middle"
-                            style={style.label}
-                            fill="#9AA0A6"
-                        >
-                            {dataSet.previousYearScores.averageScore
-                                ?.toFixed(1)
-                                .toString()
-                                .replace(".", ",")}
-                        </text>
+                                    x={
+                                        (subchartWidth - setWidth) / 2 +
+                                        gap +
+                                        barWidth +
+                                        barWidth / 2
+                                    }
+                                    y={
+                                        height -
+                                        bottomOffset +
+                                        style.label.fontSize +
+                                        2 +
+                                        xAxisWidth
+                                    }
+                                    textAnchor="middle"
+                                    style={style.label}
+                                    fill="#9AA0A6"
+                                >
+                                    {dataSet.previousYearScores.averageScore
+                                        ?.toFixed(1)
+                                        .toString()
+                                        .replace(".", ",")}
+                                </text>
+                            </>
+                        ) : (
+                            <text
+                                // x={hOffset + barWidth / 2}
+                                x={(width - gapBetweenCharts) / 4}
+                                y={
+                                    height -
+                                    bottomOffset +
+                                    style.label.fontSize +
+                                    2 +
+                                    xAxisWidth
+                                }
+                                textAnchor="middle"
+                                style={style.label}
+                                fill="#dddddd"
+                            >
+                                Sem dados
+                            </text>
+                        )}
                     </g>
                 )}
 

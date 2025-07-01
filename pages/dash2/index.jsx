@@ -14,6 +14,7 @@ import getPlayersFinalScore from "../../lib/dash2/getPlayersFinalScore";
 import getComparisonDataset from "../../lib/dash2/getComparisonDataset";
 import BarChartCompare from "../../components/BarChartCompare";
 import getHeuristicGroupDataset from "../../lib/dash2/getHeuristicGroupDataset";
+import Spinner from "../../components/Spinner";
 
 /**
  *
@@ -178,7 +179,7 @@ function Dash2() {
     //     router.query.showPlayer
     // );
 
-    // console.log("comparisonDataset", comparisonDataset);
+    // console.log("comparisonDataset", currentProjectObj);
 
     function handleClickHeuristic(item) {
         setSelectedHeuristic({
@@ -533,40 +534,64 @@ function Dash2() {
                             </div>
                             <div className=" px-8 pt-8 pb-4">
                                 <div className="flex flex-col items-center">
-                                    {comparisonDataset ? (
-                                        <BarChartCompare
-                                            refDom={chartCompareRef}
-                                            dataSet={comparisonDataset}
-                                            hOffset={compareHOffset}
-                                            barWidth={compareBarWidth}
-                                            gap={compareGap}
-                                            gapBetweenCharts={
-                                                compareGapBetweenCharts
-                                            }
-                                            height={compareHeight}
-                                            barMaxHeight={compareBarMaxHeight}
-                                            width={compareWidth}
-                                            barColor={compareBarColor}
-                                            bottomOffset={compareBottomOffset}
-                                            radius={compareRadius}
-                                            barStrokeColor={
-                                                compareBarStrokeColor
-                                            }
-                                            xAxisColor={compareXAxisColor}
-                                            xAxisWidth={compareXAxisWidth}
-                                            vOffset={compareVOffset}
-                                            hideBaseLine={compareHideBaseLine}
-                                            hideBaseText={compareHideBaseText}
-                                            hideYears={compareHideYears}
-                                            id="comparison-chart"
-                                        />
+                                    {currentProjectObj.previousProjectSlug ? (
+                                        <>
+                                            {comparisonDataset ? (
+                                                <BarChartCompare
+                                                    refDom={chartCompareRef}
+                                                    dataSet={comparisonDataset}
+                                                    hOffset={compareHOffset}
+                                                    barWidth={compareBarWidth}
+                                                    gap={compareGap}
+                                                    gapBetweenCharts={
+                                                        compareGapBetweenCharts
+                                                    }
+                                                    height={compareHeight}
+                                                    barMaxHeight={
+                                                        compareBarMaxHeight
+                                                    }
+                                                    width={compareWidth}
+                                                    barColor={compareBarColor}
+                                                    bottomOffset={
+                                                        compareBottomOffset
+                                                    }
+                                                    radius={compareRadius}
+                                                    barStrokeColor={
+                                                        compareBarStrokeColor
+                                                    }
+                                                    xAxisColor={
+                                                        compareXAxisColor
+                                                    }
+                                                    xAxisWidth={
+                                                        compareXAxisWidth
+                                                    }
+                                                    vOffset={compareVOffset}
+                                                    hideBaseLine={
+                                                        compareHideBaseLine
+                                                    }
+                                                    hideBaseText={
+                                                        compareHideBaseText
+                                                    }
+                                                    hideYears={compareHideYears}
+                                                    id="comparison-chart"
+                                                />
+                                            ) : (
+                                                <div className="pb-6 flex gap-4">
+                                                    <Spinner colorClass="blue-500" />{" "}
+                                                    Loading...
+                                                </div>
+                                            )}
+                                        </>
                                     ) : (
-                                        <div className="pb-6">
-                                            🙄 There&apos;s no comparison data
-                                            for this player or heuristic.
-                                        </div>
+                                        <>
+                                            <div className="pb-6">
+                                                🙄 There&apos;s no comparison
+                                                data for this project.
+                                            </div>
+                                        </>
                                     )}
                                 </div>
+
                                 {comparisonDataset && (
                                     <div className="mt-4 flex gap-10">
                                         <button
