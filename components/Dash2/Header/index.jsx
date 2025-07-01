@@ -26,6 +26,10 @@ function Header({
         collection = heuristics;
     }
 
+    const playersToSelect = currentProjectObj.players.filter(
+        (player) => player.showInChart || player.showInChart === null
+    );
+
     return (
         <>
             <div className="w-[864px] mx-auto flex flex-col">
@@ -73,7 +77,7 @@ function Header({
                             disabled={false}
                             onChange={(ev) => handleSelectPlayer(ev)}
                             defaultValue={router.query.showPlayer}
-                            options={currentProjectObj.players}
+                            options={playersToSelect}
                             id="playerSelect"
                             dark={dark}
                         />
