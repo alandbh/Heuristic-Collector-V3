@@ -13,7 +13,7 @@ import { isUserAuthorized, sortCollection } from "../lib/utils";
 
 const QUERY_PROJECTS = gql`
     query {
-        projects(orderBy: name_DESC) {
+        projects(first: 1000, orderBy: name_DESC) {
             id
             name
             slug
