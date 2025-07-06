@@ -19,7 +19,7 @@ const QUERY_PROJECTS = gql`
             slug
             year
             public
-            journeys(first: 1000, orderBy: slug_ASC) {
+            journeys(first: 1000, orderBy: createdAt_ASC) {
                 slug
             }
             players(first: 1000, orderBy: slug_ASC) {
