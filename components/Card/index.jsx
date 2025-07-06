@@ -23,11 +23,11 @@ function Card({ data }) {
                         alt=""
                     />
                     <div className="px-3 py-1 md:px-6 ">
-                        <div className="font-bold dark:text-white/70 text-sm md:text-xl mb-2">
+                        <div className="font-bold dark:text-white/70 text-sm md:text-xl mb-1">
                             {data.name} <br />{" "}
                             {process.env.NEXT_PUBLIC_DEP?.toUpperCase()}
                         </div>
-                        <div className="text-xs md:text-sm dark:text-white/50">
+                        <div className="text-xs md:text-sm text-slate-400 dark:text-white/50 mb-2">
                             {data.year}
                         </div>
                     </div>
