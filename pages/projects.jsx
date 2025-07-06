@@ -34,7 +34,7 @@ const QUERY_PROJECTS = gql`
 
 const QUERY_USER = gql`
     query getRgaUser($email: String) {
-        rgaUsers(where: { email: $email }) {
+        rgaUsers(last: 1000, where: { email: $email }) {
             id
             email
             userType
@@ -84,6 +84,8 @@ function Projects(props) {
             return project.public === true;
         }
 
+        // console.log("projectsMap", isPresentInThisProject(project.slug));
+
         return isPresentInThisProject(project.slug);
 
         // return true;
@@ -93,7 +95,7 @@ function Projects(props) {
         projectsToMapUnsorted &&
         sortCollection(projectsToMapUnsorted, "id").reverse();
 
-    // console.log("projectsMap", projectsToMap);
+    // console.log("projectsMap", isUserAuthorized(user));
     if (projectsToMap === undefined) {
         return null;
     }
