@@ -116,6 +116,8 @@ function Dash2() {
         }
     }, [router.query.heuristic, heuristics, isOverlapJourneys]);
 
+    const showManyPlayers = router.query.showManyPlayers || null;
+
     /**
      *
      * Here is where we get the data for the heuristic chart
@@ -128,7 +130,8 @@ function Dash2() {
         router.query.journey,
         selectedHeuristic.heuristicNumber,
         router.query.showPlayer,
-        router.query.showCross
+        router.query.showCross,
+        showManyPlayers
     );
 
     // console.log("heuristicDataset", heuristicDataset);
@@ -272,6 +275,7 @@ function Dash2() {
                             average={heuristicDataset.allPlayersAverage}
                             dark={isDark}
                         >
+                            <Debugg data={showManyPlayers}></Debugg>
                             <div className="flex border-b px-4 min-h-[50px]  text-slate-500">
                                 <div className="flex gap-1 pr-4 border-r mr-4  text-sm pt-4">
                                     <p>Selected Heuristic:</p>
