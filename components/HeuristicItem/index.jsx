@@ -136,7 +136,6 @@ function HeuristicItem({
         // setScoreAlert(null)
         // debugger;
         if (currentScore) {
-            setScoreValue(currentScore.scoreValue);
             setShowScoreAlert(
                 currentScore.showScoreAlert !== undefined
                     ? currentScore.showScoreAlert
@@ -147,8 +146,17 @@ function HeuristicItem({
                     ? currentScore.showPreviousScoreAlert
                     : false
             );
-            setText(currentScore.note);
-            setEvidenceUrl(currentScore.evidenceUrl);
+
+            /**
+             *
+             * The following lines were commented out because they were causing flickering when the those values changed.
+             * The functions setScoreValue, setText, and setEvidenceUrl were being called here
+             * But now they are called in the useEffect below.
+             */
+            // setScoreValue(currentScore.scoreValue);
+            // setText(currentScore.note);
+            // setEvidenceUrl(currentScore.evidenceUrl);
+
             if (currentScore.note.length > 0 || currentScore.scoreValue > 0) {
                 setEnable(true);
 
@@ -179,6 +187,25 @@ function HeuristicItem({
         allScoresJson,
         createSingleZeroedScore,
     ]);
+
+    useEffect(() => {
+        console.log("currentScore.length", currentScore);
+        if (currentScore) {
+            setReviewed(Boolean(currentScore.reviewed));
+            setScoreValue(currentScore.scoreValue);
+            setText(currentScore.note);
+            setEvidenceUrl(currentScore.evidenceUrl);
+            // delay(() => {}, 6000);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (currentScore) {
+            console.log("currentScore.changed", new Date().getTime());
+
+            // delay(() => {}, 6000);
+        }
+    }, [currentScore]);
 
     /**
      *
@@ -251,6 +278,8 @@ function HeuristicItem({
         if (empty || currentScore === undefined || !scoreHasChanged) {
             return;
         }
+
+        console.log("CHANGING SCORE", scoreValue, scoreHasChanged);
 
         // return;
         let allScoresObjJson = JSON.stringify(allScoresJson);
@@ -455,17 +484,27 @@ function HeuristicItem({
      * Handling the changes in Reviewed state
      */
 
+    const reviews = currentScore.reviews || [];
     async function handleReviewed() {
         setReviewed(!reviewed);
         setStatus("loading");
 
         const newScoresJson = await getNewScoresJson();
 
+        const reviewObj = {
+            reviewBy: user.displayName,
+            reviewDate: new Date().getTime(),
+            reviewed: !reviewed,
+        };
+
+        const reviewsArray = [...reviews, reviewObj];
+
         let allScoresObjJson = JSON.stringify(newScoresJson);
         let allScoresObjJsonClone = JSON.parse(allScoresObjJson);
         allScoresObjJsonClone[router.query.journey].map((item) => {
             if (item.id === currentScore.id) {
                 item.reviewed = !reviewed;
+                item.reviews = reviewsArray;
             }
 
             return item;
@@ -581,7 +620,11 @@ function HeuristicItem({
         typeof navigator !== "undefined"
             ? /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
             : true;
-
+    const isComplete =
+        scoreValue > 0 &&
+        text.trim().length > 0 &&
+        evidenceUrl.trim().length > 0 &&
+        status === "saved";
     return (
         <li
             id={heuristic.id}
@@ -649,9 +692,68 @@ function HeuristicItem({
                             </div>
                         )}
 
+                    {/* <Debug data={isComplete} /> */}
+
+                    <div
+                        className={`${
+                            isComplete && getUserLevel(userType) === 4
+                                ? "flex"
+                                : "hidden"
+                        }  items-center gap-2 my-4 border-b border-t py-2 justify-between`}
+                    >
+                        {currentScore.reviews &&
+                            currentScore.reviews.length > 0 && (
+                                <small className="text-slate-400">
+                                    Last reviewed by: <br />
+                                    {
+                                        currentScore.reviews[
+                                            currentScore.reviews.length - 1
+                                        ].reviewBy.split(" ")[0]
+                                    }{" "}
+                                    at{" "}
+                                    {new Date(
+                                        currentScore.reviews[
+                                            currentScore.reviews.length - 1
+                                        ].reviewDate
+                                    ).toLocaleString("en-US", {
+                                        dateStyle: "medium",
+                                        timeStyle: "short",
+                                    })}
+                                </small>
+                            )}
+                        {/* <small>
+                            {`Last reviewed by: ${
+                                currentScore.reviews &&
+                                currentScore.reviews.length > 0
+                                    ? currentScore.reviews[
+                                          currentScore.reviews.length - 1
+                                      ].reviewBy
+                                    : "No one"
+                            }`}
+                        </small> */}
+                        <div className="flex items-center gap-2">
+                            <div
+                                className={`${
+                                    reviewed
+                                        ? "text-green-500"
+                                        : "text-slate-500"
+                                } font-bold`}
+                            >
+                                {reviewed ? `✔︎ Reviewed` : `Review`}
+                            </div>
+                            <Toggle
+                                onChange={handleReviewed}
+                                selected={reviewed}
+                                disable={getUserLevel(userType) > 2}
+                            />
+                            {/* <Debug data={currentScore.reviews}></Debug> */}
+                            {/* {currentScore.heuristic.reviewed} */}
+                        </div>
+                    </div>
+
                     <div className="flex flex-col gap-3 justify-between mt-2">
-                        <div className="max-w-sm">
-                            <div>
+                        <div className="">
+                            <div className="flat justify-between w-full">
                                 {isMobile ? (
                                     <Range
                                         type={"range"}
@@ -660,26 +762,16 @@ function HeuristicItem({
                                         max={5}
                                         value={scoreValue}
                                         onChange={handleChangeRange}
-                                        disabled={getUserLevel(userType) > 2}
+                                        disabled={getUserLevel(userType) === 3}
                                     />
                                 ) : (
                                     <ScoreButtons
                                         id={id}
                                         scoreValue={scoreValue}
-                                        disabled={getUserLevel(userType) > 2}
+                                        disabled={getUserLevel(userType) === 3}
                                         onChangeScore={handleChangeScore}
                                     />
                                 )}
-                                {/* <SwitchMono
-                            onChange={handleReviewed}
-                            selected={true}
-                            options={["No", "Yes"]}
-                            disable={isDisable} */}
-                                <Toggle
-                                    onChange={handleReviewed}
-                                    selected={reviewed}
-                                    disable={getUserLevel(userType) > 2}
-                                />
                             </div>
 
                             <small
@@ -691,6 +783,7 @@ function HeuristicItem({
                                 {scoreDescription[scoreValue].text}
                             </small>
                         </div>
+
                         <div className="flex justify-between">
                             <button
                                 className={`font-bold py-1 pr-3 text-sm text-primary w-40 whitespace-nowrap ${
@@ -726,7 +819,8 @@ function HeuristicItem({
                                     }{" "}
                                     <span
                                         className={
-                                            getUserLevel(userType) > 1
+                                            getUserLevel(userType) !== 1 &&
+                                            getUserLevel(userType) !== 4
                                                 ? "hidden"
                                                 : ""
                                         }
@@ -755,7 +849,7 @@ function HeuristicItem({
                             onSaveEvidence={onSaveEvidence}
                             status={status}
                             hid={heuristic.id}
-                            disabled={getUserLevel(userType) > 2}
+                            disabled={getUserLevel(userType) === 3}
                         />
 
                         {/* <Debug data={user}></Debug> */}
