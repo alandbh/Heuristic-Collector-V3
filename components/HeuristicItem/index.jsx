@@ -12,6 +12,8 @@ import client from "../../lib/apollo";
 import { processChange, delay, getUserLevel, delayv2 } from "../../lib/utils";
 import { MUTATION_SCORE_OBJ } from "../../lib/mutations";
 import ScoreButtons from "../ScoreButtons";
+import { SwitchMono } from "../Switch";
+import { Toggle } from "../Toggle";
 
 /**
  *
@@ -46,6 +48,7 @@ function HeuristicItem({
     const [currentJourney, setCurrentJourney] = useState(null);
     const [showScoreAlert, setShowScoreAlert] = useState(false);
     const [showPreviousScoreAlert, setShowPreviousScoreAlert] = useState(true);
+    const [reviewed, setReviewed] = useState(false);
 
     const currentScore = allScoresObj?.find(
         (someScore) =>
@@ -449,6 +452,36 @@ function HeuristicItem({
 
     /**
      *
+     * Handling the changes in Reviewed state
+     */
+
+    async function handleReviewed() {
+        setReviewed(!reviewed);
+        setStatus("loading");
+
+        const newScoresJson = await getNewScoresJson();
+
+        let allScoresObjJson = JSON.stringify(newScoresJson);
+        let allScoresObjJsonClone = JSON.parse(allScoresObjJson);
+        allScoresObjJsonClone[router.query.journey].map((item) => {
+            if (item.id === currentScore.id) {
+                item.reviewed = !reviewed;
+            }
+
+            return item;
+        });
+
+        doTheChangeInScoreObj(
+            allScoresObjJsonClone,
+            `Heuristic ${currentScore.heuristic.heuristicNumber} reviewed!`,
+            () => {
+                // setStatus("changed");
+            }
+        );
+    }
+
+    /**
+     *
      * Watching the changes in the current score
      *
      */
@@ -479,6 +512,15 @@ function HeuristicItem({
             );
         }
     }, [currentScore?.evidenceUrl]);
+
+    useEffect(() => {
+        if (status == "loading" && currentScore?.reviewed) {
+            setStatus("saved");
+            toastMessage(
+                `Heuristic ${currentScore.heuristic.heuristicNumber} reviewed!`
+            );
+        }
+    }, [currentScore?.reviewed]);
 
     useEffect(() => {
         if (status == "loading") {
@@ -609,24 +651,36 @@ function HeuristicItem({
 
                     <div className="flex flex-col gap-3 justify-between mt-2">
                         <div className="max-w-sm">
-                            {isMobile ? (
-                                <Range
-                                    type={"range"}
-                                    id={id}
-                                    min={0}
-                                    max={5}
-                                    value={scoreValue}
-                                    onChange={handleChangeRange}
-                                    disabled={getUserLevel(userType) > 2}
+                            <div>
+                                {isMobile ? (
+                                    <Range
+                                        type={"range"}
+                                        id={id}
+                                        min={0}
+                                        max={5}
+                                        value={scoreValue}
+                                        onChange={handleChangeRange}
+                                        disabled={getUserLevel(userType) > 2}
+                                    />
+                                ) : (
+                                    <ScoreButtons
+                                        id={id}
+                                        scoreValue={scoreValue}
+                                        disabled={getUserLevel(userType) > 2}
+                                        onChangeScore={handleChangeScore}
+                                    />
+                                )}
+                                {/* <SwitchMono
+                            onChange={handleReviewed}
+                            selected={true}
+                            options={["No", "Yes"]}
+                            disable={isDisable} */}
+                                <Toggle
+                                    onChange={handleReviewed}
+                                    selected={reviewed}
+                                    disable={getUserLevel(userType) > 2}
                                 />
-                            ) : (
-                                <ScoreButtons
-                                    id={id}
-                                    scoreValue={scoreValue}
-                                    disabled={getUserLevel(userType) > 2}
-                                    onChangeScore={handleChangeScore}
-                                />
-                            )}
+                            </div>
 
                             <small
                                 className="text-sm text-slate-500 pt-2"
