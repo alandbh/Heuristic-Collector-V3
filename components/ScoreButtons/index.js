@@ -173,7 +173,7 @@ export default function ScoreButtons({
     // }
 
     return (
-        <div className="flex flex-col gap-0 my-4">
+        <div className="flex flex-col gap-0 my-4 w-fit">
             <div
                 onMouseOver={(ev) => handleMouseOver(ev)}
                 onMouseOut={(ev) => handleMouseOver(ev)}
