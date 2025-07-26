@@ -623,8 +623,7 @@ function HeuristicItem({
     const isComplete =
         scoreValue > 0 &&
         text.trim().length > 0 &&
-        evidenceUrl.trim().length > 0 &&
-        status === "saved";
+        evidenceUrl.trim().length > 0;
     return (
         <li
             id={heuristic.id}
@@ -696,7 +695,8 @@ function HeuristicItem({
 
                     <div
                         className={`${
-                            isComplete && getUserLevel(userType) === 4
+                            (isComplete && getUserLevel(userType) === 4) ||
+                            getUserLevel(userType) === 1
                                 ? "flex"
                                 : "hidden"
                         }  items-center gap-2 my-4 border-b border-t py-2 justify-between`}
@@ -744,7 +744,10 @@ function HeuristicItem({
                             <Toggle
                                 onChange={handleReviewed}
                                 selected={reviewed}
-                                disable={getUserLevel(userType) > 2}
+                                disable={
+                                    getUserLevel(userType) !== 4 &&
+                                    getUserLevel(userType) !== 1
+                                }
                             />
                             {/* <Debug data={currentScore.reviews}></Debug> */}
                             {/* {currentScore.heuristic.reviewed} */}
