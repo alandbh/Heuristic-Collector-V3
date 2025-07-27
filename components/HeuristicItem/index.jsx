@@ -197,7 +197,7 @@ function HeuristicItem({
             setEvidenceUrl(currentScore.evidenceUrl);
             // delay(() => {}, 6000);
         }
-    }, []);
+    }, [currentJourney, currentPlayer]);
 
     useEffect(() => {
         if (currentScore) {
