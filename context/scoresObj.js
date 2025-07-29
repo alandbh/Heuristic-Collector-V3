@@ -132,8 +132,6 @@ export function ScoresObjWrapper({ children }) {
     };
 
     useEffect(() => {
-        // isScoresObjectEmpty(data?.players[0]["scoresObject"]);
-
         if (!data || !firstPlayerData) {
             return;
         }
@@ -172,8 +170,6 @@ export function ScoresObjWrapper({ children }) {
             setAllScoresJson(data.players[0]["scoresObject"]);
             console.log("InitialScores", allScoresJson);
         }
-
-        // }
     }, [data]);
 
     // console.log("SCORES", data);
