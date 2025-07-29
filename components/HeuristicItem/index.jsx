@@ -9,7 +9,13 @@ import { useRouter } from "next/router";
 import Range from "../Range";
 import Evidence from "../Evidence";
 import client from "../../lib/apollo";
-import { processChange, delay, getUserLevel, delayv2 } from "../../lib/utils";
+import {
+    processChange,
+    delay,
+    getUserLevel,
+    delayv2,
+    debounce,
+} from "../../lib/utils";
 import { MUTATION_SCORE_OBJ } from "../../lib/mutations";
 import ScoreButtons from "../ScoreButtons";
 import { SwitchMono } from "../Switch";
@@ -153,9 +159,9 @@ function HeuristicItem({
              * The functions setScoreValue, setText, and setEvidenceUrl were being called here
              * But now they are called in the useEffect below.
              */
-            // setScoreValue(currentScore.scoreValue);
-            // setText(currentScore.note);
-            // setEvidenceUrl(currentScore.evidenceUrl);
+            setScoreValue(currentScore.scoreValue);
+            setText(currentScore.note);
+            setEvidenceUrl(currentScore.evidenceUrl);
 
             if (currentScore.note.length > 0 || currentScore.scoreValue > 0) {
                 setEnable(true);
@@ -189,15 +195,20 @@ function HeuristicItem({
     ]);
 
     useEffect(() => {
-        console.log("currentScore.length", currentScore);
+        console.log("currentScore.length", currentJourney);
         if (currentScore) {
-            setReviewed(Boolean(currentScore.reviewed));
-            setScoreValue(currentScore.scoreValue);
-            setText(currentScore.note);
-            setEvidenceUrl(currentScore.evidenceUrl);
+            // setScoreValue(currentScore.scoreValue);
+            // setText(currentScore.note);
+            // setEvidenceUrl(currentScore.evidenceUrl);
             // delay(() => {}, 6000);
+            debounce(setReviewed(Boolean(currentScore.reviewed)), 2000);
+            // setReviewed(Boolean(currentScore.reviewed));
+            // delayv2(setReviewed(Boolean(currentScore.reviewed)), 2000);
+            // setReviewed(Boolean(currentScore.reviewed));
         }
-    }, [currentJourney, currentPlayer]);
+    }, [currentJourney, currentPlayer, currentScore]);
+    // }, [router, router.query.journey, router.query.player]);
+    // }, []);
 
     useEffect(() => {
         if (currentScore) {
@@ -484,8 +495,8 @@ function HeuristicItem({
      * Handling the changes in Reviewed state
      */
 
-    const reviews = currentScore.reviews || [];
     async function handleReviewed() {
+        const reviews = currentScore.reviews || [];
         setReviewed(!reviewed);
         setStatus("loading");
 
@@ -701,7 +712,8 @@ function HeuristicItem({
                                 : "hidden"
                         }  items-center gap-2 my-4 border-b border-t py-2 justify-between`}
                     >
-                        {currentScore.reviews &&
+                        {currentScore &&
+                            currentScore.reviews &&
                             currentScore.reviews.length > 0 && (
                                 <small className="text-slate-400">
                                     Last reviewed by: <br />
