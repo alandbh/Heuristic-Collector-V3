@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { createPath } from "../../lib/utils";
 
 export default function BarChart({
@@ -24,7 +24,7 @@ export default function BarChart({
     labelSize = 9,
     id = "chart-" + String(Math.random()).split(".")[1],
 }) {
-    const [chartData, setChartData] = useState([]);
+    // const [chartData, setChartData] = useState([]);
 
     const customVOffset = plotValues ? vOffset + 20 : vOffset;
     const customBaseLineColor = baseLineColor
@@ -40,9 +40,11 @@ export default function BarChart({
 
     // console.log({ dataSet });
 
-    useEffect(() => {
-        setChartData(dataSet);
-    }, [dataSet]);
+    const chartData = dataSet;
+
+    // useEffect(() => {
+    //     setChartData(dataSet);
+    // }, [dataSet]);
 
     if (!chartData || !dataSet) {
         return <div>Loading...</div>;
