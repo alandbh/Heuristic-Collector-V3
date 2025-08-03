@@ -1,5 +1,26 @@
+import { gql, useMutation } from "@apollo/client";
+import client from "../../lib/apollo";
+import clientFast from "../../lib/apollo-fast";
+import { getHeuristicDataset } from "../../lib/getHeuristicDataset";
+
 export default async function handler(req, res) {
-    const { project } = req.query;
+    const { project, journey, heuristic, player } = req.query;
+
+    const heuristicDataset = await getHeuristicDataset(
+        project,
+        journey,
+        heuristic,
+        player
+    );
+
+    // const heuristicDataset = getHeuristicDataset(
+    //     currentProjectObj,
+    //     router.query.journey,
+    //     selectedHeuristic.heuristicNumber,
+    //     router.query.showPlayer,
+    //     router.query.showCross,
+    //     showManyPlayers
+    // );
 
     const fakeObjetct = {
         players: [
@@ -66,5 +87,5 @@ export default async function handler(req, res) {
         ],
     };
 
-    res.status(200).json(fakeObjetct);
+    res.status(200).json(heuristicDataset);
 }
