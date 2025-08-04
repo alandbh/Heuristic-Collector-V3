@@ -11,6 +11,7 @@
     "dependencies": {
         "@apollo/client": "^3.3.21",
         "@auth0/nextjs-auth0": "^1.9.1",
+        "@sparticuz/chromium": "^138.0.2",
         "@uidotdev/usehooks": "^2.4.1",
         "auth0": "^2.42.0",
         "chrome-aws-lambda": "^10.1.0",
