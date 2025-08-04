@@ -1,6 +1,6 @@
 {
     "functions": {
-        "api/chart.js": {
+        "api/chart": {
             "memory": 1024,
             "maxDuration": 15,
             "includeFiles": "node_modules/@sparticuz/chromium/bin/**"
