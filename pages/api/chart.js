@@ -1,7 +1,8 @@
 // import chromium from "chrome-aws-lambda";
-import chromium from "@sparticuz/chromium"; // For Vercel
-import puppeteerCore from "puppeteer-core"; // For Vercel
-import puppeteer from "puppeteer";
+// import chromium from "@sparticuz/chromium"; // For Vercel
+// import puppeteerCore from "puppeteer-core"; // For Vercel
+// import puppeteer from "puppeteer";
+import getPuppeteer from "../../lib/puppeteer";
 
 import { barChartService } from "../../lib/chartService";
 
@@ -48,18 +49,21 @@ export default async function handler(req, res) {
         console.log("isProduction:", isProduction);
 
         // usando o puppeteer para renderizar o SVG
-        const browser = await (isProduction
-            ? puppeteerCore.launch({
-                  args: [
-                      ...chromium.args,
-                      "--no-sandbox",
-                      "--disable-setuid-sandbox",
-                  ],
-                  executablePath: await chromium.executablePath(),
-                  headless: chromium.headless,
-              })
-            : puppeteer.launch());
+        // const browser = await (isProduction
+        //     ? puppeteerCore.launch({
+        //           args: [
+        //               ...chromium.args,
+        //               "--no-sandbox",
+        //               "--disable-setuid-sandbox",
+        //           ],
+        //           executablePath: await chromium.executablePath(),
+        //           headless: chromium.headless,
+        //       })
+        //     : puppeteer.launch());
 
+        // const page = await browser.newPage();
+
+        const browser = await getPuppeteer();
         const page = await browser.newPage();
 
         try {

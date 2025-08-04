@@ -36,22 +36,6 @@ const nextConfig = {
         ].filter(Boolean);
     },
     serverExternalPackages: ["puppeteer-core", "@sparticuz/chromium"],
-    webpack: (config, { isServer }) => {
-        if (isServer) {
-            // Inclua os binários do @sparticuz/chromium no build
-            config.module.rules.push({
-                test: /@sparticuz\/chromium/,
-                use: {
-                    loader: "file-loader",
-                    options: {
-                        name: "[path][name].[ext]",
-                        outputPath: "node_modules/@sparticuz/chromium/",
-                    },
-                },
-            });
-        }
-        return config;
-    },
 };
 
 module.exports = withPWA(nextConfig);
