@@ -1,3 +1,4 @@
+import chromium from "chrome-aws-lambda";
 import puppeteer from "puppeteer";
 import { barChartService } from "../../lib/chartService";
 
@@ -37,8 +38,18 @@ export default async function handler(req, res) {
             return;
         }
 
+        // Use puppeteer no local e chrome-aws-lambda na produção
+        const isProduction = host.includes("localhost") ? false : true;
+
         // usando o puppeteer para renderizar o SVG
-        const browser = await puppeteer.launch();
+        const browser = await (isProduction
+            ? chromium.puppeteer.launch({
+                  args: chromium.args,
+                  executablePath: await chromium.executablePath,
+                  headless: chromium.headless,
+              })
+            : puppeteer.launch());
+
         const page = await browser.newPage();
 
         try {
