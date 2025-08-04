@@ -39,7 +39,10 @@ export default async function handler(req, res) {
         }
 
         // Use puppeteer no local e chrome-aws-lambda na produção
-        const isProduction = host.includes("localhost") ? false : true;
+        // const isProduction = host.includes("localhost") ? false : true;
+        const isProduction = process.env.NODE_ENV === "production";
+
+        console.log("isProduction:", isProduction);
 
         // usando o puppeteer para renderizar o SVG
         const browser = await (isProduction
