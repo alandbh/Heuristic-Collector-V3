@@ -1,7 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import client from "../../lib/apollo";
 import clientFast from "../../lib/apollo-fast";
-import { getHeuristicDataset } from "../../lib/getHeuristicDataset";
 
 export default async function handler(req, res) {
     const { project, journey, heuristic, player } = req.query;
