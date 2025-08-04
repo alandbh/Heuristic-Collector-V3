@@ -1,7 +1,7 @@
-// import chromium from "chrome-aws-lambda";
-// import chromium from "@sparticuz/chromium"; // For Vercel
-// import puppeteerCore from "puppeteer-core"; // For Vercel
-// import puppeteer from "puppeteer";
+export const config = {
+    runtime: "nodejs",
+};
+
 import getPuppeteer from "../../lib/puppeteer";
 
 import { barChartService } from "../../lib/chartService";
