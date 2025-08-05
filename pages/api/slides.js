@@ -1,6 +1,11 @@
 export default async function handler(req, res) {
-    const apiUrl =
-        "https://heuristic-v4.vercel.app/api/all?project=retail-emea-1";
+    const { project } = req.query;
+
+    if (!project) {
+        return res.status(400).json({ error: "Project slug is required." });
+    }
+
+    const apiUrl = `https://heuristic-v4.vercel.app/api/all?project=${project}`;
     const headers = { api_key: "20rga25" };
 
     // ✅ Hardcoded sibling players
