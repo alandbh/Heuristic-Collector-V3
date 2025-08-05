@@ -377,9 +377,14 @@ function Dash2() {
                                                                 >
                                                                     {journey.name +
                                                                         ": "}
-                                                                    <b>
-                                                                        {
-                                                                            heuristicDataset.dataset.find(
+                                                                    <b
+                                                                        id={
+                                                                            journey.slug +
+                                                                            "Value"
+                                                                        }
+                                                                    >
+                                                                        {heuristicDataset.dataset
+                                                                            .find(
                                                                                 (
                                                                                     player
                                                                                 ) =>
@@ -387,11 +392,17 @@ function Dash2() {
                                                                                     router
                                                                                         .query
                                                                                         .showPlayer
-                                                                            )[
+                                                                            )
+                                                                            [
                                                                                 "score_" +
                                                                                     journey.slug
-                                                                            ]
-                                                                        }
+                                                                            ]?.toFixed(
+                                                                                1
+                                                                            )
+                                                                            .replace(
+                                                                                ".",
+                                                                                ","
+                                                                            )}
                                                                     </b>
                                                                 </div>
                                                             )
@@ -425,9 +436,14 @@ function Dash2() {
                                                                 >
                                                                     {journey.name +
                                                                         ": "}
-                                                                    <b>
-                                                                        {
-                                                                            heuristicDataset.dataset.find(
+                                                                    <b
+                                                                        id={
+                                                                            journey.slug +
+                                                                            "Average"
+                                                                        }
+                                                                    >
+                                                                        {heuristicDataset.dataset
+                                                                            .find(
                                                                                 (
                                                                                     player
                                                                                 ) =>
@@ -436,11 +452,16 @@ function Dash2() {
                                                                                         .query
                                                                                         .showPlayer
                                                                             )
-                                                                                .departmentAverageByJourney[
+                                                                            .departmentAverageByJourney[
                                                                                 journey
                                                                                     .slug
-                                                                            ]
-                                                                        }
+                                                                            ]?.toFixed(
+                                                                                1
+                                                                            )
+                                                                            .replace(
+                                                                                ".",
+                                                                                ","
+                                                                            )}
                                                                     </b>
                                                                 </div>
                                                             )

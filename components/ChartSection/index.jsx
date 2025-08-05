@@ -9,7 +9,9 @@ function ChartSection({ title, average, children, dark }) {
                 {average && (
                     <div className="text-lg flex items-center gap-1 whitespace-nowrap">
                         <b>Average: </b>
-                        <span>{average}</span>
+                        <span id="generalAverage">
+                            {Number(average).toFixed(1).replace(".", ",")}
+                        </span>
                     </div>
                 )}
             </header>
