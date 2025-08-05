@@ -4,9 +4,17 @@ export default async function handler(req, res) {
     if (!project) {
         return res.status(400).json({ error: "Project slug is required." });
     }
+    const journeyWeb = project === "retail-emea-1" ? "web-site" : "desktop";
+    const journeyApp = project === "retail-emea-1" ? "mobile-app" : "mobile";
 
     const apiUrl = `https://heuristic-v4.vercel.app/api/all?project=${project}`;
-    const headers = { api_key: "20rga25" };
+    let headers;
+    if (project === "retail-emea-1") {
+        // For the specific project, use the heuristic with "h_" prefix
+        headers = { api_key: "20rga25" };
+    } else {
+        headers = { api_key: "20rga24" };
+    }
 
     // ✅ Hardcoded sibling players
     const siblingMap = {
@@ -31,7 +39,7 @@ export default async function handler(req, res) {
             if (!playersByDepartment[dept]) playersByDepartment[dept] = [];
             playersByDepartment[dept].push(player);
 
-            for (const journey of ["web-site", "mobile-app"]) {
+            for (const journey of [journeyWeb, journeyApp]) {
                 const scores = player.scores?.[journey] || {};
                 for (const h of Object.keys(scores)) {
                     if (h.startsWith("h_")) allHeuristics.add(h);
@@ -78,8 +86,10 @@ export default async function handler(req, res) {
                 const siblings = siblingMap[player.slug] || null;
 
                 const slides = [...allHeuristics].map((h) => {
-                    const web = getScore(player, "web-site", h);
-                    const app = getScore(player, "mobile-app", h);
+                    const web = getScore(player, `h_${h}`, journeyWeb);
+                    const app = getScore(player, `h_${h}`, journeyApp);
+                    // const web = getScore(player, "web-site", h);
+                    // const app = getScore(player, "mobile-app", h);
                     const validScores = [web, app].filter(
                         (v) => typeof v === "number" && v > 0
                     );
@@ -90,12 +100,12 @@ export default async function handler(req, res) {
 
                     const webAvg = calculateAverages(
                         playersByDepartment[dept],
-                        "web-site",
+                        journeyWeb,
                         h
                     );
                     const appAvg = calculateAverages(
                         playersByDepartment[dept],
-                        "mobile-app",
+                        journeyApp,
                         h
                     );
                     const generalAvg = calculateGeneralAverage(rawData, h);
