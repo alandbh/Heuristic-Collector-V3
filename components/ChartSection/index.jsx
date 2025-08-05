@@ -10,7 +10,9 @@ function ChartSection({ title, average, children, dark }) {
                     <div className="text-lg flex items-center gap-1 whitespace-nowrap">
                         <b>Average: </b>
                         <span id="generalAverage">
-                            {Number(average).toFixed(1).replace(".", ",")}
+                            {`${average.value.toFixed(1).replace(".", ",")}${
+                                average.suffix ? average.suffix : ""
+                            }`}
                         </span>
                     </div>
                 )}

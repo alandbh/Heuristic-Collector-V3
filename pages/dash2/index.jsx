@@ -272,7 +272,9 @@ function Dash2() {
                     <div className="w-[864px] mx-auto flex flex-col mt-10">
                         <ChartSection
                             title="Heuristic Chart"
-                            average={heuristicDataset.allPlayersAverage}
+                            average={{
+                                value: heuristicDataset.allPlayersAverage,
+                            }}
                             dark={isDark}
                         >
                             {/* <Debugg data={showManyPlayers}></Debugg> */}
@@ -657,14 +659,17 @@ function Dash2() {
 
                         <ChartSection
                             title="Overall Chart"
-                            average={
-                                (
-                                    overallDataset.allPlayersPercentage * 100
-                                ).toFixed(2) + "%"
-                            }
+                            average={{
+                                value:
+                                    overallDataset.allPlayersPercentage * 100,
+                                suffix: "%",
+                            }}
                             dark={isDark}
                         >
                             <div>
+                                <Debugg
+                                    data={overallDataset.allPlayersPercentage}
+                                />
                                 <BarChart
                                     refDom={finalChartRef}
                                     isPercentage={true}
