@@ -64,8 +64,8 @@ export default async function handler(req, res) {
         const calculateGeneralAverage = (players, heuristic) => {
             const values = players
                 .map((p) => {
-                    const web = getScore(p, "web-site", heuristic);
-                    const app = getScore(p, "mobile-app", heuristic);
+                    const web = getScore(p, journeyWeb, heuristic);
+                    const app = getScore(p, journeyApp, heuristic);
                     const valid = [web, app].filter(
                         (v) => typeof v === "number" && v > 0
                     );
@@ -86,10 +86,12 @@ export default async function handler(req, res) {
                 const siblings = siblingMap[player.slug] || null;
 
                 const slides = [...allHeuristics].map((h) => {
-                    const web = getScore(player, `h_${h}`, journeyWeb);
-                    const app = getScore(player, `h_${h}`, journeyApp);
                     // const web = getScore(player, "web-site", h);
                     // const app = getScore(player, "mobile-app", h);
+
+                    const web = getScore(player, journeyWeb, h);
+                    const app = getScore(player, journeyApp, h);
+
                     const validScores = [web, app].filter(
                         (v) => typeof v === "number" && v > 0
                     );
