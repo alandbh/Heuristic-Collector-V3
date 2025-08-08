@@ -132,7 +132,9 @@ export default async function handler(req, res) {
                                     : null,
                             playerAverage:
                                 playerAvg !== null
-                                    ? parseFloat(playerAvg.toFixed(1))
+                                    ? parseFloat(playerAvg)
+                                          .toFixed(1)
+                                          .replace(".", ",")
                                     : null,
                             "web-siteAverage":
                                 webAvg !== null
