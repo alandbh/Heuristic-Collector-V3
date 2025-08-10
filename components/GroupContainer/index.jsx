@@ -422,13 +422,19 @@ function GroupContainer({ data }) {
                             currentJourney={currentJourney}
                             currentPlayer={currentPlayer}
                             currentProject={currentProject}
-                            disable={getUserLevel(userType) > 2}
+                            disable={
+                                getUserLevel(userType) > 2 &&
+                                getUserLevel(userType) !== 4
+                            }
                         />
                         {getUserLevel(userType) === 1 && (
                             <Ignore
                                 onChange={handleOnChangeIgnore}
                                 onChangeZero={handleOnChangeZero}
-                                isDisable={getUserLevel(userType) !== 1}
+                                isDisable={
+                                    getUserLevel(userType) !== 1 &&
+                                    getUserLevel(userType) !== 4
+                                }
                                 ignored={journeyIgnored}
                                 zeroed={journeyZeroed}
                             />
