@@ -10,7 +10,6 @@ export default async function handler(req, res) {
     const apiUrl = `https://heuristic-v4.vercel.app/api/all?project=${project}`;
     let headers;
     if (project === "retail-emea-1") {
-        // For the specific project, use the heuristic with "h_" prefix
         headers = { api_key: "20rga25" };
     } else {
         headers = { api_key: "20rga24" };
