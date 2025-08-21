@@ -1,19 +1,19 @@
 export default async function handler(req, res) {
-    const { project } = req.query;
+    const { project: projectSlug } = req.query;
 
-    if (!project) {
+    if (!projectSlug) {
         return res.status(400).json({ error: "Project slug is required." });
     }
-    const journeyWeb = project === "retail-emea-1" ? "web-site" : "desktop";
-    const journeyApp = project === "retail-emea-1" ? "mobile-app" : "mobile";
+    const journeyWeb = projectSlug === "retail-emea-1" ? "web-site" : "desktop";
+    const journeyApp =
+        projectSlug === "retail-emea-1" ? "mobile-app" : "mobile";
 
-    const apiUrl = `https://heuristic-v4.vercel.app/api/all?project=${project}`;
-    let headers;
-    if (project === "retail-emea-1") {
-        headers = { api_key: "20rga25" };
-    } else {
-        headers = { api_key: "20rga24" };
-    }
+    const headers =
+        projectSlug === "retail-emea-1"
+            ? { api_key: "20rga25" }
+            : { api_key: "20rga24" };
+
+    const apiUrl = `https://heuristic-v4.vercel.app/api/all?project=${projectSlug}`;
 
     // ✅ Hardcoded sibling players
     const siblingMap = {
@@ -28,7 +28,6 @@ export default async function handler(req, res) {
         const response = await fetch(apiUrl, { headers });
         const rawData = await response.json();
 
-        const projectSlug = "retail-emea-1";
         const allHeuristics = new Set();
         const playersByDepartment = {};
 
@@ -85,9 +84,6 @@ export default async function handler(req, res) {
                 const siblings = siblingMap[player.slug] || null;
 
                 const slides = [...allHeuristics].map((h) => {
-                    // const web = getScore(player, "web-site", h);
-                    // const app = getScore(player, "mobile-app", h);
-
                     const web = getScore(player, journeyWeb, h);
                     const app = getScore(player, journeyApp, h);
 
