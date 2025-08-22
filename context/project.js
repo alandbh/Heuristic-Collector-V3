@@ -104,6 +104,19 @@ const QUERY_CURRENT_JOURNEY = gql`
         }
     }
 `;
+const QUERY_CURRENT_PROJECT = gql`
+    query getCurrentProject($projectSlug: String) {
+        project(where: { slug: $projectSlug }) {
+            name
+            isOverlapJourneys
+            year
+            startDate
+            estimatedDaysToFinish
+            previousProjectSlug
+            evidenceFolderId
+        }
+    }
+`;
 
 async function doTheQuery(queryString, variables, setStateFunction) {
     console.log("project - querying");
@@ -131,6 +144,8 @@ export function ProjectWrapper({ children, data }) {
     const [previousProject, setPreviousProject] = useState(null);
     const [previousProjectPlayerScores, setPreviousProjectPlayerScores] =
         useState(null);
+    const [currentProjectData, setCurrentProjectData] = useState(null);
+    const [driveData, setDriveData] = useState(null);
     const router = useRouter();
 
     const { slug, tab, player, journey } = router.query || "";
@@ -227,6 +242,41 @@ export function ProjectWrapper({ children, data }) {
         }
     }, [player, previousProject]);
 
+    useEffect(() => {
+        if (slug) {
+            doTheQuery(
+                QUERY_CURRENT_PROJECT,
+                {
+                    projectSlug: slug,
+                },
+                setCurrentProjectData
+            );
+        }
+    }, [slug]);
+
+    useEffect(() => {
+        if (!currentProjectData) return;
+        if (currentProjectData.data.project.evidenceFolderId === "") return;
+
+        const folderid =
+            currentProjectData.data.project.evidenceFolderId.trim();
+        fetch(
+            // "https://heuristic-v4.vercel.app/api/listfolders?folderid=1JKf3bzWGCz27Jr4VBnJc94tr41o9QbwN",
+            `https://heuristic-v4.vercel.app/api/listfolders?folderid=${folderid}`,
+            {
+                method: "GET",
+                headers: {
+                    api_key: process.env.NEXT_PUBLIC_LISTFOLDERS_API_KEY,
+                },
+            }
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                // console.log("Drive Data:", data);
+                setDriveData(data);
+            });
+    }, [currentProjectData]);
+
     if (
         _allPlayersData === null ||
         _allJourneysData === null ||
@@ -285,6 +335,7 @@ export function ProjectWrapper({ children, data }) {
                 allJourneysData,
                 currentPlayer: currentPlayer.players[0],
                 currentJourney: currentJourney.journeys[0],
+                driveData,
             }}
         >
             {children}

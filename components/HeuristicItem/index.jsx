@@ -36,13 +36,15 @@ function HeuristicItem({
     allScoresObj,
     className,
 }) {
-    const { currentPlayer, previousProjectPlayerScores } = useProjectContext();
+    const { currentPlayer, previousProjectPlayerScores, driveData } =
+        useProjectContext();
     const [scoreValue, setScoreValue] = useState(0);
     const [empty, setEmpty] = useState(false);
     const [text, setText] = useState(currentScore?.note || "");
     const [evidenceUrl, setEvidenceUrl] = useState(
         currentScore?.evidenceUrl || ""
     );
+    const [evidenceList, setEvidenceList] = useState([]);
     const { getNewScoresJson } = useScoresObjContext();
     const [boxOpen, setBoxOpen] = useState(false);
     const router = useRouter();
@@ -162,6 +164,7 @@ function HeuristicItem({
             setScoreValue(currentScore.scoreValue);
             setText(currentScore.note);
             setEvidenceUrl(currentScore.evidenceUrl);
+            setEvidenceList(currentScore.evidenceList || []);
 
             if (currentScore.note.length > 0 || currentScore.scoreValue > 0) {
                 setEnable(true);
@@ -306,6 +309,7 @@ function HeuristicItem({
                         scoreValue,
                         note: text,
                         evidenceUrl,
+                        evidenceList,
                     },
                 };
 
@@ -322,6 +326,7 @@ function HeuristicItem({
                                 scoreValue,
                                 note: text,
                                 evidenceUrl,
+                                evidenceList,
                             },
                         },
                     ];
@@ -329,6 +334,7 @@ function HeuristicItem({
                 item.scoreValue = scoreValue;
                 item.note = text;
                 item.evidenceUrl = evidenceUrl;
+                item.evidenceList = evidenceList;
                 item.showScoreAlert = showScoreAlert;
                 item.showPreviousScoreAlert = showPreviousScoreAlert;
             }
@@ -401,6 +407,10 @@ function HeuristicItem({
         setEvidenceUrl(newText);
         setStatus("active");
     }
+    async function handleChangeEvidenceList(evidenceArray) {
+        setEvidenceList(evidenceArray);
+        setStatus("active");
+    }
 
     /**
      *
@@ -429,6 +439,7 @@ function HeuristicItem({
                         scoreValue,
                         note: text,
                         evidenceUrl,
+                        evidenceList,
                     },
                 };
 
@@ -445,6 +456,7 @@ function HeuristicItem({
                                 scoreValue,
                                 note: text,
                                 evidenceUrl,
+                                evidenceList,
                             },
                         },
                     ];
@@ -464,6 +476,7 @@ function HeuristicItem({
 
                 item.note = scoreTextWithTesterName;
                 item.evidenceUrl = evidenceUrl;
+                item.evidenceList = evidenceList;
                 item.scoreValue = scoreValue;
                 item.showScoreAlert = showScoreAlert;
                 item.showPreviousScoreAlert = showPreviousScoreAlert;
@@ -857,10 +870,15 @@ function HeuristicItem({
                         <Evidence
                             openBox={boxOpen}
                             currentScore={currentScore}
+                            currentPlayer={currentPlayer.slug}
+                            currentJourney={currentJourney}
                             text={text}
                             evidenceUrl={evidenceUrl}
+                            driveData={driveData}
+                            evidenceList={evidenceList}
                             onChangeText={handleChangeText}
                             onChangeEvidenceUrl={handleChangeEvidenceUrl}
+                            onChangeEvidenceList={handleChangeEvidenceList}
                             onSaveEvidence={onSaveEvidence}
                             status={status}
                             hid={heuristic.id}
