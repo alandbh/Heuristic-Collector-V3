@@ -65,6 +65,21 @@ async function getFilesIn(drive, folderId) {
  * Handler principal da rota da API.
  */
 export default async function handler(req, res) {
+    // CONFIGURAÇÃO DOS CABEÇALHOS CORS
+    // Permite que requisições de qualquer origem acessem a API.
+    // Para produção, é recomendado substituir '*' pelo domínio da sua aplicação (ex: 'http://localhost:3001').
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    // Define os métodos HTTP permitidos.
+    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+    // Define os cabeçalhos permitidos na requisição, incluindo o 'api_key' customizado.
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, api_key");
+
+    // O navegador envia uma requisição "preflight" OPTIONS antes da requisição GET
+    // para verificar as permissões de CORS. Respondemos com 200 OK para essa verificação.
+    if (req.method === "OPTIONS") {
+        return res.status(200).end();
+    }
+
     // VERIFICAÇÃO DA CHAVE DA API
     const apiKey = req.headers.api_key;
     const expectedApiKey = process.env.API_SECRET_KEY;
