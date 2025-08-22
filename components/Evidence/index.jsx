@@ -1,18 +1,28 @@
 import { useEffect, useRef, useState } from "react";
 import Spinner from "../Spinner";
 import { BtnSmallPrimary } from "../Button";
+import EvidenceModal from "../EvidenceModal";
 
 function Evidence({
     openBox,
     text,
     evidenceUrl,
+    currentPlayer,
+    currentJourney,
+    evidenceList = [],
+    driveData = [],
     onChangeText,
     onChangeEvidenceUrl,
+    onChangeEvidenceList,
     onSaveEvidence,
     status,
     hid,
     disabled = false,
 }) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [selectedEvidences, setSelectedEvidences] = useState([]);
+
     const urlRef = useRef(null);
     const collapseRef = useRef(null);
 
@@ -68,6 +78,24 @@ function Evidence({
         moveCursorToTheEnd(target);
     }
 
+    const getEvidenceFiles = () => {
+        if (!driveData || !currentPlayer) return;
+        console.log({ currentPlayer });
+        const playerFolder = driveData.find(
+            (p) => p.name.trim() === currentPlayer
+        );
+        if (!playerFolder) return [];
+
+        const journeyFolder = playerFolder.subfolders.find(
+            (j) => j.name.trim() === currentJourney
+        );
+        if (!journeyFolder) return [];
+
+        return journeyFolder.evidence;
+    };
+
+    const evidenceFiles = getEvidenceFiles();
+
     return (
         <div
             className={`flex flex-col gap-3 overflow-hidden justify-between`}
@@ -81,6 +109,20 @@ function Evidence({
                     >
                         <b>Evidence file{"(s)"}</b>
                     </label>
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
+                    >
+                        Add Evidences
+                    </button>
+
+                    <EvidenceModal
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                        files={evidenceFiles}
+                        selectedFiles={selectedEvidences}
+                        onSelectionChange={setSelectedEvidences}
+                    />
                     <input
                         id={"evidenceUrl_" + hid}
                         disabled={disabled}
