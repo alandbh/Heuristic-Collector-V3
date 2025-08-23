@@ -28,13 +28,14 @@ function Evidence({
 
     useEffect(() => {
         if (collapseRef) {
+            let scrollHeight = collapseRef.current.scrollHeight;
             if (openBox) {
                 collapseRef.current.style.display = "block";
                 collapseRef.current.style.transition = "0.3s";
                 urlRef.current.focus();
 
                 setTimeout(() => {
-                    collapseRef.current.style.height = "420px";
+                    collapseRef.current.style.height = scrollHeight + "px";
                     collapseRef.current.style.opacity = 1;
                 }, 10);
             } else {
@@ -43,7 +44,7 @@ function Evidence({
 
                 setTimeout(() => {
                     if (collapseRef.current !== null) {
-                        collapseRef.current.style.display = "none";
+                        // collapseRef.current.style.display = "none";
                     }
                 }, 300);
             }
@@ -98,6 +99,7 @@ function Evidence({
 
     return (
         <div
+            id="evidenceBox"
             className={`flex flex-col gap-3 overflow-hidden justify-between`}
             ref={collapseRef}
         >
@@ -123,6 +125,31 @@ function Evidence({
                         selectedFiles={selectedEvidences}
                         onSelectionChange={setSelectedEvidences}
                     />
+                    <ul className="flex flex-col gap-2 mt-2">
+                        {evidenceList.map((evidence, index) => (
+                            <li
+                                key={evidence.fileId}
+                                className="flex items-center gap-2 bg-slate-100 dark:bg-slate-700 p-2 rounded-md"
+                            >
+                                <span className="text-sm text-slate-700 dark:text-slate-300">
+                                    {evidence.fileName}
+                                </span>
+                                <button
+                                    onClick={() => {
+                                        const updatedList = evidenceList.filter(
+                                            (ev) =>
+                                                ev.fileName !==
+                                                evidence.fileName
+                                        );
+                                        onChangeEvidenceList(updatedList);
+                                    }}
+                                    className="text-red-500 hover:text-red-700"
+                                >
+                                    Remove
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
                     <input
                         id={"evidenceUrl_" + hid}
                         disabled={disabled}
