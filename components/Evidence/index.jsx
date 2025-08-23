@@ -2,6 +2,27 @@ import { useEffect, useRef, useState } from "react";
 import Spinner from "../Spinner";
 import { BtnSmallPrimary } from "../Button";
 import EvidenceModal from "../EvidenceModal";
+import Debug from "../Debug";
+
+const mergeEvidenceLists = (evidenceList, selectedEvidences) => {
+    return evidenceList.map((evidence) => {
+        const selectedEvidence = selectedEvidences.find(
+            (selected) => selected.id === evidence.id
+        );
+        return selectedEvidence
+            ? { ...evidence, ...selectedEvidence }
+            : evidence;
+    });
+};
+
+const areArraysIdentical = (array1, array2) => {
+    if (array1.length !== array2.length) return false;
+
+    const sortedArray1 = [...array1].sort((a, b) => a.id - b.id);
+    const sortedArray2 = [...array2].sort((a, b) => a.id - b.id);
+
+    return JSON.stringify(sortedArray1) === JSON.stringify(sortedArray2);
+};
 
 function Evidence({
     openBox,
@@ -20,38 +41,81 @@ function Evidence({
     disabled = false,
 }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const [selectedEvidences, setSelectedEvidences] = useState([]);
+    const [selectedEvidences, setSelectedEvidences] = useState(
+        evidenceList || []
+    );
+    const [evidencesToShow, setEvidencesToShow] = useState([]);
+    const [newStatus, setNewStatus] = useState(status);
 
     const urlRef = useRef(null);
     const collapseRef = useRef(null);
 
     useEffect(() => {
+        // if (status === "saved") {
+        //     setNewStatus("saved");
+        // }
+        // setNewStatus(status);
+    }, [status]);
+
+    console.log({ status, newStatus });
+    useEffect(() => {
+        if (!evidenceList) return;
+        if (evidenceList.length === 0) return;
+        setSelectedEvidences(evidenceList);
+    }, [evidenceList]);
+
+    useEffect(() => {
+        onChangeEvidenceList(selectedEvidences);
+        // I need to make a merge of the current evidenceList and the selectedEvidences
+
+        // const updatedEvidenceList = mergeEvidenceLists(
+        //     evidenceList,
+        //     selectedEvidences
+        // );
+        // onChangeEvidenceList(updatedEvidenceList);
+        // setCollapseHeight(collapseRef ? collapseRef.current.scrollHeight : 0);
+        changeCollapseHeight(
+            collapseRef ? collapseRef.current.scrollHeight + 32 : 0
+        );
+
+        // setNewStatus("active");
+        if (areArraysIdentical(evidenceList, selectedEvidences)) {
+            setNewStatus("saved");
+        } else {
+            setNewStatus("active");
+        }
+    }, [selectedEvidences]);
+
+    useEffect(() => {
         if (collapseRef) {
-            let scrollHeight = collapseRef.current.scrollHeight;
-            if (openBox) {
-                collapseRef.current.style.display = "block";
-                collapseRef.current.style.transition = "0.3s";
-                urlRef.current.focus();
-
-                setTimeout(() => {
-                    collapseRef.current.style.height = scrollHeight + "px";
-                    collapseRef.current.style.opacity = 1;
-                }, 10);
-            } else {
-                collapseRef.current.style.height = "0px";
-                collapseRef.current.style.opacity = 0;
-
-                setTimeout(() => {
-                    if (collapseRef.current !== null) {
-                        // collapseRef.current.style.display = "none";
-                    }
-                }, 300);
-            }
+            // let scrollHeight = collapseRef.current.scrollHeight;
+            changeCollapseHeight(collapseRef.current.scrollHeight);
         }
 
         return;
     }, [openBox]);
+
+    function changeCollapseHeight(height = 0) {
+        if (openBox) {
+            collapseRef.current.style.display = "block";
+            collapseRef.current.style.transition = "0.3s";
+            urlRef.current.focus();
+
+            setTimeout(() => {
+                collapseRef.current.style.height = height + "px";
+                collapseRef.current.style.opacity = 1;
+            }, 10);
+        } else {
+            collapseRef.current.style.height = "0px";
+            collapseRef.current.style.opacity = 0;
+
+            setTimeout(() => {
+                if (collapseRef.current !== null) {
+                    // collapseRef.current.style.display = "none";
+                }
+            }, 300);
+        }
+    }
 
     function moveCursorToTheEnd(target) {
         // target.selectionEnd = target.value.length;
@@ -79,6 +143,18 @@ function Evidence({
         moveCursorToTheEnd(target);
     }
 
+    function handleClickAddEvidence() {
+        setIsModalOpen(true);
+        // setNewStatus("active");
+    }
+
+    function handleSaveEvidence() {
+        if (newStatus === "active") {
+            onSaveEvidence();
+            setNewStatus("loading");
+        }
+    }
+
     const getEvidenceFiles = () => {
         if (!driveData || !currentPlayer) return;
         console.log({ currentPlayer });
@@ -97,6 +173,15 @@ function Evidence({
 
     const evidenceFiles = getEvidenceFiles();
 
+    // function listEvidencesToShow() {
+    //     const arrayOne = evidenceList || [];
+    //     const arrayTwo = selectedEvidences || [];
+    //     // return [...arrayOne, ...arrayTwo];
+    //     return mergeEvidenceLists(arrayOne, arrayTwo);
+    // }
+
+    // setEvidencesToShow();
+
     return (
         <div
             id="evidenceBox"
@@ -112,7 +197,7 @@ function Evidence({
                         <b>Evidence file{"(s)"}</b>
                     </label>
                     <button
-                        onClick={() => setIsModalOpen(true)}
+                        onClick={() => handleClickAddEvidence()}
                         className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
                     >
                         Add Evidences
@@ -123,33 +208,40 @@ function Evidence({
                         onClose={() => setIsModalOpen(false)}
                         files={evidenceFiles}
                         selectedFiles={selectedEvidences}
+                        evidenceList={evidenceList}
                         onSelectionChange={setSelectedEvidences}
                     />
-                    <ul className="flex flex-col gap-2 mt-2">
-                        {evidenceList.map((evidence, index) => (
-                            <li
-                                key={evidence.fileId}
-                                className="flex items-center gap-2 bg-slate-100 dark:bg-slate-700 p-2 rounded-md"
-                            >
-                                <span className="text-sm text-slate-700 dark:text-slate-300">
-                                    {evidence.fileName}
-                                </span>
-                                <button
-                                    onClick={() => {
-                                        const updatedList = evidenceList.filter(
-                                            (ev) =>
-                                                ev.fileName !==
-                                                evidence.fileName
-                                        );
-                                        onChangeEvidenceList(updatedList);
-                                    }}
-                                    className="text-red-500 hover:text-red-700"
+                    {/* <Debug data={evidenceList} /> */}
+                    {/* <Debug data={selectedEvidences} /> */}
+                    {selectedEvidences?.length > 0 && (
+                        <ul className="flex flex-col gap-2 mt-2">
+                            {selectedEvidences?.map((evidence, index) => (
+                                <li
+                                    key={evidence.fileId}
+                                    className="flex items-center gap-2 bg-slate-100 dark:bg-slate-700 p-2 rounded-md"
                                 >
-                                    Remove
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
+                                    <span className="text-sm text-slate-700 dark:text-slate-300">
+                                        {evidence.fileName}
+                                    </span>
+                                    <button
+                                        onClick={() => {
+                                            const updatedList =
+                                                selectedEvidences.filter(
+                                                    (ev) =>
+                                                        ev.fileName !==
+                                                        evidence.fileName
+                                                );
+                                            onChangeEvidenceList(updatedList);
+                                        }}
+                                        className="text-red-500 hover:text-red-700"
+                                    >
+                                        Remove
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+
                     <input
                         id={"evidenceUrl_" + hid}
                         disabled={disabled}
@@ -193,11 +285,11 @@ function Evidence({
             </div>
             <div className="flex justify-start py-4">
                 <BtnSmallPrimary
-                    status={status}
-                    onClick={() => onSaveEvidence()}
+                    status={newStatus}
+                    onClick={() => handleSaveEvidence()}
                     textActive="Save Evidence"
                     textFinished="Evidence Saved"
-                    disabled={disabled || status !== "active"}
+                    disabled={disabled || newStatus !== "active"}
                 />
             </div>
         </div>

@@ -1,21 +1,36 @@
+import { use, useState, useEffect } from "react";
+
 export default function EvidenceModal({
     isOpen,
     onClose,
     files,
     selectedFiles,
+    evidenceList,
     onSelectionChange,
 }) {
-    if (!isOpen) return null;
+    if (!isOpen || !files) return null;
+
+    const [selectedFilesState, setSelectedFilesState] = useState(evidenceList);
+
+    useEffect(() => {
+        onSelectionChange(selectedFilesState);
+    }, [selectedFilesState]);
 
     const handleCheckboxChange = (e, file) => {
         if (e.target.checked) {
-            onSelectionChange([
-                ...selectedFiles,
+            setSelectedFilesState((prev) => [
+                ...prev,
                 { fileName: file.name, fileId: file.id },
             ]);
+            // onSelectionChange([
+            //     ...selectedFiles,
+            //     { fileName: file.name, fileId: file.id },
+            // ]);
         } else {
             onSelectionChange(
-                selectedFiles.filter((file) => file.fileName !== file.name)
+                setSelectedFilesState((prev) =>
+                    prev.filter((fileItem) => fileItem.fileId !== file.id)
+                )
             );
         }
     };
@@ -49,13 +64,19 @@ export default function EvidenceModal({
                             <input
                                 type="checkbox"
                                 id={file.id}
-                                checked={selectedFiles.some(
+                                checked={selectedFilesState?.some(
                                     (storedFile) =>
                                         storedFile.fileId === file.id
                                 )}
                                 onChange={(e) => handleCheckboxChange(e, file)}
                                 className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                             />
+                            {/* <Checkbox
+                                file={file}
+                                selectedFiles={selectedFiles}
+                                handleCheckboxChange={handleCheckboxChange}
+                            /> */}
+                            {/* File Icon and Name */}
                             <span className="text-gray-700">
                                 {file.type === "video" ? "📹" : "🖼️"}{" "}
                                 {file.name}
@@ -77,3 +98,20 @@ export default function EvidenceModal({
         </div>
     );
 }
+
+const Checkbox = ({ file, selectedFiles, handleCheckboxChange }) => {
+    const isChecked =
+        selectedFiles?.some(
+            (selectedFile) => selectedFile.fileName === file.name
+        ) || false;
+
+    return (
+        <input
+            type="checkbox"
+            id={file.id}
+            checked={isChecked}
+            onChange={(e) => handleCheckboxChange(e, file)}
+            className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+        />
+    );
+};
