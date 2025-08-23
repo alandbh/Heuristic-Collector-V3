@@ -44,7 +44,9 @@ function HeuristicItem({
     const [evidenceUrl, setEvidenceUrl] = useState(
         currentScore?.evidenceUrl || ""
     );
-    const [evidenceList, setEvidenceList] = useState([]);
+    const [evidenceList, setEvidenceList] = useState(
+        currentScore?.evidenceList || []
+    );
     const { getNewScoresJson } = useScoresObjContext();
     const [boxOpen, setBoxOpen] = useState(false);
     const router = useRouter();
@@ -109,6 +111,7 @@ function HeuristicItem({
         };
         singleScore.scoreValue = 0;
         singleScore.evidenceUrl = "";
+        singleScore.evidenceList = [];
 
         // console.log("singleScore", singleScore);
 
@@ -164,7 +167,7 @@ function HeuristicItem({
             setScoreValue(currentScore.scoreValue);
             setText(currentScore.note);
             setEvidenceUrl(currentScore.evidenceUrl);
-            setEvidenceList(currentScore.evidenceList || []);
+            setEvidenceList(currentScore.evidenceList);
 
             if (currentScore.note.length > 0 || currentScore.scoreValue > 0) {
                 setEnable(true);
@@ -575,6 +578,15 @@ function HeuristicItem({
             );
         }
     }, [currentScore?.evidenceUrl]);
+
+    useEffect(() => {
+        if (status == "loading") {
+            setStatus("saved");
+            toastMessage(
+                `Evidence list for Heuristic ${currentScore?.heuristic.heuristicNumber} updated!`
+            );
+        }
+    }, [currentScore?.evidenceList]);
 
     useEffect(() => {
         if (status == "loading" && currentScore?.reviewed) {

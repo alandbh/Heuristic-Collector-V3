@@ -1,7 +1,7 @@
 import Spinner from "../Spinner";
 
 export function BtnSmallPrimary({
-    status = "active",
+    status = "saved",
     onClick,
     textActive,
     textFinished,
