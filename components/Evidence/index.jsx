@@ -41,9 +41,7 @@ function Evidence({
     disabled = false,
 }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedEvidences, setSelectedEvidences] = useState(
-        evidenceList || []
-    );
+    const [selectedEvidences, setSelectedEvidences] = useState([]);
     const [evidencesToShow, setEvidencesToShow] = useState([]);
     const [newStatus, setNewStatus] = useState(status);
 
@@ -54,7 +52,7 @@ function Evidence({
         // if (status === "saved") {
         //     setNewStatus("saved");
         // }
-        // setNewStatus(status);
+        setNewStatus(status);
     }, [status]);
 
     console.log({ status, newStatus });
@@ -75,12 +73,13 @@ function Evidence({
         // onChangeEvidenceList(updatedEvidenceList);
         // setCollapseHeight(collapseRef ? collapseRef.current.scrollHeight : 0);
         changeCollapseHeight(
-            collapseRef ? collapseRef.current.scrollHeight + 32 : 0
+            collapseRef ? collapseRef.current.scrollHeight : 0
         );
 
         // setNewStatus("active");
         if (areArraysIdentical(evidenceList, selectedEvidences)) {
             setNewStatus("saved");
+            onChangeEvidenceList(selectedEvidences);
         } else {
             setNewStatus("active");
         }
@@ -225,13 +224,19 @@ function Evidence({
                                     </span>
                                     <button
                                         onClick={() => {
-                                            const updatedList =
-                                                selectedEvidences.filter(
+                                            // const updatedList =
+                                            //     selectedEvidences.filter(
+                                            //         (ev) =>
+                                            //             ev.fileName !==
+                                            //             evidence.fileName
+                                            //     );
+                                            setSelectedEvidences((prev) => {
+                                                return prev.filter(
                                                     (ev) =>
-                                                        ev.fileName !==
-                                                        evidence.fileName
+                                                        ev.fileId !==
+                                                        evidence.fileId
                                                 );
-                                            onChangeEvidenceList(updatedList);
+                                            });
                                         }}
                                         className="text-red-500 hover:text-red-700"
                                     >
