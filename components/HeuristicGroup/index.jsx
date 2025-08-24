@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HeuristicItem from "../HeuristicItem";
 import { useScoresContext } from "../../context/scores";
 import { useScoresObjContext } from "../../context/scoresObj";
@@ -29,8 +29,17 @@ function isPresentInThisJourney(heuristic, journeySlug) {
 function HeuristicGroup({ group, allScoresJson, allScoresObj, index }) {
     // const { allScores } = useScoresContext();
     // const { allScoresObj } = useScoresObjContext();
+    const [scoreChanged, setScoreChanged] = useState(false);
     const router = useRouter();
     const containerRef = useRef(null);
+
+    function hasScoreChanged(status) {
+        setScoreChanged(status);
+
+        setTimeout(() => {
+            setScoreChanged(false);
+        }, 3000);
+    }
 
     useEffect(() => {
         if (group.heuristic.length > 0) {
@@ -119,6 +128,8 @@ function HeuristicGroup({ group, allScoresJson, allScoresObj, index }) {
                             allScoresJson={allScoresJson}
                             allScoresObj={allScoresObj}
                             className={getRoundedClass(heuristicsToMap, index)}
+                            scoreChanged={scoreChanged}
+                            setScoreChanged={hasScoreChanged}
                         />
                     );
                 })}
