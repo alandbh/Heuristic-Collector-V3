@@ -24,14 +24,68 @@ const areArraysIdentical = (array1, array2) => {
     return JSON.stringify(sortedArray1) === JSON.stringify(sortedArray2);
 };
 
+function getEvidenceListFromLocalStorage(heuristicNumber) {
+    if (window !== undefined) {
+        const _evidenceListFromLocalStorage =
+            JSON.parse(localStorage.getItem("evidenceList")) || [];
+        const evidenceListFiltered = _evidenceListFromLocalStorage.find(
+            (item) => item.heuristic === heuristicNumber
+        );
+        // setEvidenceListFromLocalStorage(evidenceListFiltered);
+        // setEvidenceList(evidenceListFiltered.evidenceList);
+
+        return evidenceListFiltered.evidenceList || [];
+
+        console.log({ evidenceListFiltered });
+    }
+}
+
+function removeEvidenceFromLocalStorage(evidence, heuristicNumber) {
+    if (window !== undefined) {
+        const _evidenceListFromLocalStorage =
+            JSON.parse(localStorage.getItem("evidenceList")) || [];
+
+        const evidenceListForCurrentHeuristic =
+            _evidenceListFromLocalStorage.find(
+                (item) => item.heuristic === heuristicNumber
+            );
+
+        const evidenceListFiltered = _evidenceListFromLocalStorage.filter(
+            (item) => item.heuristic !== heuristicNumber
+        );
+
+        const newEvidenceListForCurrentHeuristic =
+            evidenceListForCurrentHeuristic.evidenceList.filter(
+                (ev) => ev.fileId !== evidence.fileId
+            );
+
+        const newEvidenceObject = {
+            heuristic: heuristicNumber,
+            evidenceList: newEvidenceListForCurrentHeuristic,
+        };
+
+        evidenceListFiltered.push(newEvidenceObject);
+        localStorage.setItem(
+            "evidenceList",
+            JSON.stringify(evidenceListFiltered)
+        );
+
+        return {
+            newEvidenceListForCurrentHeuristic,
+            newEvidenceList: evidenceListFiltered,
+        };
+    }
+}
+
 function Evidence({
     openBox,
     text,
     evidenceUrl,
     currentPlayer,
     currentJourney,
-    evidenceList = [],
+    // evidenceList = [],
     driveData = [],
+    heuristicNumber,
     onChangeText,
     onChangeEvidenceUrl,
     onChangeEvidenceList,
@@ -39,15 +93,42 @@ function Evidence({
     status,
     hid,
     disabled = false,
+    setScoreChanged,
+    scoreChanged,
 }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedEvidences, setSelectedEvidences] = useState([]);
-    const [evidencesToShow, setEvidencesToShow] = useState([]);
+    const [evidenceList, setEvidenceList] = useState([]);
+    const [evidenceListFromLocalStorage, setEvidenceListFromLocalStorage] =
+        useState([]);
     const [newStatus, setNewStatus] = useState(status);
 
     const urlRef = useRef(null);
     const collapseRef = useRef(null);
 
+    useEffect(() => {
+        if (window !== undefined) {
+            // const _evidenceListFromLocalStorage =
+            //     JSON.parse(localStorage.getItem("evidenceList")) || [];
+            // const evidenceListFiltered = _evidenceListFromLocalStorage.find(
+            //     (item) => item.heuristic === heuristicNumber
+            // );
+            // // setEvidenceListFromLocalStorage(evidenceListFiltered);
+            // setEvidenceList(evidenceListFiltered.evidenceList);
+
+            // console.log(
+            //     "evidenceListFiltered",
+            //     evidenceListFiltered.evidenceList
+            // );
+
+            console.log(
+                "evidenceListFromLocalStorage",
+                getEvidenceListFromLocalStorage(heuristicNumber)
+            );
+
+            setEvidenceList(getEvidenceListFromLocalStorage(heuristicNumber));
+        }
+    }, [scoreChanged]);
     useEffect(() => {
         // if (status === "saved") {
         //     setNewStatus("saved");
@@ -55,11 +136,30 @@ function Evidence({
         setNewStatus(status);
     }, [status]);
 
-    console.log({ status, newStatus });
     useEffect(() => {
+        if (heuristicNumber === "8.2") {
+            console.log({ selectedEvidences, evidenceList });
+        }
         if (!evidenceList) return;
-        if (evidenceList.length === 0) return;
+        if (evidenceList.length === 0) {
+            // setSelectedEvidences([]);
+            return;
+        }
+
         setSelectedEvidences(evidenceList);
+
+        if (window !== undefined) {
+            const _evidenceListFromLocalStorage =
+                JSON.parse(localStorage.getItem("evidenceList")) || [];
+            const evidenceListFiltered =
+                _evidenceListFromLocalStorage.length > 0
+                    ? evidenceListFromLocalStorage.filter(
+                          (item) => item.heuristic !== heuristicNumber
+                      )
+                    : [];
+            setEvidenceListFromLocalStorage(_evidenceListFromLocalStorage);
+            setNewStatus("saved");
+        }
     }, [evidenceList]);
 
     useEffect(() => {
@@ -75,6 +175,16 @@ function Evidence({
         changeCollapseHeight(
             collapseRef ? collapseRef.current.scrollHeight : 0
         );
+
+        if (window !== undefined) {
+            const _evidenceListFromLocalStorage =
+                JSON.parse(localStorage.getItem("evidenceList")) || [];
+            const evidenceListFiltered = _evidenceListFromLocalStorage.filter(
+                (item) => item.heuristic === heuristicNumber
+            );
+            // setEvidenceListFromLocalStorage(evidenceListFiltered);
+            setEvidenceList(evidenceListFiltered.evidenceList || []);
+        }
 
         // setNewStatus("active");
         if (areArraysIdentical(evidenceList, selectedEvidences)) {
@@ -98,7 +208,7 @@ function Evidence({
         if (openBox) {
             collapseRef.current.style.display = "block";
             collapseRef.current.style.transition = "0.3s";
-            urlRef.current.focus();
+            // urlRef.current.focus();
 
             setTimeout(() => {
                 collapseRef.current.style.height = height + "px";
@@ -154,6 +264,18 @@ function Evidence({
         }
     }
 
+    function handleClickRemoveEvidence(evidence) {
+        const { newEvidenceListForCurrentHeuristic } =
+            removeEvidenceFromLocalStorage(evidence, heuristicNumber);
+
+        setSelectedEvidences(newEvidenceListForCurrentHeuristic);
+        // onChangeEvidenceList(newEvidenceListForCurrentHeuristic);
+
+        console.log({ newEvidenceListForCurrentHeuristic });
+
+        // onSaveEvidence();
+    }
+
     const getEvidenceFiles = () => {
         if (!driveData || !currentPlayer) return;
         console.log({ currentPlayer });
@@ -181,6 +303,27 @@ function Evidence({
 
     // setEvidencesToShow();
 
+    function saveEvidenceOnLocalStorage(selectedEvidences) {
+        if (window !== undefined) {
+            const _evidenceListFromLocalStorage =
+                JSON.parse(localStorage.getItem("evidenceList")) || [];
+            const evidenceListFiltered = _evidenceListFromLocalStorage.filter(
+                (item) => item.heuristic !== heuristicNumber
+            );
+
+            const newEvidenceList = {
+                heuristic: heuristicNumber,
+                evidenceList: selectedEvidences,
+            };
+
+            evidenceListFiltered.push(newEvidenceList);
+            localStorage.setItem(
+                "evidenceList",
+                JSON.stringify(evidenceListFiltered)
+            );
+        }
+    }
+
     return (
         <div
             id="evidenceBox"
@@ -204,19 +347,40 @@ function Evidence({
 
                     <EvidenceModal
                         isOpen={isModalOpen}
-                        onClose={() => setIsModalOpen(false)}
+                        onClose={() => {
+                            setIsModalOpen(false);
+                        }}
                         files={evidenceFiles}
                         selectedFiles={selectedEvidences}
-                        evidenceList={evidenceList}
+                        evidenceList={getEvidenceListFromLocalStorage(
+                            heuristicNumber
+                        )}
                         onSelectionChange={setSelectedEvidences}
+                        onSaveEvidence={onSaveEvidence}
+                        saveEvidenceOnLocalStorage={saveEvidenceOnLocalStorage}
                     />
-                    {/* <Debug data={evidenceList} /> */}
+                    {/* <Debug
+                        data={getEvidenceListFromLocalStorage(heuristicNumber)}
+                    /> */}
+                    <Debug data={scoreChanged} />
                     {/* <Debug data={selectedEvidences} /> */}
-                    {selectedEvidences?.length > 0 && (
+                    {getEvidenceListFromLocalStorage(heuristicNumber)?.length >
+                        0 && (
                         <ul className="flex flex-col gap-2 mt-2">
-                            {selectedEvidences?.map((evidence, index) => (
+                            {getEvidenceListFromLocalStorage(
+                                heuristicNumber
+                            )?.map((evidence, index) => (
                                 <li
-                                    key={evidence.fileId}
+                                    key={
+                                        evidence.fileId +
+                                        "_h_" +
+                                        heuristicNumber
+                                    }
+                                    id={
+                                        evidence.fileId +
+                                        "_h_" +
+                                        heuristicNumber
+                                    }
                                     className="flex items-center gap-2 bg-slate-100 dark:bg-slate-700 p-2 rounded-md"
                                 >
                                     <span className="text-sm text-slate-700 dark:text-slate-300">
@@ -230,13 +394,7 @@ function Evidence({
                                             //             ev.fileName !==
                                             //             evidence.fileName
                                             //     );
-                                            setSelectedEvidences((prev) => {
-                                                return prev.filter(
-                                                    (ev) =>
-                                                        ev.fileId !==
-                                                        evidence.fileId
-                                                );
-                                            });
+                                            handleClickRemoveEvidence(evidence);
                                         }}
                                         className="text-red-500 hover:text-red-700"
                                     >
