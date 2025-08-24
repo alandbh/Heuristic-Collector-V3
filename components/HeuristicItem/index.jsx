@@ -970,6 +970,8 @@ function HeuristicItem({
                             disabled={getUserLevel(userType) === 3}
                             scoreChanged={scoreChanged}
                             setScoreChanged={setScoreChanged}
+                            userLevel={getUserLevel(userType)}
+                            userType={userType}
                         />
 
                         {/* <Debug data={user}></Debug> */}
