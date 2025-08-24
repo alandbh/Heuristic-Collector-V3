@@ -7,6 +7,8 @@ export default function EvidenceModal({
     selectedFiles,
     evidenceList,
     onSelectionChange,
+    onSaveEvidence,
+    saveEvidenceOnLocalStorage,
 }) {
     if (!isOpen || !files) return null;
 
@@ -14,6 +16,7 @@ export default function EvidenceModal({
 
     useEffect(() => {
         onSelectionChange(selectedFilesState);
+        saveEvidenceOnLocalStorage(selectedFilesState);
     }, [selectedFilesState]);
 
     const handleCheckboxChange = (e, file) => {
@@ -34,6 +37,12 @@ export default function EvidenceModal({
             );
         }
     };
+
+    function handleClickSaveSelection() {
+        onSaveEvidence(selectedFilesState);
+
+        onClose();
+    }
 
     return (
         // Overlay
@@ -88,10 +97,10 @@ export default function EvidenceModal({
                 {/* Footer */}
                 <div className="flex justify-end border-t border-gray-200 pt-4">
                     <button
-                        onClick={onClose}
+                        onClick={handleClickSaveSelection}
                         className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition-colors"
                     >
-                        Confirmar
+                        Save selection
                     </button>
                 </div>
             </div>
