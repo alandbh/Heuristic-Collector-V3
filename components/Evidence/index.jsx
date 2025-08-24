@@ -445,14 +445,17 @@ function Evidence({
                             heuristicNumber,
                         }}
                     /> */}
-                    <Debug data={selectedEvidences} />
-                    <Debug
+                    {/* <Debug data={selectedEvidences} /> */}
+                    {/* <Debug
                         data={getEvidenceListFromLocalStorage(
                             heuristicNumber,
                             currentJourney,
                             currentPlayer
-                        )}
-                    />
+                        )
+                            .map((evidence) => evidence.fileName)
+                            .map((name) => name.split(".")[0])
+                            .join(", ")}
+                    /> */}
                     {getEvidenceListFromLocalStorage(
                         heuristicNumber,
                         currentJourney,
@@ -504,7 +507,14 @@ function Evidence({
                         disabled={disabled}
                         type="text"
                         placeholder="https://"
-                        value={evidenceUrl || ""}
+                        value={getEvidenceListFromLocalStorage(
+                            heuristicNumber,
+                            currentJourney,
+                            currentPlayer
+                        )
+                            .map((evidence) => evidence.fileName)
+                            .map((name) => name.split(".")[0])
+                            .join(", ")}
                         onChange={(ev) => {
                             onChangeEvidenceUrl(ev.target.value);
                         }}
