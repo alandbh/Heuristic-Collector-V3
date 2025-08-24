@@ -112,6 +112,8 @@ function Evidence({
     disabled = false,
     setScoreChanged,
     scoreChanged,
+    userLevel,
+    userType,
 }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedEvidences, setSelectedEvidences] = useState([]);
@@ -403,124 +405,147 @@ function Evidence({
         >
             <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
-                    <label
-                        className="text-slate-900/50 dark:text-slate-50/50"
-                        htmlFor={"evidenceUrl_" + hid}
-                    >
-                        <b>Evidence file{"(s)"}</b>
-                    </label>
-                    <button
-                        onClick={() => {
-                            setIsModalOpen(true);
-                        }}
-                        className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
-                    >
-                        Add Evidences
-                    </button>
+                    {userType === "admin" && (
+                        <div className="flex flex-col gap-1">
+                            <label
+                                className="text-slate-900/50 dark:text-slate-50/50"
+                                htmlFor={"evidenceUrl_" + hid}
+                            >
+                                <b>Evidence file{"(s)"}</b>
+                            </label>
+                            <button
+                                onClick={() => {
+                                    setIsModalOpen(true);
+                                }}
+                                className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
+                            >
+                                Add Evidences
+                            </button>
 
-                    <EvidenceModal
-                        isOpen={isModalOpen}
-                        onClose={() => {
-                            setIsModalOpen(false);
-                        }}
-                        files={evidenceFiles}
-                        selectedFiles={selectedEvidences}
-                        evidenceList={getEvidenceListFromLocalStorage(
-                            heuristicNumber,
-                            currentJourney,
-                            currentPlayer
-                        )}
-                        onSelectionChange={handleSelectionChange}
-                        onSaveEvidence={onSaveEvidence}
-                        saveEvidenceOnLocalStorage={saveEvidenceOnLocalStorage}
-                    />
-                    {/* <Debug
-                        data={getEvidenceListFromLocalStorage(heuristicNumber, currentJourney, currentPlayer)}
-                    /> */}
-                    <Debug data={scoreChanged} />
-                    {/* <Debug
-                        data={{
-                            currentJourney,
-                            currentPlayer,
-                            heuristicNumber,
-                        }}
-                    /> */}
-                    {/* <Debug data={selectedEvidences} /> */}
-                    {/* <Debug
-                        data={getEvidenceListFromLocalStorage(
-                            heuristicNumber,
-                            currentJourney,
-                            currentPlayer
-                        )
-                            .map((evidence) => evidence.fileName)
-                            .map((name) => name.split(".")[0])
-                            .join(", ")}
-                    /> */}
-                    {getEvidenceListFromLocalStorage(
-                        heuristicNumber,
-                        currentJourney,
-                        currentPlayer
-                    )?.length > 0 && (
-                        <ul className="flex flex-col gap-2 mt-2">
+                            <EvidenceModal
+                                isOpen={isModalOpen}
+                                onClose={() => {
+                                    setIsModalOpen(false);
+                                }}
+                                files={evidenceFiles}
+                                selectedFiles={selectedEvidences}
+                                evidenceList={getEvidenceListFromLocalStorage(
+                                    heuristicNumber,
+                                    currentJourney,
+                                    currentPlayer
+                                )}
+                                onSelectionChange={handleSelectionChange}
+                                onSaveEvidence={onSaveEvidence}
+                                saveEvidenceOnLocalStorage={
+                                    saveEvidenceOnLocalStorage
+                                }
+                            />
+                            {/* <Debug
+                                    data={getEvidenceListFromLocalStorage(heuristicNumber, currentJourney, currentPlayer)}
+                                /> */}
+                            <Debug data={scoreChanged} />
+                            <Debug data={{ userLevel, userType }} />
+                            {/* <Debug
+                                    data={{
+                                        currentJourney,
+                                        currentPlayer,
+                                        heuristicNumber,
+                                    }}
+                                /> */}
+                            {/* <Debug data={selectedEvidences} /> */}
+                            {/* <Debug
+                                    data={getEvidenceListFromLocalStorage(
+                                        heuristicNumber,
+                                        currentJourney,
+                                        currentPlayer
+                                    )
+                                        .map((evidence) => evidence.fileName)
+                                        .map((name) => name.split(".")[0])
+                                        .join(", ")}
+                                /> */}
+
                             {getEvidenceListFromLocalStorage(
                                 heuristicNumber,
                                 currentJourney,
                                 currentPlayer
-                            )?.map((evidence, index) => (
-                                <li
-                                    key={
-                                        evidence.fileId +
-                                        "_h_" +
-                                        heuristicNumber
-                                    }
-                                    id={
-                                        evidence.fileId +
-                                        "_h_" +
-                                        heuristicNumber
-                                    }
-                                    className="flex items-center gap-2 bg-slate-100 dark:bg-slate-700 p-2 rounded-md"
-                                >
-                                    <span className="text-sm text-slate-700 dark:text-slate-300">
-                                        {evidence.fileName}
-                                    </span>
-                                    <button
-                                        onClick={() => {
-                                            // const updatedList =
-                                            //     selectedEvidences.filter(
-                                            //         (ev) =>
-                                            //             ev.fileName !==
-                                            //             evidence.fileName
-                                            //     );
-                                            handleClickRemoveEvidence(evidence);
-                                        }}
-                                        className="text-red-500 hover:text-red-700"
-                                    >
-                                        Remove
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
+                            )?.length > 0 && (
+                                <ul className="flex flex-col gap-2 mt-2">
+                                    {getEvidenceListFromLocalStorage(
+                                        heuristicNumber,
+                                        currentJourney,
+                                        currentPlayer
+                                    )?.map((evidence, index) => (
+                                        <li
+                                            key={
+                                                evidence.fileId +
+                                                "_h_" +
+                                                heuristicNumber
+                                            }
+                                            id={
+                                                evidence.fileId +
+                                                "_h_" +
+                                                heuristicNumber
+                                            }
+                                            className="flex items-center gap-2 bg-slate-100 dark:bg-slate-700 p-2 rounded-md"
+                                        >
+                                            <span className="text-sm text-slate-700 dark:text-slate-300">
+                                                {evidence.fileName}
+                                            </span>
+                                            <button
+                                                onClick={() => {
+                                                    // const updatedList =
+                                                    //     selectedEvidences.filter(
+                                                    //         (ev) =>
+                                                    //             ev.fileName !==
+                                                    //             evidence.fileName
+                                                    //     );
+                                                    handleClickRemoveEvidence(
+                                                        evidence
+                                                    );
+                                                }}
+                                                className="text-red-500 hover:text-red-700"
+                                            >
+                                                Remove
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
                     )}
 
-                    <input
-                        id={"evidenceUrl_" + hid}
-                        disabled={disabled}
-                        type="text"
-                        placeholder="https://"
-                        value={getEvidenceListFromLocalStorage(
-                            heuristicNumber,
-                            currentJourney,
-                            currentPlayer
-                        )
-                            .map((evidence) => evidence.fileName)
-                            .map((name) => name.split(".")[0])
-                            .join(", ")}
-                        onChange={(ev) => {
-                            onChangeEvidenceUrl(ev.target.value);
-                        }}
-                        ref={urlRef}
-                        className="w-full border border-slate-300 dark:border-slate-500 p-2 h-10 text-slate-500 dark:text-slate-300 rounded-md"
-                    />
+                    {userType === "admin" ? (
+                        <input
+                            id={"evidenceUrl_" + hid}
+                            disabled={disabled}
+                            type="text"
+                            placeholder="https://"
+                            value={getEvidenceListFromLocalStorage(
+                                heuristicNumber,
+                                currentJourney,
+                                currentPlayer
+                            )
+                                .map((evidence) => evidence.fileName)
+                                .map((name) => name.split(".")[0])
+                                .map((name) => name.split("-")[0])
+                                .join(", ")}
+                            onChange={(ev) => {
+                                onChangeEvidenceUrl(ev.target.value);
+                            }}
+                            ref={urlRef}
+                            className="w-full border border-slate-300 dark:border-slate-500 p-2 h-10 text-slate-500 dark:text-slate-300 rounded-md"
+                        />
+                    ) : (
+                        <input
+                            id={"evidenceUrl_" + hid}
+                            disabled={disabled}
+                            type="text"
+                            placeholder="https://"
+                            value={evidenceUrl || ""}
+                            ref={urlRef}
+                            className="w-full border border-slate-300 dark:border-slate-500 p-2 h-10 text-slate-500 dark:text-slate-300 rounded-md"
+                        />
+                    )}
                 </div>
                 <div className="flex flex-col gap-1">
                     <label
