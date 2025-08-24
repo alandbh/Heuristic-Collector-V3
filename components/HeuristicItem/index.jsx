@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 
 import { useProjectContext } from "../../context/project";
 import { useScoresObjContext } from "../../context/scoresObj";
@@ -31,6 +31,8 @@ import { Toggle } from "../Toggle";
 
 function HeuristicItem({
     heuristic,
+    scoreChanged,
+    setScoreChanged,
     id,
     allScoresJson,
     allScoresObj,
@@ -59,11 +61,17 @@ function HeuristicItem({
     const [showScoreAlert, setShowScoreAlert] = useState(false);
     const [showPreviousScoreAlert, setShowPreviousScoreAlert] = useState(true);
     const [reviewed, setReviewed] = useState(false);
+    const [currentScore, setCurrentScore] = useState(null);
 
-    const currentScore = allScoresObj?.find(
-        (someScore) =>
-            someScore.heuristic.heuristicNumber === heuristic.heuristicNumber
-    );
+    useEffect(() => {
+        const _currentScore = allScoresObj?.find(
+            (someScore) =>
+                someScore.heuristic.heuristicNumber ===
+                heuristic.heuristicNumber
+        );
+
+        setCurrentScore(_currentScore);
+    }, []);
 
     // console.log("allScoresObj", allScoresObj);
 
@@ -169,6 +177,38 @@ function HeuristicItem({
             setEvidenceUrl(currentScore.evidenceUrl);
             setEvidenceList(currentScore.evidenceList);
 
+            if (window !== undefined) {
+                const evidenceListFromLocalStorage =
+                    JSON.parse(localStorage.getItem("evidenceList")) || [];
+                const evidenceListFiltered =
+                    evidenceListFromLocalStorage.length > 0
+                        ? evidenceListFromLocalStorage.filter(
+                              (item) =>
+                                  item.heuristic !==
+                                      heuristic.heuristicNumber &&
+                                  item.player === currentPlayer.slug &&
+                                  item.journey === currentJourney
+                          )
+                        : [];
+
+                console.log(
+                    "evidenceListFiltered",
+                    evidenceListFromLocalStorage
+                );
+
+                const evidenceListItemToAdd = {
+                    player: currentPlayer.slug,
+                    journey: currentJourney,
+                    heuristic: heuristic.heuristicNumber,
+                    evidenceList: currentScore.evidenceList || [],
+                };
+                evidenceListFiltered.push(evidenceListItemToAdd);
+                localStorage.setItem(
+                    "evidenceList",
+                    JSON.stringify(evidenceListFiltered)
+                );
+            }
+
             if (currentScore.note.length > 0 || currentScore.scoreValue > 0) {
                 setEnable(true);
 
@@ -220,7 +260,12 @@ function HeuristicItem({
         if (currentScore) {
             console.log("currentScore.changed", new Date().getTime());
 
-            // delay(() => {}, 6000);
+            if (window !== undefined) {
+                const evidenceListFromLocalStorage =
+                    JSON.parse(localStorage.getItem("evidenceList")) || [];
+
+                setEvidenceList(evidenceListFromLocalStorage);
+            }
         }
     }, [currentScore]);
 
@@ -232,7 +277,7 @@ function HeuristicItem({
      *
      */
 
-    const doTheChangeInScoreObj = (
+    const doTheChangeInScoreObj = async (
         allScoresObjJsonClone,
         customMessage,
         callBack
@@ -240,7 +285,7 @@ function HeuristicItem({
         const message =
             customMessage ||
             `Heuristic ${currentScore.heuristic.heuristicNumber} updated!`;
-        processChange(
+        const freshData = await processChange(
             client,
             {
                 playerId: currentPlayer.id,
@@ -248,6 +293,20 @@ function HeuristicItem({
             },
             MUTATION_SCORE_OBJ
         );
+
+        const freshScore = freshData.updatePlayer.scoresObject[
+            currentJourney
+        ].find(
+            (someScore) =>
+                someScore.heuristic.heuristicNumber ===
+                heuristic.heuristicNumber
+        );
+
+        setCurrentScore(freshScore);
+        console.log({
+            freshDataCURRENT: currentScore,
+            freshDataScore: freshScore,
+        });
 
         async function getNewData() {
             if (callBack) {
@@ -265,11 +324,13 @@ function HeuristicItem({
             open: true,
             text: message,
         });
+        setStatus("loading");
         setTimeout(() => {
             setToast({
                 open: false,
                 text: "",
             });
+            setStatus("saved");
         }, 4000);
     }, []);
 
@@ -412,7 +473,13 @@ function HeuristicItem({
     }
     async function handleChangeEvidenceList(evidenceArray) {
         setEvidenceList(evidenceArray);
-        setStatus("active");
+        // setEvidenceList(currentScore.evidenceList);
+        // setStatus("active");
+        // setScoreHasChanged(true);
+
+        delay(async () => {
+            const newScoresJson = await getNewScoresJson();
+        }, 400);
     }
 
     /**
@@ -431,7 +498,9 @@ function HeuristicItem({
 
         let allScoresObjJson = JSON.stringify(newScoresJson);
         let allScoresObjJsonClone = JSON.parse(allScoresObjJson);
-        allScoresObjJsonClone[router.query.journey].map((item) => {
+        const newAllScoresObjJsonClone = allScoresObjJsonClone[
+            router.query.journey
+        ].map((item) => {
             if (item.id === currentScore.id) {
                 const updateObj = {
                     dateTime: new Date().getTime(),
@@ -488,11 +557,14 @@ function HeuristicItem({
             return item;
         });
 
+        console.log("newAllScoresObjJsonClone", newAllScoresObjJsonClone);
+
         doTheChangeInScoreObj(
             allScoresObjJsonClone,
             `Evidence for Heuristic ${currentScore.heuristic.heuristicNumber} updated!`,
             () => {
                 // setStatus("changed");
+                setScoreChanged(true);
             }
         );
     }
@@ -893,8 +965,11 @@ function HeuristicItem({
                             onChangeEvidenceList={handleChangeEvidenceList}
                             onSaveEvidence={onSaveEvidence}
                             status={status}
+                            heuristicNumber={heuristic.heuristicNumber}
                             hid={heuristic.id}
                             disabled={getUserLevel(userType) === 3}
+                            scoreChanged={scoreChanged}
+                            setScoreChanged={setScoreChanged}
                         />
 
                         {/* <Debug data={user}></Debug> */}

@@ -10,14 +10,16 @@ export default function EvidenceModal({
     onSaveEvidence,
     saveEvidenceOnLocalStorage,
 }) {
-    if (!isOpen || !files) return null;
-
-    const [selectedFilesState, setSelectedFilesState] = useState(evidenceList);
+    const [selectedFilesState, setSelectedFilesState] = useState(
+        evidenceList || []
+    );
 
     useEffect(() => {
         onSelectionChange(selectedFilesState);
         saveEvidenceOnLocalStorage(selectedFilesState);
     }, [selectedFilesState]);
+
+    if (!isOpen || !files) return null;
 
     const handleCheckboxChange = (e, file) => {
         if (e.target.checked) {
@@ -39,7 +41,7 @@ export default function EvidenceModal({
     };
 
     function handleClickSaveSelection() {
-        onSaveEvidence(selectedFilesState);
+        // onSaveEvidence();
 
         onClose();
     }
@@ -100,27 +102,10 @@ export default function EvidenceModal({
                         onClick={handleClickSaveSelection}
                         className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition-colors"
                     >
-                        Save selection
+                        Apply selection
                     </button>
                 </div>
             </div>
         </div>
     );
 }
-
-const Checkbox = ({ file, selectedFiles, handleCheckboxChange }) => {
-    const isChecked =
-        selectedFiles?.some(
-            (selectedFile) => selectedFile.fileName === file.name
-        ) || false;
-
-    return (
-        <input
-            type="checkbox"
-            id={file.id}
-            checked={isChecked}
-            onChange={(e) => handleCheckboxChange(e, file)}
-            className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-        />
-    );
-};

@@ -24,35 +24,50 @@ const areArraysIdentical = (array1, array2) => {
     return JSON.stringify(sortedArray1) === JSON.stringify(sortedArray2);
 };
 
-function getEvidenceListFromLocalStorage(heuristicNumber) {
+function getEvidenceListFromLocalStorage(heuristicNumber, journey, player) {
     if (window !== undefined) {
         const _evidenceListFromLocalStorage =
             JSON.parse(localStorage.getItem("evidenceList")) || [];
         const evidenceListFiltered = _evidenceListFromLocalStorage.find(
-            (item) => item.heuristic === heuristicNumber
+            (item) =>
+                item.heuristic === heuristicNumber &&
+                item.journey === journey &&
+                item.player === player
         );
         // setEvidenceListFromLocalStorage(evidenceListFiltered);
         // setEvidenceList(evidenceListFiltered.evidenceList);
 
-        return evidenceListFiltered.evidenceList || [];
+        return evidenceListFiltered ? evidenceListFiltered.evidenceList : [];
 
         console.log({ evidenceListFiltered });
     }
 }
 
-function removeEvidenceFromLocalStorage(evidence, heuristicNumber) {
+function removeEvidenceFromLocalStorage(
+    evidence,
+    heuristicNumber,
+    journey,
+    player
+) {
     if (window !== undefined) {
         const _evidenceListFromLocalStorage =
             JSON.parse(localStorage.getItem("evidenceList")) || [];
 
         const evidenceListForCurrentHeuristic =
             _evidenceListFromLocalStorage.find(
-                (item) => item.heuristic === heuristicNumber
+                (item) =>
+                    item.heuristic === heuristicNumber &&
+                    item.journey === journey &&
+                    item.player === player
             );
 
         const evidenceListFiltered = _evidenceListFromLocalStorage.filter(
-            (item) => item.heuristic !== heuristicNumber
+            (item) =>
+                item.heuristic !== heuristicNumber &&
+                item.journey === journey &&
+                item.player === player
         );
+        console.log({ evidenceListFiltered, _evidenceListFromLocalStorage });
 
         const newEvidenceListForCurrentHeuristic =
             evidenceListForCurrentHeuristic.evidenceList.filter(
@@ -61,6 +76,8 @@ function removeEvidenceFromLocalStorage(evidence, heuristicNumber) {
 
         const newEvidenceObject = {
             heuristic: heuristicNumber,
+            journey: journey,
+            player: player,
             evidenceList: newEvidenceListForCurrentHeuristic,
         };
 
@@ -106,6 +123,8 @@ function Evidence({
     const urlRef = useRef(null);
     const collapseRef = useRef(null);
 
+    console.log({ status });
+
     useEffect(() => {
         if (window !== undefined) {
             // const _evidenceListFromLocalStorage =
@@ -123,10 +142,22 @@ function Evidence({
 
             console.log(
                 "evidenceListFromLocalStorage",
-                getEvidenceListFromLocalStorage(heuristicNumber)
+                getEvidenceListFromLocalStorage(
+                    heuristicNumber,
+                    currentJourney,
+                    currentPlayer
+                )
             );
 
-            setEvidenceList(getEvidenceListFromLocalStorage(heuristicNumber));
+            setNewStatus("saved");
+
+            setEvidenceList(
+                getEvidenceListFromLocalStorage(
+                    heuristicNumber,
+                    currentJourney,
+                    currentPlayer
+                )
+            );
         }
     }, [scoreChanged]);
     useEffect(() => {
@@ -179,20 +210,26 @@ function Evidence({
         if (window !== undefined) {
             const _evidenceListFromLocalStorage =
                 JSON.parse(localStorage.getItem("evidenceList")) || [];
-            const evidenceListFiltered = _evidenceListFromLocalStorage.filter(
-                (item) => item.heuristic === heuristicNumber
+            const evidenceListFiltered = _evidenceListFromLocalStorage.find(
+                (item) =>
+                    item.heuristic === heuristicNumber &&
+                    item.journey === currentJourney &&
+                    item.player === currentPlayer
             );
+
             // setEvidenceListFromLocalStorage(evidenceListFiltered);
-            setEvidenceList(evidenceListFiltered.evidenceList || []);
+            // setEvidenceList(
+            //     evidenceListFiltered ? evidenceListFiltered.evidenceList : []
+            // );
         }
 
         // setNewStatus("active");
-        if (areArraysIdentical(evidenceList, selectedEvidences)) {
-            setNewStatus("saved");
-            onChangeEvidenceList(selectedEvidences);
-        } else {
-            setNewStatus("active");
-        }
+        // if (areArraysIdentical(evidenceList, selectedEvidences)) {
+        //     setNewStatus("saved");
+        //     onChangeEvidenceList(selectedEvidences);
+        // } else {
+        //     setNewStatus("active");
+        // }
     }, [selectedEvidences]);
 
     useEffect(() => {
@@ -209,6 +246,9 @@ function Evidence({
             collapseRef.current.style.display = "block";
             collapseRef.current.style.transition = "0.3s";
             // urlRef.current.focus();
+            if (collapseRef.current.style.height !== "0px") {
+                collapseRef.current.style.height = "auto";
+            }
 
             setTimeout(() => {
                 collapseRef.current.style.height = height + "px";
@@ -257,6 +297,22 @@ function Evidence({
         // setNewStatus("active");
     }
 
+    function handleSelectionChange(newSelectedEvidences) {
+        setSelectedEvidences(newSelectedEvidences);
+        setNewStatus("active");
+
+        // // Save the selected evidences on local storage
+        // saveEvidenceOnLocalStorage(newSelectedEvidences);
+
+        // // Check if the selected evidences are the same as the evidence list
+        // if (areArraysIdentical(evidenceList, newSelectedEvidences)) {
+        //     setNewStatus("saved");
+        //     onChangeEvidenceList(newSelectedEvidences);
+        // } else {
+        //     setNewStatus("active");
+        // }
+    }
+
     function handleSaveEvidence() {
         if (newStatus === "active") {
             onSaveEvidence();
@@ -266,10 +322,20 @@ function Evidence({
 
     function handleClickRemoveEvidence(evidence) {
         const { newEvidenceListForCurrentHeuristic } =
-            removeEvidenceFromLocalStorage(evidence, heuristicNumber);
+            removeEvidenceFromLocalStorage(
+                evidence,
+                heuristicNumber,
+                currentJourney,
+                currentPlayer
+            );
 
         setSelectedEvidences(newEvidenceListForCurrentHeuristic);
+        setNewStatus("active");
         // onChangeEvidenceList(newEvidenceListForCurrentHeuristic);
+
+        changeCollapseHeight(
+            collapseRef ? collapseRef.current.scrollHeight : 0
+        );
 
         console.log({ newEvidenceListForCurrentHeuristic });
 
@@ -308,11 +374,16 @@ function Evidence({
             const _evidenceListFromLocalStorage =
                 JSON.parse(localStorage.getItem("evidenceList")) || [];
             const evidenceListFiltered = _evidenceListFromLocalStorage.filter(
-                (item) => item.heuristic !== heuristicNumber
+                (item) =>
+                    item.heuristic !== heuristicNumber &&
+                    item.journey === currentJourney &&
+                    item.player === currentPlayer
             );
 
             const newEvidenceList = {
                 heuristic: heuristicNumber,
+                journey: currentJourney,
+                player: currentPlayer,
                 evidenceList: selectedEvidences,
             };
 
@@ -339,7 +410,9 @@ function Evidence({
                         <b>Evidence file{"(s)"}</b>
                     </label>
                     <button
-                        onClick={() => handleClickAddEvidence()}
+                        onClick={() => {
+                            setIsModalOpen(true);
+                        }}
                         className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
                     >
                         Add Evidences
@@ -353,22 +426,43 @@ function Evidence({
                         files={evidenceFiles}
                         selectedFiles={selectedEvidences}
                         evidenceList={getEvidenceListFromLocalStorage(
-                            heuristicNumber
+                            heuristicNumber,
+                            currentJourney,
+                            currentPlayer
                         )}
-                        onSelectionChange={setSelectedEvidences}
+                        onSelectionChange={handleSelectionChange}
                         onSaveEvidence={onSaveEvidence}
                         saveEvidenceOnLocalStorage={saveEvidenceOnLocalStorage}
                     />
                     {/* <Debug
-                        data={getEvidenceListFromLocalStorage(heuristicNumber)}
+                        data={getEvidenceListFromLocalStorage(heuristicNumber, currentJourney, currentPlayer)}
                     /> */}
                     <Debug data={scoreChanged} />
-                    {/* <Debug data={selectedEvidences} /> */}
-                    {getEvidenceListFromLocalStorage(heuristicNumber)?.length >
-                        0 && (
+                    {/* <Debug
+                        data={{
+                            currentJourney,
+                            currentPlayer,
+                            heuristicNumber,
+                        }}
+                    /> */}
+                    <Debug data={selectedEvidences} />
+                    <Debug
+                        data={getEvidenceListFromLocalStorage(
+                            heuristicNumber,
+                            currentJourney,
+                            currentPlayer
+                        )}
+                    />
+                    {getEvidenceListFromLocalStorage(
+                        heuristicNumber,
+                        currentJourney,
+                        currentPlayer
+                    )?.length > 0 && (
                         <ul className="flex flex-col gap-2 mt-2">
                             {getEvidenceListFromLocalStorage(
-                                heuristicNumber
+                                heuristicNumber,
+                                currentJourney,
+                                currentPlayer
                             )?.map((evidence, index) => (
                                 <li
                                     key={
