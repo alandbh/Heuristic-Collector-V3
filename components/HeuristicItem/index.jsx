@@ -43,18 +43,21 @@ function HeuristicItem({
     const [evidenceUrl, setEvidenceUrl] = useState(
         currentScore?.evidenceUrl || ""
     );
-    const { getNewScoresJson } = useScoresObjContext();
+    const { getNewScoresJson, getNewScoresObj } = useScoresObjContext();
     const [boxOpen, setBoxOpen] = useState(false);
     const router = useRouter();
     const { user, userType } = useCredentialsContext();
     const [scoreHasChanged, setScoreHasChanged] = useState(false);
-    const [enable, setEnable] = useState(false);
+    // const [enable, setEnable] = useState(false);
     const [toast, setToast] = useState({ open: false, text: "" });
     const [scoreAlert, setScoreAlert] = useState(null);
     const [currentJourney, setCurrentJourney] = useState(null);
     const [showScoreAlert, setShowScoreAlert] = useState(false);
     const [showPreviousScoreAlert, setShowPreviousScoreAlert] = useState(true);
     const [reviewed, setReviewed] = useState(false);
+    const [updatedAt, setUpdatedAt] = useState("");
+
+    let enable = false;
 
     const currentScore = allScoresObj?.find(
         (someScore) =>
@@ -162,15 +165,8 @@ function HeuristicItem({
             setScoreValue(currentScore.scoreValue);
             setText(currentScore.note);
             setEvidenceUrl(currentScore.evidenceUrl);
+            setReviewed(Boolean(currentScore.reviewed));
 
-            if (currentScore.note.length > 0 || currentScore.scoreValue > 0) {
-                setEnable(true);
-
-                makeScoreAlert(
-                    currentScore.scoreValue,
-                    currentScore.showScoreAlert
-                );
-            }
             setEmpty(false);
             console.log("currentScore", currentScore);
         } else {
@@ -201,8 +197,8 @@ function HeuristicItem({
             // setText(currentScore.note);
             // setEvidenceUrl(currentScore.evidenceUrl);
             // delay(() => {}, 6000);
-            debounce(setReviewed(Boolean(currentScore.reviewed)), 2000);
-            // setReviewed(Boolean(currentScore.reviewed));
+            // debounce(setReviewed(Boolean(currentScore.reviewed)), 2000);
+            setReviewed(Boolean(currentScore.reviewed));
             // delayv2(setReviewed(Boolean(currentScore.reviewed)), 2000);
             // setReviewed(Boolean(currentScore.reviewed));
         }
@@ -226,15 +222,17 @@ function HeuristicItem({
      *
      */
 
-    const doTheChangeInScoreObj = (
+    const doTheChangeInScoreObj = async (
         allScoresObjJsonClone,
         customMessage,
+
         callBack
     ) => {
         const message =
             customMessage ||
             `Heuristic ${currentScore.heuristic.heuristicNumber} updated!`;
-        processChange(
+
+        const freshData = await processChange(
             client,
             {
                 playerId: currentPlayer.id,
@@ -243,15 +241,19 @@ function HeuristicItem({
             MUTATION_SCORE_OBJ
         );
 
+        setUpdatedAt(new Date().getTime());
+
         async function getNewData() {
             if (callBack) {
-                callBack();
+                callBack(freshData);
             }
 
             // toastMessage(message);
         }
 
         getNewData();
+
+        return freshData;
     };
 
     const toastMessage = useCallback((message) => {
@@ -339,9 +341,37 @@ function HeuristicItem({
         setScoreHasChanged(false);
         setStatus("loading");
 
-        doTheChangeInScoreObj(allScoresObjJsonClone, null, () => {
-            // setStatus("loading");
-        });
+        let freshData = null;
+        async function getFreshData() {
+            const data = await doTheChangeInScoreObj(
+                allScoresObjJsonClone,
+                null,
+                (response) => {
+                    console.log(
+                        "freshData",
+                        response.publishPlayer.scoresObject
+                    );
+
+                    if (
+                        currentScore.note.length > 0 ||
+                        currentScore.scoreValue > 0
+                    ) {
+                        // setEnable(true);
+                        enable = true;
+
+                        makeScoreAlert(
+                            response.publishPlayer.scoresObject,
+                            currentScore.scoreValue,
+                            currentScore.showScoreAlert
+                        );
+                    }
+                }
+            );
+            freshData = data;
+            return data;
+        }
+
+        getFreshData();
     }, [scoreValue, scoreHasChanged, showScoreAlert, showPreviousScoreAlert]);
 
     /**
@@ -363,7 +393,7 @@ function HeuristicItem({
         // setScoreHasChanged(true);
 
         delay(async () => {
-            const newScoresJson = await getNewScoresJson();
+            // const newScoresJson = await getNewScoresJson();
 
             setScoreHasChanged(true);
         }, 400);
@@ -372,13 +402,13 @@ function HeuristicItem({
         // const newScoreValue = Number(ev.target.value);
         setScoreValue(Number(_scoreValue));
 
-        makeScoreAlert(_scoreValue, true);
+        // makeScoreAlert(_scoreValue, true);
         setShowPreviousScoreAlert(true);
 
         // setScoreHasChanged(true);
 
         delay(async () => {
-            const newScoresJson = await getNewScoresJson();
+            // const newScoresJson = await getNewScoresJson();
 
             setScoreHasChanged(true);
         }, 400);
@@ -416,8 +446,14 @@ function HeuristicItem({
 
         const newScoresJson = await getNewScoresJson();
 
+        console.log("newScoresJson", newScoresJson);
+        console.log("evidenceUrl", evidenceUrl);
+        // return;
+
         let allScoresObjJson = JSON.stringify(newScoresJson);
         let allScoresObjJsonClone = JSON.parse(allScoresObjJson);
+
+        // return;
         allScoresObjJsonClone[router.query.journey].map((item) => {
             if (item.id === currentScore.id) {
                 const updateObj = {
@@ -471,14 +507,33 @@ function HeuristicItem({
 
             return item;
         });
+        console.log("newAllScoresObjJsonClone", allScoresObjJsonClone);
+        // return;
 
-        doTheChangeInScoreObj(
-            allScoresObjJsonClone,
-            `Evidence for Heuristic ${currentScore.heuristic.heuristicNumber} updated!`,
-            () => {
-                // setStatus("changed");
-            }
-        );
+        // doTheChangeInScoreObj(
+        //     allScoresObjJsonClone,
+        //     `Evidence * for Heuristic ${currentScore.heuristic.heuristicNumber} updated!`,
+        //     () => {
+        //         // setStatus("changed");
+        //     }
+        // );
+
+        async function getFreshData() {
+            const data = await doTheChangeInScoreObj(
+                allScoresObjJsonClone,
+                null,
+                (response) => {
+                    console.log(
+                        "freshData",
+                        response.publishPlayer.scoresObject
+                    );
+                }
+            );
+
+            return data;
+        }
+
+        getFreshData();
     }
 
     const scoreDescription = {
@@ -521,13 +576,23 @@ function HeuristicItem({
             return item;
         });
 
-        doTheChangeInScoreObj(
-            allScoresObjJsonClone,
-            `Heuristic ${currentScore.heuristic.heuristicNumber} reviewed!`,
-            () => {
-                // setStatus("changed");
-            }
-        );
+        async function getFreshData() {
+            const data = await doTheChangeInScoreObj(
+                allScoresObjJsonClone,
+                null,
+                (response) => {
+                    console.log(
+                        "freshData",
+                        response.publishPlayer.scoresObject
+                    );
+                }
+            );
+
+            setStatus("saved");
+            return data;
+        }
+
+        getFreshData();
     }
 
     /**
@@ -588,13 +653,13 @@ function HeuristicItem({
         return <div>Empty</div>;
     }
 
-    async function makeScoreAlert(_scoreValue, show = false) {
+    async function makeScoreAlert(newScoresJson, _scoreValue, show = false) {
         console.log("newScoresJson score", Number(_scoreValue));
         console.log("newScoresJson score state", scoreValue);
 
         // await delayv2(400);
 
-        const newScoresJson = await getNewScoresJson();
+        // const newScoresJson = await getNewScoresJson();
         // console.log("newScoresJson", Object.keys(newScoresJson));
         console.log("newScoresJson", currentScore);
 
@@ -625,6 +690,17 @@ function HeuristicItem({
         });
         console.log("newScoresJson", scoreAlert);
         // console.log("newScoresJson", currentScore);
+    }
+
+    if (
+        scoreValue > 0 ||
+        text.trim().length > 0 ||
+        evidenceUrl.trim().length > 0
+    ) {
+        console.log("ENABLEEEE");
+        enable = true;
+    } else {
+        enable = false;
     }
 
     const isMobile =
@@ -853,6 +929,8 @@ function HeuristicItem({
                                 </small>
                             )}
                         </div>
+
+                        {/* <Debug data={{ scoreValue, text, evidenceUrl }} /> */}
 
                         <Evidence
                             openBox={boxOpen}
