@@ -53,12 +53,12 @@ export default function SelectFileModal({
         fetchFiles();
     }, [isOpen]);
 
-    const handleCheckboxChange = (e, fileName) => {
+    const handleCheckboxChange = (e, fileObj) => {
         if (e.target.checked) {
-            onSelectionChange([...selectedFiles, fileName]);
+            onSelectionChange([...selectedFiles, fileObj]);
         } else {
             onSelectionChange(
-                selectedFiles.filter((name) => name !== fileName)
+                selectedFiles.filter((item) => item.id !== fileObj.id)
             );
         }
     };
@@ -100,9 +100,12 @@ export default function SelectFileModal({
                                 <input
                                     type="checkbox"
                                     id={file.id}
-                                    checked={selectedFiles.includes(file.name)}
+                                    // checked={selectedFiles.includes(file.name)}
+                                    checked={selectedFiles.some(
+                                        (item) => item.id === file.id
+                                    )}
                                     onChange={(e) =>
-                                        handleCheckboxChange(e, file.name)
+                                        handleCheckboxChange(e, file)
                                     }
                                     className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                                 />
