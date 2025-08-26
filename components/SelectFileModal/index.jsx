@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import Spinner from "../Spinner";
+import Debug from "../Debug";
 
 export default function SelectFileModal({
     evidenceFolderId,
@@ -6,6 +8,8 @@ export default function SelectFileModal({
     currentJourney,
     isOpen,
     onClose,
+    onCancel,
+    onInsert,
     // files,
     selectedFiles,
     onSelectionChange,
@@ -13,6 +17,19 @@ export default function SelectFileModal({
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
+
+    useEffect(() => {
+        if (isOpen) {
+            document.body.classList.add("overflow-hidden");
+        } else {
+            document.body.classList.remove("overflow-hidden");
+        }
+
+        // Cleanup on unmount
+        return () => {
+            document.body.classList.remove("overflow-hidden");
+        };
+    }, [isOpen]);
 
     useEffect(() => {
         if (!isOpen) return;
@@ -70,27 +87,30 @@ export default function SelectFileModal({
             {/* Modal */}
             <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl flex flex-col gap-4">
                 {/* Header */}
-                <div className="flex justify-between items-center border-b border-gray-200 pb-4">
-                    <h2 className="text-xl font-semibold text-gray-800">
-                        Selecione as Evidências
+                <div className="flex justify-between items-center border-b border-gray-200 pb-3">
+                    <h2 className="text-lg font-semibold text-gray-800">
+                        Select the files
                     </h2>
                     <button
                         onClick={onClose}
-                        className="text-gray-500 hover:text-gray-800 text-2xl"
+                        className="text-slate-500/70 px-5 py-1 rounded-md hover:text-gray-800 border border-slate-400 hover:bg-blue-100"
                     >
-                        &times;
+                        <span>Close</span>
                     </button>
                 </div>
 
                 {/* Lista de Arquivos */}
                 {loading ? (
-                    <p>Loading...</p>
+                    <div className="flex gap-2 items-center">
+                        <Spinner colorClass="blue-400" radius={14} thick={3} />{" "}
+                        Getting Files From Drive...
+                    </div>
                 ) : errorMessage ? (
                     <p className="text-red-500">{errorMessage}</p>
                 ) : files.length === 0 ? (
                     <p>Files not found.</p>
                 ) : (
-                    <div className="max-h-[400px] overflow-y-auto flex flex-col gap-2 pr-2">
+                    <div className="max-h-[400px] overflow-y-auto flex flex-col gap-2 pr-2 mb-4">
                         {files.map((file) => (
                             <label
                                 key={file.id}
@@ -119,12 +139,18 @@ export default function SelectFileModal({
                 )}
 
                 {/* Footer */}
-                <div className="flex justify-end border-t border-gray-200 pt-4">
+                <div className="__flex justify-end border-t border-gray-200 pt-4 hidden">
                     <button
-                        onClick={onClose}
-                        className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition-colors"
+                        onClick={onCancel}
+                        className=" text-blue-500 font-bold py-2 px-4 rounded hover:bg-blue-700 transition-colors"
                     >
-                        Confirmar
+                        Cancel
+                    </button>
+                    <button
+                        onClick={onInsert}
+                        className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition-colors"
+                    >
+                        Insert
                     </button>
                 </div>
             </div>
