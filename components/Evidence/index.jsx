@@ -86,6 +86,15 @@ function Evidence({
         collapseRef.current.style.height = "auto";
     }
 
+    function getSelectedFilesNames() {
+        if (!selectedFiles || selectedFiles.length === 0) return "";
+
+        return selectedFiles
+            .map((file) => file.name)
+            .map((name) => name.split("-")[0])
+            .join(", ");
+    }
+
     console.log({ selectedFiles });
 
     return (
@@ -115,12 +124,7 @@ function Evidence({
                         <ul>
                             {selectedFiles.map((file) => (
                                 <li key={file.id + "_h_" + heuristicNumber}>
-                                    <div
-                                        href={file.webViewLink}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="text-blue-600 hover:bg-blue-100 rounded px-1"
-                                    >
+                                    <div className="text-blue-600 hover:bg-blue-100 rounded px-1">
                                         {file.name}
                                     </div>
                                 </li>
@@ -140,7 +144,9 @@ function Evidence({
                         disabled={disabled}
                         type="text"
                         placeholder="https://"
-                        value={evidenceUrl || ""}
+                        value={
+                            getSelectedFilesNames() + " || " + evidenceUrl || ""
+                        }
                         onChange={(ev) => {
                             onChangeEvidenceUrl(ev.target.value);
                         }}
