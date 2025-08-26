@@ -50,7 +50,7 @@ async function getFilesIn(drive, folderId) {
             // Query para buscar por arquivos que NÃO são pastas
             q: `'${folderId}' in parents and mimeType != 'application/vnd.google-apps.folder' and trashed = false`,
             // Adicionamos mimeType para podermos determinar o tipo do arquivo
-            fields: "files(id, name, mimeType)",
+            fields: "files(id, name, mimeType, webViewLink)",
             supportsAllDrives: true,
             includeItemsFromAllDrives: true,
         });
@@ -85,11 +85,9 @@ export default async function handler(req, res) {
     const expectedApiKey = process.env.API_SECRET_KEY;
 
     if (!apiKey || apiKey !== expectedApiKey) {
-        return res
-            .status(401)
-            .json({
-                error: "Acesso não autorizado. Chave de API inválida ou ausente.",
-            });
+        return res.status(401).json({
+            error: "Acesso não autorizado. Chave de API inválida ou ausente.",
+        });
     }
 
     if (req.method !== "GET") {
@@ -138,6 +136,7 @@ export default async function handler(req, res) {
                             id: file.id,
                             name: file.name,
                             type: getEvidenceType(file.mimeType),
+                            url: file.webViewLink, // Adiciona a URL de preview
                         }));
 
                         // Retorna o objeto da subpasta com a lista de arquivos
@@ -166,11 +165,9 @@ export default async function handler(req, res) {
         return res.status(200).json(structuredResponse);
     } catch (error) {
         console.error("Erro na API:", error);
-        return res
-            .status(500)
-            .json({
-                error: "Ocorreu um erro interno no servidor.",
-                details: error.message,
-            });
+        return res.status(500).json({
+            error: "Ocorreu um erro interno no servidor.",
+            details: error.message,
+        });
     }
 }
