@@ -13,13 +13,15 @@ function Evidence({
     heuristicNumber,
     onChangeText,
     onChangeEvidenceUrl,
+    onChangeSelectedEvidences,
+    selectedFiles,
     onSaveEvidence,
     status,
     hid,
     disabled = false,
 }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedFiles, setSelectedFiles] = useState([]);
+    // const [selectedFiles, setSelectedFiles] = useState([]);
     const urlRef = useRef(null);
     const collapseRef = useRef(null);
 
@@ -77,7 +79,8 @@ function Evidence({
     }
 
     function onSelectionChange(newSelectedFiles) {
-        setSelectedFiles(newSelectedFiles);
+        // setSelectedFiles(newSelectedFiles);
+        onChangeSelectedEvidences(newSelectedFiles);
         collapseRef.current.style.height =
             collapseRef.current.scrollHeight + "px";
         collapseRef.current.style.height = "auto";
@@ -108,20 +111,22 @@ function Evidence({
                         selectedFiles={selectedFiles}
                         onSelectionChange={onSelectionChange}
                     />
-                    <ul>
-                        {selectedFiles.map((file) => (
-                            <li key={file.id + "_h_" + heuristicNumber}>
-                                <div
-                                    href={file.webViewLink}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="text-blue-600 hover:bg-blue-100 rounded px-1"
-                                >
-                                    {file.name}
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                    {selectedFiles && selectedFiles.length > 0 && (
+                        <ul>
+                            {selectedFiles.map((file) => (
+                                <li key={file.id + "_h_" + heuristicNumber}>
+                                    <div
+                                        href={file.webViewLink}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="text-blue-600 hover:bg-blue-100 rounded px-1"
+                                    >
+                                        {file.name}
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
                 <div className="flex flex-col gap-1">
                     <label

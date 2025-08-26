@@ -166,6 +166,7 @@ function HeuristicItem({
             setScoreValue(currentScore.scoreValue);
             setText(currentScore.note);
             setEvidenceUrl(currentScore.evidenceUrl);
+            setSelectedFiles(currentScore.selectedFiles || []);
             setReviewed(Boolean(currentScore.reviewed));
 
             setEmpty(false);
@@ -433,6 +434,13 @@ function HeuristicItem({
         setStatus("active");
     }
 
+    const [selectedFiles, setSelectedFiles] = useState([]);
+
+    async function handleChangeSelectedEvidences(newSelectedFiles) {
+        setSelectedFiles(newSelectedFiles);
+        setStatus("active");
+    }
+
     /**
      *
      * Setting the Evidence (URL and Note)
@@ -466,6 +474,7 @@ function HeuristicItem({
                         scoreValue,
                         note: text,
                         evidenceUrl,
+                        selectedFiles,
                     },
                 };
 
@@ -482,6 +491,7 @@ function HeuristicItem({
                                 scoreValue,
                                 note: text,
                                 evidenceUrl,
+                                selectedFiles,
                             },
                         },
                     ];
@@ -501,6 +511,7 @@ function HeuristicItem({
 
                 item.note = scoreTextWithTesterName;
                 item.evidenceUrl = evidenceUrl;
+                item.selectedFiles = selectedFiles;
                 item.scoreValue = scoreValue;
                 item.showScoreAlert = showScoreAlert;
                 item.showPreviousScoreAlert = showPreviousScoreAlert;
@@ -628,6 +639,15 @@ function HeuristicItem({
             );
         }
     }, [currentScore?.evidenceUrl]);
+
+    useEffect(() => {
+        if (status == "loading") {
+            setStatus("saved");
+            toastMessage(
+                `Evidence files for Heuristic ${currentScore?.heuristic.heuristicNumber} updated!`
+            );
+        }
+    }, [currentScore?.selectedFiles]);
 
     useEffect(() => {
         if (status == "loading" && currentScore?.reviewed) {
@@ -940,8 +960,12 @@ function HeuristicItem({
                             currentPlayer={router.query.player}
                             text={text}
                             evidenceUrl={evidenceUrl}
+                            selectedFiles={selectedFiles}
                             onChangeText={handleChangeText}
                             onChangeEvidenceUrl={handleChangeEvidenceUrl}
+                            onChangeSelectedEvidences={
+                                handleChangeSelectedEvidences
+                            }
                             onSaveEvidence={onSaveEvidence}
                             status={status}
                             hid={heuristic.id}

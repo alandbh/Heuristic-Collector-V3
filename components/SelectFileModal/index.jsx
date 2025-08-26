@@ -11,7 +11,7 @@ export default function SelectFileModal({
     onCancel,
     onInsert,
     // files,
-    selectedFiles,
+    selectedFiles = [],
     onSelectionChange,
 }) {
     const [files, setFiles] = useState([]);
