@@ -50,7 +50,7 @@ async function getFilesIn(drive, folderId) {
             // Query para buscar por arquivos que NÃO são pastas
             q: `'${folderId}' in parents and mimeType != 'application/vnd.google-apps.folder' and trashed = false`,
             // Adicionamos mimeType para podermos determinar o tipo do arquivo
-            fields: "files(id, name, mimeType, webViewLink)",
+            fields: "files(id, name, mimeType, webViewLink, thumbnailLink)",
             supportsAllDrives: true,
             includeItemsFromAllDrives: true,
         });
@@ -136,7 +136,9 @@ export default async function handler(req, res) {
                             id: file.id,
                             name: file.name,
                             type: getEvidenceType(file.mimeType),
-                            url: file.webViewLink, // Adiciona a URL de preview
+                            // Usamos thumbnailLink para o preview, que é um link de imagem direta.
+                            // Se não houver thumbnail, usamos o webViewLink como fallback.
+                            url: file.thumbnailLink || file.webViewLink,
                         }));
 
                         // Retorna o objeto da subpasta com a lista de arquivos
