@@ -10,6 +10,7 @@ function Evidence({
     text,
     evidenceUrl,
     evidenceFolderId,
+    heuristicNumber,
     onChangeText,
     onChangeEvidenceUrl,
     onSaveEvidence,
@@ -77,13 +78,16 @@ function Evidence({
 
     function onSelectionChange(newSelectedFiles) {
         setSelectedFiles(newSelectedFiles);
+        collapseRef.current.style.height =
+            collapseRef.current.scrollHeight + "px";
+        collapseRef.current.style.height = "auto";
     }
 
     console.log({ selectedFiles });
 
     return (
         <div
-            className={`flex flex-col gap-3 overflow-hidden justify-between`}
+            className={`flex flex-col pb-5 gap-3 overflow-hidden justify-between`}
             ref={collapseRef}
         >
             <div className="flex flex-col gap-4">
@@ -100,6 +104,20 @@ function Evidence({
                         selectedFiles={selectedFiles}
                         onSelectionChange={onSelectionChange}
                     />
+                    <ul>
+                        {selectedFiles.map((file) => (
+                            <li key={file.id + "_h_" + heuristicNumber}>
+                                <div
+                                    href={file.webViewLink}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="text-blue-600 hover:bg-blue-100 rounded px-1"
+                                >
+                                    {file.name}
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
                 <div className="flex flex-col gap-1">
                     <label
