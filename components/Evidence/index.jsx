@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import Spinner from "../Spinner";
 import { BtnSmallPrimary } from "../Button";
+import SelectFileModal from "../SelectFileModal";
 
 function Evidence({
+    currentJourney,
+    currentPlayer,
     openBox,
     text,
     evidenceUrl,
+    evidenceFolderId,
     onChangeText,
     onChangeEvidenceUrl,
     onSaveEvidence,
@@ -13,6 +17,8 @@ function Evidence({
     hid,
     disabled = false,
 }) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedFiles, setSelectedFiles] = useState([]);
     const urlRef = useRef(null);
     const collapseRef = useRef(null);
 
@@ -24,18 +30,19 @@ function Evidence({
                 urlRef.current.focus();
 
                 setTimeout(() => {
-                    collapseRef.current.style.height = "420px";
+                    collapseRef.current.style.height =
+                        collapseRef.current.scrollHeight + "px";
                     collapseRef.current.style.opacity = 1;
                 }, 10);
             } else {
                 collapseRef.current.style.height = "0px";
                 collapseRef.current.style.opacity = 0;
 
-                setTimeout(() => {
-                    if (collapseRef.current !== null) {
-                        collapseRef.current.style.display = "none";
-                    }
-                }, 300);
+                // setTimeout(() => {
+                //     if (collapseRef.current !== null) {
+                //         collapseRef.current.style.display = "none";
+                //     }
+                // }, 300);
             }
         }
 
@@ -68,12 +75,32 @@ function Evidence({
         moveCursorToTheEnd(target);
     }
 
+    function onSelectionChange(newSelectedFiles) {
+        setSelectedFiles(newSelectedFiles);
+    }
+
+    console.log({ selectedFiles });
+
     return (
         <div
             className={`flex flex-col gap-3 overflow-hidden justify-between`}
             ref={collapseRef}
         >
             <div className="flex flex-col gap-4">
+                <div>
+                    <BtnSmallPrimary onClick={() => setIsModalOpen(true)}>
+                        Select Evidence
+                    </BtnSmallPrimary>
+                    <SelectFileModal
+                        evidenceFolderId={evidenceFolderId}
+                        currentJourney={currentJourney}
+                        currentPlayer={currentPlayer}
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                        selectedFiles={selectedFiles}
+                        onSelectionChange={onSelectionChange}
+                    />
+                </div>
                 <div className="flex flex-col gap-1">
                     <label
                         className="text-slate-900/50 dark:text-slate-50/50"

@@ -36,7 +36,8 @@ function HeuristicItem({
     allScoresObj,
     className,
 }) {
-    const { currentPlayer, previousProjectPlayerScores } = useProjectContext();
+    const { currentPlayer, previousProjectPlayerScores, currentProject } =
+        useProjectContext();
     const [scoreValue, setScoreValue] = useState(0);
     const [empty, setEmpty] = useState(false);
     const [text, setText] = useState(currentScore?.note || "");
@@ -69,7 +70,7 @@ function HeuristicItem({
     const previousScore = previousProjectPlayerScores?.find(
         (score) => score.heuristic.heuristicNumber === heuristic.heuristicNumber
     );
-    console.log("contextoPrevious", previousScore);
+    // console.log("currentProject", currentProject);
 
     // 25/04/2023
     // OBSERVAR WATCH se este useEffect abaixo vai causar algum problema depois de comentado.
@@ -935,6 +936,8 @@ function HeuristicItem({
                         <Evidence
                             openBox={boxOpen}
                             currentScore={currentScore}
+                            currentJourney={router.query.journey}
+                            currentPlayer={router.query.player}
                             text={text}
                             evidenceUrl={evidenceUrl}
                             onChangeText={handleChangeText}
@@ -943,6 +946,7 @@ function HeuristicItem({
                             status={status}
                             hid={heuristic.id}
                             disabled={getUserLevel(userType) === 3}
+                            evidenceFolderId={currentProject?.evidenceFolderId}
                         />
 
                         {/* <Debug data={user}></Debug> */}
