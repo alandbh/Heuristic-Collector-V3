@@ -18,6 +18,16 @@ const nextConfig = {
             "sa-east-1.graphassets.com",
             "media.graphassets.com",
             "lh3.googleusercontent.com",
+            "drive.google.com",
+            "drive.usercontent.google.com",
+        ],
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "lh3.googleusercontent.com",
+                port: "",
+                pathname: "/**",
+            },
         ],
     },
     experimental: {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Spinner from "../Spinner";
 import Debug from "../Debug";
+import Image from "next/image";
 
 export default function SelectFileModal({
     evidenceFolderId,
@@ -15,6 +16,16 @@ export default function SelectFileModal({
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [previewFile, setPreviewFile] = useState(null);
+
+    const handlePreview = (file) => {
+        console.log(file);
+        setPreviewFile(file);
+    };
+
+    const handleBack = () => {
+        setPreviewFile(null);
+    };
 
     useEffect(() => {
         if (isOpen) {
@@ -45,7 +56,7 @@ export default function SelectFileModal({
         try {
             console.log("ffffff TRY");
             const response = await fetch(
-                `https://heuristic-v4.vercel.app/api/listfolders?folderid=${evidenceFolderId}`,
+                `/api/listfolders?folderid=${evidenceFolderId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -87,17 +98,31 @@ export default function SelectFileModal({
             {/* Modal */}
             <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl flex flex-col gap-4">
                 {/* Header */}
-                <div className="flex justify-between items-center border-b border-gray-200 pb-3">
-                    <h2 className="text-lg font-semibold text-gray-800">
-                        Select the files
-                    </h2>
-                    <button
-                        onClick={() => fetchFiles()}
-                        className="text-slate-500/70 px-5 py-1 rounded-md hover:text-gray-800 border border-slate-400 hover:bg-blue-100"
-                    >
-                        <span>Refresh</span>
-                    </button>
-                </div>
+                {previewFile ? (
+                    <div className="flex items-center border-b border-gray-200 pb-3 gap-3">
+                        <button
+                            onClick={handleBack}
+                            className="text-slate-500/70 text-2xl py-1 px-2 rounded-md hover:text-gray-800  hover:bg-slate-100"
+                        >
+                            <span>←</span>
+                        </button>
+                        <h2 className="text-lg font-semibold text-gray-800">
+                            {previewFile.name}
+                        </h2>
+                    </div>
+                ) : (
+                    <div className="flex justify-between items-center border-b border-gray-200 pb-3">
+                        <h2 className="text-lg font-semibold text-gray-800">
+                            Select the files
+                        </h2>
+                        <button
+                            onClick={() => fetchFiles()}
+                            className="text-slate-500/70 px-5 py-1 rounded-md hover:text-gray-800 border border-slate-400 hover:bg-blue-100"
+                        >
+                            <span>Refresh</span>
+                        </button>
+                    </div>
+                )}
 
                 {/* Lista de Arquivos */}
                 {loading ? (
@@ -109,31 +134,71 @@ export default function SelectFileModal({
                     <p className="text-red-500">{errorMessage}</p>
                 ) : files.length === 0 ? (
                     <p>Files not found.</p>
+                ) : previewFile ? (
+                    <div className="flex justify-center">
+                        {previewFile.type === "video" ? (
+                            <iframe
+                                src={previewFile.embedUrl}
+                                width="100%"
+                                height="480" // ajuste a altura conforme necessário
+                                style={{ border: 0 }}
+                                allow="fullscreen"
+                            ></iframe>
+                        ) : (
+                            <div className="flex flex-col gap-4">
+                                <div className="w-[200px] h-[500px] relative">
+                                    <Image
+                                        src={previewFile.url}
+                                        layout="fill"
+                                        objectFit="contain"
+                                    />
+                                </div>
+                                <a
+                                    target="_blank"
+                                    className="text-blue-500"
+                                    href={`https://drive.google.com/open?id=${previewFile.id}&usp=drive_fs`}
+                                >
+                                    Open in Google Drive
+                                </a>
+                            </div>
+                        )}
+                    </div>
                 ) : (
                     <div className="max-h-[400px] overflow-y-auto flex flex-col gap-2 pr-2 mb-4">
                         {files.map((file) => (
-                            <label
+                            <div
+                                className="flex items-center justify-between gap-3 p-2 rounded-md hover:bg-gray-100"
                                 key={file.id}
-                                htmlFor={file.id}
-                                className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 cursor-pointer"
                             >
-                                <input
-                                    type="checkbox"
-                                    id={file.id}
-                                    // checked={selectedFiles.includes(file.name)}
-                                    checked={selectedFiles.some(
-                                        (item) => item.id === file.id
-                                    )}
-                                    onChange={(e) =>
-                                        handleCheckboxChange(e, file)
-                                    }
-                                    className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                />
-                                <span className="text-gray-700">
-                                    {file.type === "video" ? "📹" : "🖼️"}{" "}
-                                    {file.name}
-                                </span>
-                            </label>
+                                <label
+                                    htmlFor={file.id}
+                                    className="flex items-center gap-3 cursor-pointer"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        id={file.id}
+                                        // checked={selectedFiles.includes(file.name)}
+                                        checked={selectedFiles.some(
+                                            (item) => item.id === file.id
+                                        )}
+                                        onChange={(e) =>
+                                            handleCheckboxChange(e, file)
+                                        }
+                                        className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    <span className="text-gray-700">
+                                        {file.type === "video" ? "📹" : "🖼️"}{" "}
+                                        {file.name}
+                                    </span>
+                                </label>
+
+                                <button
+                                    onClick={() => handlePreview(file)}
+                                    className="text-sm border border-blue-500 rounded-full bg-transparent hover:bg-blue-100 text-blue-500 px-3"
+                                >
+                                    Preview
+                                </button>
+                            </div>
                         ))}
                     </div>
                 )}

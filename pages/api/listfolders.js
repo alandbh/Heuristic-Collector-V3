@@ -49,8 +49,8 @@ async function getFilesIn(drive, folderId) {
         const res = await drive.files.list({
             // Query para buscar por arquivos que NÃO são pastas
             q: `'${folderId}' in parents and mimeType != 'application/vnd.google-apps.folder' and trashed = false`,
-            // Adicionamos mimeType para podermos determinar o tipo do arquivo
-            fields: "files(id, name, mimeType)",
+            // Adicionamos thumbnailLink para obter a URL de preview da imagem, que é compatível com o Next.js Image.
+            fields: "files(id, name, mimeType, webViewLink, thumbnailLink)",
             supportsAllDrives: true,
             includeItemsFromAllDrives: true,
         });
@@ -85,11 +85,9 @@ export default async function handler(req, res) {
     const expectedApiKey = process.env.API_SECRET_KEY;
 
     if (!apiKey || apiKey !== expectedApiKey) {
-        return res
-            .status(401)
-            .json({
-                error: "Acesso não autorizado. Chave de API inválida ou ausente.",
-            });
+        return res.status(401).json({
+            error: "Acesso não autorizado. Chave de API inválida ou ausente.",
+        });
     }
 
     if (req.method !== "GET") {
@@ -134,11 +132,33 @@ export default async function handler(req, res) {
                         const files = await getFilesIn(drive, journey.id);
 
                         // Mapeia os arquivos para o formato de "evidence"
-                        const evidence = files.map((file) => ({
-                            id: file.id,
-                            name: file.name,
-                            type: getEvidenceType(file.mimeType),
-                        }));
+                        const evidence = files.map((file) => {
+                            // Aumenta o tamanho da thumbnail se ela existir, trocando o parâmetro de tamanho de s220 para s800.
+                            const largerThumbnail = file.thumbnailLink
+                                ? file.thumbnailLink.replace("=s220", "=s800")
+                                : null;
+                            const type = getEvidenceType(file.mimeType);
+                            let embedUrl = null;
+
+                            // Se for um vídeo, cria uma URL de preview/incorporação a partir do ID do arquivo.
+                            // Este método é mais confiável do que modificar a webViewLink.
+                            if (type === "video") {
+                                embedUrl = `https://drive.google.com/file/d/${file.id}/preview`;
+                            }
+
+                            return {
+                                id: file.id,
+                                name: file.name,
+                                type: type,
+                                // url para preview de imagem
+                                url:
+                                    largerThumbnail ||
+                                    file.thumbnailLink ||
+                                    file.webViewLink,
+                                // url para embed de video
+                                embedUrl: embedUrl,
+                            };
+                        });
 
                         // Retorna o objeto da subpasta com a lista de arquivos
                         return {
@@ -166,11 +186,9 @@ export default async function handler(req, res) {
         return res.status(200).json(structuredResponse);
     } catch (error) {
         console.error("Erro na API:", error);
-        return res
-            .status(500)
-            .json({
-                error: "Ocorreu um erro interno no servidor.",
-                details: error.message,
-            });
+        return res.status(500).json({
+            error: "Ocorreu um erro interno no servidor.",
+            details: error.message,
+        });
     }
 }

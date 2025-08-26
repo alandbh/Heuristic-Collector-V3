@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Spinner from "../Spinner";
 import { BtnSmallPrimary } from "../Button";
 import SelectFileModal from "../SelectFileModal";
+import Debug from "../Debug";
 
 function Evidence({
     currentJourney,
@@ -95,8 +96,6 @@ function Evidence({
             .join(", ");
     }
 
-    console.log({ selectedFiles });
-
     return (
         <div
             className={`flex flex-col pb-5 gap-3 overflow-hidden justify-between`}
@@ -110,6 +109,8 @@ function Evidence({
                     >
                         Select Evidence File(s)
                     </button>
+
+                    {/* <Debug data={getThumb()} /> */}
 
                     <SelectFileModal
                         evidenceFolderId={evidenceFolderId}
