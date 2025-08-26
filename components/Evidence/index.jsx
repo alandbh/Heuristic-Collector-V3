@@ -92,9 +92,13 @@ function Evidence({
         >
             <div className="flex flex-col gap-4">
                 <div>
-                    <BtnSmallPrimary onClick={() => setIsModalOpen(true)}>
-                        Select Evidence
-                    </BtnSmallPrimary>
+                    <button
+                        className="border border-blue-500 text-blue-500 rounded-full px-3 py-1 text-sm hover:bg-blue-100 "
+                        onClick={() => setIsModalOpen(true)}
+                    >
+                        Select Evidence File(s)
+                    </button>
+
                     <SelectFileModal
                         evidenceFolderId={evidenceFolderId}
                         currentJourney={currentJourney}
