@@ -83,7 +83,9 @@ function Evidence({
     function onSelectionChange(newSelectedFiles) {
         // setSelectedFiles(newSelectedFiles);
         onChangeSelectedEvidences(newSelectedFiles);
-        onChangeEvidenceUrl(getSelectedFilesNames(newSelectedFiles));
+        // onChangeEvidenceUrl(
+        //     evidenceUrl + " // " + getSelectedFilesNames(newSelectedFiles)
+        // );
 
         collapseRef.current.style.height =
             collapseRef.current.scrollHeight + "px";
@@ -161,19 +163,20 @@ function Evidence({
                         </ul>
                     )}
                 </div>
-                <div className="_flex flex-col gap-1 hidden">
+                <div className="flex flex-col gap-1 _hidden">
                     <label
                         className="text-slate-900/50 dark:text-slate-50/50"
                         htmlFor={"evidenceUrl_" + hid}
                     >
-                        <b>Evidence file{"(s)"}</b>
+                        <span className="text-red-500">⚠️ Legacy</span>
+                        <b> | Evidence file{"(s)"}</b>
                     </label>
                     <input
                         id={"evidenceUrl_" + hid}
-                        disabled={disabled}
+                        disabled={true}
                         type="text"
-                        placeholder="https://"
-                        value={getSelectedFilesNames(selectedFiles)}
+                        placeholder="Deprecated"
+                        value={evidenceUrl}
                         onChange={(ev) => {
                             onChangeEvidenceUrl(ev.target.value);
                         }}

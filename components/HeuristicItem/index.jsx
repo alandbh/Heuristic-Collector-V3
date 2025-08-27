@@ -731,16 +731,13 @@ function HeuristicItem({
     const isComplete =
         scoreValue > 0 &&
         text.trim().length > 0 &&
-        evidenceUrl.trim().length > 0;
+        (evidenceUrl.trim().length > 0 || selectedFiles.length > 0);
     return (
         <li
             id={heuristic.id}
             className={
                 `${
-                    scoreValue > 0 &&
-                    text.trim().length > 0 &&
-                    evidenceUrl.trim().length > 0 &&
-                    status === "saved"
+                    isComplete && status === "saved"
                         ? "bg-blue-50 dark:bg-blue-900/50 border-l-[6px] border-blue-500"
                         : "border-l-[6px] border-transparent"
                 }  ` + className
