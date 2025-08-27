@@ -3,6 +3,7 @@ import Spinner from "../Spinner";
 import { BtnSmallPrimary } from "../Button";
 import SelectFileModal from "../SelectFileModal";
 import Debug from "../Debug";
+import { ImageIcon, VideoIcon } from "../Icons";
 
 function Evidence({
     currentJourney,
@@ -96,15 +97,29 @@ function Evidence({
             .join(", ");
     }
 
+    function removeExtension(filename) {
+        // Encontra a posição do último ponto.
+        const lastDotIndex = filename.lastIndexOf(".");
+
+        // Se não houver ponto (ou se for o primeiro caractere, como em ".htaccess"),
+        // retorna a string original.
+        if (lastDotIndex <= 0) {
+            return filename;
+        }
+
+        // Retorna a parte da string antes do último ponto.
+        return filename.slice(0, lastDotIndex);
+    }
+
     return (
         <div
             className={`flex flex-col pb-5 gap-3 overflow-hidden justify-between`}
             ref={collapseRef}
         >
             <div className="flex flex-col gap-4">
-                <div>
+                <div className="flex flex-col justify-center items-center gap-5 mt-4">
                     <button
-                        className="border border-blue-500 text-blue-500 rounded-full px-3 py-1 text-sm hover:bg-blue-100 "
+                        className="w-[200px] border border-blue-500 text-blue-500 rounded-full px-3 py-1 text-sm hover:bg-blue-100 "
                         onClick={() => setIsModalOpen(true)}
                     >
                         Select Evidence File(s)
@@ -122,12 +137,23 @@ function Evidence({
                         onSelectionChange={onSelectionChange}
                     />
                     {selectedFiles && selectedFiles.length > 0 && (
-                        <ul>
+                        <ul className="max-h-[400px] rounded-lg flex-1 w-full overflow-y-auto flex flex-col gap-[2px] p-1 mb-4 border border-dashed border-spacing-2 border-slate-400">
                             {selectedFiles.map((file) => (
-                                <li key={file.id + "_h_" + heuristicNumber}>
-                                    <div className="text-blue-600 hover:bg-blue-100 rounded px-1">
-                                        {file.name}
-                                    </div>
+                                <li
+                                    className="flex items-center gap-3 py-2 px-3 rounded hover:bg-slate-50"
+                                    key={file.id + "_h_" + heuristicNumber}
+                                >
+                                    <span className="text-gray-700 cursor-default flex items-center gap-2 text-ellipsis text-sm">
+                                        {file.type === "video" ? (
+                                            <VideoIcon />
+                                        ) : (
+                                            <ImageIcon />
+                                        )}{" "}
+                                        {removeExtension(file.name)}
+                                    </span>
+                                    {/* <div className="text-blue-600 hover:bg-slate-100 rounded px-1">
+                                        {removeExtension(file.name)}
+                                    </div> */}
                                 </li>
                             ))}
                         </ul>
