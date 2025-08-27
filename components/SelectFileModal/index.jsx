@@ -157,6 +157,7 @@ export default function SelectFileModal({
                                 <div className="flex justify-center">
                                     <a
                                         target="_blank"
+                                        rel="noreferrer"
                                         className="text-blue-500"
                                         href={`https://drive.google.com/open?id=${previewFile.id}&usp=drive_fs`}
                                     >
@@ -175,6 +176,7 @@ export default function SelectFileModal({
                                 </div>
                                 <a
                                     target="_blank"
+                                    rel="noreferrer"
                                     className="text-blue-500"
                                     href={`https://drive.google.com/open?id=${previewFile.id}&usp=drive_fs`}
                                 >
