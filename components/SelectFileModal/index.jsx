@@ -144,13 +144,26 @@ export default function SelectFileModal({
                 ) : previewFile ? (
                     <div className="flex justify-center">
                         {previewFile.type === "video" ? (
-                            <iframe
-                                src={previewFile.embedUrl}
-                                width="100%"
-                                height="480" // ajuste a altura conforme necessário
-                                style={{ border: 0 }}
-                                allow="fullscreen"
-                            ></iframe>
+                            <div className="flex flex-col gap-4 w-full justify-center">
+                                <div className="relative">
+                                    <iframe
+                                        src={previewFile.embedUrl}
+                                        width="100%"
+                                        height="480" // ajuste a altura conforme necessário
+                                        style={{ border: 0 }}
+                                        allow="fullscreen"
+                                    ></iframe>
+                                </div>
+                                <div className="flex justify-center">
+                                    <a
+                                        target="_blank"
+                                        className="text-blue-500"
+                                        href={`https://drive.google.com/open?id=${previewFile.id}&usp=drive_fs`}
+                                    >
+                                        Open in Google Drive
+                                    </a>
+                                </div>
+                            </div>
                         ) : (
                             <div className="flex flex-col gap-4">
                                 <div className="w-[200px] h-[500px] relative">
