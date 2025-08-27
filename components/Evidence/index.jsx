@@ -83,15 +83,17 @@ function Evidence({
     function onSelectionChange(newSelectedFiles) {
         // setSelectedFiles(newSelectedFiles);
         onChangeSelectedEvidences(newSelectedFiles);
+        onChangeEvidenceUrl(getSelectedFilesNames(newSelectedFiles));
+
         collapseRef.current.style.height =
             collapseRef.current.scrollHeight + "px";
         collapseRef.current.style.height = "auto";
     }
 
-    function getSelectedFilesNames() {
-        if (!selectedFiles || selectedFiles.length === 0) return "";
+    function getSelectedFilesNames(_selectedFiles) {
+        if (!_selectedFiles || _selectedFiles.length === 0) return "";
 
-        return selectedFiles
+        return _selectedFiles
             .map((file) => file.name)
             .map((name) => name.split("-")[0])
             .join(", ");
@@ -159,7 +161,7 @@ function Evidence({
                         </ul>
                     )}
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="_flex flex-col gap-1 hidden">
                     <label
                         className="text-slate-900/50 dark:text-slate-50/50"
                         htmlFor={"evidenceUrl_" + hid}
@@ -171,9 +173,7 @@ function Evidence({
                         disabled={disabled}
                         type="text"
                         placeholder="https://"
-                        value={
-                            getSelectedFilesNames() + " || " + evidenceUrl || ""
-                        }
+                        value={getSelectedFilesNames(selectedFiles)}
                         onChange={(ev) => {
                             onChangeEvidenceUrl(ev.target.value);
                         }}
