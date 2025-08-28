@@ -967,7 +967,7 @@ function HeuristicItem({
                             status={status}
                             hid={heuristic.id}
                             disabled={getUserLevel(userType) === 3}
-                            evidenceFolderId={currentProject?.evidenceFolderId}
+                            currentProject={currentProject}
                         />
 
                         {/* <Debug data={user}></Debug> */}

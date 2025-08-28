@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import Spinner from "../Spinner";
 import { BtnSmallPrimary } from "../Button";
 import SelectFileModal from "../SelectFileModal";
 import Debug from "../Debug";
@@ -11,7 +10,7 @@ function Evidence({
     openBox,
     text,
     evidenceUrl,
-    evidenceFolderId,
+    currentProject,
     heuristicNumber,
     onChangeText,
     onChangeEvidenceUrl,
@@ -24,7 +23,7 @@ function Evidence({
 }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     // const [selectedFiles, setSelectedFiles] = useState([]);
-    const urlRef = useRef(null);
+    // const urlRef = useRef(null);
     const collapseRef = useRef(null);
 
     useEffect(() => {
@@ -32,7 +31,7 @@ function Evidence({
             if (openBox) {
                 collapseRef.current.style.display = "block";
                 collapseRef.current.style.transition = "0.3s";
-                urlRef.current.focus();
+                // urlRef.current.focus();
 
                 setTimeout(() => {
                     collapseRef.current.style.height =
@@ -132,7 +131,7 @@ function Evidence({
                     {/* <Debug data={getThumb()} /> */}
 
                     <SelectFileModal
-                        evidenceFolderId={evidenceFolderId}
+                        evidenceFolderId={currentProject.evidenceFolderId}
                         currentJourney={currentJourney}
                         currentPlayer={currentPlayer}
                         isOpen={isModalOpen}
@@ -163,27 +162,29 @@ function Evidence({
                         </ul>
                     )}
                 </div>
-                <div className="flex flex-col gap-1 _hidden">
-                    <label
-                        className="text-slate-900/50 dark:text-slate-50/50"
-                        htmlFor={"evidenceUrl_" + hid}
-                    >
-                        <span className="text-red-500">⚠️ Legacy</span>
-                        <b> | Evidence file{"(s)"}</b>
-                    </label>
-                    <input
-                        id={"evidenceUrl_" + hid}
-                        disabled={true}
-                        type="text"
-                        placeholder="Deprecated"
-                        value={evidenceUrl}
-                        onChange={(ev) => {
-                            onChangeEvidenceUrl(ev.target.value);
-                        }}
-                        ref={urlRef}
-                        className="w-full border border-slate-300 dark:border-slate-500 p-2 h-10 text-slate-500 dark:text-slate-300 rounded-md"
-                    />
-                </div>
+                {currentProject.startDate < 20250827 && (
+                    <div className="flex flex-col gap-1 _hidden">
+                        <label
+                            className="text-slate-900/50 dark:text-slate-50/50"
+                            htmlFor={"evidenceUrl_" + hid}
+                        >
+                            <span className="text-red-500">⚠️ Legacy</span>
+                            <b> | Evidence file{"(s)"}</b>
+                        </label>
+                        <input
+                            id={"evidenceUrl_" + hid}
+                            disabled={true}
+                            type="text"
+                            placeholder="Deprecated"
+                            value={evidenceUrl}
+                            onChange={(ev) => {
+                                onChangeEvidenceUrl(ev.target.value);
+                            }}
+                            // ref={urlRef}
+                            className="w-full border border-slate-300 dark:border-slate-500 p-2 h-10 text-slate-500 dark:text-slate-300 rounded-md"
+                        />
+                    </div>
+                )}
                 <div className="flex flex-col gap-1">
                     <label
                         className="text-slate-900/50 dark:text-slate-50/50"
