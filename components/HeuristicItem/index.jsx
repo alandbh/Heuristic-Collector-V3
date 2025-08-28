@@ -36,7 +36,8 @@ function HeuristicItem({
     allScoresObj,
     className,
 }) {
-    const { currentPlayer, previousProjectPlayerScores } = useProjectContext();
+    const { currentPlayer, previousProjectPlayerScores, currentProject } =
+        useProjectContext();
     const [scoreValue, setScoreValue] = useState(0);
     const [empty, setEmpty] = useState(false);
     const [text, setText] = useState(currentScore?.note || "");
@@ -69,7 +70,7 @@ function HeuristicItem({
     const previousScore = previousProjectPlayerScores?.find(
         (score) => score.heuristic.heuristicNumber === heuristic.heuristicNumber
     );
-    console.log("contextoPrevious", previousScore);
+    // console.log("currentProject", currentProject);
 
     // 25/04/2023
     // OBSERVAR WATCH se este useEffect abaixo vai causar algum problema depois de comentado.
@@ -165,6 +166,7 @@ function HeuristicItem({
             setScoreValue(currentScore.scoreValue);
             setText(currentScore.note);
             setEvidenceUrl(currentScore.evidenceUrl);
+            setSelectedFiles(currentScore.selectedFiles || []);
             setReviewed(Boolean(currentScore.reviewed));
 
             setEmpty(false);
@@ -432,6 +434,13 @@ function HeuristicItem({
         setStatus("active");
     }
 
+    const [selectedFiles, setSelectedFiles] = useState([]);
+
+    async function handleChangeSelectedEvidences(newSelectedFiles) {
+        setSelectedFiles(newSelectedFiles);
+        setStatus("active");
+    }
+
     /**
      *
      * Setting the Evidence (URL and Note)
@@ -465,6 +474,7 @@ function HeuristicItem({
                         scoreValue,
                         note: text,
                         evidenceUrl,
+                        selectedFiles,
                     },
                 };
 
@@ -481,6 +491,7 @@ function HeuristicItem({
                                 scoreValue,
                                 note: text,
                                 evidenceUrl,
+                                selectedFiles,
                             },
                         },
                     ];
@@ -500,6 +511,7 @@ function HeuristicItem({
 
                 item.note = scoreTextWithTesterName;
                 item.evidenceUrl = evidenceUrl;
+                item.selectedFiles = selectedFiles;
                 item.scoreValue = scoreValue;
                 item.showScoreAlert = showScoreAlert;
                 item.showPreviousScoreAlert = showPreviousScoreAlert;
@@ -629,6 +641,15 @@ function HeuristicItem({
     }, [currentScore?.evidenceUrl]);
 
     useEffect(() => {
+        if (status == "loading") {
+            setStatus("saved");
+            toastMessage(
+                `Evidence files for Heuristic ${currentScore?.heuristic.heuristicNumber} updated!`
+            );
+        }
+    }, [currentScore?.selectedFiles]);
+
+    useEffect(() => {
         if (status == "loading" && currentScore?.reviewed) {
             setStatus("saved");
             toastMessage(
@@ -710,16 +731,13 @@ function HeuristicItem({
     const isComplete =
         scoreValue > 0 &&
         text.trim().length > 0 &&
-        evidenceUrl.trim().length > 0;
+        (evidenceUrl.trim().length > 0 || selectedFiles.length > 0);
     return (
         <li
             id={heuristic.id}
             className={
                 `${
-                    scoreValue > 0 &&
-                    text.trim().length > 0 &&
-                    evidenceUrl.trim().length > 0 &&
-                    status === "saved"
+                    isComplete && status === "saved"
                         ? "bg-blue-50 dark:bg-blue-900/50 border-l-[6px] border-blue-500"
                         : "border-l-[6px] border-transparent"
                 }  ` + className
@@ -935,14 +953,21 @@ function HeuristicItem({
                         <Evidence
                             openBox={boxOpen}
                             currentScore={currentScore}
+                            currentJourney={router.query.journey}
+                            currentPlayer={router.query.player}
                             text={text}
                             evidenceUrl={evidenceUrl}
+                            selectedFiles={selectedFiles}
                             onChangeText={handleChangeText}
                             onChangeEvidenceUrl={handleChangeEvidenceUrl}
+                            onChangeSelectedEvidences={
+                                handleChangeSelectedEvidences
+                            }
                             onSaveEvidence={onSaveEvidence}
                             status={status}
                             hid={heuristic.id}
                             disabled={getUserLevel(userType) === 3}
+                            currentProject={currentProject}
                         />
 
                         {/* <Debug data={user}></Debug> */}

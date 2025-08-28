@@ -24,6 +24,7 @@ const QUERY_PROJECTS = gql`
             public
             startDate
             estimatedDaysToFinish
+            evidenceFolderId
         }
     }
 `;
