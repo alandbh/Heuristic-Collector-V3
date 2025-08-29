@@ -3,6 +3,7 @@ import Spinner from "../Spinner";
 import Debug from "../Debug";
 import Image from "next/image";
 import { ImageIcon, VideoIcon } from "../Icons";
+import { legacyEmeaPlayers } from "./remea1";
 
 const journeyMap = {
     "retail-emea-1": {
@@ -287,7 +288,18 @@ function getEvidenceFiles(
         currentProject.startDate < 20250601
             ? journeyMap[currentProject.slug][currentJourney]
             : currentJourney;
-    const playerFolder = driveData.find((p) => p.name.trim() === currentPlayer);
+
+    const _currentPlayer =
+        currentProject.slug === "retail-emea-1"
+            ? legacyEmeaPlayers.find(
+                  (legacyPlayer) => legacyPlayer.slug === currentPlayer
+              ).name
+            : currentPlayer;
+
+    const playerFolder = driveData.find(
+        (p) => p.name.trim() === _currentPlayer
+    );
+
     console.log("_currentJourney", _currentJourney, currentProject);
     if (!playerFolder) return [];
 
