@@ -132,6 +132,7 @@ function Evidence({
 
                     <SelectFileModal
                         evidenceFolderId={currentProject.evidenceFolderId}
+                        currentProject={currentProject}
                         currentJourney={currentJourney}
                         currentPlayer={currentPlayer}
                         isOpen={isModalOpen}

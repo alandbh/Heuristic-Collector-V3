@@ -4,8 +4,15 @@ import Debug from "../Debug";
 import Image from "next/image";
 import { ImageIcon, VideoIcon } from "../Icons";
 
+const journeyMap = {
+    "retail-emea-1": {
+        "web-site": "SITE",
+        "mobile-app": "APP",
+    },
+};
+
 export default function SelectFileModal({
-    evidenceFolderId,
+    currentProject,
     currentPlayer,
     currentJourney,
     isOpen,
@@ -63,7 +70,7 @@ export default function SelectFileModal({
         try {
             console.log("ffffff TRY");
             const response = await fetch(
-                `/api/listfolders?folderid=${evidenceFolderId}`,
+                `/api/listfolders?folderid=${currentProject.evidenceFolderId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -76,7 +83,8 @@ export default function SelectFileModal({
             const evidenceFiles = getEvidenceFiles(
                 driveData,
                 currentPlayer,
-                currentJourney
+                currentJourney,
+                currentProject
             );
             // console.log("Fetched files:", evidenceFiles);
             setFiles(evidenceFiles || []);
@@ -269,12 +277,22 @@ export default function SelectFileModal({
 //     </svg>
 // );
 
-function getEvidenceFiles(driveData, currentPlayer, currentJourney) {
+function getEvidenceFiles(
+    driveData,
+    currentPlayer,
+    currentJourney,
+    currentProject
+) {
+    const _currentJourney =
+        currentProject.startDate < 20250601
+            ? journeyMap[currentProject.slug][currentJourney]
+            : currentJourney;
     const playerFolder = driveData.find((p) => p.name.trim() === currentPlayer);
+    console.log("_currentJourney", _currentJourney, currentProject);
     if (!playerFolder) return [];
 
     const journeyFolder = playerFolder.subfolders.find(
-        (j) => j.name.trim() === currentJourney
+        (j) => j.name.trim() === _currentJourney
     );
     if (!journeyFolder) return [];
 
