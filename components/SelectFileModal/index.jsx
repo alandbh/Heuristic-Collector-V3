@@ -297,7 +297,7 @@ function getEvidenceFiles(
             : currentPlayer;
 
     const playerFolder = driveData.find(
-        (p) => p.name.trim() === _currentPlayer
+        (p) => p.name.trim() === _currentPlayer.trim()
     );
 
     console.log("_currentJourney", _currentJourney, currentProject);
