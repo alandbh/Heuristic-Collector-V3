@@ -111,7 +111,8 @@ export function ScoresObjWrapper({ children }) {
                 projectSlug: router.query.slug,
                 playerSlug: router.query.player,
             },
-            fetchPolicy: "network-only",
+            // fetchPolicy: "network-only",
+            fetchPolicy: "no-cache",
         });
 
         if (data.players[0]["scoresObject"] !== null) {

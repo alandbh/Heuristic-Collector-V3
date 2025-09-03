@@ -296,84 +296,90 @@ function HeuristicItem({
 
         console.log("CHANGING SCORE", scoreValue, scoreHasChanged);
 
-        // return;
-        let allScoresObjJson = JSON.stringify(allScoresJson);
-        let allScoresObjJsonClone = JSON.parse(allScoresObjJson);
-        allScoresObjJsonClone[router.query.journey].map((item) => {
-            if (item.id === currentScore.id) {
-                const updateObj = {
-                    dateTime: new Date().getTime(),
-                    user: { name: user.displayName, email: user.email },
-                    showScoreAlert,
-                    showPreviousScoreAlert,
-                    scoreObj: {
-                        scoreValue,
-                        note: text,
-                        evidenceUrl,
-                    },
-                };
-
-                if (item.updates && item.updates.length > 0) {
-                    item.updates.push(updateObj);
-                } else {
-                    item.updates = [
-                        {
-                            dateTime: new Date().getTime(),
-                            user: { name: user.displayName, email: user.email },
-                            showScoreAlert,
-                            showPreviousScoreAlert,
-                            scoreObj: {
-                                scoreValue,
-                                note: text,
-                                evidenceUrl,
-                            },
+        getNewScoresJson().then((newScoresJson) => {
+            // return;
+            // let allScoresObjJson = JSON.stringify(allScoresJson);
+            let allScoresObjJson = JSON.stringify(newScoresJson);
+            let allScoresObjJsonClone = JSON.parse(allScoresObjJson);
+            allScoresObjJsonClone[router.query.journey].map((item) => {
+                if (item.id === currentScore.id) {
+                    const updateObj = {
+                        dateTime: new Date().getTime(),
+                        user: { name: user.displayName, email: user.email },
+                        showScoreAlert,
+                        showPreviousScoreAlert,
+                        scoreObj: {
+                            scoreValue,
+                            note: text,
+                            evidenceUrl,
                         },
-                    ];
+                    };
+
+                    if (item.updates && item.updates.length > 0) {
+                        item.updates.push(updateObj);
+                    } else {
+                        item.updates = [
+                            {
+                                dateTime: new Date().getTime(),
+                                user: {
+                                    name: user.displayName,
+                                    email: user.email,
+                                },
+                                showScoreAlert,
+                                showPreviousScoreAlert,
+                                scoreObj: {
+                                    scoreValue,
+                                    note: text,
+                                    evidenceUrl,
+                                },
+                            },
+                        ];
+                    }
+                    item.scoreValue = scoreValue;
+                    item.note = text;
+                    item.evidenceUrl = evidenceUrl;
+                    item.showScoreAlert = showScoreAlert;
+                    item.showPreviousScoreAlert = showPreviousScoreAlert;
                 }
-                item.scoreValue = scoreValue;
-                item.note = text;
-                item.evidenceUrl = evidenceUrl;
-                item.showScoreAlert = showScoreAlert;
-                item.showPreviousScoreAlert = showPreviousScoreAlert;
+
+                return item;
+            });
+
+            setScoreHasChanged(false);
+            setStatus("loading");
+
+            let freshData = null;
+            async function getFreshData() {
+                const data = await doTheChangeInScoreObj(
+                    allScoresObjJsonClone,
+                    null,
+                    (response) => {
+                        console.log(
+                            "freshData",
+                            response.publishPlayer.scoresObject
+                        );
+
+                        if (
+                            currentScore.note.length > 0 ||
+                            currentScore.scoreValue > 0
+                        ) {
+                            // setEnable(true);
+                            enable = true;
+
+                            makeScoreAlert(
+                                response.publishPlayer.scoresObject,
+                                currentScore.scoreValue,
+                                currentScore.showScoreAlert
+                            );
+                        }
+                    }
+                );
+                freshData = data;
+                return data;
             }
 
-            return item;
+            getFreshData();
         });
-
-        setScoreHasChanged(false);
-        setStatus("loading");
-
-        let freshData = null;
-        async function getFreshData() {
-            const data = await doTheChangeInScoreObj(
-                allScoresObjJsonClone,
-                null,
-                (response) => {
-                    console.log(
-                        "freshData",
-                        response.publishPlayer.scoresObject
-                    );
-
-                    if (
-                        currentScore.note.length > 0 ||
-                        currentScore.scoreValue > 0
-                    ) {
-                        // setEnable(true);
-                        enable = true;
-
-                        makeScoreAlert(
-                            response.publishPlayer.scoresObject,
-                            currentScore.scoreValue,
-                            currentScore.showScoreAlert
-                        );
-                    }
-                }
-            );
-            freshData = data;
-            return data;
-        }
-
-        getFreshData();
     }, [scoreValue, scoreHasChanged, showScoreAlert, showPreviousScoreAlert]);
 
     /**
