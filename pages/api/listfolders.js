@@ -18,20 +18,30 @@ function getEvidenceType(mimeType) {
 }
 
 /**
- * Função auxiliar para buscar pastas dentro de uma pasta pai.
+ * Função auxiliar para buscar TODAS as pastas dentro de uma pasta pai, lidando com paginação.
  * @param {object} drive - Instância autenticada do Google Drive API.
  * @param {string} folderId - O ID da pasta pai.
  * @returns {Promise<Array<{id: string, name: string}>>} - Uma lista de pastas.
  */
 async function getFoldersIn(drive, folderId) {
+    let allFolders = [];
+    let pageToken = null;
     try {
-        const res = await drive.files.list({
-            q: `'${folderId}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false`,
-            fields: "files(id, name)",
-            supportsAllDrives: true,
-            includeItemsFromAllDrives: true,
-        });
-        return res.data.files || [];
+        do {
+            const res = await drive.files.list({
+                q: `'${folderId}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false`,
+                fields: "nextPageToken, files(id, name)",
+                pageSize: 1000, // Pede o máximo de itens por página para minimizar chamadas
+                pageToken: pageToken,
+                supportsAllDrives: true,
+                includeItemsFromAllDrives: true,
+            });
+            if (res.data.files) {
+                allFolders = allFolders.concat(res.data.files);
+            }
+            pageToken = res.data.nextPageToken;
+        } while (pageToken); // Continua enquanto houver uma próxima página
+        return allFolders;
     } catch (error) {
         console.error(`Erro ao listar pastas em ${folderId}:`, error.message);
         throw new Error("Falha ao buscar pastas no Google Drive.");
@@ -39,22 +49,30 @@ async function getFoldersIn(drive, folderId) {
 }
 
 /**
- * Função auxiliar para buscar arquivos (não pastas) dentro de uma pasta pai.
+ * Função auxiliar para buscar TODOS os arquivos dentro de uma pasta pai, lidando com paginação.
  * @param {object} drive - Instância autenticada do Google Drive API.
  * @param {string} folderId - O ID da pasta pai.
- * @returns {Promise<Array<{id: string, name: string, mimeType: string}>>} - Uma lista de arquivos.
+ * @returns {Promise<Array<{id: string, name: string, mimeType: string, webViewLink: string, thumbnailLink: string}>>} - Uma lista de arquivos com seus metadados.
  */
 async function getFilesIn(drive, folderId) {
+    let allFiles = [];
+    let pageToken = null;
     try {
-        const res = await drive.files.list({
-            // Query para buscar por arquivos que NÃO são pastas
-            q: `'${folderId}' in parents and mimeType != 'application/vnd.google-apps.folder' and trashed = false`,
-            // Adicionamos thumbnailLink para obter a URL de preview da imagem, que é compatível com o Next.js Image.
-            fields: "files(id, name, mimeType, webViewLink, thumbnailLink)",
-            supportsAllDrives: true,
-            includeItemsFromAllDrives: true,
-        });
-        return res.data.files || [];
+        do {
+            const res = await drive.files.list({
+                q: `'${folderId}' in parents and mimeType != 'application/vnd.google-apps.folder' and trashed = false`,
+                fields: "nextPageToken, files(id, name, mimeType, webViewLink, thumbnailLink)",
+                pageSize: 1000,
+                pageToken: pageToken,
+                supportsAllDrives: true,
+                includeItemsFromAllDrives: true,
+            });
+            if (res.data.files) {
+                allFiles = allFiles.concat(res.data.files);
+            }
+            pageToken = res.data.nextPageToken;
+        } while (pageToken);
+        return allFiles;
     } catch (error) {
         console.error(`Erro ao listar arquivos em ${folderId}:`, error.message);
         throw new Error("Falha ao buscar arquivos no Google Drive.");
