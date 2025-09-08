@@ -305,7 +305,7 @@ function getEvidenceFiles(
 
     const journeyFolder =
         currentProject.slug === "finance-spla-1"
-            ? playerFolder.subfolders
+            ? playerFolder.subfolders.evidence
             : playerFolder.subfolders.find(
                   (j) => j.name.trim() === _currentJourney
               );
