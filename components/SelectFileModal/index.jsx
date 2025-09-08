@@ -309,7 +309,7 @@ function getEvidenceFiles(
             : playerFolder.subfolders.find(
                   (j) => j.name.trim() === _currentJourney
               );
-    if (!journeyFolder) return [];
+    // if (!journeyFolder) return [];
 
     return journeyFolder.evidence;
 }
