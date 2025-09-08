@@ -305,11 +305,11 @@ function getEvidenceFiles(
 
     const journeyFolder =
         currentProject.slug === "finance-spla-1"
-            ? playerFolder
+            ? playerFolder.subfolders
             : playerFolder.subfolders.find(
                   (j) => j.name.trim() === _currentJourney
               );
-    // if (!journeyFolder) return [];
+    if (!journeyFolder) return [];
 
     return journeyFolder.evidence;
 }
