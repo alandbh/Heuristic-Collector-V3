@@ -55,4 +55,95 @@ export const legacyEmeaPlayers = [
     { slug: "ysl-france", name: " Saint Laurent" },
     { slug: "zalando-germany", name: " Zalando" },
     { slug: "zara-spain", name: " Zara" },
+
+    {
+        name: "01. Albert Einstein (hospital)",
+        slug: "einstein-hospital",
+    },
+    {
+        name: "02. Sírio Libanês",
+        slug: "sirio-libanes",
+    },
+    {
+        name: "03. Rede D_or",
+        slug: "rede-dor",
+    },
+    {
+        name: "04. Dasa (9 de julho)",
+        slug: "nove-de-julho",
+    },
+    {
+        name: "05. Mater Dei",
+        slug: "materdei",
+    },
+    {
+        name: "06. Dasa (Delboni)",
+        slug: "dasa",
+    },
+    {
+        name: "07. Fleury",
+        slug: "fleury",
+    },
+    {
+        name: "08. Sabin",
+        slug: "sabin",
+    },
+    {
+        name: "09. Albert Einstein (laboratório)",
+        slug: "einstein-lab",
+    },
+    {
+        name: "10. Hapvida",
+        slug: "hapvida",
+    },
+    {
+        name: "11. SulAmérica",
+        slug: "sulamerica",
+    },
+    {
+        name: "12. Amil",
+        slug: "amil",
+    },
+    {
+        name: "13. Unimed Nacional",
+        slug: "unimed",
+    },
+    {
+        name: "14. Sami",
+        slug: "sami",
+    },
+    {
+        name: "15. Porto Saúde",
+        slug: "porto-saude",
+    },
+    {
+        name: "16. Prevent Senior",
+        slug: "prevent-senior",
+    },
+
+    { name: "Actinver", slug: "actinver" },
+    { name: "Afirme", slug: "afirme" },
+    { name: "Banamex", slug: "banamex" },
+    { name: "Banco Azteca", slug: "banco-azteca" },
+    { name: "Banco Compartamos", slug: "banco-compartamos" },
+    { name: "Banco de Bogotá", slug: "banco-de-bogota" },
+    { name: "Banco de Chile", slug: "banco-de-chile" },
+    { name: "Banco Estado", slug: "banco-estado" },
+    { name: "Banco Macro", slug: "banco-macro" },
+    { name: "Banco Popular", slug: "banco-popular" },
+    { name: "Banco Security", slug: "banco-security" },
+    { name: "Bancolombia", slug: "bancolombia" },
+    { name: "BanCoppel", slug: "bancoppel" },
+    { name: "Banorte", slug: "banorte" },
+    { name: "BCI", slug: "bci" },
+    { name: "CIBANCO", slug: "cibanco" },
+    { name: "Davivienda", slug: "davivienda" },
+    { name: "Invex", slug: "invex" },
+    { name: "Mercado Pago", slug: "mercado-pago" },
+    { name: "Mifel", slug: "mifel" },
+    { name: "Monex", slug: "monex" },
+    { name: "Naranja X", slug: "naranja-x" },
+    { name: "NuBank", slug: "nubank" },
+    { name: "Santander", slug: "santander" },
+    { name: "Uala", slug: "uala" },
 ];

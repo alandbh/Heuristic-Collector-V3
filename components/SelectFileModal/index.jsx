@@ -290,7 +290,7 @@ function getEvidenceFiles(
             : currentJourney;
 
     const _currentPlayer =
-        currentProject.slug === "retail-emea-1"
+        currentProject.slug === "retail-emea-1" || "health" || "finance-spla-1"
             ? legacyEmeaPlayers.find(
                   (legacyPlayer) => legacyPlayer.slug === currentPlayer
               ).name
