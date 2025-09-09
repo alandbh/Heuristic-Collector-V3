@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Spinner from "../Spinner";
 import Debug from "../Debug";
 import Image from "next/image";
@@ -27,6 +27,7 @@ export default function SelectFileModal({
     const [errorMessage, setErrorMessage] = useState(null);
     const [previewFile, setPreviewFile] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
+    const searchInputRef = useRef(null);
 
     const handlePreview = (file) => {
         console.log(file);
@@ -64,12 +65,24 @@ export default function SelectFileModal({
 
         // Fetch files from the API
     }, [isOpen]);
+
     useEffect(() => {
         setFiles([]);
         console.log("ffffff CHANGE JOURNEY");
 
         // Fetch files from the API
     }, [currentJourney, currentPlayer]);
+
+    useEffect(() => {
+        // Foca no campo de busca quando o modal abre e não está mais carregando
+        if (isOpen && !loading && files.length > 0 && searchInputRef.current) {
+            // Usamos um pequeno timeout para garantir que o elemento esteja 100% renderizado e visível no DOM,
+            // especialmente se houver transições de CSS na abertura do modal.
+            setTimeout(() => {
+                searchInputRef.current.focus();
+            }, 200);
+        }
+    }, [isOpen, loading, files.length]);
 
     async function fetchFiles() {
         setLoading(true);
@@ -208,63 +221,70 @@ export default function SelectFileModal({
                         )}
                     </div>
                 ) : (
-                    <div className="max-h-[400px] overflow-y-auto flex flex-col gap-[2px] pr-2 mb-4">
+                    <div>
                         <div className="mb-2">
                             <input
                                 type="search"
+                                ref={searchInputRef}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 placeholder="Search files by name..."
-                                className="w-full text-sm p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
+                                className="w-full text-sm p-2 border-2 border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
                             />
                         </div>
 
-                        {filteredFiles.length > 0 ? (
-                            filteredFiles.map((file) => (
-                                <div
-                                    className="flex items-center justify-between gap-3 py-2 px-3 rounded hover:bg-blue-50 [&:has(input:checked)]:bg-blue-200
+                        <div className="max-h-[400px] overflow-y-auto flex flex-col gap-[2px] pr-2 mb-4">
+                            {filteredFiles.length > 0 ? (
+                                filteredFiles.map((file) => (
+                                    <div
+                                        className="flex items-center justify-between gap-3 py-2 px-3 rounded hover:bg-blue-50 [&:has(input:checked)]:bg-blue-200
         [&:has(input:checked)]:border-blue-500"
-                                    key={file.id}
-                                >
-                                    <label
-                                        htmlFor={file.id}
-                                        className="flex items-center cursor-pointer flex-1"
+                                        key={file.id}
                                     >
-                                        <input
-                                            type="checkbox"
-                                            id={file.id}
-                                            checked={selectedFiles.some(
-                                                (item) => item.id === file.id
-                                            )}
-                                            onChange={(e) =>
-                                                handleCheckboxChange(e, file)
-                                            }
-                                            className="invisible h-0 w-0 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                        />
-                                        <span className="text-gray-700 flex items-center gap-2 text-ellipsis text-sm">
-                                            {file.type === "video" ? (
-                                                <VideoIcon />
-                                            ) : (
-                                                <ImageIcon />
-                                            )}{" "}
-                                            {file.name}
-                                        </span>
-                                    </label>
+                                        <label
+                                            htmlFor={file.id}
+                                            className="flex items-center cursor-pointer flex-1"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                id={file.id}
+                                                checked={selectedFiles.some(
+                                                    (item) =>
+                                                        item.id === file.id
+                                                )}
+                                                onChange={(e) =>
+                                                    handleCheckboxChange(
+                                                        e,
+                                                        file
+                                                    )
+                                                }
+                                                className="invisible h-0 w-0 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                            />
+                                            <span className="text-gray-700 flex items-center gap-2 text-ellipsis text-sm">
+                                                {file.type === "video" ? (
+                                                    <VideoIcon />
+                                                ) : (
+                                                    <ImageIcon />
+                                                )}{" "}
+                                                {file.name}
+                                            </span>
+                                        </label>
 
-                                    <button
-                                        onClick={() => handlePreview(file)}
-                                        className="text-sm border border-blue-500 rounded-full bg-transparent hover:bg-blue-100 text-blue-500 px-3"
-                                    >
-                                        Preview
-                                    </button>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="text-gray-500 text-center p-4">
-                                Nenhum arquivo encontrado com o termo "
-                                {searchTerm}".
-                            </p>
-                        )}
+                                        <button
+                                            onClick={() => handlePreview(file)}
+                                            className="text-sm border border-blue-500 rounded-full bg-transparent hover:bg-blue-100 text-blue-500 px-3"
+                                        >
+                                            Preview
+                                        </button>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-gray-500 text-center p-4">
+                                    Nenhum arquivo encontrado com o termo "
+                                    {searchTerm}".
+                                </p>
+                            )}
+                        </div>
                     </div>
                 )}
 
