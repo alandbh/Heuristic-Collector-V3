@@ -339,12 +339,14 @@ function getEvidenceFiles(
             ? journeyMap[currentProject.slug][currentJourney]
             : currentJourney;
 
-    const _currentPlayer =
-        currentProject.slug === "retail-emea-1" || "health" || "finance-spla-1"
-            ? legacyEmeaPlayers.find(
-                  (legacyPlayer) => legacyPlayer.slug === currentPlayer
-              ).name
-            : currentPlayer;
+    const specialProjectSlugs = ["retail-emea-1", "health", "finance-spla-1"];
+    const isSpecialProject = specialProjectSlugs.includes(currentProject.slug);
+
+    const _currentPlayer = isSpecialProject
+        ? legacyEmeaPlayers.find(
+              (legacyPlayer) => legacyPlayer.slug === currentPlayer
+          ).name
+        : currentPlayer;
 
     const playerFolder = driveData.find(
         (p) => p.name.trim() === _currentPlayer.trim()
