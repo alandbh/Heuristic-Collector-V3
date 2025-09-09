@@ -280,8 +280,8 @@ export default function SelectFileModal({
                                 ))
                             ) : (
                                 <p className="text-gray-500 text-center p-4">
-                                    Nenhum arquivo encontrado com o termo "
-                                    {searchTerm}".
+                                    No files with
+                                    {`"${searchTerm}"`}.
                                 </p>
                             )}
                         </div>
