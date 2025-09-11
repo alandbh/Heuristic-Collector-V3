@@ -4,6 +4,7 @@ import Debug from "../Debug";
 import Image from "next/image";
 import { ImageIcon, VideoIcon } from "../Icons";
 import { legacyEmeaPlayers } from "./remea1";
+import { BtnSmallPrimary } from "../Button";
 
 const journeyMap = {
     "retail-emea-1": {
@@ -27,6 +28,8 @@ export default function SelectFileModal({
     const [errorMessage, setErrorMessage] = useState(null);
     const [previewFile, setPreviewFile] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
+    const [initialSelectedFiles, setInitialSelectedFiles] = useState([]);
+    const [tempSelectedFiles, setTempSelectedFiles] = useState([]);
     const searchInputRef = useRef(null);
 
     const handlePreview = (file) => {
@@ -36,6 +39,20 @@ export default function SelectFileModal({
 
     const handleBack = () => {
         setPreviewFile(null);
+    };
+
+    const handleApply = () => {
+        onSelectionChange(tempSelectedFiles);
+        setSearchTerm(""); // Limpa a busca ao fechar
+        setPreviewFile(null); // Limpa o preview ao fechar
+        onClose();
+    };
+
+    const handleCancel = () => {
+        setTempSelectedFiles([...initialSelectedFiles]); // Reverte para seleções iniciais
+        setSearchTerm(""); // Limpa a busca ao fechar
+        setPreviewFile(null); // Limpa o preview ao fechar
+        onClose();
     };
 
     const handleClose = () => {
@@ -60,6 +77,9 @@ export default function SelectFileModal({
     useEffect(() => {
         if (!isOpen) return;
         console.log("ffffff OPEN");
+        // Captura as seleções iniciais quando a modal abre
+        setInitialSelectedFiles([...selectedFiles]);
+        setTempSelectedFiles([...selectedFiles]);
         if (files.length > 0) return;
         fetchFiles();
 
@@ -119,10 +139,10 @@ export default function SelectFileModal({
 
     const handleCheckboxChange = (e, fileObj) => {
         if (e.target.checked) {
-            onSelectionChange([...selectedFiles, fileObj]);
+            setTempSelectedFiles([...tempSelectedFiles, fileObj]);
         } else {
-            onSelectionChange(
-                selectedFiles.filter((item) => item.id !== fileObj.id)
+            setTempSelectedFiles(
+                tempSelectedFiles.filter((item) => item.id !== fileObj.id)
             );
         }
     };
@@ -248,7 +268,7 @@ export default function SelectFileModal({
                                             <input
                                                 type="checkbox"
                                                 id={file.id}
-                                                checked={selectedFiles.some(
+                                                checked={tempSelectedFiles.some(
                                                     (item) =>
                                                         item.id === file.id
                                                 )}
@@ -289,13 +309,20 @@ export default function SelectFileModal({
                 )}
 
                 {/* Footer */}
-                <div className="flex justify-end border-t border-gray-200 pt-4">
+                <div className="flex justify-end gap-3 border-t border-gray-200 pt-4">
                     <button
-                        onClick={handleClose}
+                        onClick={handleCancel}
+                        className="bg-gray-500 text-white font-bold py-2 px-4 rounded hover:bg-gray-700 transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    {/* <button
+                        onClick={handleApply}
                         className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition-colors"
                     >
-                        Close
-                    </button>
+                        Apply
+                    </button> */}
+                    <BtnSmallPrimary onClick={handleApply} textActive={"Apply"} />
                 </div>
             </div>
         </div>
