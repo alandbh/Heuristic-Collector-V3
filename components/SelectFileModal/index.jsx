@@ -310,50 +310,16 @@ export default function SelectFileModal({
 
                 {/* Footer */}
                 <div className="flex justify-end gap-3 border-t border-gray-200 pt-4">
-                    <button
-                        onClick={handleCancel}
-                        className="bg-gray-500 text-white font-bold py-2 px-4 rounded hover:bg-gray-700 transition-colors"
-                    >
-                        Cancel
-                    </button>
-                    {/* <button
-                        onClick={handleApply}
-                        className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition-colors"
-                    >
-                        Apply
-                    </button> */}
-                    <BtnSmallPrimary onClick={handleApply} textActive={"Apply"} />
+                    
+                    <BtnSmallPrimary outline={true} onClick={handleCancel} textActive={"Cancel"} />
+                    <BtnSmallPrimary onClick={handleApply} textActive={"Apply Selection"} />
                 </div>
             </div>
         </div>
     );
 }
 
-// const ImageIcon = (props) => (
-//     <svg
-//         xmlns="http://www.w3.org/2000/svg"
-//         style={{ width: "16px", height: "16px" }}
-//         viewBox="0 0 16 16"
-//         fill="red"
-//     >
-//         <path
-//             fillRule="evenodd"
-//             d="M16 14.222V1.778C16 .796 15.204 0 14.222 0H1.778C.796 0 0 .796 0 1.778v12.444C0 15.204.796 16 1.778 16h12.444c.982 0 1.778-.796 1.778-1.778M4.889 9.333l2.222 2.671L10.222 8l4 5.333H1.778l3.11-4z"
-//             clipRule="evenodd"
-//         ></path>
-//     </svg>
-// );
 
-// const VideoIcon = (props) => (
-//     <svg
-//         xmlns="http://www.w3.org/2000/svg"
-//         style={{ width: "16px", height: "16px" }}
-//         viewBox="0 0 16 12"
-//         fill="#3b82f6"
-//     >
-//         <path d="m12.8 0 1.6 3.2H12L10.4 0H8.8l1.6 3.2H8L6.4 0H4.8l1.6 3.2H4L2.4 0h-.8C.72 0 .008.72.008 1.6L0 11.2c0 .88.72 1.6 1.6 1.6h12.8c.88 0 1.6-.72 1.6-1.6V0z"></path>
-//     </svg>
-// );
 
 function getEvidenceFiles(
     driveData,

@@ -6,6 +6,7 @@ export function BtnSmallPrimary({
     textActive,
     textFinished,
     disabled = false,
+    outline = false,
 }) {
     const contentStatus = {
         active: textActive,
@@ -34,15 +35,19 @@ export function BtnSmallPrimary({
         ),
     };
 
+    const baseClass = `py-2 px-4 rounded-md  dark:text-white/70 text-sm ${outline ? 'border' : ''}`;
+    const activeClass = ` ${outline ? 'border-blue-300 bg-transparent text-primary hover:bg-primary/10' : 'bg-primary hover:bg-primary/60 text-white/80'}`;
+    const disabledClass = "border opacity-70 text-slate-400 cursor-not-allowed";
+    const savedClass = "border opacity-70 text-slate-400";
+    const buttonClass = `${baseClass} ${
+        status === "saved" ? savedClass : status === "disabled" ? disabledClass : activeClass
+    }`;
+
     return (
         <button
             disabled={disabled}
             onClick={onClick}
-            className={`py-2 px-4 rounded-md  dark:text-white/70 text-sm ${
-                status === "saved" || disabled
-                    ? "border opacity-70 text-slate-400 cursor-not-allowed"
-                    : "bg-primary hover:bg-primary/60 text-white/80"
-            }`}
+            className={buttonClass}
         >
             {contentStatus[status]}
         </button>
