@@ -153,6 +153,20 @@ export default function SelectFileModal({
           )
         : files;
 
+    // Função para verificar se há mudanças na seleção
+    const hasSelectionChanged = () => {
+        // Se os tamanhos são diferentes, há mudança
+        if (initialSelectedFiles.length !== tempSelectedFiles.length) {
+            return true;
+        }
+        
+        // Se os tamanhos são iguais, verifica se todos os IDs são os mesmos
+        const initialIds = initialSelectedFiles.map(file => file.id).sort();
+        const tempIds = tempSelectedFiles.map(file => file.id).sort();
+        
+        return !initialIds.every((id, index) => id === tempIds[index]);
+    };
+
     if (!isOpen) return null;
     return (
         // Overlay
@@ -311,8 +325,13 @@ export default function SelectFileModal({
                 {/* Footer */}
                 <div className="flex justify-end gap-3 border-t border-gray-200 pt-4">
                     
-                    <BtnSmallPrimary outline={true} onClick={handleCancel} textActive={"Cancel"} />
-                    <BtnSmallPrimary onClick={handleApply} textActive={"Apply Selection"} />
+                     <BtnSmallPrimary outline={true} onClick={handleCancel} textActive={"Cancel"} />
+                     <BtnSmallPrimary 
+                         onClick={handleApply} 
+                         textActive={"Apply Selection"} 
+                         disabled={!hasSelectionChanged()}
+                         status={hasSelectionChanged() ? "active" : "disabled"}
+                     />
                 </div>
             </div>
         </div>
