@@ -36,9 +36,12 @@ function getUncompletedScores(params) {
     if (scores && journey && player) {
         uncompleted = scores?.filter(
             (score) =>
-                (score.scoreValue === 0 ||
+                (
+                    score.scoreValue === 0 ||
                     score.evidenceUrl.trim().length === 0 ||
-                    score.note.trim().length === 0) &&
+                    score.note.trim().length === 0 ||
+                    score.selectedFiles.length === 0
+                ) &&
                 score.playerSlug === player &&
                 score.journeySlug === journey
         );
@@ -47,7 +50,9 @@ function getUncompletedScores(params) {
             (score) =>
                 (score.scoreValue === 0 ||
                     score.evidenceUrl.trim().length === 0 ||
-                    score.note.trim().length === 0) &&
+                    score.note.trim().length === 0 ||
+                    score.selectedFiles.length === 0
+                ) &&
                 score.journeySlug === journey
         );
     } else if (scores && player) {
@@ -55,7 +60,9 @@ function getUncompletedScores(params) {
             (score) =>
                 (score.scoreValue === 0 ||
                     score.evidenceUrl.trim().length === 0 ||
-                    score.note.trim().length === 0) &&
+                    score.note.trim().length === 0 ||
+                    score.selectedFiles.length === 0
+                ) &&
                 score.playerSlug === player
         );
     } else {
@@ -63,7 +70,8 @@ function getUncompletedScores(params) {
             (score) =>
                 score.scoreValue === 0 ||
                 score.evidenceUrl.trim().length === 0 ||
-                score.note.trim().length === 0
+                score.note.trim().length === 0 ||
+                score.selectedFiles.length === 0
         );
     }
 
@@ -220,8 +228,8 @@ function getPlayerPercentage(params) {
 
     const totalDone = scoresByPlayerByJourney.filter((score) => {
         return (
-            score.evidenceUrl.trim().length > 0 &&
-            score.note.trim().length &&
+            (score.evidenceUrl.trim().length > 0 || score.selectedFiles.length > 0) &&
+            score.note.trim().length > 0 &&
             score.scoreValue > 0
         );
     }).length;

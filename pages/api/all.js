@@ -169,6 +169,7 @@ export default async function handler(req, res) {
                         averageScoreValuePrev: score.averageScoreValuePrev,
                         note: score.note,
                         evidenceUrl: score.evidenceUrl,
+                        selectedFiles: score.selectedFiles || [],
                     };
                 });
             });
