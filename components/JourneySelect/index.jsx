@@ -102,12 +102,16 @@ function JourneySelect({ compact = false }) {
 
     // console.log({allScoresJson});
 
+    function isEvidenceOk(score) {
+        return score.evidenceUrl.trim().length > 0 || score.selectedFiles?.length > 0;
+    }
+
     function getIncompleteScores(journeySlug) {
         return allScoresJson[journeySlug]?.filter((score) => {
             return (
                 score.scoreValue === 0 ||
                 score.note.trim().length === 0 ||
-                score.evidenceUrl.trim().length === 0
+                !isEvidenceOk(score)
             );
         }).length;
     }
