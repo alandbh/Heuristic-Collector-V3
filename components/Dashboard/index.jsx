@@ -30,17 +30,21 @@ const QUERY_ALL_JOURNEYS = gql`
     }
 `;
 
+function isEvidenceOk(score) {
+    return score.evidenceUrl.trim().length > 0 || score.selectedFiles?.length > 0;
+}
 function getUncompletedScores(params) {
-    const { scores, journey, player } = params;
     let uncompleted;
+    const { scores, journey, player } = params;
     if (scores && journey && player) {
+        
+        // const isEvidenceOk = (score) => score.evidenceUrl.trim().length > 0 || score.selectedFiles.length > 0;
         uncompleted = scores?.filter(
             (score) =>
                 (
                     score.scoreValue === 0 ||
-                    score.evidenceUrl.trim().length === 0 ||
-                    score.note.trim().length === 0 ||
-                    score.selectedFiles.length === 0
+                    !isEvidenceOk(score) ||
+                    score.note.trim().length === 0
                 ) &&
                 score.playerSlug === player &&
                 score.journeySlug === journey
@@ -49,9 +53,8 @@ function getUncompletedScores(params) {
         uncompleted = scores?.filter(
             (score) =>
                 (score.scoreValue === 0 ||
-                    score.evidenceUrl.trim().length === 0 ||
-                    score.note.trim().length === 0 ||
-                    score.selectedFiles.length === 0
+                    !isEvidenceOk(score) ||
+                    score.note.trim().length === 0
                 ) &&
                 score.journeySlug === journey
         );
@@ -59,9 +62,8 @@ function getUncompletedScores(params) {
         uncompleted = scores?.filter(
             (score) =>
                 (score.scoreValue === 0 ||
-                    score.evidenceUrl.trim().length === 0 ||
-                    score.note.trim().length === 0 ||
-                    score.selectedFiles.length === 0
+                    !isEvidenceOk(score) ||
+                    score.note.trim().length === 0
                 ) &&
                 score.playerSlug === player
         );
@@ -69,11 +71,13 @@ function getUncompletedScores(params) {
         uncompleted = scores?.filter(
             (score) =>
                 score.scoreValue === 0 ||
-                score.evidenceUrl.trim().length === 0 ||
-                score.note.trim().length === 0 ||
-                score.selectedFiles.length === 0
+                !isEvidenceOk(score) ||
+                score.note.trim().length === 0
         );
     }
+
+    // console.log("uncompleted", uncompleted);
+    
 
     return uncompleted;
 }
@@ -386,7 +390,7 @@ function Dashboard({ auth, projectData }) {
             peoplesDayCollection: collectsByDate[date],
         };
     }
-    console.log("collect", maxDateAmount);
+    // console.log("collect", maxDateAmount);
     // console.log("collect", getCollectsByDate(newestDate, "Marco Gross"));
 
     let newestTitle = "";
@@ -467,7 +471,6 @@ function Dashboard({ auth, projectData }) {
         return null;
     }
 
-    // console.log("ola", allScores);
 
     return (
         <>
@@ -497,7 +500,7 @@ function Dashboard({ auth, projectData }) {
                                 <b className="whitespace-nowrap text-sm md:text-xl">
                                     {allScores.length -
                                         getUncompletedScores({
-                                            scores: allScores,
+                                            scores: allScores
                                         }).length}{" "}
                                     of {allScores.length}
                                 </b>
@@ -507,7 +510,7 @@ function Dashboard({ auth, projectData }) {
                                     sum={
                                         allScores.length -
                                         getUncompletedScores({
-                                            scores: allScores,
+                                            scores: allScores
                                         }).length
                                     }
                                     radius={25}
@@ -611,7 +614,7 @@ function Dashboard({ auth, projectData }) {
                                                         scores: allScores,
                                                         journey: journey,
                                                     }).length -
-                                                    getZeroedScores({
+                                                    getUncompletedScores({
                                                         scores: allScores,
                                                         journey,
                                                     }).length
@@ -619,6 +622,19 @@ function Dashboard({ auth, projectData }) {
                                                 radius={58}
                                                 thick={6}
                                             ></Donnut>
+                                            
+                                            <Debugg data={getAllScores({
+                                                        scores: allScores,
+                                                        journey: journey,
+                                                    }).length}></Debugg>
+                                            <Debugg data={getUncompletedScores({
+                                                        scores: allScores,
+                                                        journey,
+                                                    }).length}></Debugg>
+                                                    <div>all scores</div>
+                                            <Debugg data={allScores.length}></Debugg>
+                                                    <div>all collect</div>
+                                            <Debugg data={allCollects?.length}></Debugg>
 
                                             <h3 className="font-bold text-xl">
                                                 Collected heuristics
