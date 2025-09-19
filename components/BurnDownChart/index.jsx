@@ -23,7 +23,7 @@ function BurnDownChart({ series, maxAmount, estimatedDaysToFinish }) {
                 height={228}
                 fill="none"
                 viewBox={`0 0 ${estimatedDaysToFinish * gap.pixels} 228`}
-                className="max-w-[800px] object-contain h-auto absolute"
+                className="absolute"
                 style={{
                     translate: "10px 40px",
                 }}
