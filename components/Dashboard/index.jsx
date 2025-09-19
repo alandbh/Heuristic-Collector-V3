@@ -623,7 +623,7 @@ function Dashboard({ auth, projectData }) {
                                                 thick={6}
                                             ></Donnut>
                                             
-                                            <Debugg data={getAllScores({
+                                            {/* <Debugg data={getAllScores({
                                                         scores: allScores,
                                                         journey: journey,
                                                     }).length}></Debugg>
@@ -634,7 +634,7 @@ function Dashboard({ auth, projectData }) {
                                                     <div>all scores</div>
                                             <Debugg data={allScores.length}></Debugg>
                                                     <div>all collect</div>
-                                            <Debugg data={allCollects?.length}></Debugg>
+                                            <Debugg data={allCollects?.length}></Debugg> */}
 
                                             <h3 className="font-bold text-xl">
                                                 Collected heuristics
