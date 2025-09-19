@@ -14,6 +14,7 @@ import client from "../../lib/apollo";
 import SearchBox from "../SearchBox";
 import Donnut from "../Donnut";
 import Ignore from "../Ignore";
+import Switch, { SwitchMono } from "../Switch";
 
 const QUERY_FINDINGS = gql`
     query GetAllFindings(
@@ -139,6 +140,13 @@ function GroupContainer({ data }) {
     const [validJourney, setValidJourney] = useState(true);
     const [journeyIgnored, setJourneyIgnored] = useState(false);
     const [journeyZeroed, setJourneyZeroed] = useState(false);
+    const [filterType, setFilterType] = useState('all'); // Novo estado para o filtro
+    const [filterKey, setFilterKey] = useState(0); // Chave para forçar re-renderização
+
+    // Reset scroll quando o filtro muda
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [filterType]);
     const {
         allScoresJson,
         allScoresObj: allScoresObjContext,
@@ -152,6 +160,43 @@ function GroupContainer({ data }) {
     const isSticky128 = useIsSticky(128);
 
     const asideRef = useRef(new Set());
+
+    // Função para verificar se uma heurística está concluída
+    const isHeuristicComplete = (heuristic) => {
+        const currentScore = allScoresObjContext?.find(
+            (score) => score.heuristic.heuristicNumber === heuristic.heuristicNumber
+        );
+        
+        if (!currentScore) return false;
+        
+        const hasScore = currentScore.scoreValue > 0;
+        const hasNote = currentScore.note && currentScore.note.trim().length > 0;
+        const hasEvidence = (currentScore.evidenceUrl && currentScore.evidenceUrl.trim().length > 0) || 
+                           (currentScore.selectedFiles && currentScore.selectedFiles.length > 0);
+        
+        return hasScore && hasNote && hasEvidence;
+    };
+
+    // Função para verificar se uma heurística foi revisada
+    const isHeuristicReviewed = (heuristic) => {
+        const currentScore = allScoresObjContext?.find(
+            (score) => score.heuristic.heuristicNumber === heuristic.heuristicNumber
+        );
+        
+        return currentScore ? Boolean(currentScore.reviewed) : false;
+    };
+
+    // Função para filtrar heurísticas baseado no tipo de filtro
+    const filterHeuristics = useCallback((heuristics) => {
+        if (filterType === 'all') {
+            return heuristics;
+        } else if (filterType === 'undone') {
+            return heuristics.filter(heuristic => !isHeuristicComplete(heuristic));
+        } else if (filterType === 'unreviewed') {
+            return heuristics.filter(heuristic => !isHeuristicReviewed(heuristic));
+        }
+        return heuristics;
+    }, [filterType, allScoresObjContext]);
 
     const getFindings = useCallback(() => {
         const variables = {
@@ -387,6 +432,7 @@ function GroupContainer({ data }) {
             <div className={isSticky128 ? "pt-32" : ""}>
                 <div className="gap-5 max-w-5xl mx-auto flex flex-col-reverse md:grid md:grid-cols-3  ">
                     <div
+                        key={`heuristics-container-${filterKey}`}
                         className={`md:col-span-2 flex flex-col gap-20 ${
                             journeyIgnored &&
                             "bg-red-100 border-red-300 border-4 border-dashed rounded-lg"
@@ -406,16 +452,49 @@ function GroupContainer({ data }) {
                                 This journey is zeroed
                             </p>
                         )}
-                        {groupsToMap.map((group, index) => (
-                            <HeuristicGroup
-                                allScoresJson={allScoresJson}
-                                group={group}
-                                key={group.id}
-                                allScoresObj={allScoresObjContext}
-                                index={index}
-                            />
-                        ))}
-                        <Findings
+                        {groupsToMap.map((group, index) => {
+                            const filteredHeuristics = filterHeuristics(
+                                group.heuristic.filter(
+                                    (heuristic) =>
+                                        !isANotApplicableHeuristic(heuristic, router.query.player) &&
+                                        isPresentInThisJourney(heuristic, router.query.journey)
+                                )
+                            );
+                            
+                            // Se não há heurísticas após o filtro, não renderiza o grupo
+                            if (filteredHeuristics.length === 0) {
+                                return null;
+                            }
+                            
+                            return (
+                                <HeuristicGroup
+                                    allScoresJson={allScoresJson}
+                                    group={group}
+                                    key={`${group.id}-${filterKey}`}
+                                    allScoresObj={allScoresObjContext}
+                                    index={index}
+                                    filterType={filterType}
+                                    filterHeuristics={filterHeuristics}
+                                />
+                            );
+                        })}
+                        {
+                            filterType === 'all' && (
+                                <Findings
+                                    data={findingsList}
+                                    router={router}
+                                    getFindings={getFindings}
+                                    currentJourney={currentJourney}
+                                    currentPlayer={currentPlayer}
+                                    currentProject={currentProject}
+                                    disable={
+                                        getUserLevel(userType) > 2 &&
+                                        getUserLevel(userType) !== 4
+                                    }
+                                />
+                            )
+                        }
+                        {/* <Findings
                             data={findingsList}
                             router={router}
                             getFindings={getFindings}
@@ -426,7 +505,7 @@ function GroupContainer({ data }) {
                                 getUserLevel(userType) > 2 &&
                                 getUserLevel(userType) !== 4
                             }
-                        />
+                        /> */}
                         {getUserLevel(userType) === 1 && (
                             <Ignore
                                 onChange={handleOnChangeIgnore}
@@ -457,6 +536,59 @@ function GroupContainer({ data }) {
                                 <div>
                                     <SearchBox data={allHeuristics} />
                                 </div>
+                            </aside>
+                            <aside
+                            className="hidden translate-y-1 mb-10 transition delay-200 md:block"
+                            >
+                            <h1 className="text-slate-400 text-sm uppercase mb-5 border-b-2 pb-3">
+                                    Filter Heuristics
+                                </h1>
+
+                                <div className="mb-4">
+                                    <SwitchMono
+                                    width={97}
+                                    fontSize={11}
+                                    options={['all', 'undone', 'unreviewed']}
+                                    onChange={(value) => {
+                                        setFilterType(value);
+                                        setFilterKey(prev => prev + 1); // Força re-renderização
+                                    }}
+                                    selected={filterType}
+                                    />
+                                    
+
+                                </div>
+
+                                <div className="text-xs text-slate-500">
+                                    {(() => {
+                                        const totalHeuristics = allHeuristics.filter(heuristic => 
+                                            !isANotApplicableHeuristic(heuristic, router.query.player) &&
+                                            isPresentInThisJourney(heuristic, router.query.journey)
+                                        ).length;
+                                        
+                                        const undoneCount = allHeuristics.filter(heuristic => 
+                                            !isANotApplicableHeuristic(heuristic, router.query.player) &&
+                                            isPresentInThisJourney(heuristic, router.query.journey) &&
+                                            !isHeuristicComplete(heuristic)
+                                        ).length;
+                                        
+                                        const notReviewedCount = allHeuristics.filter(heuristic => 
+                                            !isANotApplicableHeuristic(heuristic, router.query.player) &&
+                                            isPresentInThisJourney(heuristic, router.query.journey) &&
+                                            !isHeuristicReviewed(heuristic)
+                                        ).length;
+
+                                        if (filterType === 'all') {
+                                            return `Showing all ${totalHeuristics} heuristics`;
+                                        } else if (filterType === 'undone') {
+                                            return `Showing ${undoneCount} incomplete heuristics`;
+                                        } else if (filterType === 'not reviewed') {
+                                            return `Showing ${notReviewedCount} unreviewed heuristics`;
+                                        }
+                                        return '';
+                                    })()}
+                                </div>
+
                             </aside>
                             <aside
                                 ref={(element) => {

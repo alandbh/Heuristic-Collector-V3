@@ -8,15 +8,31 @@ function Switch({ onChange, options, selected, disable = false }) {
         onChange(ev.target.value);
     }
 
-    function getBubblePosition() {
+    function getBubbleStyle() {
         if (option === options[0]) {
-            return "translate-x-[2px] w-[100px] bg-red-500";
+            return {
+                transform: "translateX(2px)",
+                width: "100px",
+                backgroundColor: "#ef4444"
+            };
         } else if (option === options[1]) {
-            return "translate-x-[102px] w-[100px] bg-red-300";
+            return {
+                transform: "translateX(102px)",
+                width: "100px",
+                backgroundColor: "#fca5a5"
+            };
         } else if (option === options[2]) {
-            return "translate-x-[204px] w-[100px] bg-orange-300";
+            return {
+                transform: "translateX(204px)",
+                width: "100px",
+                backgroundColor: "#fdba74"
+            };
         } else {
-            return "translate-x-[306px] w-[100px] bg-green-300";
+            return {
+                transform: "translateX(306px)",
+                width: "100px",
+                backgroundColor: "#86efac"
+            };
         }
     }
 
@@ -28,7 +44,12 @@ function Switch({ onChange, options, selected, disable = false }) {
                 }`}
             >
                 <div
-                    className={`bubble z-0 transition duration-200 rounded-full top-[2px] h-[26px] absolute ${getBubblePosition()}`}
+                    className="bubble z-0 transition duration-200 rounded-full absolute"
+                    style={{
+                        top: "2px",
+                        height: "26px",
+                        ...getBubbleStyle()
+                    }}
                 ></div>
                 <div className="container flex w-[408px] justify-between items-center font-bold z-10  text-xs leading-8 uppercase dark:text-white/60">
                     <label
@@ -136,7 +157,7 @@ export default Switch;
  *
  */
 
-function SwitchMono({ onChange, options, selected, disable = false }) {
+function SwitchMono({ onChange, options, selected, width = 150, fontSize = 12, disable = false }) {
     const [option, setOption] = useState(selected);
 
     useEffect(() => {
@@ -150,21 +171,44 @@ function SwitchMono({ onChange, options, selected, disable = false }) {
         return ev;
     }
 
-    function getBubblePosition() {
+    function getBubbleStyle() {
+        const bubbleWidth = width || 150;
+        
         if (option === options[0]) {
-            return "translate-x-[2px] w-[150px] border border-blue-500 bg-blue-100";
+            return {
+                transform: "translateX(1px)",
+                width: `${bubbleWidth}px`
+            };
         } else if (option === options[1]) {
-            return "translate-x-[152px] w-[150px] border border-blue-500 bg-blue-100";
+            return {
+                transform: `translateX(${bubbleWidth + 0}px)`,
+                width: `${bubbleWidth}px`
+            };
         } else if (option === options[2]) {
-            return "translate-x-[302px] w-[150px] border border-blue-500 bg-blue-100";
+            return {
+                transform: `translateX(${(bubbleWidth * 2) + 0}px)`,
+                width: `${bubbleWidth}px`
+            };
         } else if (option === options[3]) {
-            return "translate-x-[452px] w-[150px] border border-blue-500 bg-blue-100";
+            return {
+                transform: `translateX(${(bubbleWidth * 3) + 0}px)`,
+                width: `${bubbleWidth}px`
+            };
         } else if (option === options[4]) {
-            return "translate-x-[602px] w-[150px] border border-blue-500 bg-blue-100";
+            return {
+                transform: `translateX(${(bubbleWidth * 4) + 0}px)`,
+                width: `${bubbleWidth}px`
+            };
         } else if (option === options[5]) {
-            return "translate-x-[752px] w-[150px] border border-blue-500 bg-blue-100";
+            return {
+                transform: `translateX(${(bubbleWidth * 5) + 0}px)`,
+                width: `${bubbleWidth}px`
+            };
         } else {
-            return "translate-x-[902px] w-[150px] border border-blue-500 bg-blue-100";
+            return {
+                transform: `translateX(${(bubbleWidth * 6) + 0}px)`,
+                width: `${bubbleWidth}px`
+            };
         }
     }
 
@@ -173,7 +217,12 @@ function SwitchMono({ onChange, options, selected, disable = false }) {
             <div className="h-12 overflow-x-scroll w-full lg:overflow-x-visible  rounded-full flex items-center switch-scroll">
                 <div className="wrapper flex  w-fit border dark:border-white/60 h-8 rounded-full relative">
                     <div
-                        className={`bubble z-0 transition duration-300 rounded-full top-[2px] h-[26px] absolute ${getBubblePosition()}`}
+                        className="bubble border border-blue-500 bg-blue-100 z-0 transition duration-300 rounded-full absolute"
+                        style={{
+                            top: "2px",
+                            height: "26px",
+                            ...getBubbleStyle()
+                        }}
                     ></div>
                     <div
                         className={`container flex w-[${
@@ -182,9 +231,9 @@ function SwitchMono({ onChange, options, selected, disable = false }) {
                     >
                         {options.map((_option, index) => (
                             <label
-                                style={{ flex: "0 0 150px" }}
+                                style={{ flex: `0 0 ${width}px` }}
                                 key={index}
-                                className="flex w-[150px] items-center justify-center cursor-pointer"
+                                className={`flex w-[${width}px] items-center justify-center cursor-pointer`}
                             >
                                 <input
                                     type="radio"
@@ -196,6 +245,9 @@ function SwitchMono({ onChange, options, selected, disable = false }) {
                                     disabled={disable}
                                 />
                                 <span
+                                    style={{
+                                        fontSize: `${fontSize}px`
+                                    }}
                                     className={`truncate w-full text-center px-2 ${
                                         option === options[index]
                                             ? `text-blue-500`

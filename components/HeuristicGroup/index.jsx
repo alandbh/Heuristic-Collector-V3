@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import HeuristicItem from "../HeuristicItem";
 import { useScoresContext } from "../../context/scores";
 import { useScoresObjContext } from "../../context/scoresObj";
@@ -26,7 +26,7 @@ function isPresentInThisJourney(heuristic, journeySlug) {
  *
  */
 
-function HeuristicGroup({ group, allScoresJson, allScoresObj, index }) {
+function HeuristicGroup({ group, allScoresJson, allScoresObj, index, filterType, filterHeuristics }) {
     // const { allScores } = useScoresContext();
     // const { allScoresObj } = useScoresObjContext();
     const router = useRouter();
@@ -44,17 +44,24 @@ function HeuristicGroup({ group, allScoresJson, allScoresObj, index }) {
         }
     }, [group.heuristic, router.query.player, router.query.journey]);
 
-    const heuristicsToMap = group.heuristic
-        .filter(
-            (heuristic) =>
-                !isANotApplicableHeuristic(heuristic, router.query.player) &&
-                isPresentInThisJourney(heuristic, router.query.journey)
-        )
-        .sort(
+    const [heuristicsToMap, setHeuristicsToMap] = useState([]);
+
+    useEffect(() => {
+        const filteredHeuristics = filterHeuristics(
+            group.heuristic
+                .filter(
+                    (heuristic) =>
+                        !isANotApplicableHeuristic(heuristic, router.query.player) &&
+                        isPresentInThisJourney(heuristic, router.query.journey)
+                )
+        ).sort(
             (a, b) =>
                 String(a.heuristicNumber).split(".")[1] -
                 String(b.heuristicNumber).split(".")[1]
         );
+        
+        setHeuristicsToMap(filteredHeuristics);
+    }, [group.heuristic, router.query.player, router.query.journey, filterHeuristics]);
 
     if (!allScoresObj) {
         return null;
@@ -96,7 +103,7 @@ function HeuristicGroup({ group, allScoresJson, allScoresObj, index }) {
                     <div className="h-[5px] bg-primary w-10 mb-1"></div>
                     {`${group.groupNumber}. ${group.name}`}
                 </h1>
-                <div className="text-lg flex items-center gap-5">
+                <div className={`text-lg flex items-center gap-5 ${filterType !== 'all' ? 'hidden' : ''}`}>
                     <b className="whitespace-nowrap text-sm md:text-xl">
                         {groupTotalSore} of {5 * heuristicsToMap.length}
                     </b>
