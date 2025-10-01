@@ -202,27 +202,40 @@ export default function AddHeuristic() {
             console.log('🔍 DEBUG - Journeys selecionadas:', selectedJourneys);
             console.log('🔍 DEBUG - Heurística selecionada:', selectedHeuristic);
             
-            // Adicionar heurística para cada journey selecionada
-            selectedJourneys.forEach(journeySlug => {
+            // Verificar se heurística já existe em alguma journey antes de adicionar
+            let hasExistingHeuristic = false;
+            for (const journeySlug of selectedJourneys) {
                 if (!newScoresObject[journeySlug]) {
                     newScoresObject[journeySlug] = [];
                 }
 
-                // Verificar se heurística já existe
                 const existingHeuristic = newScoresObject[journeySlug].find(
                     item => item.heuristic?.heuristicNumber === selectedHeuristic.heuristicNumber
                 );
 
                 if (existingHeuristic) {
                     console.log('❌ Heurística já existe na journey:', journeySlug);
-                    setPlayersStatus(prev => ({
-                        ...prev,
-                        [player.slug]: { 
-                            status: 'error', 
-                            message: 'Heurística já existe nesta journey' 
-                        }
-                    }));
-                    return;
+                    hasExistingHeuristic = true;
+                    break;
+                }
+            }
+
+            // Se já existe, mostrar erro e sair
+            if (hasExistingHeuristic) {
+                setPlayersStatus(prev => ({
+                    ...prev,
+                    [player.slug]: { 
+                        status: 'error', 
+                        message: 'Heurística já existe em uma ou mais journeys' 
+                    }
+                }));
+                return;
+            }
+
+            // Adicionar heurística para cada journey selecionada
+            selectedJourneys.forEach(journeySlug => {
+                if (!newScoresObject[journeySlug]) {
+                    newScoresObject[journeySlug] = [];
                 }
 
                 // Adicionar nova heurística
