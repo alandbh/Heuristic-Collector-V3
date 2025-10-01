@@ -162,7 +162,7 @@ export default function AddHeuristic() {
     const selectedProject = projectData?.project;
     const sortedHeuristics = sortHeuristics(heuristicsData?.heuristics);
     const selectedHeuristic = sortedHeuristics?.find(h => h.id === selectedHeuristicId);
-    const players = playersData?.players || [];
+    const players = playersData?.players ? [...playersData.players].sort((a, b) => a.name.localeCompare(b.name)) : [];
 
     // Determinar journeys selecionadas
     const selectedJourneys = selectedHeuristic ? (
