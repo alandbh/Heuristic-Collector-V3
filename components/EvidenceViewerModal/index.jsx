@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from "react";
 import { ImageIcon, VideoIcon } from "../Icons";
-import { BtnSmallPrimary } from "../Button";
 import Image from "next/image";
 
 export default function EvidenceViewerModal({
@@ -41,6 +40,23 @@ export default function EvidenceViewerModal({
       document.body.classList.remove("overflow-hidden");
     };
   }, [isOpen, validInitialIndex]);
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleEscKey = (event) => {
+      if (event.key === "Escape" && isOpen) {
+        handleClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscKey);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscKey);
+    };
+  }, [isOpen]);
 
   const handleClose = () => {
     onClose();
@@ -233,15 +249,6 @@ export default function EvidenceViewerModal({
             )}
           </div>
         )}
-
-        {/* Footer */}
-        <div className="flex justify-end gap-3 border-t border-gray-200 pt-4">
-          <BtnSmallPrimary
-            outline={true}
-            onClick={handleClose}
-            textActive="Close"
-          />
-        </div>
       </div>
     </div>
   );
