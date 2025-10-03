@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { BtnSmallPrimary } from "../Button";
 import SelectFileModal from "../SelectFileModal";
+import EvidenceViewerModal from "../EvidenceViewerModal";
 import Debug from "../Debug";
 import { ImageIcon, VideoIcon, ViewIcon } from "../Icons";
 import { useMultipleThumbnailUrls } from "../../lib/useThumbnailUrl";
@@ -23,6 +24,7 @@ function Evidence({
     disabled = false,
 }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isViewerModalOpen, setIsViewerModalOpen] = useState(false);
     // const [selectedFiles, setSelectedFiles] = useState([]);
     // const urlRef = useRef(null);
     const collapseRef = useRef(null);
@@ -154,6 +156,15 @@ function Evidence({
                         selectedFiles={selectedFiles}
                         onSelectionChange={onSelectionChange}
                     />
+
+                    <EvidenceViewerModal
+                        isOpen={isViewerModalOpen}
+                        onClose={() => setIsViewerModalOpen(false)}
+                        selectedFiles={selectedFiles}
+                        thumbnailUrls={thumbnailUrls}
+                        loading={thumbnailLoading}
+                        error={thumbnailError}
+                    />
                     {selectedFiles && selectedFiles.length > 0 && (
                         <ul className="max-h-[400px] rounded-lg flex-1 w-full overflow-y-auto flex flex-col gap-[2px] p-1 mb-4 border border-dashed border-spacing-2 border-slate-400">
                             {selectedFiles.map((file) => {
@@ -173,9 +184,13 @@ function Evidence({
                                             )}{" "}
                                             {removeExtension(displayFile.name)}
                                         </span>
-                                        <button className="text-blue-600 hover:bg-slate-100 rounded p-[6px] bg-slate-400 ml-auto">
-                                            <ViewIcon />
-                                        </button>
+                                    <button 
+                                        onClick={() => setIsViewerModalOpen(true)}
+                                        className="text-blue-600 hover:bg-slate-100 rounded p-[6px] bg-slate-400 ml-auto"
+                                        title="View evidence file"
+                                    >
+                                        <ViewIcon />
+                                    </button>
                                         <Debug data={displayFile} />
                                     </li>
                                 );
