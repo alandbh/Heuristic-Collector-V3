@@ -23,3 +23,25 @@ export const ImageIcon = (props) => (
         ></path>
     </svg>
 );
+
+export const ViewIcon = (props) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ width: "16px", height: "16px" }}
+      fill="none"
+      viewBox="0 0 16 16"
+    >
+      <path
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="1.333"
+        d="M8 12c3.682 0 6.667-4 6.667-4S11.682 4 8 4 1.333 8 1.333 8 4.318 12 8 12Z"
+      ></path>
+      <path
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="1.333"
+        d="M8 9.666a1.667 1.667 0 1 0 0-3.333 1.667 1.667 0 0 0 0 3.333Z"
+      ></path>
+    </svg>
+  );
