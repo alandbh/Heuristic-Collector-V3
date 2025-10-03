@@ -310,6 +310,7 @@ export default function SelectFileModal({
                                         >
                                             Preview
                                         </button>
+                                        <Debug data={file} />
                                     </div>
                                 ))
                             ) : (

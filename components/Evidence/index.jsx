@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { BtnSmallPrimary } from "../Button";
 import SelectFileModal from "../SelectFileModal";
 import Debug from "../Debug";
-import { ImageIcon, VideoIcon } from "../Icons";
+import { ImageIcon, VideoIcon, ViewIcon } from "../Icons";
+import { useMultipleThumbnailUrls } from "../../lib/useThumbnailUrl";
 
 function Evidence({
     currentJourney,
@@ -25,6 +26,19 @@ function Evidence({
     // const [selectedFiles, setSelectedFiles] = useState([]);
     // const urlRef = useRef(null);
     const collapseRef = useRef(null);
+
+    // Memoiza os fileIds para evitar re-renderizações desnecessárias
+    const fileIds = useMemo(() => {
+        if (!selectedFiles || selectedFiles.length === 0) return [];
+        return selectedFiles.map(file => file.id).filter(id => id);
+    }, [selectedFiles]);
+
+    // Busca URLs dos thumbnails em tempo real
+    const { urls: thumbnailUrls, loading: thumbnailLoading, error: thumbnailError } = useMultipleThumbnailUrls(
+        fileIds, 
+        fileIds.length > 0
+    );
+
 
     useEffect(() => {
         if (collapseRef) {
@@ -142,24 +156,30 @@ function Evidence({
                     />
                     {selectedFiles && selectedFiles.length > 0 && (
                         <ul className="max-h-[400px] rounded-lg flex-1 w-full overflow-y-auto flex flex-col gap-[2px] p-1 mb-4 border border-dashed border-spacing-2 border-slate-400">
-                            {selectedFiles.map((file) => (
-                                <li
-                                    className="flex items-center gap-3 py-2 px-3 rounded hover:bg-slate-50"
-                                    key={file.id + "_h_" + heuristicNumber}
-                                >
-                                    <span className="text-gray-700 cursor-default flex items-center gap-2 text-ellipsis text-sm">
-                                        {file.type === "video" ? (
-                                            <VideoIcon />
-                                        ) : (
-                                            <ImageIcon />
-                                        )}{" "}
-                                        {removeExtension(file.name)}
-                                    </span>
-                                    {/* <div className="text-blue-600 hover:bg-slate-100 rounded px-1">
-                                        {removeExtension(file.name)}
-                                    </div> */}
-                                </li>
-                            ))}
+                            {selectedFiles.map((file) => {
+                                const thumbnailData = thumbnailUrls[file.id];
+                                const displayFile = thumbnailData || file; // Usa dados atualizados se disponível
+                                
+                                return (
+                                    <li
+                                        className="flex items-center gap-3 py-2 px-3 rounded hover:bg-slate-50"
+                                        key={file.id + "_h_" + heuristicNumber}
+                                    >
+                                        <span className="text-gray-700 cursor-default flex items-center gap-2 text-ellipsis text-sm">
+                                            {displayFile.type === "video" ? (
+                                                <VideoIcon />
+                                            ) : (
+                                                <ImageIcon />
+                                            )}{" "}
+                                            {removeExtension(displayFile.name)}
+                                        </span>
+                                        <button className="text-blue-600 hover:bg-slate-100 rounded p-[6px] bg-slate-400 ml-auto">
+                                            <ViewIcon />
+                                        </button>
+                                        <Debug data={displayFile} />
+                                    </li>
+                                );
+                            })}
                         </ul>
                     )}
                 </div>
