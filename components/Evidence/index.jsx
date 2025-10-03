@@ -177,13 +177,15 @@ function Evidence({
                     className="flex items-center gap-3 py-2 px-3 rounded hover:bg-slate-50"
                     key={file.id + "_h_" + heuristicNumber}
                   >
-                    <span className="text-gray-700 cursor-default flex items-center gap-2 text-ellipsis text-sm">
+                    <span className="text-gray-700 cursor-default flex items-center gap-2 text-sm min-w-0 flex-1">
                       {displayFile.type === "video" ? (
                         <VideoIcon />
                       ) : (
                         <ImageIcon />
                       )}{" "}
-                      {removeExtension(displayFile.name)}
+                      <span className="truncate block w-[calc(100%-40px)]">
+                        {removeExtension(displayFile.name)}
+                      </span>
                     </span>
                     <button
                       onClick={() => {

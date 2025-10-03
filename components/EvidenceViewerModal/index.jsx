@@ -116,11 +116,8 @@ export default function EvidenceViewerModal({
               {currentFileData ? (
                 <div className="w-full h-full flex flex-col items-center">
                   {currentFileData.type === "video" ? (
-                    <div className="w-full max-w-4xl">
-                      <div
-                        className="relative"
-                        style={{ paddingBottom: "56.25%" }}
-                      >
+                    <div className="flex justify-center items-center w-full max-w-4xl">
+                      <div className="w-full h-[500px] relative">
                         <iframe
                           src={currentFileData.embedUrl}
                           width="100%"
