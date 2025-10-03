@@ -25,6 +25,7 @@ function Evidence({
 }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isViewerModalOpen, setIsViewerModalOpen] = useState(false);
+    const [selectedFileIndex, setSelectedFileIndex] = useState(0);
     // const [selectedFiles, setSelectedFiles] = useState([]);
     // const urlRef = useRef(null);
     const collapseRef = useRef(null);
@@ -164,10 +165,11 @@ function Evidence({
                         thumbnailUrls={thumbnailUrls}
                         loading={thumbnailLoading}
                         error={thumbnailError}
+                        initialFileIndex={selectedFileIndex}
                     />
                     {selectedFiles && selectedFiles.length > 0 && (
                         <ul className="max-h-[400px] rounded-lg flex-1 w-full overflow-y-auto flex flex-col gap-[2px] p-1 mb-4 border border-dashed border-spacing-2 border-slate-400">
-                            {selectedFiles.map((file) => {
+                            {selectedFiles.map((file, index) => {
                                 const thumbnailData = thumbnailUrls[file.id];
                                 const displayFile = thumbnailData || file; // Usa dados atualizados se disponível
                                 
@@ -185,7 +187,10 @@ function Evidence({
                                             {removeExtension(displayFile.name)}
                                         </span>
                                     <button 
-                                        onClick={() => setIsViewerModalOpen(true)}
+                                        onClick={() => {
+                                            setSelectedFileIndex(index);
+                                            setIsViewerModalOpen(true);
+                                        }}
                                         className="text-blue-600 hover:bg-slate-100 rounded p-[6px] bg-slate-400 ml-auto"
                                         title="View evidence file"
                                     >

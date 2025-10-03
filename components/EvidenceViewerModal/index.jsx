@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import Image from "next/image";
 import { ImageIcon, VideoIcon } from "../Icons";
 import { BtnSmallPrimary } from "../Button";
 
@@ -10,12 +9,19 @@ export default function EvidenceViewerModal({
     thumbnailUrls = {},
     loading = false,
     error = null,
+    initialFileIndex = 0,
 }) {
-    const [currentFileIndex, setCurrentFileIndex] = useState(0);
+    const [currentFileIndex, setCurrentFileIndex] = useState(initialFileIndex);
     const [isFullscreen, setIsFullscreen] = useState(false);
 
     // Filtra apenas arquivos que têm dados de thumbnail carregados
     const filesWithThumbnails = selectedFiles.filter(file => thumbnailUrls[file.id]);
+
+    // Valida e ajusta o índice inicial se necessário
+    const validInitialIndex = Math.min(
+        Math.max(0, initialFileIndex), 
+        Math.max(0, filesWithThumbnails.length - 1)
+    );
 
     const currentFile = filesWithThumbnails[currentFileIndex];
     const currentFileData = currentFile ? thumbnailUrls[currentFile.id] : null;
@@ -23,7 +29,7 @@ export default function EvidenceViewerModal({
     useEffect(() => {
         if (isOpen) {
             document.body.classList.add("overflow-hidden");
-            setCurrentFileIndex(0); // Reset para o primeiro arquivo
+            setCurrentFileIndex(validInitialIndex); // Usa o índice inicial validado
         } else {
             document.body.classList.remove("overflow-hidden");
         }
@@ -32,7 +38,7 @@ export default function EvidenceViewerModal({
         return () => {
             document.body.classList.remove("overflow-hidden");
         };
-    }, [isOpen]);
+    }, [isOpen, validInitialIndex]);
 
     const handlePrevious = () => {
         setCurrentFileIndex((prev) => 
@@ -166,31 +172,21 @@ export default function EvidenceViewerModal({
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="relative w-full h-full max-w-4xl max-h-[70vh] flex justify-center items-center">
-                                            <div className="w-[200px] h-[500px] relative">
-                                                <Image
-                                                    src={currentFileData.url}
-                                                    alt={currentFileData.name}
-                                                    layout="fill"
-                                                    objectFit="contain"
-                                                    className="rounded-lg"
-                                                    unoptimized={true}
-                                                    onError={(e) => {
-                                                        console.error("Error loading image:", e);
-                                                        // Fallback: try to load as regular img if Next.js Image fails
-                                                        const img = e.target;
-                                                        img.style.display = 'none';
-                                                        const fallbackImg = document.createElement('img');
-                                                        fallbackImg.src = currentFileData.url;
-                                                        fallbackImg.alt = currentFileData.name;
-                                                        fallbackImg.style.maxWidth = '100%';
-                                                        fallbackImg.style.maxHeight = '100%';
-                                                        fallbackImg.style.objectFit = 'contain';
-                                                        fallbackImg.className = 'rounded-lg';
-                                                        img.parentNode.appendChild(fallbackImg);
-                                                    }}
-                                                />
-                                            </div>
+                                        <div className="relative bg-red-500/40 w-full h-full max-w-4xl max-h-[70vh] flex justify-center items-center">
+                                            <img
+                                                src={currentFileData.url}
+                                                alt={currentFileData.name}
+                                                style={{
+                                                    maxWidth: "100%",
+                                                    maxHeight: "100%",
+                                                    objectFit: "contain"
+                                                }}
+                                                className="rounded-lg"
+                                                onError={(e) => {
+                                                    console.error("Error loading image:", e);
+                                                    e.target.style.display = 'none';
+                                                }}
+                                            />
                                         </div>
                                     )}
                                 </div>
@@ -247,23 +243,17 @@ export default function EvidenceViewerModal({
                                                 }`}
                                             >
                                                 {fileData ? (
-                                                    <Image
+                                                    <img
                                                         src={fileData.url}
                                                         alt={fileData.name}
-                                                        width={80}
-                                                        height={80}
-                                                        style={{ objectFit: "cover" }}
-                                                        unoptimized={true}
+                                                        style={{
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            objectFit: 'cover'
+                                                        }}
                                                         onError={(e) => {
                                                             console.error("Error loading thumbnail:", e);
                                                             e.target.style.display = 'none';
-                                                            const fallbackImg = document.createElement('img');
-                                                            fallbackImg.src = fileData.url;
-                                                            fallbackImg.alt = fileData.name;
-                                                            fallbackImg.style.width = '100%';
-                                                            fallbackImg.style.height = '100%';
-                                                            fallbackImg.style.objectFit = 'cover';
-                                                            e.target.parentNode.appendChild(fallbackImg);
                                                         }}
                                                     />
                                                 ) : (
