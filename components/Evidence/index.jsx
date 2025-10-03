@@ -2,9 +2,11 @@ import { useEffect, useRef, useState, useMemo } from "react";
 import { BtnSmallPrimary } from "../Button";
 import SelectFileModal from "../SelectFileModal";
 import EvidenceViewerModal from "../EvidenceViewerModal";
+import { useCredentialsContext } from "../../context/credentials";
 import Debug from "../Debug";
 import { ImageIcon, VideoIcon, ViewIcon } from "../Icons";
 import { useMultipleThumbnailUrls } from "../../lib/useThumbnailUrl";
+import { getUserLevel } from "../../lib/utils";
 
 function Evidence({
   currentJourney,
@@ -26,6 +28,7 @@ function Evidence({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isViewerModalOpen, setIsViewerModalOpen] = useState(false);
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
+  const { userType } = useCredentialsContext();
   // const [selectedFiles, setSelectedFiles] = useState([]);
   // const urlRef = useRef(null);
   const collapseRef = useRef(null);
@@ -187,16 +190,20 @@ function Evidence({
                         {removeExtension(displayFile.name)}
                       </span>
                     </span>
-                    <button
-                      onClick={() => {
-                        setSelectedFileIndex(index);
-                        setIsViewerModalOpen(true);
-                      }}
-                      className="text-blue-600 hover:bg-slate-100 rounded p-[6px] ml-auto"
-                      title="View evidence file"
-                    >
-                      <ViewIcon />
-                    </button>
+
+                    {(getUserLevel(userType) === 4 ||
+                      getUserLevel(userType) === 1) && (
+                      <button
+                        onClick={() => {
+                          setSelectedFileIndex(index);
+                          setIsViewerModalOpen(true);
+                        }}
+                        className="text-blue-600 hover:bg-slate-100 rounded p-[6px] ml-auto"
+                        title="View evidence file"
+                      >
+                        <ViewIcon />
+                      </button>
+                    )}
                   </li>
                 );
               })}
