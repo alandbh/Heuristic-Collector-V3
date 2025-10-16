@@ -206,16 +206,25 @@ function Evidence({
 
                                         {(getUserLevel(userType) === 4 ||
                                             getUserLevel(userType) === 1) && (
-                                            <button
-                                                onClick={() => {
-                                                    setSelectedFileIndex(index);
-                                                    setIsViewerModalOpen(true);
-                                                }}
-                                                className="text-blue-600 hover:bg-slate-100 rounded p-[6px] ml-auto"
-                                                title="View evidence file"
-                                            >
-                                                <ViewIcon />
-                                            </button>
+                                            <>
+                                                {displayFile.type !==
+                                                    "placeholder" && (
+                                                    <button
+                                                        onClick={() => {
+                                                            setSelectedFileIndex(
+                                                                index
+                                                            );
+                                                            setIsViewerModalOpen(
+                                                                true
+                                                            );
+                                                        }}
+                                                        className="text-blue-600 hover:bg-slate-100 rounded p-[6px] ml-auto"
+                                                        title="View evidence file"
+                                                    >
+                                                        <ViewIcon />
+                                                    </button>
+                                                )}
+                                            </>
                                         )}
                                     </li>
                                 );
