@@ -308,7 +308,7 @@ export default function SelectFileModal({
                                                 <span
                                                     className={`text-gray-700 flex items-center gap-2 text-ellipsis text-sm ${
                                                         isPlaceholder
-                                                            ? "text-gray-500"
+                                                            ? "text-red-500"
                                                             : ""
                                                     }`}
                                                 >
@@ -318,7 +318,9 @@ export default function SelectFileModal({
                                                       "image" ? (
                                                         <ImageIcon />
                                                     ) : (
-                                                        <span>🚫</span>
+                                                        <span className="text-lg">
+                                                            🚫
+                                                        </span>
                                                     )}{" "}
                                                     {file.name}
                                                 </span>
