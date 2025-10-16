@@ -901,11 +901,9 @@ function HeuristicItem({
 
                         <div className="flex justify-between">
                             <button
-                                className={`font-bold py-1 pr-3 text-sm text-primary w-40 whitespace-nowrap ${
-                                    enable ? "opacity-100" : "opacity-40"
-                                }`}
+                                className={`font-bold py-1 pr-3 text-sm text-primary w-40 whitespace-nowrap`}
                                 onClick={() => setBoxOpen(!boxOpen)}
-                                disabled={!enable}
+                                // disabled={!enable}
                             >
                                 <span className="flex gap-2">
                                     <svg
