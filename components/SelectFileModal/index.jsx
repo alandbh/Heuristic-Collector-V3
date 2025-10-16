@@ -266,14 +266,23 @@ export default function SelectFileModal({
                 ) : (
                     <div>
                         <div className="mb-2">
-                            <input
-                                type="search"
-                                ref={searchInputRef}
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                placeholder="Search files by name..."
-                                className="w-full text-sm p-2 border-2 border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
-                            />
+                            <div className="flex flex-col gap-4">
+                                <input
+                                    type="search"
+                                    ref={searchInputRef}
+                                    value={searchTerm}
+                                    onChange={(e) =>
+                                        setSearchTerm(e.target.value)
+                                    }
+                                    placeholder="Search files by name..."
+                                    className="w-full text-sm p-2 border-2 border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
+                                />
+                                <div className=" text-slate-500">
+                                    <span className="text-lg">💡 </span> Tip:
+                                    You can search for {` "No Evidence" `} if it
+                                    is the case
+                                </div>
+                            </div>
                         </div>
 
                         <div className="max-h-[400px] overflow-y-auto flex flex-col gap-[2px] pr-2 mb-4">
