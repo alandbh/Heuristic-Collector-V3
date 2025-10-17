@@ -277,10 +277,12 @@ export default function SelectFileModal({
                                     placeholder="Search files by name..."
                                     className="w-full text-sm p-2 border-2 border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
                                 />
-                                <div className=" text-slate-500">
-                                    <span className="text-lg">💡 </span> Tip:
-                                    You can search for {` "No Evidence" `} if it
-                                    is the case
+                                <div className=" text-slate-500 mb-4">
+                                    <span className="text-xl">💡 </span>{" "}
+                                    <span className="text-sm">
+                                        Tip: You can search for{" "}
+                                        {` "No Evidence" `} if it is the case.
+                                    </span>
                                 </div>
                             </div>
                         </div>
