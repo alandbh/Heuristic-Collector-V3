@@ -1,0 +1,55 @@
+name: Send Backup Email
+
+on:
+    schedule:
+        - cron: "0 2,11,14,17,20,23 * * *"
+    workflow_dispatch:
+
+jobs:
+    backup-email:
+        runs-on: ubuntu-latest
+        env:
+            BACKUP_ENDPOINT: ${{ secrets.BACKUP_ENDPOINT }}
+            BACKUP_TOKEN: ${{ secrets.BACKUP_TOKEN }}
+        steps:
+            - name: Prepare filenames
+              id: prep
+              run: |
+                  set -euo pipefail
+                  timestamp=$(date -u +"%Y%m%d-%H%M%SZ")
+                  echo "timestamp=${timestamp}" >> "$GITHUB_OUTPUT"
+                  echo "json=collector-backup-${timestamp}.json" >> "$GITHUB_OUTPUT"
+                  echo "zip=collector-backup-${timestamp}.zip" >> "$GITHUB_OUTPUT"
+            - name: Download backup JSON
+              run: |
+                  set -euo pipefail
+                  if [ -z "${BACKUP_ENDPOINT}" ] || [ -z "${BACKUP_TOKEN}" ]; then
+                      echo "Missing BACKUP_ENDPOINT or BACKUP_TOKEN secrets" >&2
+                      exit 1
+                  fi
+                  curl --fail --silent --show-error \
+                      -H "x-backup-token: ${BACKUP_TOKEN}" \
+                      "${BACKUP_ENDPOINT}" \
+                      -o "${{ steps.prep.outputs.json }}"
+            - name: Compress backup
+              run: |
+                  set -euo pipefail
+                  zip -9 "${{ steps.prep.outputs.zip }}" "${{ steps.prep.outputs.json }}"
+            - name: Send email with backup attachment
+              uses: dawidd6/action-send-mail@v3
+              with:
+                  server_address: smtp.gmail.com
+                  server_port: 465
+                  username: ${{ secrets.MAIL_USERNAME }}
+                  password: ${{ secrets.MAIL_PASSWORD }}
+                  secure: true
+                  subject: "Collector backup ${{ steps.prep.outputs.timestamp }}"
+                  to: ${{ secrets.MAIL_TO }}
+                  from: ${{ secrets.MAIL_FROM }}
+                  body: |
+                      Olá,
+
+                      Segue em anexo o backup automático gerado em ${{ steps.prep.outputs.timestamp }} (UTC).
+
+                      -- GitHub Actions
+                  attachments: ${{ steps.prep.outputs.zip }}

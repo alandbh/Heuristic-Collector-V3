@@ -27,10 +27,11 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Automated Backups
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-Server 3
+-   API endpoint: `GET /api/backup` returns the full snapshot used for the scheduled backups. Protect it with the `x-backup-token` header (or `?token=`) matching `BACKUP_TOKEN`. The response bundles projects with the related heuristics and players plus orphaned records (if any) and includes metadata with counts and the generation timestamp. It uses the fast GraphCMS endpoint configured in `NEXT_PUBLIC_GRAPHCMS_API_FAST`.
+-   Environment: define `BACKUP_TOKEN` alongside the existing GraphCMS variables. Add it locally in `.env.local` and on the hosting platform (Vercel) so the endpoint can validate incoming requests.
+-   GitHub Action: `.github/workflows/backup-email.yml` schedules six executions per day (02:00, 11:00, 14:00, 17:00, 20:00, 23:00 UTC — aligns with 08:00→23:00 BRT). Each run downloads the JSON, compresses it, and emails the ZIP via Gmail SMTP.
+-   Required secrets in the repository settings: `BACKUP_ENDPOINT` (public URL of `/api/backup`), `BACKUP_TOKEN`, `MAIL_USERNAME` (Gmail address), `MAIL_PASSWORD` (app password), `MAIL_FROM`, and `MAIL_TO`. Optionally add `MAIL_CC` / `MAIL_BCC` if the action is extended.
+-   Gmail specifics: enable 2FA on the account and generate an app password for SMTP. Gmail enforces ~25 MB attachment limits and ~500 emails/day on consumer accounts; the current schedule (six emails with ~500 KB ZIPs) stays well within those limits.
+-   Manual run: trigger `Actions → Send Backup Email → Run workflow` to force an immediate backup (useful for verifying new secrets or when regenerating app passwords).
