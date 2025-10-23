@@ -65,6 +65,33 @@ const QUERY_BACKUP_PROJECT = gql`
                 slug
             }
         }
+
+        groups(where: { project: { slug: $projectSlug } }, last: 1000) {
+            name
+            groupNumber
+            journeys {
+                slug
+                name
+            }
+            heuristic {
+                heuristicNumber
+                name
+                journeys {
+                    slug
+                    name
+                }
+            }
+        }
+
+        journeys(where: { project: { slug: $projectSlug } }, last: 1000) {
+            name
+            slug
+        }
+
+        rgaUsers(where: { project: { slug: $projectSlug } }, last: 1000) {
+            email
+            userType
+        }
     }
 `;
 
