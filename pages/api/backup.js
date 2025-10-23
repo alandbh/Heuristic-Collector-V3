@@ -1,6 +1,16 @@
 import { gql } from "@apollo/client";
 import clientFast from "../../lib/apollo-fast";
 
+const QUERY_BACKUP_PROJECT = gql`
+    query GetAllScores($projectSlug: String) {
+        players(where: { project: { slug: $projectSlug } }, last: 1000) {
+            name
+            slug
+            scoresObject
+        }
+    }
+`;
+
 const BACKUP_QUERY = gql`
     query CollectorBackupSnapshot {
         projects(orderBy: createdAt_DESC, last: 1000) {
@@ -84,9 +94,11 @@ export default async function handler(req, res) {
     }
 
     const requestToken =
-        req.headers["x-backup-token"] ||
+        req.headers["api_key"] ||
         (Array.isArray(req.query.token) ? req.query.token[0] : req.query.token);
-    const backupToken = process.env.BACKUP_TOKEN;
+    const backupToken = process.env.API_SECRET_KEY;
+
+    const projectSlug = req.query.project;
 
     if (!backupToken) {
         return res
@@ -102,7 +114,10 @@ export default async function handler(req, res) {
 
     try {
         const { data } = await clientFast.query({
-            query: BACKUP_QUERY,
+            query: QUERY_BACKUP_PROJECT,
+            variables: {
+                projectSlug,
+            },
             fetchPolicy: "network-only",
         });
 
@@ -177,17 +192,11 @@ export default async function handler(req, res) {
         const payload = {
             meta: {
                 generatedAt: new Date().toISOString(),
-                projectCount,
                 heuristicCount,
-                playerCount,
                 orphanHeuristicCount: orphanHeuristics.length,
                 orphanPlayerCount: orphanPlayers.length,
             },
-            projects: projectsWithRelations,
-            orphans: {
-                heuristics: orphanHeuristics,
-                players: orphanPlayers,
-            },
+            data: orphanPlayers,
         };
 
         res.setHeader("Cache-Control", "no-store");
