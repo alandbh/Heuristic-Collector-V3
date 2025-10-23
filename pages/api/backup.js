@@ -2,18 +2,29 @@ import { gql } from "@apollo/client";
 import clientFast from "../../lib/apollo-fast";
 
 const QUERY_BACKUP_PROJECT = gql`
-    query GetAllScores($projectSlug: String) {
+    query ProjectBackup($projectSlug: String) {
         players(where: { project: { slug: $projectSlug } }, last: 1000) {
             name
             slug
+            journeys {
+                name
+                slug
+            }
+            departmentObj {
+                departmentName
+                departmentSlug
+                departmentOrder
+            }
+            finding {
+                journey {
+                    slug
+                }
+                findingObject
+            }
             scoresObject
         }
-    }
-`;
 
-const BACKUP_QUERY = gql`
-    query CollectorBackupSnapshot {
-        projects(orderBy: createdAt_DESC, last: 1000) {
+        project(where: { slug: $projectSlug }) {
             id
             name
             slug
@@ -29,15 +40,17 @@ const BACKUP_QUERY = gql`
                 slug
             }
         }
-        heuristics(orderBy: heuristicNumber_ASC, last: 10000) {
+
+        heuristics(
+            where: { project: { slug: $projectSlug } }
+            orderBy: heuristicNumber_ASC
+            last: 10000
+        ) {
             id
             name
             heuristicNumber
             description
-            project {
-                id
-                slug
-            }
+
             group {
                 name
                 groupNumber
@@ -50,38 +63,6 @@ const BACKUP_QUERY = gql`
                 id
                 name
                 slug
-            }
-        }
-        players(orderBy: slug_ASC, last: 10000) {
-            id
-            name
-            slug
-            showInChart
-            scoresObject
-            project {
-                id
-                slug
-            }
-            departmentObj {
-                departmentName
-                departmentSlug
-                departmentOrder
-            }
-            ignored_journeys {
-                name
-                slug
-            }
-            zeroed_journeys {
-                name
-                slug
-            }
-            finding(orderBy: createdAt_ASC, first: 10000) {
-                id
-                journey {
-                    slug
-                    name
-                }
-                findingObject
             }
         }
     }
@@ -121,82 +102,22 @@ export default async function handler(req, res) {
             fetchPolicy: "network-only",
         });
 
-        const projects = data?.projects || [];
         const heuristics = data?.heuristics || [];
         const players = data?.players || [];
 
-        const projectsWithRelations = projects.map((project) => ({
-            ...project,
-            heuristics: [],
-            players: [],
-        }));
-
-        const projectIndexById = new Map();
-        const projectIndexBySlug = new Map();
-
-        projectsWithRelations.forEach((project, index) => {
-            if (project.id) {
-                projectIndexById.set(project.id, index);
-            }
-            if (project.slug) {
-                projectIndexBySlug.set(project.slug, index);
-            }
-        });
-
-        const orphanHeuristics = [];
-        heuristics.forEach((heuristic) => {
-            const projectRef = heuristic.project;
-            const indexById = projectRef?.id
-                ? projectIndexById.get(projectRef.id)
-                : undefined;
-            const indexBySlug =
-                indexById === undefined && projectRef?.slug
-                    ? projectIndexBySlug.get(projectRef.slug)
-                    : undefined;
-            const projectIndex =
-                indexById !== undefined ? indexById : indexBySlug;
-
-            if (projectIndex === undefined) {
-                orphanHeuristics.push(heuristic);
-                return;
-            }
-
-            projectsWithRelations[projectIndex].heuristics.push(heuristic);
-        });
-
-        const orphanPlayers = [];
-        players.forEach((player) => {
-            const projectRef = player.project;
-            const indexById = projectRef?.id
-                ? projectIndexById.get(projectRef.id)
-                : undefined;
-            const indexBySlug =
-                indexById === undefined && projectRef?.slug
-                    ? projectIndexBySlug.get(projectRef.slug)
-                    : undefined;
-            const projectIndex =
-                indexById !== undefined ? indexById : indexBySlug;
-
-            if (projectIndex === undefined) {
-                orphanPlayers.push(player);
-                return;
-            }
-
-            projectsWithRelations[projectIndex].players.push(player);
-        });
-
-        const projectCount = projectsWithRelations.length;
         const heuristicCount = heuristics.length;
         const playerCount = players.length;
 
         const payload = {
             meta: {
                 generatedAt: new Date().toISOString(),
+                projectName: data.project.name,
+                projectSlug: data.project.slug,
+                ProjectYear: data.project.year,
                 heuristicCount,
-                orphanHeuristicCount: orphanHeuristics.length,
-                orphanPlayerCount: orphanPlayers.length,
+                playerCount,
             },
-            data: orphanPlayers,
+            data,
         };
 
         res.setHeader("Cache-Control", "no-store");
