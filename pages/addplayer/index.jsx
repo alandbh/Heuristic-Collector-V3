@@ -42,6 +42,10 @@ export default function AddPlayerPage() {
     const [formError, setFormError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const playerNameRefs = useRef({});
+    const [isPasteModalOpen, setIsPasteModalOpen] = useState(false);
+    const [pasteRawText, setPasteRawText] = useState("");
+    const [pastePreview, setPastePreview] = useState([]);
+    const [pasteErrors, setPasteErrors] = useState([]);
 
     const {
         data: projectsData,
@@ -118,6 +122,22 @@ export default function AddPlayerPage() {
         setDepartmentId(event.target.value);
     };
 
+    const resetPasteState = () => {
+        setPasteRawText("");
+        setPastePreview([]);
+        setPasteErrors([]);
+    };
+
+    const openPasteModal = () => {
+        resetPasteState();
+        setIsPasteModalOpen(true);
+    };
+
+    const closePasteModal = () => {
+        setIsPasteModalOpen(false);
+        resetPasteState();
+    };
+
     const handlePlayerNameChange = (index, value) => {
         setFormError("");
         setPlayers((prev) =>
@@ -190,6 +210,154 @@ export default function AddPlayerPage() {
         if (removedPlayer?.id === lastAddedPlayerId) {
             setLastAddedPlayerId(updatedPlayers[0]?.id ?? null);
         }
+    };
+
+    const parsePastedInput = (rawText) => {
+        const rawLines = rawText.split(/\r?\n/);
+        const entries = [];
+        const issues = [];
+        let headerHandled = false;
+
+        rawLines.forEach((line, index) => {
+            const trimmedLine = line.trim();
+            if (!trimmedLine) {
+                return;
+            }
+
+            const delimiter = trimmedLine.includes("\t")
+                ? "\t"
+                : trimmedLine.includes(";")
+                ? ";"
+                : trimmedLine.includes(",")
+                ? ","
+                : "\t";
+
+            const columns = trimmedLine
+                .split(delimiter)
+                .map((column) => column.trim());
+
+            if (!headerHandled) {
+                const headerCandidate = columns.join(" ").toLowerCase();
+                if (
+                    headerCandidate.includes("player") &&
+                    headerCandidate.includes("slug")
+                ) {
+                    headerHandled = true;
+                    return;
+                }
+            }
+
+            headerHandled = true;
+
+            const [
+                nameColumn = "",
+                slugColumn = "",
+                departmentColumn = "",
+                logoColumn = "",
+            ] = columns;
+
+            const name = nameColumn.trim();
+            const slug = slugColumn.trim();
+            const departmentFromRow = departmentColumn.trim();
+            const logoFromRow = logoColumn.trim();
+
+            if (!name && !slug) {
+                issues.push(
+                    `Linha ${index + 1}: informe ao menos o nome ou o slug.`
+                );
+                return;
+            }
+
+            const finalName = name || slug;
+            const finalSlug = slug || slugify(name || slug);
+
+            if (!finalSlug) {
+                issues.push(
+                    `Linha ${index + 1}: não foi possível gerar o slug automaticamente.`
+                );
+                return;
+            }
+
+            entries.push({
+                name: finalName,
+                slug: finalSlug,
+                providedSlug: Boolean(slug),
+                departmentId: departmentFromRow,
+                logoId: logoFromRow,
+                sourceLine: index + 1,
+            });
+        });
+
+        return { entries, issues };
+    };
+
+    const handleProcessPastedData = () => {
+        const trimmedText = pasteRawText.trim();
+        if (!trimmedText) {
+            setPastePreview([]);
+            setPasteErrors(["Cole os dados da planilha antes de continuar."]);
+            return;
+        }
+
+        const { entries, issues } = parsePastedInput(trimmedText);
+
+        if (entries.length === 0 && issues.length === 0) {
+            setPasteErrors([
+                "Nenhuma linha válida foi encontrada. Verifique se os dados foram copiados corretamente.",
+            ]);
+            setPastePreview([]);
+            return;
+        }
+
+        setPastePreview(entries);
+        setPasteErrors(issues);
+    };
+
+    const handleApplyPastedPlayers = () => {
+        if (pastePreview.length === 0) {
+            setPasteErrors([
+                "Procure processar os dados colados antes de adicioná-los à lista.",
+            ]);
+            return;
+        }
+
+        const newPlayers = pastePreview.map((entry) => {
+            const basePlayer = createEmptyPlayer();
+            return {
+                ...basePlayer,
+                name: entry.name,
+                slug: entry.slug,
+                slugManuallyEdited: entry.providedSlug || basePlayer.slugManuallyEdited,
+                logoId: entry.logoId || "",
+            };
+        });
+
+        const uniqueDepartmentIds = Array.from(
+            new Set(
+                pastePreview
+                    .map((entry) => entry.departmentId)
+                    .filter((value) => value)
+            )
+        );
+
+        if (!departmentId.trim() && uniqueDepartmentIds.length === 1) {
+            setDepartmentId(uniqueDepartmentIds[0]);
+        }
+
+        setPlayers((prev) => {
+            const existingValidPlayers = prev.filter((player) => {
+                const hasAnyValue =
+                    player.name.trim() ||
+                    player.slug.trim() ||
+                    player.logoId.trim();
+                return hasAnyValue;
+            });
+
+            return [...newPlayers, ...existingValidPlayers];
+        });
+
+        setLastAddedPlayerId(newPlayers[0]?.id ?? null);
+        closePasteModal();
     };
 
     const validateForm = () => {
@@ -441,13 +609,22 @@ export default function AddPlayerPage() {
                             <h2 className="text-lg font-semibold text-gray-900">
                                 Dados individuais
                             </h2>
-                            <button
-                                type="button"
-                                onClick={handleAddPlayerRow}
-                                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                            >
-                                + Adicionar player
-                            </button>
+                            <div className="flex items-center gap-3">
+                                <button
+                                    type="button"
+                                    onClick={openPasteModal}
+                                    className="inline-flex items-center px-4 py-2 border border-blue-600 text-sm font-medium rounded-md text-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                >
+                                    Colar da planilha
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleAddPlayerRow}
+                                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                >
+                                    + Adicionar player
+                                </button>
+                            </div>
                         </div>
 
                         <div className="space-y-6">
@@ -572,6 +749,149 @@ export default function AddPlayerPage() {
                     </div>
                 </div>
             </div>
+            {isPasteModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4">
+                    <div className="w-full max-w-4xl bg-white rounded-lg shadow-xl">
+                        <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+                            <h3 className="text-lg font-semibold text-gray-900">
+                                Colar players da planilha
+                            </h3>
+                            <button
+                                type="button"
+                                onClick={closePasteModal}
+                                className="text-gray-500 hover:text-gray-700"
+                                aria-label="Fechar modal"
+                            >
+                                ×
+                            </button>
+                        </div>
+
+                        <div className="px-6 py-4 space-y-4">
+                            <p className="text-sm text-gray-600">
+                                Copie as colunas <strong>Player Name</strong>,{" "}
+                                <strong>Player Slug</strong>,{" "}
+                                <strong>Department ID</strong> e, opcionalmente,{" "}
+                                <strong>Logo ID</strong> da planilha e cole
+                                abaixo. A primeira linha pode conter o cabeçalho.
+                            </p>
+
+                            <textarea
+                                className="w-full h-40 border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Cole aqui os dados copiados da planilha..."
+                                value={pasteRawText}
+                                onChange={(event) => setPasteRawText(event.target.value)}
+                            />
+
+                            <div className="flex items-center gap-3">
+                                <button
+                                    type="button"
+                                    onClick={handleProcessPastedData}
+                                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                >
+                                    Processar dados
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleApplyPastedPlayers}
+                                    disabled={pastePreview.length === 0}
+                                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                >
+                                    Adicionar {pastePreview.length} players
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={closePasteModal}
+                                    className="text-sm text-gray-600 hover:text-gray-800"
+                                >
+                                    Cancelar
+                                </button>
+                            </div>
+
+                            {pasteErrors.length > 0 && (
+                                <div className="rounded-md bg-yellow-50 border border-yellow-200 px-4 py-3 text-sm text-yellow-800">
+                                    <p className="font-semibold">
+                                        Avisos encontrados:
+                                    </p>
+                                    <ul className="list-disc list-inside mt-2 space-y-1">
+                                        {pasteErrors.map((error, index) => (
+                                            <li key={index}>{error}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+
+                            {pastePreview.length > 0 && (
+                                <div className="border border-gray-200 rounded-md">
+                                    <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200 bg-gray-50">
+                                        <span className="text-sm font-semibold text-gray-700">
+                                            Pré-visualização ({pastePreview.length}{" "}
+                                            players)
+                                        </span>
+                                        <span className="text-xs text-gray-500">
+                                            Confira os dados antes de inserir.
+                                        </span>
+                                    </div>
+                                    <div className="max-h-64 overflow-auto">
+                                        <table className="min-w-full divide-y divide-gray-200 text-sm">
+                                            <thead className="bg-gray-50">
+                                                <tr>
+                                                    <th className="px-4 py-2 text-left font-medium text-gray-600">
+                                                        #
+                                                    </th>
+                                                    <th className="px-4 py-2 text-left font-medium text-gray-600">
+                                                        Nome
+                                                    </th>
+                                                    <th className="px-4 py-2 text-left font-medium text-gray-600">
+                                                        Slug
+                                                    </th>
+                                                    <th className="px-4 py-2 text-left font-medium text-gray-600">
+                                                        Department ID
+                                                    </th>
+                                                    <th className="px-4 py-2 text-left font-medium text-gray-600">
+                                                        Logo ID
+                                                    </th>
+                                                    <th className="px-4 py-2 text-left font-medium text-gray-600">
+                                                        Linha origem
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-gray-200">
+                                                {pastePreview.map((entry, index) => (
+                                                    <tr key={`${entry.slug}-${index}`}>
+                                                        <td className="px-4 py-2 text-gray-500">
+                                                            {index + 1}
+                                                        </td>
+                                                        <td className="px-4 py-2 text-gray-900">
+                                                            {entry.name}
+                                                        </td>
+                                                        <td className="px-4 py-2 text-gray-700">
+                                                            {entry.slug}
+                                                            {!entry.providedSlug && (
+                                                                <span className="ml-2 inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs text-blue-700">
+                                                                    gerado
+                                                                </span>
+                                                            )}
+                                                        </td>
+                                                        <td className="px-4 py-2 text-gray-700 break-all">
+                                                            {entry.departmentId || "—"}
+                                                        </td>
+                                                        <td className="px-4 py-2 text-gray-700 break-all">
+                                                            {entry.logoId || "—"}
+                                                        </td>
+                                                        <td className="px-4 py-2 text-gray-500">
+                                                            {entry.sourceLine}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
