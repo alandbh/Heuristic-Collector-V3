@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import { useQuery } from "@apollo/client";
 import client from "../../lib/apollo";
@@ -35,9 +35,13 @@ export default function AddPlayerPage() {
     const [selectedProjectId, setSelectedProjectId] = useState("");
     const [selectedJourneyIds, setSelectedJourneyIds] = useState([]);
     const [departmentId, setDepartmentId] = useState("");
-    const [players, setPlayers] = useState([createEmptyPlayer()]);
+    const [players, setPlayers] = useState(() => [createEmptyPlayer()]);
+    const [lastAddedPlayerId, setLastAddedPlayerId] = useState(
+        () => players[0]?.id ?? null
+    );
     const [formError, setFormError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const playerNameRefs = useRef({});
 
     const {
         data: projectsData,
@@ -62,10 +66,25 @@ export default function AddPlayerPage() {
 
     useEffect(() => {
         // Reset journeys and players statuses when the project changes
+        const newPlayer = createEmptyPlayer();
         setSelectedJourneyIds([]);
-        setPlayers([createEmptyPlayer()]);
+        setPlayers([newPlayer]);
         setDepartmentId("");
+        setLastAddedPlayerId(newPlayer.id);
+        playerNameRefs.current = {};
     }, [selectedProjectId]);
+
+    useEffect(() => {
+        if (!lastAddedPlayerId) {
+            return;
+        }
+
+        const nameInput = playerNameRefs.current[lastAddedPlayerId];
+        if (nameInput && typeof nameInput.focus === "function") {
+            nameInput.focus();
+            nameInput.select?.();
+        }
+    }, [lastAddedPlayerId]);
 
     const resetPlayerStatuses = () => {
         setPlayers((prev) =>
@@ -155,12 +174,22 @@ export default function AddPlayerPage() {
     };
 
     const handleAddPlayerRow = () => {
-        setPlayers((prev) => [...prev, createEmptyPlayer()]);
+        const newPlayer = createEmptyPlayer();
+        setPlayers((prev) => [newPlayer, ...prev]);
+        setLastAddedPlayerId(newPlayer.id);
     };
 
     const handleRemovePlayerRow = (index) => {
         if (players.length === 1) return;
-        setPlayers((prev) => prev.filter((_, idx) => idx !== index));
+        const removedPlayer = players[index];
+        const updatedPlayers = players.filter((_, idx) => idx !== index);
+        setPlayers(updatedPlayers);
+        if (removedPlayer?.id) {
+            delete playerNameRefs.current[removedPlayer.id];
+        }
+        if (removedPlayer?.id === lastAddedPlayerId) {
+            setLastAddedPlayerId(updatedPlayers[0]?.id ?? null);
+        }
     };
 
     const validateForm = () => {
@@ -449,6 +478,16 @@ export default function AddPlayerPage() {
                                                 Nome
                                             </label>
                                             <input
+                                                ref={(element) => {
+                                                    if (element) {
+                                                        playerNameRefs.current[
+                                                            player.id
+                                                        ] = element;
+                                                    } else {
+                                                        delete playerNameRefs
+                                                            .current[player.id];
+                                                    }
+                                                }}
                                                 type="text"
                                                 value={player.name}
                                                 onChange={(event) =>
