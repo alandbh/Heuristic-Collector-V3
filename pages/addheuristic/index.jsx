@@ -39,6 +39,74 @@ const statusLabel = {
     error: "Erro",
 };
 
+const splitRowsPreservingQuotes = (text = "") => {
+    const rows = [];
+    let buffer = "";
+    let insideQuotes = false;
+
+    for (let index = 0; index < text.length; index += 1) {
+        const char = text[index];
+        const nextChar = text[index + 1];
+
+        if (char === '"') {
+            if (insideQuotes && nextChar === '"') {
+                buffer += '"';
+                index += 1;
+            } else {
+                insideQuotes = !insideQuotes;
+            }
+            continue;
+        }
+
+        if ((char === "\n" || char === "\r") && !insideQuotes) {
+            if (char === "\r" && nextChar === "\n") {
+                index += 1;
+            }
+            rows.push(buffer);
+            buffer = "";
+        } else {
+            buffer += char;
+        }
+    }
+
+    if (buffer) {
+        rows.push(buffer);
+    }
+
+    return rows;
+};
+
+const splitColumnsPreservingQuotes = (line = "", delimiter = "\t") => {
+    const columns = [];
+    let buffer = "";
+    let insideQuotes = false;
+
+    for (let index = 0; index < line.length; index += 1) {
+        const char = line[index];
+        const nextChar = line[index + 1];
+
+        if (char === '"') {
+            if (insideQuotes && nextChar === '"') {
+                buffer += '"';
+                index += 1;
+            } else {
+                insideQuotes = !insideQuotes;
+            }
+            continue;
+        }
+
+        if (char === delimiter && !insideQuotes) {
+            columns.push(buffer.trim());
+            buffer = "";
+        } else {
+            buffer += char;
+        }
+    }
+
+    columns.push(buffer.trim());
+    return columns;
+};
+
 function PasteModal({
     isOpen,
     onClose,
@@ -268,7 +336,7 @@ export default function AddHeuristicBatchPage() {
     };
 
     const parsePastedInput = (rawText) => {
-        const rawLines = rawText.split(/\r?\n/);
+        const rawLines = splitRowsPreservingQuotes(rawText);
         const entries = [];
         const issues = [];
         let headerHandled = false;
@@ -285,9 +353,7 @@ export default function AddHeuristicBatchPage() {
                 ? ","
                 : "\t";
 
-            const columns = trimmed
-                .split(delimiter)
-                .map((column) => column.trim());
+            const columns = splitColumnsPreservingQuotes(trimmed, delimiter);
 
             if (!headerHandled) {
                 const normalizedHeader = columns.join(" ").toLowerCase();
@@ -316,11 +382,11 @@ export default function AddHeuristicBatchPage() {
             const description = descriptionColumn.trim();
             const groupId = groupIdColumn.trim();
             const journeyIds = journeyIdsColumn
-                .split(/\s+/)
+                .split(/\r?\n/)
                 .map((value) => value.trim())
                 .filter(Boolean);
             const notApplicablePlayerIds = notApplicableColumn
-                .split(/\s+/)
+                .split(/\r?\n/)
                 .map((value) => value.trim())
                 .filter(Boolean);
 
