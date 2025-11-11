@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import { useProjectContext } from "../../context/project";
 import { useRouter } from "next/router";
 import Spinner from "../Spinner";
+import { missingLogoUrl } from "../../lib/utils";
 
 /**
  *
@@ -188,12 +189,18 @@ function PlayerSelect({ compact }) {
                                 >
                                     <picture className="h-full block dark:grayscale dark:brightness-[0] dark:invert">
                                         <source
-                                            srcSet={player.logo.url}
+                                            srcSet={
+                                                player.logo?.url ||
+                                                missingLogoUrl
+                                            }
                                             type="image/webp"
                                         />
                                         <img
                                             className="object-contain h-full max-h-7"
-                                            src={player.logo.url}
+                                            src={
+                                                player.logo?.url ||
+                                                missingLogoUrl
+                                            }
                                             alt=""
                                         />
                                     </picture>
