@@ -133,10 +133,13 @@ function PlayerSelect({ compact }) {
                 </label>
                 <div className="flex gap-2 items-center content-center">
                     <picture className="flex items-center dark:brightness-[0] dark:invert dark:grayscale dark:opacity-70">
-                        <source srcSet={selected?.logo.url} type="image/webp" />
+                        <source
+                            srcSet={selected?.logo?.url || missingLogoUrl}
+                            type="image/webp"
+                        />
                         <img
                             className="object-cover max-h-7 max-w-[100ox]"
-                            src={selected?.logo.url}
+                            src={selected?.logo?.url || missingLogoUrl}
                             alt=""
                         />
                     </picture>
