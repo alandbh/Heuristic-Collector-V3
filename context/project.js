@@ -36,7 +36,7 @@ const QUERY_ALL_JOURNEYS = gql`
                     project: { slug: $projectSlug }
                 }
             }
-            orderBy: slug_ASC
+            orderBy: positionOnMenu_ASC
         ) {
             name
             slug
